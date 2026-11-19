@@ -26,7 +26,7 @@ export function PublicHeader() {
   const auth = useAuth();
   return (
     <header className="border-line bg-card/90 sticky top-0 z-30 border-b backdrop-blur">
-      <div className="mx-auto flex h-16 max-w-[1200px] items-center gap-6 px-4 sm:px-6 lg:h-[72px]">
+      <div className="page-container flex h-16 items-center gap-6 lg:h-[72px]">
         <Logo />
         <nav aria-label="Main" className="ml-6 hidden items-center gap-1 md:flex">
           {PUBLIC_NAV.map((n) => (

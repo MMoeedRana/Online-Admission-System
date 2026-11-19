@@ -1,8 +1,9 @@
 import { ArrowRight, Compass, ListChecks, Search, ShieldCheck } from 'lucide-react';
 import Link from 'next/link';
 import { ButtonLink } from '@/components/ui/button';
+import { CountUp, Reveal, Stagger, StaggerItem } from '@/components/ui/motion';
 import { Card } from '@/components/ui/card';
-import { formatDate, formatNumber } from '@/lib/format';
+import { formatDate } from '@/lib/format';
 import { serverGet } from '@/lib/server-api';
 
 interface OpenRow {
@@ -52,69 +53,81 @@ export default async function HomePage() {
   const home = await loadHome();
   const stats = home?.stats;
   const figures = [
-    { value: stats ? formatNumber(stats.institutions) : '-', label: 'Institutions' },
-    { value: stats ? formatNumber(stats.programs) : '-', label: 'Programs' },
-    { value: stats ? formatNumber(stats.openCampaigns) : '-', label: 'Open campaigns' },
-    { value: stats ? formatNumber(stats.cities) : '-', label: 'Cities' },
+    { value: stats?.institutions, label: 'Institutions' },
+    { value: stats?.programs, label: 'Programs' },
+    { value: stats?.openCampaigns, label: 'Open campaigns' },
+    { value: stats?.cities, label: 'Cities' },
   ];
   return (
-    <div className="mx-auto max-w-[1200px] px-4 pt-6 sm:px-6 sm:pt-10">
-      <section className="hero-gradient relative overflow-hidden rounded-[28px] px-6 py-10 text-white sm:px-12 sm:py-14">
-        <div className="grid items-center gap-10 lg:grid-cols-[1.6fr_1fr]">
-          <div>
-            <span className="inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1.5 text-[12.5px] font-semibold text-blue-100 ring-1 ring-white/15">
-              <span className="size-1.5 rounded-full bg-blue-300" />
-              {stats && stats.openCampaigns > 0
-                ? `Admissions ${new Date().getFullYear()} are open`
-                : 'Admissions made simple'}
-            </span>
-            <h1 className="mt-5 text-[32px] leading-[1.1] font-extrabold tracking-tight text-white sm:text-[46px]">
-              One profile. Every college and university.
-            </h1>
-            <p className="mt-4 max-w-xl text-[15px] leading-relaxed text-blue-100/90 sm:text-[17px]">
-              Find where your marks can get you in, apply online with verified marks, and see your name in the merit
-              list without visiting any campus.
-            </p>
-            <form action="/programs" className="mt-7 flex flex-col gap-3 sm:flex-row">
-              <label className="relative flex-1 sm:max-w-md">
-                <span className="sr-only">Search a program or institution</span>
-                <input
-                  name="q"
-                  placeholder="Search a program or institution..."
-                  className="h-[52px] w-full rounded-xl bg-white pr-12 pl-4 text-[15px] text-slate-900 outline-none placeholder:text-slate-400 focus:ring-4 focus:ring-blue-400/40"
-                />
-                <Search className="pointer-events-none absolute top-1/2 right-4 size-5 -translate-y-1/2 text-slate-400" />
-              </label>
-              <button
-                type="submit"
-                className="bg-primary shadow-button hover:bg-primary-hover inline-flex h-[52px] items-center justify-center gap-2 rounded-xl px-6 text-[15px] font-semibold text-white"
-              >
-                Find programs <ArrowRight className="size-4" />
-              </button>
-            </form>
+    <div className="page-container pt-6 sm:pt-10">
+      <Reveal y={20}>
+        <section className="hero-gradient relative overflow-hidden rounded-[28px] px-6 py-10 text-white sm:px-12 sm:py-14 2xl:px-16 2xl:py-20">
+          <div className="grid items-center gap-10 lg:grid-cols-[1.6fr_1fr]">
+            <div>
+              <span className="inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1.5 text-[12.5px] font-semibold text-blue-100 ring-1 ring-white/15">
+                <span className="size-1.5 rounded-full bg-blue-300" />
+                {stats && stats.openCampaigns > 0
+                  ? `Admissions ${new Date().getFullYear()} are open`
+                  : 'Admissions made simple'}
+              </span>
+              <h1 className="mt-5 text-[32px] leading-[1.1] font-extrabold tracking-tight text-white sm:text-[46px]">
+                One profile. Every college and university.
+              </h1>
+              <p className="mt-4 max-w-xl text-[15px] leading-relaxed text-blue-100/90 sm:text-[17px]">
+                Find where your marks can get you in, apply online with verified marks, and see your name in the merit
+                list without visiting any campus.
+              </p>
+              <form action="/programs" className="mt-7 flex flex-col gap-3 sm:flex-row">
+                <label className="relative flex-1 sm:max-w-md">
+                  <span className="sr-only">Search a program or institution</span>
+                  <input
+                    name="q"
+                    placeholder="Search a program or institution..."
+                    className="h-[52px] w-full rounded-xl bg-white pr-12 pl-4 text-[15px] text-slate-900 outline-none placeholder:text-slate-400 focus:ring-4 focus:ring-blue-400/40"
+                  />
+                  <Search className="pointer-events-none absolute top-1/2 right-4 size-5 -translate-y-1/2 text-slate-400" />
+                </label>
+                <button
+                  type="submit"
+                  className="bg-primary shadow-button hover:bg-primary-hover inline-flex h-[52px] items-center justify-center gap-2 rounded-xl px-6 text-[15px] font-semibold text-white"
+                >
+                  Find programs <ArrowRight className="size-4" />
+                </button>
+              </form>
+            </div>
+            <Stagger className="grid grid-cols-2 gap-3 sm:gap-4" gap={0.08}>
+              {figures.map((f) => (
+                <StaggerItem
+                  key={f.label}
+                  hover
+                  className="rounded-2xl bg-white/[0.07] p-4 ring-1 ring-white/10 backdrop-blur-sm transition-colors hover:bg-white/[0.12] sm:p-5"
+                >
+                  <p className="text-[26px] font-extrabold text-white tabular-nums sm:text-[32px]">
+                    {f.value === undefined ? '-' : <CountUp value={f.value} />}
+                  </p>
+                  <p className="mt-1 text-[13px] text-blue-100/80">{f.label}</p>
+                </StaggerItem>
+              ))}
+            </Stagger>
           </div>
-          <div className="grid grid-cols-2 gap-3 sm:gap-4">
-            {figures.map((f) => (
-              <div key={f.label} className="rounded-2xl bg-white/[0.07] p-4 ring-1 ring-white/10 sm:p-5">
-                <p className="text-[26px] font-extrabold text-white sm:text-[32px]">{f.value}</p>
-                <p className="mt-1 text-[13px] text-blue-100/80">{f.label}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+        </section>
+      </Reveal>
 
-      <section className="mt-6 grid gap-4 md:grid-cols-3">
+      <Stagger className="mt-6 grid gap-4 md:grid-cols-3">
         {features.map((f) => (
-          <Card key={f.title} className="p-6 sm:p-7">
-            <span className={`flex size-12 items-center justify-center rounded-xl ${f.tint}`}>
-              <f.icon className="size-6" />
-            </span>
-            <h2 className="mt-5 text-[17px] font-bold">{f.title}</h2>
-            <p className="text-muted mt-2 text-[14px] leading-relaxed">{f.text}</p>
-          </Card>
+          <StaggerItem key={f.title} hover>
+            <Card className="group h-full p-6 transition-shadow hover:shadow-lg sm:p-7">
+              <span
+                className={`flex size-12 items-center justify-center rounded-xl transition-transform group-hover:scale-110 ${f.tint}`}
+              >
+                <f.icon className="size-6" />
+              </span>
+              <h2 className="mt-5 text-[17px] font-bold">{f.title}</h2>
+              <p className="text-muted mt-2 text-[14px] leading-relaxed">{f.text}</p>
+            </Card>
+          </StaggerItem>
         ))}
-      </section>
+      </Stagger>
 
       <Card className="mt-6 overflow-hidden">
         <div className="flex items-center justify-between px-5 pt-5 pb-4 sm:px-6">

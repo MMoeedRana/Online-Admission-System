@@ -1,5 +1,6 @@
 'use client';
 
+import { PageFade } from '@/components/ui/motion';
 import { FileText, GraduationCap, LayoutGrid, ShieldCheck, UserRound } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -55,7 +56,7 @@ export function ApplicantShell({ children }: { children: ReactNode }) {
   return (
     <div className="min-h-dvh pb-20 md:pb-0">
       <header className="border-line bg-card/90 sticky top-0 z-30 border-b backdrop-blur">
-        <div className="mx-auto flex h-16 max-w-[1200px] items-center gap-4 px-4 sm:px-6 lg:h-[72px]">
+        <div className="page-container flex h-16 items-center gap-4 lg:h-[72px]">
           <Logo href="/applicant/dashboard" />
           <nav aria-label="Applicant" className="ml-6 hidden items-center gap-1 md:flex">
             {NAV.map((n) => (
@@ -82,7 +83,9 @@ export function ApplicantShell({ children }: { children: ReactNode }) {
           </div>
         </div>
       </header>
-      <main className="mx-auto max-w-[1200px] px-4 py-6 sm:px-6 sm:py-8">{children}</main>
+      <main className="page-container py-6 sm:py-8">
+        <PageFade>{children}</PageFade>
+      </main>
       <nav
         aria-label="Bottom"
         className="border-line bg-card/95 fixed inset-x-0 bottom-0 z-30 border-t pb-[env(safe-area-inset-bottom)] backdrop-blur md:hidden"

@@ -23,7 +23,7 @@ export function SubscriptionBanner() {
   const readOnly = q.data.state === 'READ_ONLY';
   return (
     <div className={readOnly ? 'bg-red-600 text-white' : 'bg-amber-500 text-amber-950'}>
-      <p className="mx-auto flex max-w-[1400px] items-center gap-2 px-4 py-2.5 text-[13px] font-semibold sm:px-6 lg:px-8">
+      <p className="flex items-center gap-2 px-4 py-2.5 text-[13px] font-semibold sm:px-6 lg:px-8">
         <AlertTriangle className="size-4 shrink-0" />
         {readOnly
           ? 'The subscription has expired. The workspace is read-only until it is renewed. No data has been deleted.'

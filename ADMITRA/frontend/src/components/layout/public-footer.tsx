@@ -4,7 +4,7 @@ import { Logo } from './logo';
 export function PublicFooter() {
   return (
     <footer className="border-line bg-card mt-16 border-t">
-      <div className="mx-auto grid max-w-[1200px] gap-8 px-4 py-10 sm:px-6 md:grid-cols-[1.5fr_1fr_1fr]">
+      <div className="page-container grid gap-8 py-10 md:grid-cols-[1.5fr_1fr_1fr]">
         <div>
           <Logo />
           <p className="text-muted mt-3 max-w-sm text-[13px] leading-relaxed">

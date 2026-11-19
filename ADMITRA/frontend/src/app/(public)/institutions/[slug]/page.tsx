@@ -1,4 +1,5 @@
 import { ArrowLeft, Building, CalendarClock, Globe, Mail, MapPin, Phone } from 'lucide-react';
+import { Stagger, StaggerItem } from '@/components/ui/motion';
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
@@ -47,7 +48,7 @@ export default async function InstitutionPage({ params }: { params: Promise<{ sl
   const i = await load((await params).slug);
   if (!i) return <ServiceUnavailable />;
   return (
-    <div className="mx-auto max-w-[1200px] px-4 py-8 sm:px-6">
+    <div className="page-container py-8">
       <Link
         href="/institutions"
         className="text-muted hover:text-primary inline-flex items-center gap-1.5 text-[13px] font-semibold"
@@ -99,11 +100,13 @@ export default async function InstitutionPage({ params }: { params: Promise<{ sl
           )}
           <div>
             <h2 className="text-[18px] font-bold">Programs ({i.programs.length})</h2>
-            <div className="mt-4 grid gap-4 sm:grid-cols-2">
+            <Stagger className="mt-4 grid gap-4 sm:grid-cols-2 2xl:grid-cols-3">
               {i.programs.map((p) => (
-                <ProgramCard key={p.id} program={p} />
+                <StaggerItem key={p.id} hover className="h-full">
+                  <ProgramCard program={p} />
+                </StaggerItem>
               ))}
-            </div>
+            </Stagger>
           </div>
         </div>
         <aside className="space-y-6">

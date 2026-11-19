@@ -17,7 +17,7 @@ export function ProgramCard({ program }: { program: PublicProgram }) {
   return (
     <Link
       href={`/programs/${program.id}`}
-      className="group border-line bg-card hover:border-primary/40 flex flex-col rounded-[var(--radius-card)] border p-5 shadow-[var(--shadow-card)] transition hover:-translate-y-0.5"
+      className="group border-line bg-card hover:border-primary/40 flex h-full flex-col rounded-[var(--radius-card)] border p-5 shadow-[var(--shadow-card)] transition hover:shadow-lg"
     >
       <div className="flex items-start justify-between gap-3">
         <span className="bg-primary-soft text-primary rounded-lg px-2 py-1 text-[11.5px] font-bold">

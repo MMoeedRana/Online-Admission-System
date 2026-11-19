@@ -7,7 +7,7 @@ import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxi
 import { StatusBadge } from '@/components/ui/badge';
 import { ButtonLink } from '@/components/ui/button';
 import { Card, CardHeader } from '@/components/ui/card';
-import { KpiCard } from '@/components/ui/kpi-card';
+import { KpiCard, KpiGrid } from '@/components/ui/kpi-card';
 import { PageHeader } from '@/components/ui/page-header';
 import { FullPageLoader } from '@/components/ui/spinner';
 import { get } from '@/lib/api';
@@ -46,7 +46,7 @@ export function PlatformDashboard() {
   return (
     <>
       <PageHeader title="Dashboard" subtitle="The ADMITRA platform at a glance" />
-      <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+      <KpiGrid>
         <KpiCard
           label="Active institutions"
           value={formatNumber(d.counts.ACTIVE)}
@@ -74,7 +74,7 @@ export function PlatformDashboard() {
           icon={CalendarRange}
           tint="purple"
         />
-      </div>
+      </KpiGrid>
 
       <div className="mt-6 grid gap-6 xl:grid-cols-[1.4fr_1fr]">
         <Card>

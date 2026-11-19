@@ -9,7 +9,7 @@ import { ButtonLink } from '@/components/ui/button';
 import { Card, CardHeader } from '@/components/ui/card';
 import { DataTable } from '@/components/ui/data-table';
 import { EmptyState } from '@/components/ui/empty-state';
-import { KpiCard } from '@/components/ui/kpi-card';
+import { KpiCard, KpiGrid } from '@/components/ui/kpi-card';
 import { PageHeader } from '@/components/ui/page-header';
 import { FullPageLoader } from '@/components/ui/spinner';
 import { useAuth } from '@/features/auth/auth-context';
@@ -73,7 +73,7 @@ export function InstitutionDashboard() {
           ) : undefined
         }
       />
-      <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+      <KpiGrid>
         <KpiCard
           label="Applications"
           value={formatNumber(d.applications.submitted)}
@@ -105,7 +105,7 @@ export function InstitutionDashboard() {
           icon={GraduationCap}
           tint="purple"
         />
-      </div>
+      </KpiGrid>
       <div className="mt-6 grid gap-6 xl:grid-cols-[1.5fr_1fr]">
         <Card className="overflow-hidden">
           <CardHeader

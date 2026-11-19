@@ -1,5 +1,6 @@
 'use client';
 
+import { PageFade } from '@/components/ui/motion';
 import type { LucideIcon } from 'lucide-react';
 import { Menu, Search, X } from 'lucide-react';
 import Link from 'next/link';
@@ -158,7 +159,9 @@ export function StaffShell({ sections, roleLabel, orgName, search, headerExtra, 
           </div>
         </header>
         {banner}
-        <main className="mx-auto max-w-[1400px] px-4 py-6 sm:px-6 lg:px-8 lg:py-8">{children}</main>
+        <main className="w-full px-4 py-6 sm:px-6 lg:px-8 lg:py-8 2xl:px-12">
+          <PageFade>{children}</PageFade>
+        </main>
       </div>
     </div>
   );

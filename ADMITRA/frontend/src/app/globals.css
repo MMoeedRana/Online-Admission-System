@@ -100,3 +100,23 @@
     radial-gradient(1200px 400px at 85% -10%, rgba(59, 130, 246, 0.25), transparent 60%),
     linear-gradient(135deg, var(--navy) 0%, var(--navy-2) 100%);
 }
+
+/* Full-width page frame: content spans the screen with padding that grows on larger displays. */
+@utility page-container {
+  width: 100%;
+  margin-inline: auto;
+  max-width: 2200px;
+  padding-inline: 1rem;
+  @media (width >= 40rem) {
+    padding-inline: 1.5rem;
+  }
+  @media (width >= 64rem) {
+    padding-inline: 2.5rem;
+  }
+  @media (width >= 80rem) {
+    padding-inline: 3.5rem;
+  }
+  @media (width >= 96rem) {
+    padding-inline: 4.5rem;
+  }
+}

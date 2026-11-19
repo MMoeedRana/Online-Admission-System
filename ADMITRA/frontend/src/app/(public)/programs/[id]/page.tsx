@@ -1,4 +1,5 @@
 import { ArrowLeft, Building2, CalendarClock, CheckCircle2, Clock, GraduationCap, MapPin, Users } from 'lucide-react';
+import { Stagger, StaggerItem } from '@/components/ui/motion';
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
@@ -41,14 +42,14 @@ export default async function ProgramPage({ params }: { params: Promise<{ id: st
   if (!p) return <ServiceUnavailable />;
   const open = p.openCampaign;
   return (
-    <div className="mx-auto max-w-[1200px] px-4 py-8 sm:px-6">
+    <div className="page-container py-8">
       <Link
         href="/programs"
         className="text-muted hover:text-primary inline-flex items-center gap-1.5 text-[13px] font-semibold"
       >
         <ArrowLeft className="size-4" /> All programs
       </Link>
-      <div className="mt-4 grid gap-6 lg:grid-cols-[1fr_360px]">
+      <div className="mt-4 grid gap-6 lg:grid-cols-[1fr_360px] 2xl:grid-cols-[1fr_420px]">
         <div className="space-y-6">
           <Card className="p-6 sm:p-8">
             <div className="flex flex-wrap items-center gap-2">
@@ -170,11 +171,13 @@ export default async function ProgramPage({ params }: { params: Promise<{ id: st
       {p.related.length > 0 && (
         <section className="mt-10">
           <h2 className="text-[18px] font-bold">More programs at {p.institution?.shortName}</h2>
-          <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          <Stagger className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {p.related.map((r) => (
-              <ProgramCard key={r.id} program={r} />
+              <StaggerItem key={r.id} hover className="h-full">
+                <ProgramCard program={r} />
+              </StaggerItem>
             ))}
-          </div>
+          </Stagger>
         </section>
       )}
     </div>

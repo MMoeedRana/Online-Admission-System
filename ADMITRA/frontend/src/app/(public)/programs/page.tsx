@@ -1,4 +1,5 @@
 import { GraduationCap, SlidersHorizontal } from 'lucide-react';
+import { Stagger, StaggerItem } from '@/components/ui/motion';
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { buttonClass } from '@/components/ui/button';
@@ -49,7 +50,7 @@ export default async function ProgramsPage({ searchParams }: { searchParams: Pro
   };
 
   return (
-    <div className="mx-auto max-w-[1200px] px-4 py-8 sm:px-6">
+    <div className="page-container py-8">
       <h1 className="text-[24px] font-bold tracking-tight sm:text-[28px]">Find a program</h1>
       <p className="text-muted mt-1 text-[14px]">
         Search programs of colleges and universities on ADMITRA and see which ones are open for admission.
@@ -125,11 +126,13 @@ export default async function ProgramsPage({ searchParams }: { searchParams: Pro
           />
         </Card>
       ) : (
-        <div className="mt-3 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <Stagger className="mt-3 grid gap-4 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
           {result.data.map((p) => (
-            <ProgramCard key={p.id} program={p} />
+            <StaggerItem key={p.id} hover className="h-full">
+              <ProgramCard program={p} />
+            </StaggerItem>
           ))}
-        </div>
+        </Stagger>
       )}
       {meta.pages > 1 && (
         <nav aria-label="Pages" className="mt-8 flex items-center justify-center gap-2">

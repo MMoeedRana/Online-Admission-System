@@ -11,7 +11,7 @@ import { Card } from '@/components/ui/card';
 import { DataTable } from '@/components/ui/data-table';
 import { EmptyState } from '@/components/ui/empty-state';
 import { Input, Select } from '@/components/ui/input';
-import { KpiCard } from '@/components/ui/kpi-card';
+import { KpiCard, KpiGrid } from '@/components/ui/kpi-card';
 import { PageHeader } from '@/components/ui/page-header';
 import { Pagination } from '@/components/ui/pagination';
 import { Tabs } from '@/components/ui/tabs';
@@ -59,7 +59,7 @@ export function ApplicationsQueue() {
   return (
     <>
       <PageHeader title="Applications" subtitle="Submitted applications of your admission campaigns" />
-      <div className="mb-6 grid grid-cols-2 gap-3 sm:gap-4 xl:grid-cols-4">
+      <KpiGrid className="mb-6 grid-cols-2 gap-3 sm:gap-4">
         <KpiCard label="Total submitted" value={formatNumber(total)} icon={Inbox} />
         <KpiCard label="In review" value={formatNumber(inReview)} icon={Clock} tint="purple" />
         <KpiCard
@@ -69,7 +69,7 @@ export function ApplicationsQueue() {
           tint="amber"
         />
         <KpiCard label="Verified" value={formatNumber(counts.VERIFIED ?? 0)} icon={CheckCircle2} tint="green" />
-      </div>
+      </KpiGrid>
       <Card className="overflow-hidden">
         <div className="space-y-4 p-4 sm:p-5">
           <Tabs
