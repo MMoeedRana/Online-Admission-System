@@ -181,7 +181,7 @@ staffAppRouter.get('/:id', async (req, res) => {
     application: app.toObject(),
     applicant: { email: user?.email, profile },
     campaign: { _id: ctx.campaign._id, title: ctx.campaign.title, settings: ctx.campaign.settings },
-    preferences: app.preferences.map((p) => {
+    preferences: app.toObject().preferences.map((p) => {
       const prog = ctx.programs.find((x) => String(x._id) === String(p.programId));
       return {
         ...p,

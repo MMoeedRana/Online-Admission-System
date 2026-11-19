@@ -204,6 +204,7 @@ describe('Application journey (APP, DOC, FEE, FLOW)', () => {
       (await inst.as.post(`/applications/${appId}/transition`).send({ to: 'ELIGIBILITY_CHECK' })).status,
     ).toBe(409); // docs not approved
     const detail = await inst.as.get(`/applications/${appId}`);
+    expect(detail.body.data.preferences[0]).toMatchObject({ order: 1, shift: expect.any(String) });
     for (const d of detail.body.data.documents.filter((d: { current: boolean }) => d.current)) {
       expect(
         (
