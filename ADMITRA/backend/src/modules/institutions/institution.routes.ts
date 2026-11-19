@@ -9,6 +9,9 @@ import { CampaignModel } from '../campaigns/campaign.model';
 import { ProgramModel, totalSeats } from '../programs/program.model';
 import { MemberModel } from '../staff/member.model';
 import { AcademicSessionModel, DepartmentModel } from '../structure/structure.models';
+import { ApplicationModel } from '../applications/application.model';
+import { PaymentModel } from '../fees/fee.models';
+import { RecordModel } from '../records/record.models';
 import { InstitutionModel } from './institution.model';
 import { planOf, usageOf } from './limits';
 
@@ -99,11 +102,52 @@ institutionRouter.get('/dashboard', requirePermission(PERMISSIONS.DASHBOARD_VIEW
     AcademicSessionModel.findOne({ institutionId, isCurrent: true }).lean(),
   ]);
   const open = campaigns.filter((c) => c.status === 'OPEN');
+  const submitted = await ApplicationModel.find({ institutionId, status: { $ne: 'DRAFT' } })
+    .sort({ submittedAt: -1 })
+    .select('applicantId applicationNumber status submittedAt preferences snapshot.profile.fullName')
+    .lean();
+  const applicantIds = [...new Set(submitted.map((a) => String(a.applicantId)))];
+  const records = await RecordModel.find({ userId: { $in: applicantIds }, current: true })
+    .select('userId trustLevel verificationStatus')
+    .lean();
+  const verifiedRecords = records.filter((r) => r.trustLevel >= 2).length;
+  const fee = await PaymentModel.aggregate([
+    { $match: { institutionId: req.tenant!.institution._id, status: 'VERIFIED' } },
+    { $group: { _id: null, total: { $sum: '$amount' }, n: { $sum: 1 } } },
+  ]);
+  const recentApps = submitted.slice(0, 6);
+  const progTitles = await ProgramModel.find({
+    _id: { $in: recentApps.map((a) => a.preferences[0]?.programId) },
+  })
+    .select('title')
+    .lean();
+  const marksOf = (uid: unknown) => {
+    const rs = records.filter((r) => String(r.userId) === String(uid));
+    if (rs.some((r) => r.verificationStatus === 'MISMATCH')) return 'MISMATCH';
+    if (rs.length && rs.every((r) => r.trustLevel >= 2)) return 'VERIFIED';
+    return 'PENDING';
+  };
   const seats = programs.reduce((s, p) => s + totalSeats(p), 0);
   const byLevel: Record<string, number> = {};
   for (const p of programs) byLevel[p.degreeLevel] = (byLevel[p.degreeLevel] ?? 0) + totalSeats(p);
   ok(res, {
     kpis: { programs: programs.length, seats, openCampaigns: open.length, staff, departments },
+    applications: {
+      submitted: submitted.length,
+      verifiedRecords,
+      totalRecords: records.length,
+      feeCollected: fee[0]?.total ?? 0,
+      paymentsVerified: fee[0]?.n ?? 0,
+      verified: submitted.filter((a) => a.status === 'VERIFIED').length,
+    },
+    recentApplications: recentApps.map((a) => ({
+      id: String(a._id),
+      applicationNumber: a.applicationNumber,
+      applicant: (a.snapshot?.profile as { fullName?: string })?.fullName ?? '',
+      program: progTitles.find((p) => String(p._id) === String(a.preferences[0]?.programId))?.title ?? '',
+      status: a.status,
+      marks: marksOf(a.applicantId),
+    })),
     currentSession: session?.name ?? null,
     seatsByLevel: Object.entries(byLevel).map(([level, value]) => ({ level, seats: value })),
     campaigns: campaigns.slice(0, 6).map((c) => ({

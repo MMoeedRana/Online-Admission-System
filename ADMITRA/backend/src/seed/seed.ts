@@ -21,7 +21,9 @@ import {
   FacultyModel,
 } from '../modules/structure/structure.models';
 import { UserModel } from '../modules/users/user.model';
+import { ensureDefaultDocumentTypes } from '../modules/documents/document.models';
 import { SAMPLE_PASSWORD, institutions, pendingRequests, plans, sampleApplicant } from './data';
+import { seedDemo } from './demo';
 
 const args = new Set(process.argv.slice(2));
 const DAY = 24 * 60 * 60 * 1000;
@@ -104,6 +106,7 @@ async function seedSample() {
       approvedBy: superAdmin?._id,
     });
 
+    await ensureDefaultDocumentTypes(inst._id);
     const people = [
       { ...s.admin, roles: ['INSTITUTION_ADMIN'], designation: 'Director Admissions', depts: [] as string[] },
       ...s.staff,
@@ -224,16 +227,7 @@ async function seedSample() {
     log(`Pending onboarding request: ${r.name}`);
   }
 
-  if (!(await UserModel.exists({ email: sampleApplicant.email }))) {
-    await UserModel.create({
-      fullName: sampleApplicant.name,
-      email: sampleApplicant.email,
-      passwordHash,
-      accountType: 'APPLICANT',
-      emailVerified: true,
-    });
-    log(`Sample applicant: ${sampleApplicant.email}`);
-  }
+  if (!(await UserModel.exists({ email: sampleApplicant.email }))) await seedDemo();
   log(`All sample accounts use the password: ${SAMPLE_PASSWORD}`);
 }
 

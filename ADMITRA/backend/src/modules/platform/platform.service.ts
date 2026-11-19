@@ -9,6 +9,7 @@ import { InstitutionModel } from '../institutions/institution.model';
 import { PlanModel } from '../plans/plan.model';
 import { MemberModel } from '../staff/member.model';
 import { UserModel } from '../users/user.model';
+import { ensureDefaultDocumentTypes } from '../documents/document.models';
 import type { Id } from '../../lib/types';
 
 const DAY = 24 * 60 * 60 * 1000;
@@ -90,6 +91,7 @@ export async function approveInstitution(req: Request, id: string, planId: strin
   inst.set('approvedBy', req.auth?.userId);
   await inst.save();
 
+  await ensureDefaultDocumentTypes(inst._id);
   await inviteMember(req, inst, {
     email: inst.contact!.email,
     fullName: inst.contact!.name,
