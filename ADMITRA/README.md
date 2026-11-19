@@ -17,7 +17,7 @@ ADMITRA/
 
 | Layer    | Technology                                                                 |
 | -------- | -------------------------------------------------------------------------- |
-| Frontend | Next.js 16 (App Router), React 19, TypeScript, Tailwind CSS 4, TanStack React Query 5, Axios, React Hook Form + Zod, Recharts, Lucide icons |
+| Frontend | Next.js 16 (App Router), React 19, TypeScript, Tailwind CSS 4, TanStack React Query 5, Axios, React Hook Form + Zod, Recharts, Framer Motion, Lucide icons |
 | Backend  | Node.js, Express.js 5, TypeScript, Mongoose 9, Zod, JWT + Argon2id, Helmet, Pino, Nodemailer, Socket.IO, PDFKit, Multer, Papa Parse, ExcelJS |
 | Database | MongoDB 8 Community Server (single-node replica set), MongoDB Compass       |
 | Testing  | Vitest + Supertest on a real MongoDB replica set                            |
@@ -68,11 +68,15 @@ npm install
 ```
 
 Copy `.env.example` to `.env` (the defaults work for local development), then create the
-Super Admin, the subscription plans and the sample institutions:
+Super Admin, the plans and the complete sample data (institutions, applicants, merit lists,
+directory). This clears the database first and takes about half a minute:
 
 ```bash
-npm run seed -- --sample
+npm run seed:demo
 ```
+
+`npm run seed` alone only creates the Super Admin and the plans (for a clean installation); the
+dashboards then show zeros until real data is entered.
 
 ```bash
 npm run dev
@@ -101,24 +105,35 @@ npm run dev
 
 Open <http://localhost:3000>. Requests to `/api/v1` are forwarded to the backend.
 
-## 5. Sample accounts (after `npm run seed -- --sample`)
+## 5. Sample accounts (after `npm run seed:demo`)
 
-| Role                              | E-mail                          | Password      |
-| --------------------------------- | ------------------------------- | ------------- |
-| Super Admin                       | admin@admitra.local             | Admin@12345 (from `.env`) |
-| Institution Admin (Crescent Valley University) | admin@cvu.example.edu.pk | Admitra@123 |
-| Admission Officer                 | officer@cvu.example.edu.pk      | Admitra@123   |
-| HOD Officer (Computer Science)    | hod.cs@cvu.example.edu.pk       | Admitra@123   |
-| Finance Officer                   | finance@cvu.example.edu.pk      | Admitra@123   |
-| Merit Committee                   | merit1@cvu.example.edu.pk       | Admitra@123   |
-| Applicant (fee verified, under review) | ayesha.noor@example.com    | Admitra@123   |
-| Applicant (application verified)  | bilal.ahmed@example.com         | Admitra@123   |
-| Applicant (marks mismatch in document verification) | sara.khan@example.com | Admitra@123 |
-| Applicant (proof of payment awaiting verification) | hamza.ali@example.com | Admitra@123 |
+All sample accounts use the password `Admitra@123` (the Super Admin uses the one in `.env`).
 
-The sample institutions are fictional and exist only for development and demonstration.
-`npm run seed -- --reset --sample` clears the database and creates the sample data again
-(development only; refused in production).
+| Role | E-mail | What to look at |
+| ---- | ------ | --------------- |
+| Super Admin | admin@admitra.local | Institutions, plans, registry import, Reference Directory (verification queue, data gaps, claims, advisor usage) |
+| Institution Admin (Crescent Valley University) | admin@cvu.example.edu.pk | Open Fall 2026 campaign, applications, directory data |
+| Admission Officer (CVU) | officer@cvu.example.edu.pk | Application review, marks verification |
+| HOD Officer, Computer Science (CVU) | hod.cs@cvu.example.edu.pk | Applications of the CS department only |
+| Finance Officer (CVU) | finance@cvu.example.edu.pk | Payment verification |
+| Merit Committee (CVU) | merit1@cvu.example.edu.pk | Active formulas and a proposed version 2 for BSCS |
+| Institution Admin (Riverside Institute of Technology) | admin@rit.example.edu.pk | Publishes merit lists, revocation, offers and enrollment |
+| Admissions and Accounts (RIT) | officer@rit.example.edu.pk | Admission-fee proofs, originals check on the reporting day |
+| Merit Committee (RIT) | merit1@rit.example.edu.pk | Generated merit list 3, waiting for the second member |
+| Merit Committee (RIT) | merit2@rit.example.edu.pk | Can approve list 3 (four-eyes rule) |
+| Applicant | ayesha.noor@example.com | CVU application under review; selected in RIT merit list 2 with an open offer |
+| Applicant | zainab.tariq@example.com | Enrolled at RIT: registration number and admission letter |
+| Applicant | mahnoor.fatima@example.com | On the RIT waiting list |
+| Applicant | danish.iqbal@example.com | Not selected at RIT, with programs suggested by the Admission Advisor |
+| Applicant | bilal.ahmed@example.com | CVU application verified |
+| Applicant | sara.khan@example.com | Marks mismatch during document verification |
+| Applicant | hamza.ali@example.com | Proof of payment waiting for verification |
+
+The sample data covers a complete admission cycle at Riverside Institute of Technology (76
+applications, three merit lists, offers, acceptances, admission fees, enrollment, expired and
+declined offers and one revocation) and a reference directory of 18 institutions with three
+years of closing merit. Every institution, person and figure in it is fictional and exists only
+for development and demonstration. The seed command is refused in production.
 
 ## 6. Scripts
 
@@ -126,6 +141,7 @@ The sample institutions are fictional and exist only for development and demonst
 | -------- | ------------------- | ----------------------------------------- |
 | backend  | `npm run dev`       | API with automatic restart                |
 | backend  | `npm test`          | API tests (downloads a MongoDB test server the first time) |
+| backend  | `npm run seed:demo` | Clear the database and load the complete sample data |
 | backend  | `npm run build` / `npm start` | Production build and start      |
 | backend  | `npm run lint` / `npm run typecheck` | Code checks                |
 | frontend | `npm run dev`       | Web application in development mode       |
@@ -138,7 +154,7 @@ The sample institutions are fictional and exist only for development and demonst
 | ----- | ----- | ------ |
 | 1 | Foundation, SaaS core and design system | Complete |
 | 2 | Applicant portal, verified marks and admission operations | Complete |
-| 3 | Merit, enrollment, Admission Advisor and Result Finder | Planned |
+| 3 | Merit, enrollment, Admission Advisor and Result Finder | Complete |
 | 4 | Analytics, support, quality and delivery | Planned |
 
 ### Phase 1 requirements
@@ -165,3 +181,22 @@ templates.
 Uploaded files are stored in `backend/storage` (outside the web root) and are only served to the
 owner and the staff of the institution. Templates for the registry files are in
 [`docs/templates`](../docs/templates).
+
+### Phase 3 requirements
+
+MARK-10 to MARK-12, MERIT-1 to MERIT-6, OFFER-1 to OFFER-5, DIR-1 to DIR-8, PRED-1 to PRED-12
+and FIND-1 to FIND-8: versioned merit formulas with a test mode; the merit engine (aggregate
+with a line-by-line breakdown, tie-breakers and stable seat allocation by deferred acceptance,
+using only verified marks); merit lists with four-eyes approval, a publication transaction,
+revisions and waiting lists; offers with deadlines and automatic expiry, admission-fee challans,
+enrollment with registration numbers and admission letters, the originals check and revocation
+with an optional CNIC block; the reference directory with merit history from forms and CSV
+imports, verification, claims and a data-gap report, filled automatically when a list is
+published; the Admission Advisor (chance from three years of closing merit, Safe / Target /
+Reach / Unlikely, explanation, what-if, shortlist with comparison and PDF, indicative standing,
+anonymous usage log); My Results, public merit lists with search and PDF, and the status lookup
+with a CAPTCHA.
+
+All pages use the full width of the screen with responsive padding and are checked on phones,
+tablets, laptops and large monitors; cards, figures and pages are animated with Framer Motion
+(the animations follow the system's "reduce motion" setting).
