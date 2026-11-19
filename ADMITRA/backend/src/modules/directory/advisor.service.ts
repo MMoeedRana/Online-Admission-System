@@ -229,16 +229,14 @@ export async function adviseProgram(
     assumedTest,
     eligible: elig.eligible,
     reasons: elig.reasons,
-    history: closings
-      .slice(0, 3)
-      .map((c) => ({
-        year: c.year,
-        round: c.round,
-        closing: c.closingMerit,
-        source: c.source,
-        sourceUrl: c.sourceUrl ?? '',
-        origin: c.origin,
-      })),
+    history: closings.slice(0, 3).map((c) => ({
+      year: c.year,
+      round: c.round,
+      closing: c.closingMerit,
+      source: c.source,
+      sourceUrl: c.sourceUrl ?? '',
+      origin: c.origin,
+    })),
     lastClosing: last?.closingMerit ?? null,
     gap: last ? Math.round((agg.aggregate - last.closingMerit) * 100) / 100 : null,
     prediction,

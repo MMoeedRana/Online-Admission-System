@@ -24,6 +24,7 @@ import { UserModel } from '../modules/users/user.model';
 import { ensureDefaultDocumentTypes } from '../modules/documents/document.models';
 import { SAMPLE_PASSWORD, institutions, pendingRequests, plans, sampleApplicant } from './data';
 import { seedDemo } from './demo';
+import { seedPhase3 } from './phase3';
 
 const args = new Set(process.argv.slice(2));
 const DAY = 24 * 60 * 60 * 1000;
@@ -227,7 +228,10 @@ async function seedSample() {
     log(`Pending onboarding request: ${r.name}`);
   }
 
-  if (!(await UserModel.exists({ email: sampleApplicant.email }))) await seedDemo();
+  if (!(await UserModel.exists({ email: sampleApplicant.email }))) {
+    await seedDemo();
+    await seedPhase3(passwordHash);
+  }
   log(`All sample accounts use the password: ${SAMPLE_PASSWORD}`);
 }
 
@@ -244,12 +248,15 @@ async function main() {
   await seedSuperAdmin();
   await seedPlans();
   if (args.has('--sample')) await seedSample();
+  else
+    console.log('  Tip: run "npm run seed:demo" to add the sample institutions, applicants and merit lists.');
   await disconnectDatabase();
   console.log('Done.');
 }
 
 main().catch(async (err) => {
   console.error(`Seed failed: ${err.message}`);
+  if (process.env.SEED_DEBUG) console.error(err.stack);
   await disconnectDatabase().catch(() => undefined);
   process.exit(1);
 });

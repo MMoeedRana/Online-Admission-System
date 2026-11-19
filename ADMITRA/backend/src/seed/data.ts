@@ -239,6 +239,18 @@ export const institutions: InstitutionSeed[] = [
         roles: ['ADMISSION_OFFICER', 'FINANCE_OFFICER'],
         designation: 'Admissions and Accounts',
       },
+      {
+        name: 'Dr. Imran Qureshi',
+        email: 'merit1@rit.example.edu.pk',
+        roles: ['MERIT_COMMITTEE'],
+        designation: 'Merit Committee Convener',
+      },
+      {
+        name: 'Ms. Hina Aslam',
+        email: 'merit2@rit.example.edu.pk',
+        roles: ['MERIT_COMMITTEE'],
+        designation: 'Merit Committee Member',
+      },
     ],
     campuses: [{ name: 'Main Campus', code: 'MAIN', city: 'Lahore', address: 'Ferozepur Road, Lahore' }],
     faculties: [

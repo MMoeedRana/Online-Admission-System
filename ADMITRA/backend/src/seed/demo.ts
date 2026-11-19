@@ -193,9 +193,7 @@ export async function seedDemo() {
   console.log(`  Sample registry batch: ${rows.length} rows`);
 
   const cvu = await InstitutionModel.findOne({ shortName: 'CVU' }).lean();
-  const rit = await InstitutionModel.findOne({ shortName: 'RIT' }).lean();
   const cvuCampaign = await CampaignModel.findOne({ institutionId: cvu!._id }).lean();
-  const ritCampaign = await CampaignModel.findOne({ institutionId: rit!._id }).lean();
   const program = async (instId: unknown, code: string) =>
     (await ProgramModel.findOne({ institutionId: instId as Types.ObjectId, code }).lean())!;
 
@@ -351,8 +349,7 @@ export async function seedDemo() {
 
   const ayeshaCvu = await apply('Ayesha Noor', cvuCampaign, ['BSCS', 'BSSE', 'BSAI']);
   await pay(ayeshaCvu, 'HBL-FSD-778812', true);
-  const ayeshaRit = await apply('Ayesha Noor', ritCampaign, ['BSIT']);
-  void ayeshaRit;
+  // Ayesha's application to RIT is created with the Phase 3 sample data (seed/phase3.ts).
 
   const bilal = await apply('Bilal Ahmed', cvuCampaign, ['BSIT', 'BSCS']);
   await pay(bilal, 'MCB-FSD-220145', true);
