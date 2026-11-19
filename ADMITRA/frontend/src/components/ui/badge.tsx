@@ -69,6 +69,22 @@ const STATUS: Record<string, [Tone, string]> = {
   APPROVED: ['green', 'Approved'],
   UPLOADED: ['blue', 'Uploaded'],
   ROLLED_BACK: ['gray', 'Rolled back'],
+  // merit lists, offers and enrollment (Phase 3)
+  PUBLISHED: ['green', 'Published'],
+  SUPERSEDED: ['gray', 'Superseded'],
+  DISCARDED: ['gray', 'Discarded'],
+  OFFER_ISSUED: ['green', 'Offer issued'],
+  WAITLISTED: ['amber', 'Waiting list'],
+  NOT_SELECTED: ['gray', 'Not selected'],
+  OFFER_DECLINED: ['gray', 'Offer declined'],
+  OFFER_EXPIRED: ['red', 'Offer expired'],
+  ENROLLED: ['green', 'Enrolled'],
+  REVOKED: ['red', 'Revoked'],
+  OFFERED: ['blue', 'Offered'],
+  ACCEPTED: ['purple', 'Accepted'],
+  DECLINED: ['gray', 'Declined'],
+  PENDING_ORIGINALS: ['amber', 'Originals pending'],
+  SELECTED: ['green', 'Selected'],
 };
 
 /** Marks verification state of an academic record (MARK-3). */

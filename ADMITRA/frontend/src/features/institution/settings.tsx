@@ -209,13 +209,22 @@ function SettingsForm({ initial }: { initial: Institution }) {
 
       {tab === 'workflow' && (
         <Card>
-          <CardHeader title="Application workflow" subtitle="FLOW-5: choose how applications are reviewed." />
+          <CardHeader
+            title="Application workflow"
+            subtitle="Choose how applications are reviewed and how enrollment completes."
+          />
           <CardBody className="space-y-4">
             <Checkbox
               label="Eligibility is a separate review step"
               description="When on, officers confirm eligibility in a separate step after document verification."
               checked={i.settings.eligibilityAsSeparateStep}
-              onChange={(e) => set('settings', { eligibilityAsSeparateStep: e.target.checked })}
+              onChange={(e) => set('settings', { ...i.settings, eligibilityAsSeparateStep: e.target.checked })}
+            />
+            <Checkbox
+              label="Check original documents on the reporting day"
+              description="MARK-12: after the admission fee is verified, enrollment completes (and the registration number is issued) only when an officer confirms the originals."
+              checked={Boolean(i.settings.requireOriginals)}
+              onChange={(e) => set('settings', { ...i.settings, requireOriginals: e.target.checked })}
             />
             <Button loading={save.isPending} onClick={() => save.mutate({ settings: i.settings })}>
               Save workflow

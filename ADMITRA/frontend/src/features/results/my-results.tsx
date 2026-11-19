@@ -437,8 +437,9 @@ export function Breakdown({ lines, aggregate }: { lines: BreakdownLine[]; aggreg
 /** Figure 4.5: the dashboard highlights newly published merit lists with a direct link. */
 export function ResultHighlights() {
   const q = useResults();
+  const now = q.dataUpdatedAt;
   const fresh = (q.data?.data ?? []).filter(
-    (r) => r.latest?.entry && Date.now() - new Date(r.latest.list.publishedAt).getTime() < 21 * 86_400_000,
+    (r) => r.latest?.entry && now - new Date(r.latest.list.publishedAt).getTime() < 21 * 86_400_000,
   );
   if (!fresh.length) return null;
   return (

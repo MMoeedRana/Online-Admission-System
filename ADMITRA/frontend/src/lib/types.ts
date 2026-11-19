@@ -75,7 +75,7 @@ export interface Institution {
   subscriptionState?: 'ACTIVE' | 'GRACE' | 'READ_ONLY' | 'NONE';
   branding: { logoUrl: string; primaryColor: string };
   bankAccount: { bankName: string; accountTitle: string; accountNumber: string; iban: string };
-  settings: { eligibilityAsSeparateStep: boolean };
+  settings: { eligibilityAsSeparateStep: boolean; requireOriginals?: boolean };
   createdAt: string;
 }
 

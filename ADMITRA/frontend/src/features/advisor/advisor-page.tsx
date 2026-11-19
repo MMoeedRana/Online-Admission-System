@@ -15,7 +15,7 @@ import {
   X,
 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState, useSyncExternalStore } from 'react';
 import { Alert } from '@/components/ui/alert';
 import { Badge } from '@/components/ui/badge';
 import { Button, ButtonLink } from '@/components/ui/button';
@@ -72,22 +72,40 @@ function bodyOf(v: AdvisorInputs) {
   };
 }
 
+// The comparison selection is a per-viewer convenience kept in this browser only.
+const compareListeners = new Set<() => void>();
+function readCompare(): string {
+  try {
+    return localStorage.getItem(COMPARE_KEY) ?? '[]';
+  } catch {
+    return '[]';
+  }
+}
+function subscribeCompare(cb: () => void) {
+  compareListeners.add(cb);
+  window.addEventListener('storage', cb);
+  return () => {
+    compareListeners.delete(cb);
+    window.removeEventListener('storage', cb);
+  };
+}
+
 export function useCompare() {
-  const [ids, setIds] = useState<string[]>([]);
-  useEffect(() => {
+  const raw = useSyncExternalStore(subscribeCompare, readCompare, () => '[]');
+  const ids = useMemo(() => {
     try {
-      setIds(JSON.parse(localStorage.getItem(COMPARE_KEY) ?? '[]'));
+      return JSON.parse(raw) as string[];
     } catch {
-      /* storage unavailable */
+      return [];
     }
-  }, []);
+  }, [raw]);
   const save = (next: string[]) => {
-    setIds(next);
     try {
       localStorage.setItem(COMPARE_KEY, JSON.stringify(next));
     } catch {
       /* storage unavailable */
     }
+    compareListeners.forEach((l) => l());
   };
   const toggle = (id: string) => {
     if (ids.includes(id)) save(ids.filter((x) => x !== id));
@@ -128,7 +146,10 @@ export function AdvisorPage({ base = '' }: { base?: string }) {
   const { user } = useAuth();
   const router = useRouter();
   const isApplicant = user?.accountType === 'APPLICANT';
-  const [v, setV] = useState<AdvisorInputs>({ ...EMPTY, useSaved: false });
+  const [form, setV] = useState<AdvisorInputs>({ ...EMPTY, useSaved: false });
+  // Signed-in applicants start with their saved marks until they untick the option (PRED-2).
+  const [savedChoice, setSavedChoice] = useState<boolean | null>(null);
+  const v = useMemo(() => ({ ...form, useSaved: savedChoice ?? isApplicant }), [form, savedChoice, isApplicant]);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [band, setBand] = useState<Band | 'ALL'>('ALL');
   const [sort, setSort] = useState<keyof typeof SORTS>('chance');
@@ -139,10 +160,6 @@ export function AdvisorPage({ base = '' }: { base?: string }) {
     queryKey: ['directory', 'filters'],
     queryFn: () => get<{ cities: string[]; interGroups: string[] }>('/public/directory/filters'),
   });
-
-  useEffect(() => {
-    if (isApplicant) setV((x) => ({ ...x, useSaved: true }));
-  }, [isApplicant]);
 
   const run = useMutation({
     mutationFn: async (input: AdvisorInputs) => {
@@ -229,7 +246,7 @@ export function AdvisorPage({ base = '' }: { base?: string }) {
                 label="Use my saved marks"
                 description="Your Matric, Intermediate and entry-test results from your academic record."
                 checked={v.useSaved}
-                onChange={(e) => set('useSaved', e.target.checked)}
+                onChange={(e) => setSavedChoice(e.target.checked)}
               />
             )}
             {!v.useSaved && (
