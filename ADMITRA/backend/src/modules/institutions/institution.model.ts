@@ -43,6 +43,8 @@ const institutionSchema = new Schema(
     },
     settings: {
       eligibilityAsSeparateStep: { type: Boolean, default: true },
+      /** MARK-12: enrollment completes only after the originals are checked on the reporting day. */
+      requireOriginals: { type: Boolean, default: false },
     },
     approvedAt: Date,
     approvedBy: { type: Types.ObjectId, ref: 'User' },

@@ -3,6 +3,7 @@ import { createApp } from './app';
 import { connectDatabase, disconnectDatabase } from './lib/db';
 import { logger } from './lib/logger';
 import { initSocket } from './lib/socket';
+import { startOfferExpiryJob } from './modules/merit/offer.service';
 import { closeExpiredCampaigns, startCampaignJobs } from './jobs/campaigns.job';
 
 async function main() {
@@ -15,6 +16,7 @@ async function main() {
     logger.info(`ADMITRA API listening on http://localhost:${env.PORT}/api/v1`);
   });
   initSocket(server);
+  startOfferExpiryJob();
 
   const shutdown = async (signal: string) => {
     logger.info(`${signal} received, shutting down`);

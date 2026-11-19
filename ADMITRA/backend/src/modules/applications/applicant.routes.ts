@@ -1,4 +1,6 @@
 import { Router } from 'express';
+import { CnicBlockModel } from '../merit/merit.models';
+import { assertOfferOpenForPayment } from '../merit/offer.service';
 import { z } from 'zod';
 import { ACTIVE_STATUSES, PAYMENT_METHODS } from '../../constants/applications';
 import { SHIFTS } from '../../constants/enums';
@@ -95,6 +97,14 @@ applicantAppRouter.post('/', async (req, res) => {
     throw ApiError.conflict('This admission campaign is not open.');
   const inst = await InstitutionModel.findOne({ _id: campaign.institutionId, status: 'ACTIVE' }).lean();
   if (!inst) throw ApiError.notFound('Campaign');
+  // MARK-11: a CNIC blocked after confirmed false marks cannot apply again in this cycle.
+  const myProfile = await ProfileModel.findOne({ userId: req.auth!.userId }).select('cnic').lean();
+  if (myProfile && (await CnicBlockModel.exists({ campaignId: campaign._id, cnic: myProfile.cnic })))
+    throw new ApiError(
+      403,
+      'CNIC_BLOCKED',
+      'You cannot apply in this admission campaign. Please contact the admission office.',
+    );
   const existing = await ApplicationModel.findOne({
     applicantId: req.auth!.userId,
     campaignId: campaign._id,
@@ -350,9 +360,11 @@ applicantAppRouter.delete('/:id', async (req, res) => {
 });
 
 // ---------------- Fees (FEE-2 to FEE-5) ----------------
-export async function challanData(appId: Id) {
+export async function challanData(appId: Id, type: 'APPLICATION' | 'ADMISSION' = 'APPLICATION') {
   const app = await ApplicationModel.findById(appId).lean();
-  const voucher = await VoucherModel.findOne({ applicationId: appId, type: 'APPLICATION' }).lean();
+  const voucher = await VoucherModel.findOne({ applicationId: appId, type, status: { $ne: 'CANCELLED' } })
+    .sort({ createdAt: -1 })
+    .lean();
   if (!app || !voucher) throw ApiError.notFound('Challan');
   const [inst, campaign] = await Promise.all([
     InstitutionModel.findById(app.institutionId).lean(),
@@ -440,7 +452,11 @@ export async function formData(appId: Id) {
 applicantAppRouter.get('/:id/challan.pdf', async (req, res) => {
   const { id } = parse(idParams, req.params);
   await own(req, id);
-  challanPdf(res, await challanData(id));
+  const { type } = parse(
+    z.object({ type: z.enum(['APPLICATION', 'ADMISSION']).default('APPLICATION') }),
+    req.query,
+  );
+  challanPdf(res, await challanData(id, type));
 });
 
 applicantAppRouter.get('/:id/form.pdf', async (req, res) => {
@@ -475,8 +491,16 @@ applicantAppRouter.post('/:id/payments', upload.single('file'), async (req, res)
     }),
     req.body,
   );
-  const voucher = await VoucherModel.findOne({ applicationId: app._id, type: 'APPLICATION' });
+  // The admission challan (after an offer is accepted) is paid the same way as the application fee.
+  const voucher =
+    (await VoucherModel.findOne({
+      applicationId: app._id,
+      type: 'ADMISSION',
+      status: { $in: ['ISSUED', 'AWAITING_VERIFICATION', 'PAID'] },
+    }).sort({ createdAt: -1 })) ??
+    (await VoucherModel.findOne({ applicationId: app._id, type: 'APPLICATION' }));
   if (!voucher) throw ApiError.notFound('Challan');
+  if (voucher.type === 'ADMISSION') await assertOfferOpenForPayment(voucher._id);
   if (voucher.status !== 'ISSUED') {
     throw ApiError.conflict(
       voucher.status === 'PAID'

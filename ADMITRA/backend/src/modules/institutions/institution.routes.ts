@@ -49,7 +49,9 @@ const profileBody = z.object({
         .regex(/^(PK\d{2}[A-Z]{4}\d{16})?$/, 'Enter a valid Pakistani IBAN (PK + 22 characters).'),
     })
     .optional(),
-  settings: z.object({ eligibilityAsSeparateStep: z.boolean() }).optional(),
+  settings: z
+    .object({ eligibilityAsSeparateStep: z.boolean().optional(), requireOriginals: z.boolean().optional() })
+    .optional(),
 });
 
 institutionRouter.patch('/profile', requirePermission(PERMISSIONS.INSTITUTION_SETTINGS), async (req, res) => {
@@ -62,8 +64,9 @@ institutionRouter.patch('/profile', requirePermission(PERMISSIONS.INSTITUTION_SE
   }
   const update: Record<string, unknown> = {};
   for (const [k, v] of Object.entries(body)) {
-    if (v && typeof v === 'object') for (const [k2, v2] of Object.entries(v)) update[`${k}.${k2}`] = v2;
-    else if (v !== undefined) update[k] = v;
+    if (v && typeof v === 'object') {
+      for (const [k2, v2] of Object.entries(v)) if (v2 !== undefined) update[`${k}.${k2}`] = v2;
+    } else if (v !== undefined) update[k] = v;
   }
   const inst = await InstitutionModel.findByIdAndUpdate(
     req.tenant!.institutionId,

@@ -8,6 +8,11 @@ export const TEMPLATE_VARIABLES = [
   'amount',
   'receiptNumber',
   'note',
+  'listNumber',
+  'position',
+  'aggregate',
+  'deadline',
+  'registrationNumber',
 ] as const;
 
 export const DEFAULT_TEMPLATES: Record<string, { name: string; subject: string; body: string }> = {
@@ -54,22 +59,32 @@ export const DEFAULT_TEMPLATES: Record<string, { name: string; subject: string; 
   OFFER_ISSUED: {
     name: 'Admission offer',
     subject: 'Admission offer from {{institutionName}}',
-    body: 'Dear {{applicantName}},\n\nCongratulations! You are selected for {{programName}} at {{institutionName}}. Please accept the offer before the deadline.',
+    body: 'Dear {{applicantName}},\n\nCongratulations! Your name is in merit list {{listNumber}} of {{institutionName}} for {{programName}} (merit position {{position}}, aggregate {{aggregate}}).\n\nPlease accept the offer and pay the admission fee before {{deadline}}. An offer that is not accepted by the deadline expires.',
   },
   WAITLISTED: {
     name: 'Waiting list',
     subject: 'You are on the waiting list of {{institutionName}}',
-    body: 'Dear {{applicantName}},\n\nYou are on the waiting list for {{programName}} at {{institutionName}}. You will be informed when the next merit list is published.',
+    body: 'Dear {{applicantName}},\n\nYou are at position {{position}} on the waiting list for {{programName}} at {{institutionName}} (merit list {{listNumber}}, aggregate {{aggregate}}).\n\nYou will be informed when the next merit list is published.',
   },
   MERIT_RESULT: {
     name: 'Merit list result',
-    subject: 'Merit list published by {{institutionName}}',
-    body: 'Dear {{applicantName}},\n\nA merit list of {{campaignName}} has been published. Open "Where is my name?" in your dashboard to see your result.',
+    subject: 'Merit list {{listNumber}} published by {{institutionName}}',
+    body: 'Dear {{applicantName}},\n\nMerit list {{listNumber}} of {{campaignName}} has been published. Your name is not in this list (aggregate {{aggregate}}).\n\nOpen "Where is my name?" in your dashboard to see the cut-off and other programs suggested by the Admission Advisor.',
   },
   ENROLLED: {
     name: 'Enrollment confirmed',
     subject: 'Welcome to {{institutionName}}',
-    body: 'Dear {{applicantName}},\n\nYour enrollment in {{programName}} is confirmed. Your registration number and admission letter are available in your dashboard.',
+    body: 'Dear {{applicantName}},\n\nYour enrollment in {{programName}} at {{institutionName}} is confirmed. Your registration number is {{registrationNumber}}.\n\nDownload your admission letter from your dashboard.',
+  },
+  OFFER_EXPIRED: {
+    name: 'Offer expired',
+    subject: 'Your admission offer has expired',
+    body: 'Dear {{applicantName}},\n\nYour admission offer for {{programName}} at {{institutionName}} was not accepted and paid by the deadline, so it has expired and the seat has been released.',
+  },
+  ADMISSION_REVOKED: {
+    name: 'Admission revoked',
+    subject: 'Admission to {{institutionName}} revoked',
+    body: 'Dear {{applicantName}},\n\nYour admission to {{programName}} at {{institutionName}} (application {{applicationNumber}}) has been revoked.\n\nReason: {{note}}\n\nPlease contact the admission office if you have questions.',
   },
 };
 

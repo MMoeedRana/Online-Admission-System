@@ -1,4 +1,5 @@
 import { Router } from 'express';
+import { enrollAfterPayment, notifyEnrollment } from '../merit/offer.service';
 import { z } from 'zod';
 import { PERMISSIONS } from '../../constants/permissions';
 import { audit } from '../../lib/audit';
@@ -140,7 +141,7 @@ paymentRouter.post('/:id/decision', async (req, res) => {
       const year = new Date().getFullYear();
       pay.receiptNumber = `RCPT-${inst!.shortName}-${year}-${pad(await nextSeq(`receipt:${t.institutionId}:${year}`, session), 6)}`;
       voucher!.status = 'PAID';
-      if (app.status === 'PAYMENT_PENDING')
+      if (voucher!.type === 'APPLICATION' && app.status === 'PAYMENT_PENDING')
         pushHistory(app, 'UNDER_REVIEW', 'SYSTEM', undefined, `Fee verified, receipt ${pay.receiptNumber}`);
     } else {
       voucher!.status = 'ISSUED';
@@ -148,7 +149,12 @@ paymentRouter.post('/:id/decision', async (req, res) => {
     await pay.save({ session });
     await voucher!.save({ session });
     await app.save({ session });
-    return { pay, app };
+    // Table 3.14, step 5: a verified admission fee enrolls the applicant.
+    const enrollment =
+      body.decision === 'VERIFIED' && voucher!.type === 'ADMISSION'
+        ? await enrollAfterPayment(voucher!._id, session)
+        : null;
+    return { pay, app, enrollment, voucherType: voucher!.type };
   });
 
   await audit(req, `PAYMENT_${body.decision}`, 'Payment', id, {
@@ -171,7 +177,10 @@ paymentRouter.post('/:id/decision', async (req, res) => {
       {
         type: 'PAYMENT_VERIFIED',
         title: 'Payment verified',
-        body: `Receipt ${result.pay.receiptNumber} issued. Your application is under review.`,
+        body:
+          result.voucherType === 'ADMISSION'
+            ? `Admission fee received, receipt ${result.pay.receiptNumber}.`
+            : `Receipt ${result.pay.receiptNumber} issued. Your application is under review.`,
         link,
       },
       { to: user!.email, key: 'PAYMENT_VERIFIED', institutionId: t.institutionId, vars },
@@ -183,5 +192,6 @@ paymentRouter.post('/:id/decision', async (req, res) => {
       { to: user!.email, key: 'PAYMENT_REJECTED', institutionId: t.institutionId, vars },
     );
   }
+  if (result.enrollment) await notifyEnrollment(result.enrollment._id);
   ok(res, result.pay);
 });

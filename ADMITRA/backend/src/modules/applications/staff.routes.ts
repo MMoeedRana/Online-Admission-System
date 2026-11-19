@@ -264,7 +264,11 @@ staffAppRouter.post('/:id/notes', requirePermission(PERMISSIONS.APPLICATIONS_REV
 staffAppRouter.get('/:id/challan.pdf', async (req, res) => {
   const { id } = parse(idParams, req.params);
   await load(req, id);
-  challanPdf(res, await challanData(id));
+  const { type } = parse(
+    z.object({ type: z.enum(['APPLICATION', 'ADMISSION']).default('APPLICATION') }),
+    req.query,
+  );
+  challanPdf(res, await challanData(id, type));
 });
 
 staffAppRouter.get('/:id/form.pdf', async (req, res) => {

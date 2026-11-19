@@ -21,6 +21,10 @@ import { profileRouter } from './modules/profile/profile.routes';
 import { recordRouter } from './modules/records/record.routes';
 import { verificationRouter } from './modules/records/verification.routes';
 import { institutionRegistryRouter, platformRegistryRouter } from './modules/registry/registry.routes';
+import { formulaRouter } from './modules/merit/formula.routes';
+import { meritListRouter } from './modules/merit/merit-list.routes';
+import { offerRouter } from './modules/merit/offer.routes';
+import { myResultsRouter } from './modules/results/my-results.routes';
 
 export const apiRouter = Router();
 
@@ -46,6 +50,7 @@ me.use('/profile', profileRouter);
 me.use('/records', recordRouter);
 me.use('/applications', applicantAppRouter);
 me.use('/dashboard', applicantDashboardRouter);
+me.use(myResultsRouter);
 apiRouter.use('/me', me);
 
 // Institution workspace: every route is authenticated and scoped to one tenant (SEC-1).
@@ -62,4 +67,7 @@ tenant.use('/payments', paymentRouter);
 tenant.use('/document-types', documentTypeRouter);
 tenant.use('/email-templates', emailTemplateRouter);
 tenant.use('/registry', institutionRegistryRouter);
+tenant.use('/merit-formulas', formulaRouter);
+tenant.use('/merit-lists', meritListRouter);
+tenant.use('/offers', offerRouter);
 apiRouter.use(tenant);
