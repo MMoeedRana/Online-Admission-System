@@ -151,7 +151,7 @@ export function DirectoryPage() {
           gap={0.03}
         >
           {(list.data?.data ?? []).map((p) => (
-            <StaggerItem key={p._id} hover className="h-full">
+            <StaggerItem key={p._id} hover className="h-full min-w-0">
               <Card className="flex h-full flex-col p-5 transition-shadow hover:shadow-lg">
                 <div className="flex items-start justify-between gap-2">
                   <Badge tone={DATA_STATUS[p.dataStatus]!.tone}>{DATA_STATUS[p.dataStatus]!.label}</Badge>

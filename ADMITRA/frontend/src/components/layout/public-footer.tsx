@@ -16,13 +16,28 @@ export function PublicFooter() {
           <p className="text-ink text-[13px] font-bold">Students</p>
           <ul className="mt-3 space-y-2 text-[13px]">
             <li>
-              <Link href="/programs" className="hover:text-primary">
-                Find programs
+              <Link href="/advisor" className="hover:text-primary">
+                Admission Advisor
               </Link>
             </li>
             <li>
-              <Link href="/institutions" className="hover:text-primary">
-                Institutions
+              <Link href="/directory" className="hover:text-primary">
+                Directory of colleges and universities
+              </Link>
+            </li>
+            <li>
+              <Link href="/programs" className="hover:text-primary">
+                Open programs
+              </Link>
+            </li>
+            <li>
+              <Link href="/merit-lists" className="hover:text-primary">
+                Merit lists
+              </Link>
+            </li>
+            <li>
+              <Link href="/status" className="hover:text-primary">
+                Check application status
               </Link>
             </li>
             <li>

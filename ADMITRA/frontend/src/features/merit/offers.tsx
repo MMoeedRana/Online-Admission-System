@@ -198,7 +198,7 @@ export function OffersPage() {
             </div>
           </Card>
           <Card className="overflow-hidden">
-            <div className="grid gap-3 p-4 sm:p-5 xl:grid-cols-[1fr_300px] xl:items-center">
+            <div className="grid gap-3 p-4 sm:p-5 2xl:grid-cols-[1fr_320px] 2xl:items-center">
               <Tabs
                 value={tab}
                 onChange={(v) => (setTab(v), setPage(1))}

@@ -128,7 +128,7 @@ export default async function ProgramsPage({ searchParams }: { searchParams: Pro
       ) : (
         <Stagger className="mt-3 grid gap-4 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
           {result.data.map((p) => (
-            <StaggerItem key={p.id} hover className="h-full">
+            <StaggerItem key={p.id} hover className="h-full min-w-0">
               <ProgramCard program={p} />
             </StaggerItem>
           ))}

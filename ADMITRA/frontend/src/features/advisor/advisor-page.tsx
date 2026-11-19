@@ -437,7 +437,7 @@ export function AdvisorPage({ base = '' }: { base?: string }) {
               </div>
               <Stagger key={`${band}-${sort}`} className="grid gap-4 lg:grid-cols-2 2xl:grid-cols-3" gap={0.04}>
                 {shown.map((r) => (
-                  <StaggerItem key={r.directoryProgramId} hover className="h-full">
+                  <StaggerItem key={r.directoryProgramId} hover className="h-full min-w-0">
                     <ResultCard
                       r={r}
                       explainHref={explainHref(r.directoryProgramId)}

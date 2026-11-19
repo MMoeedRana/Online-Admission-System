@@ -102,7 +102,7 @@ export default async function InstitutionPage({ params }: { params: Promise<{ sl
             <h2 className="text-[18px] font-bold">Programs ({i.programs.length})</h2>
             <Stagger className="mt-4 grid gap-4 sm:grid-cols-2 2xl:grid-cols-3">
               {i.programs.map((p) => (
-                <StaggerItem key={p.id} hover className="h-full">
+                <StaggerItem key={p.id} hover className="h-full min-w-0">
                   <ProgramCard program={p} />
                 </StaggerItem>
               ))}

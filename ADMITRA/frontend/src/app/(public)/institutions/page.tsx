@@ -86,7 +86,7 @@ export default async function InstitutionsPage({
       ) : (
         <Stagger className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
           {result.data.map((i) => (
-            <StaggerItem key={i.id} hover className="h-full">
+            <StaggerItem key={i.id} hover className="h-full min-w-0">
               <Link
                 href={`/institutions/${i.slug}`}
                 className="group border-line bg-card hover:border-primary/40 block h-full rounded-[var(--radius-card)] border p-5 shadow-[var(--shadow-card)] transition hover:shadow-lg"

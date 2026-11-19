@@ -42,8 +42,8 @@ export function Stagger({ children, className, gap = 0.06, ...rest }: HTMLMotion
     <motion.div
       className={className}
       initial="hidden"
-      whileInView="show"
-      viewport={{ once: true, margin: '0px 0px -40px 0px' }}
+      // Animates on mount (not on scroll), so cards loaded later can never stay hidden.
+      animate="show"
       variants={{ hidden: {}, show: { transition: { staggerChildren: gap } } }}
       {...rest}
     >

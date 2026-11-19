@@ -173,7 +173,7 @@ export default async function ProgramPage({ params }: { params: Promise<{ id: st
           <h2 className="text-[18px] font-bold">More programs at {p.institution?.shortName}</h2>
           <Stagger className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {p.related.map((r) => (
-              <StaggerItem key={r.id} hover className="h-full">
+              <StaggerItem key={r.id} hover className="h-full min-w-0">
                 <ProgramCard program={r} />
               </StaggerItem>
             ))}

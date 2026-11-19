@@ -62,7 +62,7 @@ const STATUS_TEXT: Record<string, string> = {
 const poolKey = (programId: unknown, shift: string) => `${String(programId)}:${shift}`;
 
 /** Splits campaign seats of a program into its shifts (a campaign seat cap reduces them proportionally). */
-function poolCapacities(
+export function poolCapacities(
   program: { _id: unknown; shifts: { name: string; seats: number }[] },
   seatCap: number | null | undefined,
 ) {

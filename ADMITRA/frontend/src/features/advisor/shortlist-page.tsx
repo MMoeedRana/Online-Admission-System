@@ -106,7 +106,7 @@ export function ShortlistPage() {
       ) : (
         <Stagger className="grid gap-4 lg:grid-cols-2 2xl:grid-cols-3" gap={0.05}>
           {items.map((i) => (
-            <StaggerItem key={i._id} hover className="h-full">
+            <StaggerItem key={i._id} hover className="h-full min-w-0">
               <Card
                 className={cn(
                   'flex h-full flex-col p-5 transition-shadow hover:shadow-lg',

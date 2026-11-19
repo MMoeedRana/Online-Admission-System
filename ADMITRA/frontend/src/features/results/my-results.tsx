@@ -128,7 +128,7 @@ export function MyResults() {
       ) : (
         <Stagger className="grid gap-5 xl:grid-cols-2" gap={0.07}>
           {items.map((r) => (
-            <StaggerItem key={r.application._id}>
+            <StaggerItem key={r.application._id} className="min-w-0">
               <ResultCard r={r} suggestions={suggestions} />
             </StaggerItem>
           ))}
@@ -341,24 +341,27 @@ function ResultCard({ r, suggestions }: { r: ResultItem; suggestions: AdvisorRes
           <p className="mt-4 text-[13.5px] text-red-700">Reason: {r.offer.reason}</p>
         )}
 
-        <div className="border-line mt-5 flex flex-wrap items-center gap-3 border-t pt-4 text-[13px]">
-          {e && (
-            <button
-              onClick={() => setOpen(!open)}
-              className="text-primary inline-flex items-center gap-1 font-semibold"
-            >
-              How my aggregate was calculated <ChevronDown className={cn('size-4 transition', open && 'rotate-180')} />
-            </button>
-          )}
-          {r.latest && (
-            <Link
-              href={`/merit-lists/${r.latest.list._id}`}
-              className="text-muted hover:text-primary ml-auto inline-flex items-center gap-1 font-semibold"
-            >
-              <FileText className="size-4" /> View the list
-            </Link>
-          )}
-        </div>
+        {(e || r.latest) && (
+          <div className="border-line mt-5 flex flex-wrap items-center gap-3 border-t pt-4 text-[13px]">
+            {e && (
+              <button
+                onClick={() => setOpen(!open)}
+                className="text-primary inline-flex items-center gap-1 font-semibold"
+              >
+                How my aggregate was calculated{' '}
+                <ChevronDown className={cn('size-4 transition', open && 'rotate-180')} />
+              </button>
+            )}
+            {r.latest && (
+              <Link
+                href={`/merit-lists/${r.latest.list._id}`}
+                className="text-muted hover:text-primary ml-auto inline-flex items-center gap-1 font-semibold"
+              >
+                <FileText className="size-4" /> View the list
+              </Link>
+            )}
+          </div>
+        )}
         <AnimatePresence initial={false}>
           {open && e && (
             <motion.div
@@ -450,7 +453,12 @@ export function ResultHighlights() {
         const k = KIND[kind] ?? KIND.PENDING!;
         const Icon = k.icon;
         return (
-          <motion.div key={r.application._id} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
+          <motion.div
+            key={r.application._id}
+            className="min-w-0"
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+          >
             <Link
               href={kind === 'SELECTED' ? `/applicant/offers/${r.application._id}` : '/applicant/results'}
               className="group bg-navy relative flex items-center gap-4 overflow-hidden rounded-2xl p-5 text-white shadow-lg transition hover:-translate-y-0.5"

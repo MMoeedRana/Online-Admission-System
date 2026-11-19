@@ -14,6 +14,7 @@ import { InstitutionModel } from '../institutions/institution.model';
 import { formatCnic, ProfileModel } from '../profile/profile.model';
 import { ProgramModel } from '../programs/program.model';
 import { EnrollmentModel, OFFER_STATUSES, OfferModel } from './merit.models';
+import { poolCapacities } from './merit.service';
 import { revokeAdmission, verifyOriginals } from './offer.service';
 
 /** Offers and enrollment (Section 3.13) for the institution staff. */
@@ -113,18 +114,21 @@ offerRouter.get('/summary', async (req, res) => {
   });
   ok(res, {
     pendingOriginals: pending,
-    rows: programs.flatMap((p) =>
-      p.shifts.map((s) => {
+    rows: programs.flatMap((p) => {
+      // Seats of this campaign: a campaign seat cap reduces the program's seats (as in the merit engine).
+      const cap = campaign.programs.find((x) => String(x.programId) === String(p._id))?.seatCap;
+      return poolCapacities(p as never, cap).map((s) => {
         const c = (st: string) =>
           counts.find(
-            (x) => String(x._id.programId) === String(p._id) && x._id.shift === s.name && x._id.status === st,
+            (x) =>
+              String(x._id.programId) === String(p._id) && x._id.shift === s.shift && x._id.status === st,
           )?.n ?? 0;
         return {
           programId: p._id,
           title: p.title,
           code: p.code,
-          shift: s.name,
-          seats: s.seats,
+          shift: s.shift,
+          seats: s.capacity,
           offered: c('OFFERED'),
           accepted: c('ACCEPTED'),
           enrolled: c('ENROLLED'),
@@ -132,8 +136,8 @@ offerRouter.get('/summary', async (req, res) => {
           expired: c('EXPIRED'),
           revoked: c('REVOKED'),
         };
-      }),
-    ),
+      });
+    }),
   });
 });
 

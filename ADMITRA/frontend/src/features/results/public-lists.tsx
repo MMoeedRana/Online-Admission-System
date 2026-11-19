@@ -73,7 +73,7 @@ export function PublicMeritLists() {
       ) : (
         <Stagger className="grid gap-4 md:grid-cols-2 2xl:grid-cols-3" gap={0.05}>
           {(list.data?.data ?? []).map((l) => (
-            <StaggerItem key={l._id} hover className="h-full">
+            <StaggerItem key={l._id} hover className="h-full min-w-0">
               <Link href={`/merit-lists/${l._id}`} className="block h-full">
                 <Card className="flex h-full flex-col p-5 transition-shadow hover:shadow-lg">
                   <div className="flex items-start justify-between gap-3">

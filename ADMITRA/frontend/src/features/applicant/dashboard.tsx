@@ -103,7 +103,7 @@ export function ApplicantDashboard() {
       />
 
       <div className="grid gap-6 lg:grid-cols-[1.6fr_1fr]">
-        <div className="space-y-4">
+        <div className="min-w-0 space-y-4">
           {list.length === 0 && (
             <Card>
               <EmptyState

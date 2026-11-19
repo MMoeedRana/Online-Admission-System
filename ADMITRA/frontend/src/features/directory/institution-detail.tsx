@@ -70,7 +70,7 @@ export function DirectoryInstitutionDetail({ slug }: { slug: string }) {
       <h2 className="text-[17px] font-bold">{programs.length} programs</h2>
       <Stagger className="grid gap-4 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4" gap={0.04}>
         {programs.map((p) => (
-          <StaggerItem key={p._id} hover className="h-full">
+          <StaggerItem key={p._id} hover className="h-full min-w-0">
             <Card className="flex h-full flex-col p-5 transition-shadow hover:shadow-lg">
               <Badge tone={DATA_STATUS[p.dataStatus]!.tone} className="w-fit">
                 {DATA_STATUS[p.dataStatus]!.label}
