@@ -379,8 +379,8 @@ export function MeritListDetail({ id }: { id: string }) {
               </li>
             ))}
             <li className="text-muted border-line flex items-start gap-2 border-t px-5 py-3 text-[12.5px]">
-              <Info className="mt-0.5 size-4 shrink-0" /> Only applications whose marks are at or above the campaign's
-              minimum trust level are ranked (MARK-10).
+              <Info className="mt-0.5 size-4 shrink-0" /> Only applications whose marks are at or above the
+              campaign&apos;s minimum trust level are ranked (MARK-10).
             </li>
           </ul>
         )}
