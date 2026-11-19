@@ -5,6 +5,7 @@ import { ThemeProvider } from 'next-themes';
 import type { ReactNode } from 'react';
 import { Toaster } from '@/components/ui/toast';
 import { AuthProvider } from '@/features/auth/auth-context';
+import { NotificationSocket } from '@/features/notifications/notifications';
 
 let browserClient: QueryClient | undefined;
 
@@ -28,6 +29,7 @@ export function Providers({ children }: { children: ReactNode }) {
       <QueryClientProvider client={getQueryClient()}>
         <AuthProvider>
           {children}
+          <NotificationSocket />
           <Toaster />
         </AuthProvider>
       </QueryClientProvider>
