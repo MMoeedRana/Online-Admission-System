@@ -112,13 +112,11 @@ async function setup() {
     })
   ).body.data;
   const se = (
-    await inst.as
-      .post('/programs')
-      .send({
-        ...programPayload(inst, 'BSSE'),
-        title: 'BS Software Engineering',
-        shifts: [{ name: 'MORNING', seats: 1 }],
-      })
+    await inst.as.post('/programs').send({
+      ...programPayload(inst, 'BSSE'),
+      title: 'BS Software Engineering',
+      shifts: [{ name: 'MORNING', seats: 1 }],
+    })
   ).body.data;
   const camp = (
     await inst.as.post('/campaigns').send({

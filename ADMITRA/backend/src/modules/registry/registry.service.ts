@@ -55,7 +55,7 @@ const normHeader = (h: string) =>
     .replace(/[^a-z0-9]+/g, '_')
     .replace(/^_|_$/g, '');
 
-async function readTable(file: Express.Multer.File): Promise<Record<string, string>[]> {
+export async function readTable(file: Express.Multer.File): Promise<Record<string, string>[]> {
   const name = file.originalname.toLowerCase();
   if (name.endsWith('.xlsx')) {
     const wb = new ExcelJS.Workbook();

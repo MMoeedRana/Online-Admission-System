@@ -12,6 +12,7 @@ import { EnrollmentModel, MeritEntryModel, MeritListModel, OfferModel } from '..
 import { letterData } from '../merit/offer.routes';
 import { acceptOffer, declineOffer } from '../merit/offer.service';
 import { ProgramModel } from '../programs/program.model';
+import { advise, savedMarks } from '../directory/advisor.service';
 
 /** FIND-1 to FIND-4 and FIND-8: "Where is my name?" for the signed-in applicant. */
 export const myResultsRouter = Router();
@@ -169,7 +170,22 @@ myResultsRouter.get('/results', async (req, res) => {
         : null,
     });
   }
-  ok(res, out);
+  // FIND-4: other programs suggested by the Admission Advisor when a list did not select the applicant.
+  let suggestions: Awaited<ReturnType<typeof advise>> = [];
+  if (out.some((o) => ['NOT_SELECTED', 'WAITLISTED', 'OFFER_EXPIRED'].includes(o.result))) {
+    const marks = await savedMarks(req.auth!.userId);
+    if (marks.matric != null && marks.inter != null) {
+      const all = await advise({
+        matric: marks.matric,
+        inter: marks.inter,
+        test: marks.test,
+        fieldGroup: marks.fieldGroup,
+        degreeLevel: 'BS',
+      });
+      suggestions = all.filter((r) => r.band === 'SAFE' || r.band === 'TARGET').slice(0, 4);
+    }
+  }
+  ok(res, out, { suggestions });
 });
 
 myResultsRouter.post('/offers/:id/accept', async (req, res) => {

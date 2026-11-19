@@ -23,3 +23,12 @@ export const publicLimiter = rateLimit({
   legacyHeaders: false,
   message,
 });
+
+/** FIND-7: the public status lookup is limited per IP address. */
+export const statusLookupLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  limit: isTest ? 1000 : 20,
+  standardHeaders: 'draft-8',
+  legacyHeaders: false,
+  message,
+});
