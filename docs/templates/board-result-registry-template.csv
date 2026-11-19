@@ -1,0 +1,3 @@
+board,exam_type,year,roll_no,student_name,father_name,obtained,total,subject_1_name,subject_1_obtained,subject_1_total,subject_2_name,subject_2_obtained,subject_2_total
+BISE Faisalabad,INTERMEDIATE,2024,523456,Ayesha Noor,Noor Ahmad,974,1200,English,160,200,Mathematics,180,200
+BISE Lahore,MATRIC,2022,214567,Ali Raza,Raza Hussain,1012,1100,,,,,,
