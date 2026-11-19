@@ -1,0 +1,3 @@
+board,exam_type,year,roll_no,student_name,father_name,obtained,total,subject_1_name,subject_1_obtained,subject_1_total,subject_2_name,subject_2_obtained,subject_2_total,subject_3_name,subject_3_obtained,subject_3_total,subject_4_name,subject_4_obtained,subject_4_total,subject_5_name,subject_5_obtained,subject_5_total,subject_6_name,subject_6_obtained,subject_6_total
+BISE Faisalabad,INTERMEDIATE,2024,523456,Ayesha Noor,Noor Ahmad,974,1200,English,160,200,Urdu,170,200,Mathematics,180,200,Physics,165,200,Computer Science,175,200,Islamic Studies,124,200
+BISE Lahore,MATRIC,2022,214567,Ali Raza,Raza Hussain,1012,1100,,,,,,,,,,,,,,,,,,

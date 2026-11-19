@@ -1,4 +1,4 @@
-import { AlertTriangle, Info, XCircle } from 'lucide-react';
+import { AlertTriangle, CheckCircle2, Info, XCircle } from 'lucide-react';
 import type { ReactNode } from 'react';
 import { cn } from '@/lib/utils';
 
@@ -10,6 +10,10 @@ const styles = {
   warning: [
     'bg-amber-50 text-amber-800 border-amber-200 dark:bg-amber-500/10 dark:text-amber-200 dark:border-amber-500/25',
     AlertTriangle,
+  ],
+  success: [
+    'bg-green-50 text-green-800 border-green-200 dark:bg-green-500/10 dark:text-green-200 dark:border-green-500/25',
+    CheckCircle2,
   ],
   error: ['bg-red-50 text-red-800 border-red-200 dark:bg-red-500/10 dark:text-red-200 dark:border-red-500/25', XCircle],
 } as const;

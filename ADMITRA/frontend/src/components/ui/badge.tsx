@@ -51,7 +51,75 @@ const STATUS: Record<string, [Tone, string]> = {
   GRACE: ['amber', 'Grace period'],
   READ_ONLY: ['red', 'Read-only'],
   NONE: ['gray', 'No subscription'],
+  // applications (FLOW-1)
+  SUBMITTED: ['blue', 'Submitted'],
+  PAYMENT_PENDING: ['amber', 'Payment pending'],
+  UNDER_REVIEW: ['blue', 'Under review'],
+  DOCUMENT_VERIFICATION: ['purple', 'Document verification'],
+  DEFICIENT: ['red', 'Deficient'],
+  ELIGIBILITY_CHECK: ['purple', 'Eligibility check'],
+  VERIFIED: ['green', 'Verified'],
+  WITHDRAWN: ['gray', 'Withdrawn'],
+  // challans and payments
+  ISSUED: ['amber', 'Awaiting payment'],
+  AWAITING_VERIFICATION: ['amber', 'Awaiting verification'],
+  PAID: ['green', 'Paid'],
+  CANCELLED: ['gray', 'Cancelled'],
+  EXPIRED: ['red', 'Expired'],
+  APPROVED: ['green', 'Approved'],
+  UPLOADED: ['blue', 'Uploaded'],
+  ROLLED_BACK: ['gray', 'Rolled back'],
 };
+
+/** Marks verification state of an academic record (MARK-3). */
+const RECORD: Record<string, [Tone, string]> = {
+  DECLARED: ['gray', 'Self-declared'],
+  UNDER_VERIFICATION: ['amber', 'Needs officer review'],
+  AUTO_VERIFIED: ['green', 'Registry verified'],
+  VERIFIED: ['green', 'Officer verified'],
+  MISMATCH: ['red', 'Mismatch'],
+  FRAUD_FLAGGED: ['red', 'Fraud flag'],
+  SUPERSEDED: ['gray', 'Old version'],
+};
+
+export function RecordBadge({ status }: { status: string }) {
+  const [tone, text] = RECORD[status] ?? ['gray', status];
+  return <Badge tone={tone}>{text}</Badge>;
+}
+
+/** Summary of an applicant's marks in staff lists. */
+const MARKS: Record<string, [Tone, string]> = {
+  VERIFIED: ['green', 'Verified'],
+  PENDING: ['amber', 'Not in registry'],
+  MISMATCH: ['red', 'Mismatch'],
+  NONE: ['gray', 'No records'],
+  FLAGGED: ['red', 'Fraud flag'],
+};
+
+export function MarksBadge({ state }: { state: string }) {
+  const [tone, text] = MARKS[state] ?? ['gray', state];
+  return <Badge tone={tone}>{text}</Badge>;
+}
+
+/** Trust level 0-3 as a numbered chip (Section 4.1.1). */
+export function TrustChip({ level }: { level: number }) {
+  const tones = [
+    'bg-slate-100 text-slate-600 dark:bg-slate-500/20 dark:text-slate-300',
+    'bg-amber-50 text-amber-700 dark:bg-amber-500/15 dark:text-amber-300',
+    'bg-green-50 text-green-700 dark:bg-green-500/15 dark:text-green-300',
+    'bg-green-600 text-white',
+  ];
+  return (
+    <span
+      className={cn(
+        'inline-flex size-7 shrink-0 items-center justify-center rounded-full text-[12px] font-bold',
+        tones[level] ?? tones[0],
+      )}
+    >
+      {level}
+    </span>
+  );
+}
 
 export function StatusBadge({ status, label }: { status: string; label?: string }) {
   const [tone, text] = STATUS[status] ?? ['gray', status];

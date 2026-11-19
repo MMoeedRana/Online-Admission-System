@@ -18,6 +18,9 @@ let onSessionChange: ((s: Session | null) => void) | null = null;
 export function setAccessToken(token: string | null) {
   accessToken = token;
 }
+export function getAccessToken() {
+  return accessToken;
+}
 export function setInstitutionHeader(id: string | null) {
   institutionId = id;
 }
@@ -101,6 +104,10 @@ export async function post<T>(url: string, body?: object): Promise<T> {
 }
 export async function patch<T>(url: string, body?: object): Promise<T> {
   const r = await api.patch<{ data: T }>(url, body ?? {});
+  return r.data.data;
+}
+export async function put<T>(url: string, body?: object): Promise<T> {
+  const r = await api.put<{ data: T }>(url, body ?? {});
   return r.data.data;
 }
 export async function del<T>(url: string): Promise<T> {

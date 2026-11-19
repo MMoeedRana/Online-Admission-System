@@ -197,3 +197,13 @@ export interface PublicProgram {
   } | null;
   openCampaign: { campaignId: string; title: string; closesAt: string } | null;
 }
+
+export interface AppNotification {
+  _id: string;
+  type: string;
+  title: string;
+  body: string;
+  link: string;
+  readAt: string | null;
+  createdAt: string;
+}
