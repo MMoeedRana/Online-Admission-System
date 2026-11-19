@@ -1,0 +1,151 @@
+'use client';
+
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useTheme } from 'next-themes';
+import { useForm, useWatch } from 'react-hook-form';
+import { z } from 'zod';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Card, CardBody, CardHeader } from '@/components/ui/card';
+import { Field, Input } from '@/components/ui/input';
+import { PageHeader } from '@/components/ui/page-header';
+import { toast } from '@/components/ui/toast';
+import { patch, post } from '@/lib/api';
+import { handleFormError } from '@/lib/forms';
+import type { User } from '@/lib/types';
+import { cn } from '@/lib/utils';
+import { useAuth } from './auth-context';
+import { PasswordChecklist, PasswordInput } from './password-input';
+import { fullName, password } from './schemas';
+
+const passwordSchema = z
+  .object({
+    currentPassword: z.string().min(1, 'Enter your current password.'),
+    newPassword: password,
+    confirm: z.string(),
+  })
+  .refine((v) => v.newPassword === v.confirm, { message: 'Passwords do not match.', path: ['confirm'] });
+type PasswordValues = z.infer<typeof passwordSchema>;
+
+export function AccountSettings() {
+  const { user, updateUser } = useAuth();
+  const { theme, setTheme } = useTheme();
+  const profile = useForm<{ fullName: string }>({
+    resolver: zodResolver(z.object({ fullName })),
+    values: { fullName: user?.fullName ?? '' },
+  });
+  const pw = useForm<PasswordValues>({ resolver: zodResolver(passwordSchema), defaultValues: { newPassword: '' } });
+  const newPw = useWatch({ control: pw.control, name: 'newPassword' });
+  if (!user) return null;
+
+  return (
+    <div className="mx-auto max-w-3xl">
+      <PageHeader title="Account settings" subtitle="Your name, password and display preferences." />
+      <div className="space-y-6">
+        <Card>
+          <CardHeader title="Profile" />
+          <CardBody>
+            <form
+              noValidate
+              className="grid gap-4 sm:grid-cols-2"
+              onSubmit={profile.handleSubmit(async (v) => {
+                try {
+                  const r = await patch<{ user: User }>('/auth/me', v);
+                  updateUser(r.user);
+                  toast.success('Profile updated.');
+                } catch (err) {
+                  handleFormError(err, profile.setError);
+                }
+              })}
+            >
+              <Field label="Full name" htmlFor="fullName" error={profile.formState.errors.fullName?.message}>
+                <Input id="fullName" {...profile.register('fullName')} />
+              </Field>
+              <Field label="E-mail" htmlFor="email" hint="The e-mail address cannot be changed.">
+                <div className="flex items-center gap-2">
+                  <Input id="email" value={user.email} disabled />
+                  {user.emailVerified ? <Badge tone="green">Verified</Badge> : <Badge tone="amber">Not verified</Badge>}
+                </div>
+              </Field>
+              <div className="sm:col-span-2">
+                <Button type="submit" loading={profile.formState.isSubmitting}>
+                  Save profile
+                </Button>
+              </div>
+            </form>
+          </CardBody>
+        </Card>
+
+        <Card>
+          <CardHeader title="Theme" subtitle="Choose how ADMITRA looks on this device." />
+          <CardBody className="flex gap-3">
+            {(['light', 'dark'] as const).map((t) => (
+              <button
+                key={t}
+                onClick={() => {
+                  setTheme(t);
+                  void patch('/auth/me', { theme: t }).catch(() => undefined);
+                }}
+                className={cn(
+                  'flex-1 rounded-xl border p-4 text-left text-[14px] font-semibold capitalize',
+                  theme === t ? 'border-primary bg-primary-soft text-primary' : 'border-line text-ink',
+                )}
+              >
+                {t}
+              </button>
+            ))}
+          </CardBody>
+        </Card>
+
+        <Card>
+          <CardHeader title="Change password" subtitle="Other sessions stay signed in until they expire." />
+          <CardBody>
+            <form
+              noValidate
+              className="grid gap-4 sm:grid-cols-2"
+              onSubmit={pw.handleSubmit(async (v) => {
+                try {
+                  await post('/auth/change-password', {
+                    currentPassword: v.currentPassword,
+                    newPassword: v.newPassword,
+                  });
+                  pw.reset({ currentPassword: '', newPassword: '', confirm: '' });
+                  toast.success('Password changed.');
+                } catch (err) {
+                  handleFormError(err, pw.setError);
+                }
+              })}
+            >
+              <Field
+                label="Current password"
+                htmlFor="currentPassword"
+                error={pw.formState.errors.currentPassword?.message}
+                className="sm:col-span-2"
+              >
+                <PasswordInput
+                  id="currentPassword"
+                  autoComplete="current-password"
+                  {...pw.register('currentPassword')}
+                />
+              </Field>
+              <Field label="New password" htmlFor="newPassword" error={pw.formState.errors.newPassword?.message}>
+                <PasswordInput id="newPassword" autoComplete="new-password" {...pw.register('newPassword')} />
+              </Field>
+              <Field label="Confirm new password" htmlFor="confirm" error={pw.formState.errors.confirm?.message}>
+                <PasswordInput id="confirm" autoComplete="new-password" {...pw.register('confirm')} />
+              </Field>
+              <div className="sm:col-span-2">
+                <PasswordChecklist value={newPw ?? ''} />
+              </div>
+              <div className="sm:col-span-2">
+                <Button type="submit" loading={pw.formState.isSubmitting}>
+                  Change password
+                </Button>
+              </div>
+            </form>
+          </CardBody>
+        </Card>
+      </div>
+    </div>
+  );
+}
