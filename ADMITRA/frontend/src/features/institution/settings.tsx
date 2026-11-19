@@ -11,6 +11,7 @@ import { Checkbox, Field, Input, Textarea } from '@/components/ui/input';
 import { PageHeader } from '@/components/ui/page-header';
 import { FullPageLoader } from '@/components/ui/spinner';
 import { Tabs } from '@/components/ui/tabs';
+import { RegistryImport } from '@/features/registry/registry-import';
 import { toast } from '@/components/ui/toast';
 import { errorMessage, fieldErrors, get, patch } from '@/lib/api';
 import { INSTITUTION_TYPES, SECTORS } from '@/lib/constants';
@@ -18,7 +19,7 @@ import { formatDate, formatMoney } from '@/lib/format';
 import type { Institution, Plan } from '@/lib/types';
 import { useInstKey } from './hooks';
 
-type Tab = 'profile' | 'bank' | 'branding' | 'workflow' | 'subscription';
+type Tab = 'profile' | 'bank' | 'branding' | 'workflow' | 'entry-test' | 'subscription';
 interface Sub {
   plan: Plan;
   usage: { campuses: number; programs: number; staff: number };
@@ -73,6 +74,7 @@ function SettingsForm({ initial }: { initial: Institution }) {
           { value: 'bank', label: 'Bank account' },
           { value: 'branding', label: 'Branding' },
           { value: 'workflow', label: 'Workflow' },
+          { value: 'entry-test', label: 'Entry-test results' },
           { value: 'subscription', label: 'Subscription' },
         ]}
       />
@@ -220,6 +222,15 @@ function SettingsForm({ initial }: { initial: Institution }) {
             </Button>
           </CardBody>
         </Card>
+      )}
+
+      {tab === 'entry-test' && (
+        <RegistryImport
+          base="/registry"
+          queryKey={key('registry')}
+          template={{ href: '/templates/entry-test-results-template.csv', label: 'Download template' }}
+          intro="Results of your own entry test (REG-5). Applicants' entry-test records are verified against these rows."
+        />
       )}
 
       {tab === 'subscription' && sub.data && (

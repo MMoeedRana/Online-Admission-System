@@ -1,10 +1,10 @@
 'use client';
 
 import { useQuery } from '@tanstack/react-query';
-import { Building, CalendarRange, GraduationCap, Plus, Users } from 'lucide-react';
+import { Banknote, CalendarRange, FileText, GraduationCap, Plus, ShieldCheck } from 'lucide-react';
 import Link from 'next/link';
 import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
-import { StatusBadge } from '@/components/ui/badge';
+import { MarksBadge, StatusBadge } from '@/components/ui/badge';
 import { ButtonLink } from '@/components/ui/button';
 import { Card, CardHeader } from '@/components/ui/card';
 import { DataTable } from '@/components/ui/data-table';
@@ -15,7 +15,7 @@ import { FullPageLoader } from '@/components/ui/spinner';
 import { useAuth } from '@/features/auth/auth-context';
 import { get } from '@/lib/api';
 import { DEGREE_LEVELS } from '@/lib/constants';
-import { formatDate, formatNumber } from '@/lib/format';
+import { formatDate, formatMoney, formatNumber } from '@/lib/format';
 import { useInstKey } from './hooks';
 
 interface Dash {
@@ -30,6 +30,22 @@ interface Dash {
     opensAt: string;
     closesAt: string;
     programs: number;
+  }[];
+  applications: {
+    submitted: number;
+    verifiedRecords: number;
+    totalRecords: number;
+    feeCollected: number;
+    paymentsVerified: number;
+    verified: number;
+  };
+  recentApplications: {
+    id: string;
+    applicationNumber: string;
+    applicant: string;
+    program: string;
+    status: string;
+    marks: string;
   }[];
   recentPrograms: { id: string; title: string; code: string; degreeLevel: string; seats: number; department: string }[];
 }
@@ -59,30 +75,34 @@ export function InstitutionDashboard() {
       />
       <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
         <KpiCard
-          label="Active programs"
-          value={formatNumber(d.kpis.programs)}
-          sub={`${d.kpis.departments} departments`}
-          icon={GraduationCap}
+          label="Applications"
+          value={formatNumber(d.applications.submitted)}
+          sub={`${d.applications.verified} verified`}
+          icon={FileText}
         />
         <KpiCard
-          label="Total seats"
-          value={formatNumber(d.kpis.seats)}
-          sub="Across all shifts"
-          icon={Building}
+          label="Marks verified"
+          value={
+            d.applications.totalRecords
+              ? `${Math.round((d.applications.verifiedRecords / d.applications.totalRecords) * 100)}%`
+              : '-'
+          }
+          sub={`${d.applications.verifiedRecords} of ${d.applications.totalRecords} records`}
+          icon={ShieldCheck}
           tint="green"
         />
         <KpiCard
-          label="Open campaigns"
-          value={formatNumber(d.kpis.openCampaigns)}
-          sub={`${d.campaigns.length} campaign(s) in total`}
-          icon={CalendarRange}
+          label="Fee collected"
+          value={formatMoney(d.applications.feeCollected)}
+          sub={`${d.applications.paymentsVerified} verified payment(s)`}
+          icon={Banknote}
           tint="amber"
         />
         <KpiCard
-          label="Staff members"
-          value={formatNumber(d.kpis.staff)}
-          sub="Active accounts"
-          icon={Users}
+          label="Seats offered"
+          value={formatNumber(d.kpis.seats)}
+          sub={`${d.kpis.programs} programs · ${d.kpis.openCampaigns} open campaign(s)`}
+          icon={GraduationCap}
           tint="purple"
         />
       </div>
@@ -154,37 +174,43 @@ export function InstitutionDashboard() {
       </div>
       <Card className="mt-6 overflow-hidden">
         <CardHeader
-          title="Recently added programs"
+          title="Recent applications"
           action={
-            <Link href="/institution/programs" className="text-primary text-[13px] font-semibold">
-              See all
-            </Link>
+            can('applications.review') ? (
+              <Link href="/institution/applications" className="text-primary text-[13px] font-semibold">
+                See all
+              </Link>
+            ) : undefined
           }
         />
         <div className="mt-4">
           <DataTable
-            rows={d.recentPrograms}
-            rowKey={(p) => p.id}
-            empty={<EmptyState icon={GraduationCap} title="No programs yet" />}
+            rows={d.recentApplications}
+            rowKey={(a) => a.id}
+            empty={
+              <EmptyState icon={FileText} title="No applications yet" text="Submitted applications appear here." />
+            }
             columns={[
               {
-                key: 'title',
-                header: 'Program',
+                key: 'applicant',
+                header: 'Applicant',
                 primary: true,
-                cell: (p) => (
-                  <Link href={`/institution/programs/${p.id}`} className="text-ink hover:text-primary font-semibold">
-                    {p.title}
-                  </Link>
-                ),
+                cell: (a) =>
+                  can('applications.review') ? (
+                    <Link
+                      href={`/institution/applications/${a.id}`}
+                      className="text-ink hover:text-primary font-semibold"
+                    >
+                      {a.applicant}
+                    </Link>
+                  ) : (
+                    <span className="text-ink font-semibold">{a.applicant}</span>
+                  ),
               },
-              { key: 'code', header: 'Code', cell: (p) => p.code },
-              {
-                key: 'level',
-                header: 'Degree',
-                cell: (p) => DEGREE_LEVELS[p.degreeLevel as keyof typeof DEGREE_LEVELS] ?? p.degreeLevel,
-              },
-              { key: 'dept', header: 'Department', cell: (p) => p.department },
-              { key: 'seats', header: 'Seats', cell: (p) => p.seats },
+              { key: 'no', header: 'Application no.', cell: (a) => a.applicationNumber },
+              { key: 'program', header: 'Program', cell: (a) => a.program },
+              { key: 'marks', header: 'Marks', cell: (a) => <MarksBadge state={a.marks} /> },
+              { key: 'status', header: 'Status', cell: (a) => <StatusBadge status={a.status} /> },
             ]}
           />
         </div>
