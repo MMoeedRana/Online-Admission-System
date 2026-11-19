@@ -1,0 +1,102 @@
+@import 'tailwindcss';
+
+/* Dark theme is toggled with the "dark" class on <html> (next-themes). */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/*
+ * ADMITRA design system (Section 4.1.1 of the proposal).
+ * Semantic colors switch between the light and dark themes.
+ */
+:root {
+  --page: #f5f7fb;
+  --card: #ffffff;
+  --card-soft: #f8fafc;
+  --line: #e6eaf2;
+  --ink: #0f172a;
+  --body: #334155;
+  --muted: #64748b;
+  --primary: #1f6feb;
+  --primary-hover: #1a5fd0;
+  --primary-soft: #e8f0fe;
+  --navy: #0b1b3a;
+  --navy-2: #13306b;
+  --navy-line: #1c2c52;
+  --ring: rgba(31, 111, 235, 0.35);
+}
+
+.dark {
+  --page: #0a1226;
+  --card: #0f1a33;
+  --card-soft: #13203d;
+  --line: #22304f;
+  --ink: #e8eef9;
+  --body: #c3cde0;
+  --muted: #8b9bb8;
+  --primary: #3b82f6;
+  --primary-hover: #2f6fe0;
+  --primary-soft: #16264a;
+  --navy: #070f22;
+  --navy-2: #0f2350;
+  --navy-line: #18264a;
+  --ring: rgba(59, 130, 246, 0.45);
+}
+
+@theme inline {
+  --color-page: var(--page);
+  --color-card: var(--card);
+  --color-card-soft: var(--card-soft);
+  --color-line: var(--line);
+  --color-ink: var(--ink);
+  --color-body: var(--body);
+  --color-muted: var(--muted);
+  --color-primary: var(--primary);
+  --color-primary-hover: var(--primary-hover);
+  --color-primary-soft: var(--primary-soft);
+  --color-navy: var(--navy);
+  --color-navy-2: var(--navy-2);
+  --color-navy-line: var(--navy-line);
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --radius-card: 16px;
+  --shadow-card: 0 1px 2px rgba(15, 23, 42, 0.04), 0 4px 16px rgba(15, 23, 42, 0.04);
+  --shadow-pop: 0 10px 40px rgba(15, 23, 42, 0.16);
+  --shadow-button: 0 6px 16px rgba(31, 111, 235, 0.28);
+}
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background: var(--page);
+    color: var(--body);
+    font-size: 14px;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    color: var(--ink);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
+  }
+}
+
+/* Hide the scrollbar of horizontal chip rows on phones. */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  scrollbar-width: none;
+}
+
+.hero-gradient {
+  background:
+    radial-gradient(1200px 400px at 85% -10%, rgba(59, 130, 246, 0.25), transparent 60%),
+    linear-gradient(135deg, var(--navy) 0%, var(--navy-2) 100%);
+}
