@@ -18,7 +18,7 @@ ADMITRA/
 | Layer    | Technology                                                                 |
 | -------- | -------------------------------------------------------------------------- |
 | Frontend | Next.js 16 (App Router), React 19, TypeScript, Tailwind CSS 4, TanStack React Query 5, Axios, React Hook Form + Zod, Recharts, Lucide icons |
-| Backend  | Node.js, Express.js 5, TypeScript, Mongoose 9, Zod, JWT + Argon2id, Helmet, Pino, Nodemailer |
+| Backend  | Node.js, Express.js 5, TypeScript, Mongoose 9, Zod, JWT + Argon2id, Helmet, Pino, Nodemailer, Socket.IO, PDFKit, Multer, Papa Parse, ExcelJS |
 | Database | MongoDB 8 Community Server (single-node replica set), MongoDB Compass       |
 | Testing  | Vitest + Supertest on a real MongoDB replica set                            |
 
@@ -111,7 +111,10 @@ Open <http://localhost:3000>. Requests to `/api/v1` are forwarded to the backend
 | HOD Officer (Computer Science)    | hod.cs@cvu.example.edu.pk       | Admitra@123   |
 | Finance Officer                   | finance@cvu.example.edu.pk      | Admitra@123   |
 | Merit Committee                   | merit1@cvu.example.edu.pk       | Admitra@123   |
-| Applicant                         | ayesha.noor@example.com         | Admitra@123   |
+| Applicant (fee verified, under review) | ayesha.noor@example.com    | Admitra@123   |
+| Applicant (application verified)  | bilal.ahmed@example.com         | Admitra@123   |
+| Applicant (marks mismatch in document verification) | sara.khan@example.com | Admitra@123 |
+| Applicant (proof of payment awaiting verification) | hamza.ali@example.com | Admitra@123 |
 
 The sample institutions are fictional and exist only for development and demonstration.
 `npm run seed -- --reset --sample` clears the database and creates the sample data again
@@ -134,7 +137,7 @@ The sample institutions are fictional and exist only for development and demonst
 | Phase | Scope | Status |
 | ----- | ----- | ------ |
 | 1 | Foundation, SaaS core and design system | Complete |
-| 2 | Applicant portal, verified marks and admission operations | Planned |
+| 2 | Applicant portal, verified marks and admission operations | Complete |
 | 3 | Merit, enrollment, Admission Advisor and Result Finder | Planned |
 | 4 | Analytics, support, quality and delivery | Planned |
 
@@ -146,3 +149,19 @@ lockout and password reset; staff invitations and roles; institution onboarding,
 limits, grace period and suspension; campuses, faculties, departments, sessions and programs;
 admission campaigns with their status rules; the public website; and the responsive design
 system with light and dark themes.
+
+### Phase 2 requirements
+
+PROF, MARK-1 to MARK-9 and MARK-13, REG, APP, DOC, FEE, FLOW and NOTIF: the applicant profile
+(with data export and account deletion); subject-wise academic records with integrity checks,
+versions and trust levels 0-3; the board result registry (CSV/Excel import with preview, error
+report and 7-day rollback by the Super Admin, entry-test results by the institution) and automatic
+matching; the officer verification panel and fraud flags; document requirements, uploads and
+review; the four-step application wizard; fee challans (PDF), proof of payment, verification
+and receipts (PDF) with a CSV export; the application workflow with preconditions, deficiency
+notices and withdrawal; in-app notifications in real time (Socket.IO) and editable e-mail
+templates.
+
+Uploaded files are stored in `backend/storage` (outside the web root) and are only served to the
+owner and the staff of the institution. Templates for the registry files are in
+[`docs/templates`](../docs/templates).
