@@ -17,7 +17,8 @@ export interface NavItem {
   href: string;
   label: string;
   icon: LucideIcon;
-  permission?: string;
+  /** Shown when the member has the permission (or any of them). */
+  permission?: string | string[];
 }
 export interface NavSection {
   title: string;
@@ -56,7 +57,11 @@ function Sidebar({
             </p>
             <ul className="space-y-1">
               {s.items
-                .filter((it) => !it.permission || can(it.permission))
+                .filter(
+                  (it) =>
+                    !it.permission ||
+                    (Array.isArray(it.permission) ? it.permission.some((p) => can(p)) : can(it.permission)),
+                )
                 .map((it) => {
                   const active = pathname === it.href || pathname.startsWith(it.href + '/');
                   return (

@@ -11,9 +11,11 @@ import { UserMenu } from './user-menu';
 
 export const PUBLIC_NAV = [
   { href: '/', label: 'Home' },
-  { href: '/programs', label: 'Programs' },
-  { href: '/institutions', label: 'Institutions' },
-  { href: '/help', label: 'Help' },
+  { href: '/advisor', label: 'Admission Advisor' },
+  { href: '/directory', label: 'Directory' },
+  { href: '/programs', label: 'Open Programs' },
+  { href: '/merit-lists', label: 'Merit Lists' },
+  { href: '/status', label: 'Check Status' },
 ];
 
 export function isActive(pathname: string, href: string) {
@@ -28,7 +30,7 @@ export function PublicHeader() {
     <header className="border-line bg-card/90 sticky top-0 z-30 border-b backdrop-blur">
       <div className="page-container flex h-16 items-center gap-6 lg:h-[72px]">
         <Logo />
-        <nav aria-label="Main" className="ml-6 hidden items-center gap-1 md:flex">
+        <nav aria-label="Main" className="ml-4 hidden items-center gap-0.5 lg:flex xl:ml-6 xl:gap-1">
           {PUBLIC_NAV.map((n) => (
             <Link
               key={n.href}

@@ -1,7 +1,7 @@
 'use client';
 
 import { PageFade } from '@/components/ui/motion';
-import { FileText, GraduationCap, LayoutGrid, ShieldCheck, UserRound } from 'lucide-react';
+import { Bookmark, Compass, FileText, LayoutGrid, ListChecks, ShieldCheck, UserRound } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import type { ReactNode } from 'react';
@@ -22,28 +22,46 @@ const NAV = [
   },
   {
     href: '/applicant/applications',
-    label: 'Apply',
+    label: 'Applications',
     icon: FileText,
     match: ['/applicant/applications', '/applicant/apply'],
   },
-  { href: '/programs', label: 'Programs', icon: GraduationCap, match: ['/programs'] },
+  {
+    href: '/applicant/results',
+    label: 'My Results',
+    icon: ListChecks,
+    match: ['/applicant/results', '/applicant/offers'],
+  },
+  { href: '/applicant/advisor', label: 'Advisor', icon: Compass, match: ['/applicant/advisor', '/applicant/compare'] },
+  { href: '/applicant/shortlist', label: 'Shortlist', icon: Bookmark, match: ['/applicant/shortlist'] },
 ];
 
+/** Section 4.1.6: Home, Advisor, Apply, Results, Profile. */
 const TABS = [
   { href: '/applicant/dashboard', label: 'Home', icon: LayoutGrid, match: ['/applicant/dashboard'] },
-  { href: '/programs', label: 'Programs', icon: GraduationCap, match: ['/programs'] },
+  {
+    href: '/applicant/advisor',
+    label: 'Advisor',
+    icon: Compass,
+    match: ['/applicant/advisor', '/applicant/compare', '/applicant/shortlist'],
+  },
   {
     href: '/applicant/applications',
     label: 'Apply',
     icon: FileText,
     match: ['/applicant/applications', '/applicant/apply'],
   },
-  { href: '/applicant/records', label: 'Marks', icon: ShieldCheck, match: ['/applicant/records'] },
   {
-    href: '/applicant/profile',
+    href: '/applicant/results',
+    label: 'Results',
+    icon: ListChecks,
+    match: ['/applicant/results', '/applicant/offers'],
+  },
+  {
+    href: '/applicant/records',
     label: 'Profile',
     icon: UserRound,
-    match: ['/applicant/profile', '/account', '/notifications'],
+    match: ['/applicant/records', '/applicant/profile', '/account', '/notifications'],
   },
 ];
 
@@ -54,11 +72,11 @@ export function ApplicantShell({ children }: { children: ReactNode }) {
   const pathname = usePathname();
   const { user } = useAuth();
   return (
-    <div className="min-h-dvh pb-20 md:pb-0">
+    <div className="min-h-dvh pb-20 lg:pb-0">
       <header className="border-line bg-card/90 sticky top-0 z-30 border-b backdrop-blur">
         <div className="page-container flex h-16 items-center gap-4 lg:h-[72px]">
           <Logo href="/applicant/dashboard" />
-          <nav aria-label="Applicant" className="ml-6 hidden items-center gap-1 md:flex">
+          <nav aria-label="Applicant" className="ml-4 hidden items-center gap-0.5 lg:flex xl:ml-6 xl:gap-1">
             {NAV.map((n) => (
               <Link
                 key={n.href}
@@ -88,7 +106,7 @@ export function ApplicantShell({ children }: { children: ReactNode }) {
       </main>
       <nav
         aria-label="Bottom"
-        className="border-line bg-card/95 fixed inset-x-0 bottom-0 z-30 border-t pb-[env(safe-area-inset-bottom)] backdrop-blur md:hidden"
+        className="border-line bg-card/95 fixed inset-x-0 bottom-0 z-30 border-t pb-[env(safe-area-inset-bottom)] backdrop-blur lg:hidden"
       >
         <ul className="grid grid-cols-5">
           {TABS.map((t) => {

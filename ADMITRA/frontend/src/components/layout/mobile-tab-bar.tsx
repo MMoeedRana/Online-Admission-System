@@ -1,6 +1,6 @@
 'use client';
 
-import { Building2, CircleHelp, GraduationCap, LayoutGrid, UserRound } from 'lucide-react';
+import { BookOpen, Compass, LayoutGrid, ListChecks, UserRound } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { homeFor, useAuth } from '@/features/auth/auth-context';
@@ -14,15 +14,15 @@ export function MobileTabBar() {
   const account = auth.user ? homeFor(auth.user, auth.memberships) : '/login';
   const tabs = [
     { href: '/', label: 'Home', icon: LayoutGrid },
-    { href: '/programs', label: 'Programs', icon: GraduationCap },
-    { href: '/institutions', label: 'Institutions', icon: Building2 },
-    { href: '/help', label: 'Help', icon: CircleHelp },
+    { href: '/advisor', label: 'Advisor', icon: Compass },
+    { href: '/directory', label: 'Directory', icon: BookOpen },
+    { href: '/merit-lists', label: 'Results', icon: ListChecks },
     { href: account, label: auth.user ? 'Account' : 'Log in', icon: UserRound },
   ];
   return (
     <nav
       aria-label="Bottom"
-      className="border-line bg-card/95 fixed inset-x-0 bottom-0 z-30 border-t pb-[env(safe-area-inset-bottom)] backdrop-blur md:hidden"
+      className="border-line bg-card/95 fixed inset-x-0 bottom-0 z-30 border-t pb-[env(safe-area-inset-bottom)] backdrop-blur lg:hidden"
     >
       <ul className="grid grid-cols-5">
         {tabs.map((t) => {

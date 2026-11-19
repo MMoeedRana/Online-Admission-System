@@ -56,7 +56,10 @@ export function PaymentPage({ id }: { id: string }) {
     },
   });
   if (!data) return <FullPageLoader />;
-  const voucher = data.vouchers.find((v) => v.type === 'APPLICATION');
+  // After an offer is accepted, the admission challan is shown and paid here (Table 3.14, step 4).
+  const admission = data.vouchers.filter((v) => v.type === 'ADMISSION' && v.status !== 'CANCELLED').at(-1);
+  const voucher = admission ?? data.vouchers.find((v) => v.type === 'APPLICATION');
+  const isAdmission = voucher?.type === 'ADMISSION';
   const errors = form.formState.errors;
 
   return (
@@ -68,7 +71,7 @@ export function PaymentPage({ id }: { id: string }) {
         >
           <ArrowLeft className="size-3.5" /> Application {data.application.applicationNumber}
         </Link>
-        <h1 className="text-[22px] font-bold tracking-tight">Application fee</h1>
+        <h1 className="text-[22px] font-bold tracking-tight">{isAdmission ? 'Admission fee' : 'Application fee'}</h1>
         <p className="text-muted mt-1 text-[13.5px]">{data.institution.name}</p>
       </div>
 
@@ -111,7 +114,10 @@ export function PaymentPage({ id }: { id: string }) {
                   variant="secondary"
                   icon={<Download className="size-4" />}
                   onClick={() =>
-                    void downloadFile(`/me/applications/${id}/challan.pdf`, `${voucher.voucherNumber}.pdf`)
+                    void downloadFile(
+                      `/me/applications/${id}/challan.pdf${isAdmission ? '?type=ADMISSION' : ''}`,
+                      `${voucher.voucherNumber}.pdf`,
+                    )
                   }
                 >
                   Download challan (PDF)

@@ -17,6 +17,7 @@ import { useAuth } from '@/features/auth/auth-context';
 import { errorMessage, get, post } from '@/lib/api';
 import { formatDateTime } from '@/lib/format';
 import type { AppNotification } from '@/lib/types';
+import { ResultHighlights } from '@/features/results/my-results';
 import { LEVEL_LABELS, type AcademicRecord, type AppListItem } from './types';
 
 const ATTENTION = ['DRAFT', 'PAYMENT_PENDING', 'DEFICIENT'];
@@ -59,6 +60,8 @@ export function ApplicantDashboard() {
           Start new application
         </ButtonLink>
       </div>
+
+      <ResultHighlights />
 
       {user && !user.emailVerified && (
         <Alert tone="warning" title="Please verify your e-mail address">

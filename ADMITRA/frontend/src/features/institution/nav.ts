@@ -1,4 +1,6 @@
 import {
+  Award,
+  BookOpen,
   Building,
   CalendarRange,
   CreditCard,
@@ -6,14 +8,16 @@ import {
   FileText,
   GraduationCap,
   LayoutGrid,
+  ListOrdered,
   Mail,
   Settings,
   ShieldCheck,
+  Sigma,
   Users,
 } from 'lucide-react';
 import type { NavSection } from '@/components/layout/staff-shell';
 
-/** Institution workspace menu (Phase 1 screens); items are shown by permission. */
+/** Institution workspace menu; items are shown by permission. */
 export const institutionNav: NavSection[] = [
   {
     title: 'Workspace',
@@ -27,6 +31,24 @@ export const institutionNav: NavSection[] = [
         permission: 'marks.verify',
       },
       { href: '/institution/payments', label: 'Payments', icon: CreditCard, permission: 'payments.verify' },
+      {
+        href: '/institution/merit-formulas',
+        label: 'Merit Formulas',
+        icon: Sigma,
+        permission: ['merit.manage', 'merit.publish'],
+      },
+      {
+        href: '/institution/merit-lists',
+        label: 'Merit Lists',
+        icon: ListOrdered,
+        permission: ['merit.manage', 'merit.publish'],
+      },
+      {
+        href: '/institution/offers',
+        label: 'Offers & Enrollment',
+        icon: Award,
+        permission: ['applications.review', 'merit.publish', 'merit.manage', 'payments.verify'],
+      },
       { href: '/institution/campaigns', label: 'Campaigns', icon: CalendarRange, permission: 'structure.view' },
       { href: '/institution/programs', label: 'Programs', icon: GraduationCap, permission: 'structure.view' },
       { href: '/institution/structure', label: 'Academic Structure', icon: Building, permission: 'structure.view' },
@@ -48,6 +70,7 @@ export const institutionNav: NavSection[] = [
         icon: Mail,
         permission: 'institution.settings',
       },
+      { href: '/institution/directory', label: 'Directory Data', icon: BookOpen, permission: 'directory.edit' },
       { href: '/institution/settings', label: 'Settings', icon: Settings, permission: 'institution.settings' },
     ],
   },

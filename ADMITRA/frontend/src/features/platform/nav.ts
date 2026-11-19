@@ -1,4 +1,4 @@
-import { Building2, CreditCard, Database, LayoutGrid } from 'lucide-react';
+import { BookOpen, Building2, CreditCard, Database, LayoutGrid } from 'lucide-react';
 import type { NavSection } from '@/components/layout/staff-shell';
 
 export const platformNav: NavSection[] = [
@@ -9,6 +9,7 @@ export const platformNav: NavSection[] = [
       { href: '/platform/institutions', label: 'Institutions', icon: Building2 },
       { href: '/platform/plans', label: 'Plans', icon: CreditCard },
       { href: '/platform/registry', label: 'Registry Import', icon: Database },
+      { href: '/platform/directory', label: 'Reference Directory', icon: BookOpen },
     ],
   },
 ];
