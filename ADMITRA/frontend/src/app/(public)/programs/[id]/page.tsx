@@ -36,7 +36,8 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
 }
 
 export default async function ProgramPage({ params }: { params: Promise<{ id: string }> }) {
-  const p = await load((await params).id);
+  const { id } = await params;
+  const p = await load(id);
   if (!p) return <ServiceUnavailable />;
   const open = p.openCampaign;
   return (
@@ -150,7 +151,10 @@ export default async function ProgramPage({ params }: { params: Promise<{ id: st
                   <p className="text-muted mt-1 text-[12.5px]">
                     {Math.max(0, daysLeft(open.closesAt))} day(s) left to apply.
                   </p>
-                  <ButtonLink href="/applicant/dashboard" className="mt-4 w-full">
+                  <ButtonLink
+                    href={`/applicant/apply?campaign=${open.campaignId}&program=${id}`}
+                    className="mt-4 w-full"
+                  >
                     Apply now
                   </ButtonLink>
                   <p className="text-muted mt-2 text-center text-[12px]">You need a free applicant account to apply.</p>

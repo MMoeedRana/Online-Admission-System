@@ -1,16 +1,20 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
+import { Download, Trash2 } from 'lucide-react';
 import { useTheme } from 'next-themes';
+import { useState } from 'react';
 import { useForm, useWatch } from 'react-hook-form';
 import { z } from 'zod';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardBody, CardHeader } from '@/components/ui/card';
+import { ConfirmDialog } from '@/components/ui/confirm-dialog';
 import { Field, Input } from '@/components/ui/input';
 import { PageHeader } from '@/components/ui/page-header';
 import { toast } from '@/components/ui/toast';
-import { patch, post } from '@/lib/api';
+import { del, errorMessage, patch, post } from '@/lib/api';
+import { downloadFile } from '@/lib/files';
 import { handleFormError } from '@/lib/forms';
 import type { User } from '@/lib/types';
 import { cn } from '@/lib/utils';
@@ -145,7 +149,50 @@ export function AccountSettings() {
             </form>
           </CardBody>
         </Card>
+        {user.accountType === 'APPLICANT' && <YourData />}
       </div>
     </div>
+  );
+}
+
+/** PROF-5: download all personal data or delete the account. */
+function YourData() {
+  const { logout } = useAuth();
+  const [confirm, setConfirm] = useState(false);
+  return (
+    <Card>
+      <CardHeader title="Your data" subtitle="Download everything ADMITRA keeps about you, or delete your account." />
+      <CardBody className="flex flex-wrap gap-3">
+        <Button
+          variant="secondary"
+          icon={<Download className="size-4" />}
+          onClick={() => void downloadFile('/me/profile/export', 'admitra-my-data.json')}
+        >
+          Download my data
+        </Button>
+        <Button variant="danger" icon={<Trash2 className="size-4" />} onClick={() => setConfirm(true)}>
+          Delete account
+        </Button>
+        <p className="text-muted w-full text-[12.5px]">
+          An account can be deleted only while none of its applications has been submitted.
+        </p>
+      </CardBody>
+      <ConfirmDialog
+        open={confirm}
+        onClose={() => setConfirm(false)}
+        title="Delete account"
+        message="Your profile, marks, drafts and uploaded files will be deleted permanently."
+        confirmLabel="Delete account"
+        onConfirm={async () => {
+          try {
+            await del('/me/profile/account');
+            toast.success('Your account has been deleted.');
+            await logout();
+          } catch (err) {
+            toast.error(errorMessage(err));
+          }
+        }}
+      />
+    </Card>
   );
 }
