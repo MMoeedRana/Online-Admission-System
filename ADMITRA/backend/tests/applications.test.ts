@@ -1,3 +1,4 @@
+import { ApplicantDocumentModel } from '../src/modules/documents/document.models';
 import { describe, expect, it } from 'vitest';
 import { Types } from 'mongoose';
 import { ApplicationModel } from '../src/modules/applications/application.model';
@@ -214,6 +215,13 @@ describe('Application journey (APP, DOC, FEE, FLOW)', () => {
         ).status,
       ).toBe(200);
     }
+    // DOC-4: every decision is kept with the reviewer and the time.
+    const reviewed = await ApplicantDocumentModel.find({ applicationId: appId, current: true }).lean();
+    expect(
+      reviewed.every(
+        (d) => d.reviewTrail.length === 1 && d.reviewTrail[0]!.reviewerName && d.reviewTrail[0]!.at,
+      ),
+    ).toBe(true);
     expect(
       (await inst.as.post(`/applications/${appId}/transition`).send({ to: 'ELIGIBILITY_CHECK' })).status,
     ).toBe(200);
