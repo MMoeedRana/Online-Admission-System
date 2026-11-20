@@ -96,7 +96,11 @@ export function PlansPage() {
             <ul className="mt-4 space-y-1.5 text-[13px]">
               {FEATURES.map(([k, l]) => (
                 <li key={k} className="flex items-center gap-2">
-                  {p.features[k] ? <Check className="size-4 text-green-600" /> : <X className="text-muted size-4" />}
+                  {p.features[k] ? (
+                    <Check className="size-4 text-green-700 dark:text-green-400" />
+                  ) : (
+                    <X className="text-muted size-4" />
+                  )}
                   <span className={p.features[k] ? 'text-ink' : 'text-muted'}>{l}</span>
                 </li>
               ))}

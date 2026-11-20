@@ -181,7 +181,11 @@ export function MeritListDetail({ id }: { id: string }) {
             </Button>
           )}
           {can.discard && (
-            <Button variant="ghost" icon={<Trash2 className="size-4 text-red-600" />} onClick={() => setDiscard(true)}>
+            <Button
+              variant="ghost"
+              icon={<Trash2 className="size-4 text-red-700 dark:text-red-400" />}
+              onClick={() => setDiscard(true)}
+            >
               Discard
             </Button>
           )}
@@ -232,7 +236,9 @@ export function MeritListDetail({ id }: { id: string }) {
                 : 'border-line bg-card',
             )}
           >
-            <CheckCircle2 className={cn('size-6 shrink-0', s.done ? 'text-green-600' : 'text-line')} />
+            <CheckCircle2
+              className={cn('size-6 shrink-0', s.done ? 'text-green-700 dark:text-green-400' : 'text-line')}
+            />
             <div className="min-w-0">
               <p className="text-ink text-[14px] font-semibold">{s.label}</p>
               <p className="text-muted truncate text-[12px]">
@@ -267,8 +273,8 @@ export function MeritListDetail({ id }: { id: string }) {
                 </div>
                 <div className="mt-2 flex justify-between text-[12px]">
                   <span>
-                    <b className="text-green-600">{p.selected}</b> selected ·{' '}
-                    <b className="text-amber-600">{p.waitlisted}</b> waiting
+                    <b className="text-green-700 dark:text-green-400">{p.selected}</b> selected ·{' '}
+                    <b className="text-amber-700 dark:text-amber-400">{p.waitlisted}</b> waiting
                   </span>
                   <span className="text-ink font-semibold">close {p.closingAggregate?.toFixed(2) ?? '-'}</span>
                 </div>
@@ -306,7 +312,7 @@ export function MeritListDetail({ id }: { id: string }) {
           )}
         </div>
         {tab === 'ranked' ? (
-          <div className="overflow-x-auto">
+          <div className="overflow-x-auto" tabIndex={0} role="region" aria-label="Scrollable table">
             <table className="w-full min-w-[820px] text-left text-[13.5px]">
               <thead>
                 <tr className="border-line bg-card-soft text-muted border-y text-[11.5px] tracking-wider uppercase">

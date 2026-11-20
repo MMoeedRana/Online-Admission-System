@@ -31,7 +31,7 @@ export function Tabs<T extends string>({
             <span
               className={cn(
                 'rounded-full px-1.5 text-[11px]',
-                value === t.value ? 'bg-white/20' : 'bg-card-soft text-muted',
+                value === t.value ? 'bg-white text-[var(--primary)]' : 'bg-card-soft text-muted',
               )}
             >
               {t.count}

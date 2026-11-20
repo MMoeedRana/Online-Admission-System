@@ -14,14 +14,16 @@
   --line: #e6eaf2;
   --ink: #0f172a;
   --body: #334155;
-  --muted: #64748b;
-  --primary: #1f6feb;
-  --primary-hover: #1a5fd0;
+  --muted: #5b6779;
+  --primary: #1a62d6;
+  --primary-hover: #1553bb;
+  /* Primary used as text colour (WCAG AA 4.5:1 on every surface). */
+  --primary-text: #1a62d6;
   --primary-soft: #e8f0fe;
   --navy: #0b1b3a;
   --navy-2: #13306b;
   --navy-line: #1c2c52;
-  --ring: rgba(31, 111, 235, 0.35);
+  --ring: rgba(26, 98, 214, 0.35);
 }
 
 .dark {
@@ -32,8 +34,9 @@
   --ink: #e8eef9;
   --body: #c3cde0;
   --muted: #8b9bb8;
-  --primary: #3b82f6;
-  --primary-hover: #2f6fe0;
+  --primary: #2563eb;
+  --primary-hover: #1d4fd8;
+  --primary-text: #60a5fa;
   --primary-soft: #16264a;
   --navy: #070f22;
   --navy-2: #0f2350;
@@ -148,4 +151,12 @@
   margin-right: auto;
   padding-left: clamp(1rem, 3.6vw, 3.5rem);
   padding-right: clamp(1rem, 3.6vw, 3.5rem);
+}
+
+/* In dark mode the primary text colour is lighter than the primary fill (contrast, WCAG 2.2 AA).
+   Unlayered so that it wins over the text-primary utility. */
+.dark .text-primary,
+.dark .hover\:text-primary:hover,
+.dark .group:hover .group-hover\:text-primary {
+  color: var(--primary-text);
 }

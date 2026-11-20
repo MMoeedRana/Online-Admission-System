@@ -188,7 +188,7 @@ function RecordCard({
         </p>
       )}
       {r.subjects.length > 0 && (
-        <div className="border-line overflow-x-auto border-t">
+        <div className="border-line overflow-x-auto border-t" tabIndex={0} role="region" aria-label="Scrollable table">
           <table className="w-full text-left text-[13.5px]">
             <thead>
               <tr className="bg-card-soft text-muted text-[11.5px] tracking-wider uppercase">
@@ -250,7 +250,7 @@ function RecordCard({
           </Button>
           {!r.locked && r.trustLevel < 2 && (
             <Button size="icon" variant="ghost" aria-label="Delete" onClick={onDelete}>
-              <Trash2 className="size-4 text-red-600" />
+              <Trash2 className="size-4 text-red-700 dark:text-red-400" />
             </Button>
           )}
         </div>

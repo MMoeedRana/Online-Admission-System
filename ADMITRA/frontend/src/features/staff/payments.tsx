@@ -148,7 +148,9 @@ export function PaymentsPage() {
               cell: (r) => (
                 <span className="inline-flex items-center gap-1.5">
                   {formatMoney(r.amount)}
-                  {!r.checks.amountMatches && <XCircle className="size-4 text-red-600" aria-label="Amount differs" />}
+                  {!r.checks.amountMatches && (
+                    <XCircle className="size-4 text-red-700 dark:text-red-400" aria-label="Amount differs" />
+                  )}
                 </span>
               ),
             },
@@ -184,7 +186,11 @@ export function PaymentsPage() {
         footer={
           open?.status === 'PENDING' ? (
             <>
-              <Button variant="secondary" icon={<X className="size-4 text-red-600" />} onClick={() => setReject(true)}>
+              <Button
+                variant="secondary"
+                icon={<X className="size-4 text-red-700 dark:text-red-400" />}
+                onClick={() => setReject(true)}
+              >
                 Reject
               </Button>
               <Button
@@ -236,7 +242,7 @@ export function PaymentsPage() {
                     by {open.decidedByName} · {formatDateTime(open.decidedAt)}
                   </p>
                   {open.receiptNumber && <p className="font-semibold">Receipt {open.receiptNumber}</p>}
-                  {open.reason && <p className="text-red-600">{open.reason}</p>}
+                  {open.reason && <p className="text-red-700 dark:text-red-400">{open.reason}</p>}
                 </div>
               )}
               <p className="text-muted text-[12px]">
@@ -265,7 +271,12 @@ export function PaymentsPage() {
 function Check2({ ok, text }: { ok: boolean; text: string }) {
   return (
     <p className="flex items-center gap-2 text-[13px]">
-      {ok ? <CheckCircle2 className="size-4 text-green-600" /> : <XCircle className="size-4 text-red-600" />} {text}
+      {ok ? (
+        <CheckCircle2 className="size-4 text-green-700 dark:text-green-400" />
+      ) : (
+        <XCircle className="size-4 text-red-700 dark:text-red-400" />
+      )}{' '}
+      {text}
     </p>
   );
 }

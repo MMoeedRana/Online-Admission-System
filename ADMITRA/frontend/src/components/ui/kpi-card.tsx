@@ -80,7 +80,7 @@ export function KpiCard({
       <p className="text-ink relative mt-2 text-[28px] leading-none font-bold tracking-tight tabular-nums">
         <Figure value={value} />
       </p>
-      {sub && <p className="relative mt-3 text-[12.5px] font-semibold text-green-600 dark:text-green-400">{sub}</p>}
+      {sub && <p className="relative mt-3 text-[12.5px] font-semibold text-green-700 dark:text-green-400">{sub}</p>}
     </StaggerItem>
   );
 }

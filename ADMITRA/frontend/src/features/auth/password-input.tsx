@@ -34,7 +34,7 @@ export function PasswordChecklist({ value }: { value: string }) {
   return (
     <ul className="grid grid-cols-2 gap-x-3 gap-y-1 text-[12px]">
       {passwordRules.map((r) => (
-        <li key={r.label} className={r.test(value) ? 'text-green-600 dark:text-green-400' : 'text-muted'}>
+        <li key={r.label} className={r.test(value) ? 'text-green-700 dark:text-green-400' : 'text-muted'}>
           {r.test(value) ? '✓' : '•'} {r.label}
         </li>
       ))}

@@ -37,7 +37,7 @@ export function DataTable<T>({ columns, rows, rowKey, onRowClick, empty, loading
   const rest = columns.filter((c) => c !== primary && !c.hideOnMobile);
   return (
     <>
-      <div className="hidden overflow-x-auto md:block">
+      <div className="hidden overflow-x-auto md:block" tabIndex={0} role="region" aria-label="Scrollable table">
         <table className="w-full text-left text-[13.5px]">
           <thead>
             <tr className="border-line bg-card-soft border-y">

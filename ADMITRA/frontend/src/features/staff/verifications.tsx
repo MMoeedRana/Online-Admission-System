@@ -74,7 +74,9 @@ export function VerificationQueue() {
               cell: (r) => (
                 <span className="text-ink inline-flex items-center gap-1.5 font-semibold">
                   {r.applicantName}
-                  {r.flagged && <AlertTriangle className="size-4 text-red-600" aria-label="Fraud flag" />}
+                  {r.flagged && (
+                    <AlertTriangle className="size-4 text-red-700 dark:text-red-400" aria-label="Fraud flag" />
+                  )}
                 </span>
               ),
             },

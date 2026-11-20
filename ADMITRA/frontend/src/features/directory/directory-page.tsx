@@ -159,15 +159,17 @@ export function DirectoryPage() {
                 </div>
                 <Link
                   href={`/directory/programs/${p._id}`}
-                  className="text-ink hover:text-primary mt-3 text-[15.5px] leading-snug font-bold"
+                  className="text-ink hover:text-primary mt-3 py-0.5 text-[15.5px] leading-snug font-bold"
                 >
                   {p.title}
                 </Link>
                 <Link
                   href={`/directory/institutions/${p.institution.slug}`}
-                  className="text-muted hover:text-primary truncate text-[13px]"
+                  className="text-muted hover:text-primary flex min-h-6 items-center text-[13px]"
                 >
-                  {p.institution.name} · {p.institution.city}
+                  <span className="truncate">
+                    {p.institution.name} · {p.institution.city}
+                  </span>
                 </Link>
                 <dl className="border-line mt-4 grid grid-cols-2 gap-3 border-t pt-4 text-[12.5px]">
                   <div>

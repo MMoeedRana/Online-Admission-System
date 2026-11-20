@@ -212,7 +212,7 @@ function ProgramForm({ program }: { program?: Program }) {
               )}
               <Button
                 variant="secondary"
-                icon={<Trash2 className="size-4 text-red-600" />}
+                icon={<Trash2 className="size-4 text-red-700 dark:text-red-400" />}
                 onClick={() => setConfirm('delete')}
               >
                 Delete
@@ -360,7 +360,9 @@ function ProgramForm({ program }: { program?: Program }) {
                 </div>
               ))}
               {(e.shifts?.message || e.shifts?.root?.message) && (
-                <p className="text-[12px] font-medium text-red-600">{e.shifts?.message ?? e.shifts?.root?.message}</p>
+                <p className="text-[12px] font-medium text-red-700 dark:text-red-400">
+                  {e.shifts?.message ?? e.shifts?.root?.message}
+                </p>
               )}
             </CardBody>
           </Card>

@@ -282,7 +282,9 @@ export function RecordModal({
               Add subject
             </Button>
           </div>
-          {errors.subjects && <p className="mt-1 text-[12px] font-medium text-red-600">{errors.subjects}</p>}
+          {errors.subjects && (
+            <p className="mt-1 text-[12px] font-medium text-red-700 dark:text-red-400">{errors.subjects}</p>
+          )}
           <div className="mt-3 space-y-2">
             {v.subjects.map((s, i) => (
               <div key={i} className="grid grid-cols-[1fr_90px_90px_auto] items-start gap-2">
@@ -349,7 +351,9 @@ export function RecordModal({
             </span>
           </div>
           {(errors.obtained || errors.total) && (
-            <p className="mt-1 text-[12px] font-medium text-red-600">{errors.obtained ?? errors.total}</p>
+            <p className="mt-1 text-[12px] font-medium text-red-700 dark:text-red-400">
+              {errors.obtained ?? errors.total}
+            </p>
           )}
         </div>
       )}

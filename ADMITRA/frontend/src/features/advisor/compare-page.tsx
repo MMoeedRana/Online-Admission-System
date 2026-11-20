@@ -155,7 +155,7 @@ export function ComparePage({ base = '' }: { base?: string }) {
     <>
       <PageHeader title="Compare programs" subtitle="Figures are indicative; always check the official source." />
       <Card className="overflow-hidden">
-        <div className="overflow-x-auto">
+        <div className="overflow-x-auto" tabIndex={0} role="region" aria-label="Scrollable table">
           <table className="w-full min-w-[720px] text-left text-[13.5px]">
             <thead>
               <tr>

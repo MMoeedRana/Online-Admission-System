@@ -72,7 +72,6 @@ export function Funnel({ steps }: { steps: { key: string; label: string; value: 
             <div className="bg-card-soft relative h-9 overflow-hidden rounded-lg" title={`${s.label}: ${s.value}`}>
               <motion.div
                 className="bg-primary absolute inset-y-0 left-0 rounded-lg"
-                style={{ opacity: 1 - i * 0.11 }}
                 initial={{ width: 0 }}
                 animate={{ width: `${Math.max(share, s.value ? 2 : 0)}%` }}
                 transition={{ duration: 0.8, delay: i * 0.08, ease: [0.22, 1, 0.36, 1] }}

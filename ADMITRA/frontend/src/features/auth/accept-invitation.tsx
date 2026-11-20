@@ -42,7 +42,7 @@ export function AcceptInvitation() {
   if (q.isError) {
     return (
       <div className="text-center">
-        <XCircle className="mx-auto size-14 text-red-600" />
+        <XCircle className="mx-auto size-14 text-red-700 dark:text-red-400" />
         <h1 className="mt-4 text-[24px] font-bold">Invitation not valid</h1>
         <p className="text-muted mt-2 text-[14px]">
           {errorMessage(q.error)} Ask your institution admin to send a new invitation.

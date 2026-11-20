@@ -76,7 +76,7 @@ export function InstitutionDirectory() {
             Closing merit is added automatically when you publish a merit list (marked “Official (ADMITRA)”). Earlier
             years can be entered below; they are used after the super admin verifies the source.
           </CardBody>
-          <div className="mt-2 overflow-x-auto">
+          <div className="mt-2 overflow-x-auto" tabIndex={0} role="region" aria-label="Scrollable table">
             <table className="w-full min-w-[780px] text-left text-[13.5px]">
               <thead>
                 <tr className="border-line bg-card-soft text-muted border-y text-[11.5px] tracking-wider uppercase">

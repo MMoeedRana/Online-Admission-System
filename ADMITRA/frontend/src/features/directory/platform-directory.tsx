@@ -149,7 +149,7 @@ function VerifyQueue() {
           <Button
             variant="secondary"
             disabled={!sel.length}
-            icon={<XCircle className="size-4 text-red-600" />}
+            icon={<XCircle className="size-4 text-red-700 dark:text-red-400" />}
             onClick={() => setReject(true)}
           >
             Reject
@@ -164,7 +164,7 @@ function VerifyQueue() {
           </Button>
         </div>
       </div>
-      <div className="overflow-x-auto">
+      <div className="overflow-x-auto" tabIndex={0} role="region" aria-label="Scrollable table">
         <table className="w-full min-w-[860px] text-left text-[13.5px]">
           <thead>
             <tr className="border-line bg-card-soft text-muted border-y text-[11.5px] tracking-wider uppercase">
@@ -699,7 +699,7 @@ function DataGaps() {
             {
               key: 'y',
               header: 'Latest verified year',
-              cell: (r) => r.lastVerifiedYear ?? <span className="text-red-600">none</span>,
+              cell: (r) => r.lastVerifiedYear ?? <span className="text-red-700 dark:text-red-400">none</span>,
             },
             {
               key: 'd',

@@ -130,7 +130,7 @@ export function VerificationPanel({ id }: { id: string }) {
             <div className="flex flex-wrap gap-2">
               <Button
                 variant="secondary"
-                icon={<ShieldX className="size-4 text-red-600" />}
+                icon={<ShieldX className="size-4 text-red-700 dark:text-red-400" />}
                 onClick={() => setDecision('MISMATCH')}
               >
                 Flag mismatch
@@ -171,7 +171,7 @@ export function VerificationPanel({ id }: { id: string }) {
               o ? `Official record${o.source ? ` (${o.source})` : ''}` : 'No registry record found for this roll number'
             }
           />
-          <div className="mt-4 overflow-x-auto">
+          <div className="mt-4 overflow-x-auto" tabIndex={0} role="region" aria-label="Scrollable table">
             <table className="w-full min-w-[480px] text-left text-[13.5px]">
               <thead>
                 <tr className="border-line bg-card-soft text-muted border-y text-[11.5px] tracking-wider uppercase">
@@ -194,9 +194,9 @@ export function VerificationPanel({ id }: { id: string }) {
                       {x.official === null ? (
                         <span className="text-muted text-[12px]">n/a</span>
                       ) : x.ok ? (
-                        <CheckCircle2 className="size-4 text-green-600" aria-label="Matches" />
+                        <CheckCircle2 className="size-4 text-green-700 dark:text-green-400" aria-label="Matches" />
                       ) : (
-                        <XCircle className="size-4 text-red-600" aria-label="Differs" />
+                        <XCircle className="size-4 text-red-700 dark:text-red-400" aria-label="Differs" />
                       )}
                     </td>
                   </tr>
@@ -212,7 +212,7 @@ export function VerificationPanel({ id }: { id: string }) {
               </p>
             )}
             {integrityErrors.map((e) => (
-              <p key={e} className="flex items-center gap-2 text-[13px] text-red-600">
+              <p key={e} className="flex items-center gap-2 text-[13px] text-red-700 dark:text-red-400">
                 <XCircle className="size-4" /> {e}
               </p>
             ))}

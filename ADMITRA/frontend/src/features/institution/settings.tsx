@@ -327,7 +327,7 @@ function SettingsForm({ initial }: { initial: Institution }) {
               ).map(([k, l]) => (
                 <li key={k} className="flex items-center gap-2">
                   {sub.data.plan.features[k] ? (
-                    <Check className="size-4 text-green-600" />
+                    <Check className="size-4 text-green-700 dark:text-green-400" />
                   ) : (
                     <X className="text-muted size-4" />
                   )}

@@ -47,12 +47,12 @@ export function StatusLookup() {
         </p>
         <ul className="text-body mt-5 space-y-2 text-[13.5px]">
           <li className="flex gap-2">
-            <ShieldCheck className="size-4 shrink-0 text-green-600" /> Protected by a security question and a request
-            limit.
+            <ShieldCheck className="size-4 shrink-0 text-green-700 dark:text-green-400" /> Protected by a security
+            question and a request limit.
           </li>
           <li className="flex gap-2">
-            <ShieldCheck className="size-4 shrink-0 text-green-600" /> Sign in to see your merit position, aggregate and
-            offer.
+            <ShieldCheck className="size-4 shrink-0 text-green-700 dark:text-green-400" /> Sign in to see your merit
+            position, aggregate and offer.
           </li>
         </ul>
       </div>

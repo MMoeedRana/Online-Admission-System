@@ -54,9 +54,9 @@ export function Toaster() {
           className="border-line bg-card pointer-events-auto flex items-start gap-3 rounded-2xl border p-4 shadow-[var(--shadow-pop)]"
         >
           {t.type === 'success' ? (
-            <CheckCircle2 className="size-5 shrink-0 text-green-600" />
+            <CheckCircle2 className="size-5 shrink-0 text-green-700 dark:text-green-400" />
           ) : (
-            <XCircle className="size-5 shrink-0 text-red-600" />
+            <XCircle className="size-5 shrink-0 text-red-700 dark:text-red-400" />
           )}
           <p className={cn('text-ink flex-1 text-[13.5px] font-medium')}>{t.message}</p>
           <button onClick={() => dismiss(t.id)} aria-label="Dismiss" className="text-muted hover:text-ink">

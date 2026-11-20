@@ -92,7 +92,7 @@ export default async function ProgramPage({ params }: { params: Promise<{ id: st
               )}
               {p.eligibility.map((e, i) => (
                 <div key={i} className="border-line flex gap-3 rounded-xl border p-3.5">
-                  <CheckCircle2 className="mt-0.5 size-5 shrink-0 text-green-600" />
+                  <CheckCircle2 className="mt-0.5 size-5 shrink-0 text-green-700 dark:text-green-400" />
                   <div>
                     <p className="text-ink text-[14px] font-semibold">
                       {QUALIFICATION_LEVELS[e.level as keyof typeof QUALIFICATION_LEVELS] ?? e.level}: at least{' '}

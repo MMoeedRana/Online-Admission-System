@@ -217,7 +217,7 @@ function ResultCard({ r, suggestions }: { r: ResultItem; suggestions: AdvisorRes
                 <p
                   className={cn(
                     'flex items-center gap-2 text-[13.5px] font-semibold',
-                    offerOpen ? 'text-green-700 dark:text-green-400' : 'text-red-600',
+                    offerOpen ? 'text-green-700 dark:text-green-400' : 'text-red-700 dark:text-red-400',
                   )}
                 >
                   <CalendarClock className="size-4" />{' '}
@@ -309,8 +309,8 @@ function ResultCard({ r, suggestions }: { r: ResultItem; suggestions: AdvisorRes
         {kind === 'NOT_SELECTED' && r.latest?.gap != null && (
           <div className="mt-4 space-y-3">
             <p className="text-[13.5px]">
-              You were <b className="text-red-600">{Math.abs(r.latest.gap).toFixed(2)} marks</b> below the last selected
-              aggregate.
+              You were <b className="text-red-700 dark:text-red-400">{Math.abs(r.latest.gap).toFixed(2)} marks</b> below
+              the last selected aggregate.
             </p>
             {suggestions.length > 0 && (
               <div>

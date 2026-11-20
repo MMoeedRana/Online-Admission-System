@@ -32,9 +32,11 @@ export function UserMenu() {
         onClick={() => setOpen((o) => !o)}
         className="hover:bg-card-soft flex items-center gap-2 rounded-xl p-1 pr-2"
         aria-expanded={open}
-        aria-label="Account menu"
       >
-        <Avatar name={user.fullName} className="size-9 text-[12px]" />
+        <span className="sr-only">Account menu</span>
+        <span aria-hidden>
+          <Avatar name={user.fullName} className="size-9 text-[12px]" />
+        </span>
         <ChevronDown className="text-muted hidden size-4 sm:block" />
       </button>
       {open && (
@@ -52,7 +54,7 @@ export function UserMenu() {
           </Link>
           <button
             onClick={() => void logout()}
-            className="flex w-full items-center gap-2.5 rounded-xl px-3 py-2.5 text-left text-[13.5px] text-red-600 hover:bg-red-50 dark:hover:bg-red-500/10"
+            className="flex w-full items-center gap-2.5 rounded-xl px-3 py-2.5 text-left text-[13.5px] text-red-700 hover:bg-red-50 dark:text-red-400 dark:hover:bg-red-500/10"
           >
             <LogOut className="size-4" /> Log out
           </button>

@@ -187,7 +187,7 @@ export function StaffPage() {
                         aria-label="Cancel invitation"
                         onClick={() => setConfirm({ type: 'cancel', member: m })}
                       >
-                        <X className="size-4 text-red-600" />
+                        <X className="size-4 text-red-700 dark:text-red-400" />
                       </Button>
                     </>
                   ) : (
@@ -197,7 +197,13 @@ export function StaffPage() {
                       aria-label={m.status === 'ACTIVE' ? 'Disable' : 'Enable'}
                       onClick={() => setConfirm({ type: 'status', member: m })}
                     >
-                      <Power className={m.status === 'ACTIVE' ? 'size-4 text-red-600' : 'size-4 text-green-600'} />
+                      <Power
+                        className={
+                          m.status === 'ACTIVE'
+                            ? 'size-4 text-red-700 dark:text-red-400'
+                            : 'size-4 text-green-700 dark:text-green-400'
+                        }
+                      />
                     </Button>
                   )}
                   <Button size="icon" variant="ghost" aria-label="Edit roles" onClick={() => open(m)}>
@@ -270,7 +276,9 @@ export function StaffPage() {
                 />
               ))}
             </div>
-            {errors.roles && <p className="mt-1 text-[12px] font-medium text-red-600">{errors.roles}</p>}
+            {errors.roles && (
+              <p className="mt-1 text-[12px] font-medium text-red-700 dark:text-red-400">{errors.roles}</p>
+            )}
           </fieldset>
           {draft.roles.includes('HOD_OFFICER') && (
             <fieldset className="sm:col-span-2">
@@ -288,7 +296,7 @@ export function StaffPage() {
                 ))}
               </div>
               {errors.departmentIds && (
-                <p className="mt-1 text-[12px] font-medium text-red-600">{errors.departmentIds}</p>
+                <p className="mt-1 text-[12px] font-medium text-red-700 dark:text-red-400">{errors.departmentIds}</p>
               )}
             </fieldset>
           )}

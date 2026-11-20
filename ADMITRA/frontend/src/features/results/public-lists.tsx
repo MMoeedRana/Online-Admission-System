@@ -234,7 +234,7 @@ export function PublicMeritList({ id }: { id: string }) {
             <option value="NOT_SELECTED">Not selected</option>
           </Select>
         </div>
-        <div className="overflow-x-auto">
+        <div className="overflow-x-auto" tabIndex={0} role="region" aria-label="Scrollable table">
           <table className="w-full min-w-[640px] text-left text-[13.5px]">
             <thead>
               <tr className="border-line bg-card-soft text-muted border-y text-[11.5px] tracking-wider uppercase">

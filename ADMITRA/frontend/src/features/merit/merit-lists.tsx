@@ -191,10 +191,10 @@ export function MeritListsPage() {
                       </div>
                       <div className="grid grid-cols-4 gap-4 text-center text-[12px]">
                         {[
-                          ['Selected', l.counts.selected, 'text-green-600'],
-                          ['Waiting', l.counts.waitlisted, 'text-amber-600'],
+                          ['Selected', l.counts.selected, 'text-green-700 dark:text-green-400'],
+                          ['Waiting', l.counts.waitlisted, 'text-amber-700 dark:text-amber-400'],
                           ['Not sel.', l.counts.notSelected, 'text-muted'],
-                          ['Excluded', l.counts.excluded, 'text-red-600'],
+                          ['Excluded', l.counts.excluded, 'text-red-700 dark:text-red-400'],
                         ].map(([k, v, c]) => (
                           <div key={String(k)}>
                             <p className={`text-[18px] font-extrabold tabular-nums ${c}`}>{v}</p>

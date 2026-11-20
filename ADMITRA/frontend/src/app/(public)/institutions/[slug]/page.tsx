@@ -80,7 +80,7 @@ export default async function InstitutionPage({ params }: { params: Promise<{ sl
               <CardBody>
                 {i.openCampaigns.map((c) => (
                   <p key={c.id} className="flex flex-wrap items-center gap-2 text-[14px]">
-                    <CalendarClock className="size-[18px] text-green-600" />
+                    <CalendarClock className="size-[18px] text-green-700 dark:text-green-400" />
                     <span className="text-ink font-semibold">{c.title} admissions are open</span>
                     <span className="text-muted">
                       until {formatDate(c.closesAt)} · {c.programs} programs

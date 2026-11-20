@@ -179,7 +179,9 @@ export function RegistryImport({
                   {preview.errors.map((e, i) => (
                     <li
                       key={i}
-                      className={isDuplicate(e.message) ? 'text-amber-700 dark:text-amber-300' : 'text-red-600'}
+                      className={
+                        isDuplicate(e.message) ? 'text-amber-700 dark:text-amber-300' : 'text-red-700 dark:text-red-400'
+                      }
                     >
                       Line {e.line}: {e.message}
                     </li>
@@ -188,7 +190,7 @@ export function RegistryImport({
               </div>
             )}
             {preview.sample.length > 0 && (
-              <div className="overflow-x-auto">
+              <div className="overflow-x-auto" tabIndex={0} role="region" aria-label="Scrollable table">
                 <table className="w-full min-w-[560px] text-left text-[13px]">
                   <thead>
                     <tr className="border-line bg-card-soft text-muted border-y text-[11.5px] tracking-wider uppercase">

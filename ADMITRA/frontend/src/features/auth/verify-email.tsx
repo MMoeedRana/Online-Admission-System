@@ -37,7 +37,7 @@ export function VerifyEmail() {
       )}
       {state === 'ok' && (
         <>
-          <CheckCircle2 className="mx-auto size-14 text-green-600" />
+          <CheckCircle2 className="mx-auto size-14 text-green-700 dark:text-green-400" />
           <h1 className="mt-4 text-[24px] font-bold">E-mail verified</h1>
           <p className="text-muted mt-2 text-[14px]">Thank you. Your e-mail address is now confirmed.</p>
           <ButtonLink href={next} className="mt-6">
@@ -47,7 +47,7 @@ export function VerifyEmail() {
       )}
       {state === 'error' && (
         <>
-          <XCircle className="mx-auto size-14 text-red-600" />
+          <XCircle className="mx-auto size-14 text-red-700 dark:text-red-400" />
           <h1 className="mt-4 text-[24px] font-bold">Link not valid</h1>
           <p className="text-muted mt-2 text-[14px]">{message}</p>
           <p className="text-muted mt-1 text-[13px]">You can request a new link from your dashboard.</p>

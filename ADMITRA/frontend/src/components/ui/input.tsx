@@ -62,7 +62,7 @@ export function Field({ label, htmlFor, error, hint, required, className, childr
       </label>
       {children}
       {error ? (
-        <p role="alert" className="text-[12px] font-medium text-red-600 dark:text-red-400">
+        <p role="alert" className="text-[12px] font-medium text-red-700 dark:text-red-400">
           {error}
         </p>
       ) : hint ? (

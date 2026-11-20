@@ -156,7 +156,7 @@ export function ExplainPage({ id, base = '' }: { id: string; base?: string }) {
                   : 'Using the weights of this program.'
               }
             />
-            <div className="mt-4 overflow-x-auto">
+            <div className="mt-4 overflow-x-auto" tabIndex={0} role="region" aria-label="Scrollable table">
               <table className="w-full text-left text-[13.5px]">
                 <thead>
                   <tr className="border-line bg-card-soft text-muted border-y text-[11.5px] tracking-wider uppercase">
@@ -231,7 +231,7 @@ export function ExplainPage({ id, base = '' }: { id: string; base?: string }) {
                 </p>
               ) : (
                 d.reasons.map((r) => (
-                  <p key={r} className="flex items-center gap-2 text-[13.5px] text-red-600">
+                  <p key={r} className="flex items-center gap-2 text-[13.5px] text-red-700 dark:text-red-400">
                     <XCircle className="size-4" /> {r}
                   </p>
                 ))

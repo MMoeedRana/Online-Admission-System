@@ -142,7 +142,7 @@ export function DocumentRequirements() {
                     size="sm"
                     variant="ghost"
                     aria-label={`Delete ${d.name}`}
-                    icon={<Trash2 className="size-4 text-red-600" />}
+                    icon={<Trash2 className="size-4 text-red-700 dark:text-red-400" />}
                     onClick={() => setRemove(d)}
                   />
                 </div>

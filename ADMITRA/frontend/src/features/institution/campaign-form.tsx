@@ -209,7 +209,7 @@ function CampaignForm({
               {campaign.status === 'DRAFT' && (
                 <Button
                   variant="secondary"
-                  icon={<Trash2 className="size-4 text-red-600" />}
+                  icon={<Trash2 className="size-4 text-red-700 dark:text-red-400" />}
                   onClick={() => setConfirm('DELETE')}
                 >
                   Delete
@@ -281,7 +281,9 @@ function CampaignForm({
               title="Programs"
               subtitle="Select the programs that accept applications. A seat cap is optional and cannot exceed the program seats."
             />
-            {programsError && <p className="px-6 pt-3 text-[12px] font-medium text-red-600">{programsError}</p>}
+            {programsError && (
+              <p className="px-6 pt-3 text-[12px] font-medium text-red-700 dark:text-red-400">{programsError}</p>
+            )}
             <ul className="divide-line border-line mt-4 divide-y border-t">
               {allPrograms.length === 0 && (
                 <li className="text-muted px-6 py-6 text-[13px]">There are no active programs. Add programs first.</li>

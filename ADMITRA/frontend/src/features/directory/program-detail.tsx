@@ -237,7 +237,7 @@ export function DirectoryProgramDetail({ id }: { id: string }) {
           title="Merit history and sources"
           subtitle="DRAFT rows are waiting for the super admin's check and are not used by the Admission Advisor"
         />
-        <div className="mt-4 overflow-x-auto">
+        <div className="mt-4 overflow-x-auto" tabIndex={0} role="region" aria-label="Scrollable table">
           <table className="w-full min-w-[760px] text-left text-[13.5px]">
             <thead>
               <tr className="border-line bg-card-soft text-muted border-y text-[11.5px] tracking-wider uppercase">

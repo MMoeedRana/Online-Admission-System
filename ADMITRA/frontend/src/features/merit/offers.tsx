@@ -151,7 +151,7 @@ export function OffersPage() {
               title="Seats by program"
               subtitle="Declined, expired and revoked seats are offered in the next merit list"
             />
-            <div className="mt-4 overflow-x-auto">
+            <div className="mt-4 overflow-x-auto" tabIndex={0} role="region" aria-label="Scrollable table">
               <table className="w-full min-w-[720px] text-left text-[13.5px]">
                 <thead>
                   <tr className="border-line bg-card-soft text-muted border-y text-[11.5px] tracking-wider uppercase">
@@ -174,7 +174,7 @@ export function OffersPage() {
                           {r.title} <span className="text-muted font-normal">({r.shift.toLowerCase()})</span>
                         </td>
                         <td className="px-3 py-3">{r.seats}</td>
-                        <td className="px-3 py-3 font-semibold text-green-600">{r.enrolled}</td>
+                        <td className="px-3 py-3 font-semibold text-green-700 dark:text-green-400">{r.enrolled}</td>
                         <td className="px-3 py-3">{r.accepted}</td>
                         <td className="px-3 py-3">{r.offered}</td>
                         <td className="px-3 py-3">{r.declined}</td>
@@ -329,7 +329,7 @@ export function OffersPage() {
                         <Button
                           size="sm"
                           variant="ghost"
-                          icon={<ShieldX className="size-4 text-red-600" />}
+                          icon={<ShieldX className="size-4 text-red-700 dark:text-red-400" />}
                           onClick={() => setRevoke(r)}
                         >
                           Revoke

@@ -540,7 +540,11 @@ function ResultCard({
           <dd
             className={cn(
               'text-[15px] font-bold tabular-nums',
-              r.gap == null ? 'text-muted' : r.gap >= 0 ? 'text-green-600' : 'text-red-600',
+              r.gap == null
+                ? 'text-muted'
+                : r.gap >= 0
+                  ? 'text-green-700 dark:text-green-400'
+                  : 'text-red-700 dark:text-red-400',
             )}
           >
             {r.gap == null ? '-' : `${r.gap >= 0 ? '+' : ''}${r.gap.toFixed(2)}`}
@@ -552,7 +556,7 @@ function ResultCard({
         <span>{r.history.length ? `Data ${r.history.map((h) => h.year).join(', ')}` : 'No verified data'}</span>
         {r.institution.onAdmitra && <span className="text-primary font-semibold">On ADMITRA</span>}
       </div>
-      {!r.eligible && <p className="mt-2 text-[12.5px] font-medium text-red-600">{r.reasons[0]}</p>}
+      {!r.eligible && <p className="mt-2 text-[12.5px] font-medium text-red-700 dark:text-red-400">{r.reasons[0]}</p>}
       {r.openCampaign && (
         <p className="mt-2 flex items-center gap-1.5 text-[12.5px] font-semibold text-green-700 dark:text-green-400">
           <CalendarClock className="size-4" /> Admissions open until {formatDate(r.openCampaign.closesAt)}

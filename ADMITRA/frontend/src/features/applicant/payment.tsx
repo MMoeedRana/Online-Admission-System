@@ -140,7 +140,7 @@ export function PaymentPage({ id }: { id: string }) {
                       </p>
                       <p className="text-muted text-[12.5px]">
                         {formatMoney(p.amount)} paid on {formatDate(p.paidOn)}
-                        {p.reason && <span className="text-red-600"> · {p.reason}</span>}
+                        {p.reason && <span className="text-red-700 dark:text-red-400"> · {p.reason}</span>}
                       </p>
                     </div>
                     <div className="flex items-center gap-2">

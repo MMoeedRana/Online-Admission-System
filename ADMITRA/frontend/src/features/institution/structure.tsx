@@ -232,7 +232,7 @@ const departmentCfg: EntityConfig<Department> = {
             );
           })}
         </div>
-        {e.campusIds && <p className="mt-1 text-[12px] font-medium text-red-600">{e.campusIds}</p>}
+        {e.campusIds && <p className="mt-1 text-[12px] font-medium text-red-700 dark:text-red-400">{e.campusIds}</p>}
       </fieldset>
     </>
   ),
@@ -373,7 +373,7 @@ function EntitySection<T extends { _id: string }>({
                   <Pencil className="size-4" />
                 </Button>
                 <Button size="icon" variant="ghost" aria-label="Delete" onClick={() => setDeleting(r)}>
-                  <Trash2 className="size-4 text-red-600" />
+                  <Trash2 className="size-4 text-red-700 dark:text-red-400" />
                 </Button>
               </div>
             ),

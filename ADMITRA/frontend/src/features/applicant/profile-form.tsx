@@ -254,7 +254,7 @@ function ProfileForm({ profile }: { profile: Profile | null }) {
             </Button>
             <Button
               variant="ghost"
-              icon={<Trash2 className="size-4 text-red-600" />}
+              icon={<Trash2 className="size-4 text-red-700 dark:text-red-400" />}
               onClick={() => setConfirmDelete(true)}
             >
               Delete account

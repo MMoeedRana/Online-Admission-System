@@ -100,7 +100,7 @@ export function Wizard({ data, refresh }: { data: AppDetail; refresh: () => Prom
           <Button
             size="sm"
             variant="ghost"
-            icon={<Trash2 className="size-4 text-red-600" />}
+            icon={<Trash2 className="size-4 text-red-700 dark:text-red-400" />}
             onClick={() => setConfirmDelete(true)}
           >
             Delete draft
@@ -123,7 +123,7 @@ export function Wizard({ data, refresh }: { data: AppDetail; refresh: () => Prom
                 title={`Choose up to ${max} program${max > 1 ? 's' : ''} in order of preference`}
                 subtitle="Give number 1 to the program you want most. Programs you are not eligible for cannot be chosen."
               />
-              <div className="mt-4 overflow-x-auto">
+              <div className="mt-4 overflow-x-auto" tabIndex={0} role="region" aria-label="Scrollable table">
                 <table className="w-full min-w-[640px] text-left text-[13.5px]">
                   <thead>
                     <tr className="border-line bg-card-soft text-muted border-y text-[11.5px] tracking-wider uppercase">
@@ -190,7 +190,7 @@ export function Wizard({ data, refresh }: { data: AppDetail; refresh: () => Prom
                 </table>
               </div>
               {!ranksValid && (
-                <p className="px-6 pt-3 text-[12.5px] font-medium text-red-600">
+                <p className="px-6 pt-3 text-[12.5px] font-medium text-red-700 dark:text-red-400">
                   Each preference number can be used once.
                 </p>
               )}
@@ -229,9 +229,9 @@ export function Wizard({ data, refresh }: { data: AppDetail; refresh: () => Prom
                     {program.eligibility.checks.map((c) => (
                       <p key={c.level} className="flex items-start gap-2 text-[13.5px]">
                         {c.ok ? (
-                          <CheckCircle2 className="mt-0.5 size-4 shrink-0 text-green-600" />
+                          <CheckCircle2 className="mt-0.5 size-4 shrink-0 text-green-700 dark:text-green-400" />
                         ) : (
-                          <XCircle className="mt-0.5 size-4 shrink-0 text-red-600" />
+                          <XCircle className="mt-0.5 size-4 shrink-0 text-red-700 dark:text-red-400" />
                         )}
                         {c.reason}
                       </p>
@@ -486,7 +486,7 @@ export function DocumentUpload({
           </button>
           <span className="text-muted">version {current.version}</span>
           {rejected && current.reviewTrail.at(-1)?.reason && (
-            <span className="text-red-600">Reason: {current.reviewTrail.at(-1)!.reason}</span>
+            <span className="text-red-700 dark:text-red-400">Reason: {current.reviewTrail.at(-1)!.reason}</span>
           )}
         </div>
       )}

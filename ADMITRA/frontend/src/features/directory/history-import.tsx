@@ -103,7 +103,7 @@ export function HistoryImport({ base, onDone }: { base: string; onDone: () => vo
               </div>
             </div>
             {preview.errors.length > 0 && (
-              <ul className="border-line max-h-40 space-y-1 overflow-y-auto rounded-xl border p-3 text-[12.5px] text-red-600">
+              <ul className="border-line max-h-40 space-y-1 overflow-y-auto rounded-xl border p-3 text-[12.5px] text-red-700 dark:text-red-400">
                 {preview.errors.map((e, i) => (
                   <li key={i}>
                     Line {e.line}: {e.message}

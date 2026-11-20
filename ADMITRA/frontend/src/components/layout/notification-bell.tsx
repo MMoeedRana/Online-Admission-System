@@ -26,15 +26,16 @@ export function NotificationBell({ className }: { className?: string }) {
     <div ref={ref} className={cn('relative', className)}>
       <button
         type="button"
-        aria-label={`Notifications${unread ? ` (${unread} unread)` : ''}`}
         aria-expanded={open}
         onClick={() => setOpen((o) => !o)}
         className="border-line bg-card text-body hover:text-ink relative flex size-10 items-center justify-center rounded-xl border"
       >
-        <Bell className="size-[18px]" />
+        <Bell className="size-[18px]" aria-hidden />
+        <span className="sr-only">Notifications</span>
         {unread > 0 && (
           <span className="ring-card absolute -top-1.5 -right-1.5 flex h-5 min-w-5 items-center justify-center rounded-full bg-red-600 px-1 text-[11px] font-bold text-white ring-2">
             {unread > 9 ? '9+' : unread}
+            <span className="sr-only"> unread</span>
           </span>
         )}
       </button>

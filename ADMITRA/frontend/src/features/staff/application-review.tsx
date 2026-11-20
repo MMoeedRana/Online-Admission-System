@@ -193,9 +193,9 @@ export function ApplicationReview({ id }: { id: string }) {
                       {pr.eligibility?.checks.map((c) => (
                         <li key={c.level} className="flex items-start gap-2 text-[13px]">
                           {c.ok ? (
-                            <CheckCircle2 className="mt-0.5 size-4 shrink-0 text-green-600" />
+                            <CheckCircle2 className="mt-0.5 size-4 shrink-0 text-green-700 dark:text-green-400" />
                           ) : (
-                            <XCircle className="mt-0.5 size-4 shrink-0 text-red-600" />
+                            <XCircle className="mt-0.5 size-4 shrink-0 text-red-700 dark:text-red-400" />
                           )}
                           {c.reason}
                         </li>
@@ -211,7 +211,7 @@ export function ApplicationReview({ id }: { id: string }) {
               title="Academic record"
               subtitle="Trust level 0 self-declared · 1 document · 2 registry · 3 officer verified"
             />
-            <div className="mt-4 overflow-x-auto">
+            <div className="mt-4 overflow-x-auto" tabIndex={0} role="region" aria-label="Scrollable table">
               <table className="w-full min-w-[560px] text-left text-[13.5px]">
                 <thead>
                   <tr className="border-line bg-card-soft text-muted border-y text-[11.5px] tracking-wider uppercase">
@@ -322,7 +322,7 @@ export function ApplicationReview({ id }: { id: string }) {
                           </Button>
                           <Button
                             variant="secondary"
-                            icon={<X className="size-4 text-red-600" />}
+                            icon={<X className="size-4 text-red-700 dark:text-red-400" />}
                             disabled={shownDoc.status === 'REJECTED'}
                             onClick={() => setRejectDoc(shownDoc._id)}
                           >

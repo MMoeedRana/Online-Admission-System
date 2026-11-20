@@ -46,7 +46,7 @@ export function OnboardingForm() {
   if (done) {
     return (
       <Card className="mt-6 flex flex-col items-center p-10 text-center">
-        <CheckCircle2 className="size-14 text-green-600" />
+        <CheckCircle2 className="size-14 text-green-700 dark:text-green-400" />
         <h2 className="mt-4 text-[20px] font-bold">Request received</h2>
         <p className="text-muted mt-2 max-w-md text-[14px]">
           Thank you. We sent a confirmation to your e-mail. Our team will review the request and contact you soon.

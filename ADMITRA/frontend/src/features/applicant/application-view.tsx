@@ -83,7 +83,7 @@ export function ApplicationView({ id }: { id: string }) {
             {data.canWithdraw && (
               <Button
                 variant="ghost"
-                icon={<Undo2 className="size-4 text-red-600" />}
+                icon={<Undo2 className="size-4 text-red-700 dark:text-red-400" />}
                 onClick={() => setWithdraw(true)}
               >
                 Withdraw
@@ -161,7 +161,7 @@ export function ApplicationView({ id }: { id: string }) {
                   >
                     <div>
                       <p className="text-ink text-[13.5px] font-semibold">{t.name}</p>
-                      {last?.reason && <p className="text-[12.5px] text-red-600">{last.reason}</p>}
+                      {last?.reason && <p className="text-[12.5px] text-red-700 dark:text-red-400">{last.reason}</p>}
                     </div>
                     {d ? (
                       <StatusBadge status={d.status} />
@@ -188,7 +188,7 @@ export function ApplicationView({ id }: { id: string }) {
                       {i === 0 ? (
                         <CircleDot className="text-primary mt-0.5 size-4 shrink-0" />
                       ) : (
-                        <CheckCircle2 className="mt-0.5 size-4 shrink-0 text-green-600" />
+                        <CheckCircle2 className="mt-0.5 size-4 shrink-0 text-green-700 dark:text-green-400" />
                       )}
                       <div className="min-w-0">
                         <p className={cn('text-[13.5px] font-semibold', i === 0 ? 'text-ink' : 'text-body')}>

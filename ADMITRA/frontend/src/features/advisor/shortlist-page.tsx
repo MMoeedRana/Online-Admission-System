@@ -153,7 +153,7 @@ export function ShortlistPage() {
                   <Button
                     size="sm"
                     variant="ghost"
-                    icon={<Trash2 className="size-4 text-red-600" />}
+                    icon={<Trash2 className="size-4 text-red-700 dark:text-red-400" />}
                     onClick={() => remove.mutate(i._id)}
                   >
                     Remove
