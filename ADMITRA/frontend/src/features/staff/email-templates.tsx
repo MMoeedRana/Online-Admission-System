@@ -22,7 +22,6 @@ interface Template {
   customized: boolean;
 }
 
-/** NOTIF-3: e-mail templates with {{variables}}, preview and reset to default. */
 export function EmailTemplates() {
   const key = useInstKey();
   const qc = useQueryClient();

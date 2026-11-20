@@ -12,7 +12,6 @@ import { cn } from '@/lib/utils';
 const PRESETS = ['#1A62D6', '#0F766E', '#15803D', '#7C3AED', '#BE185D', '#B91C1C', '#C2410C', '#0E7490', '#334155'];
 const SIDEBAR_PRESETS = ['#0B1B3A', '#0F2A2A', '#14211A', '#1E1B3A', '#2A1020', '#1F2937', '#0C1B33', '#111827'];
 
-/** BRAND-5: colour picker with presets; shows the colour that will actually be used for contrast. */
 export function ColorField({
   id,
   label,
@@ -97,7 +96,6 @@ export function ColorField({
   );
 }
 
-/** Logo / favicon / profile picture with preview, upload and remove. */
 export function ImageField({
   label,
   hint,
@@ -201,7 +199,6 @@ export function ImageField({
   );
 }
 
-/** Live preview of the colours on a miniature workspace (tokens are set on the preview only). */
 export function BrandPreview({
   primaryColor,
   sidebarColor,

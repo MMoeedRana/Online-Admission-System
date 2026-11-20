@@ -34,7 +34,6 @@ type DraftRow = HistoryRow & {
   createdAt: string;
 };
 
-/** Reference directory manager (DIR-1 to DIR-8, PRED-12) for the super admin. */
 export function PlatformDirectory() {
   const [tab, setTab] = useState<Tab>('verify');
   const counts = useQuery({

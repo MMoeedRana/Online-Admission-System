@@ -9,7 +9,6 @@ import { idParams, parse } from '../../lib/validate';
 import { requirePermission } from '../../middleware/tenant';
 import { ApplicantDocumentModel, DocumentTypeModel } from './document.models';
 
-/** DOC-1: document requirements of the institution. */
 export const documentTypeRouter = Router();
 
 const body = z.object({

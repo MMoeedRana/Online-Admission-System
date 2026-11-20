@@ -37,10 +37,8 @@ import {
   OfferModel,
 } from './merit.models';
 
-/** Offers that still hold a seat. */
 export const SEAT_HOLDING = ['OFFERED', 'ACCEPTED', 'ENROLLED'] as const;
 
-/** Applications still waiting for a decision that do not enter the ranking (MERIT-6). */
 const IN_PROGRESS: ApplicationStatus[] = [
   'SUBMITTED',
   'PAYMENT_PENDING',
@@ -61,7 +59,6 @@ const STATUS_TEXT: Record<string, string> = {
 
 const poolKey = (programId: unknown, shift: string) => `${String(programId)}:${shift}`;
 
-/** Splits campaign seats of a program into its shifts (a campaign seat cap reduces them proportionally). */
 export function poolCapacities(
   program: { _id: unknown; shifts: { name: string; seats: number }[] },
   seatCap: number | null | undefined,
@@ -117,10 +114,6 @@ interface Built {
   candidates: number;
 }
 
-/**
- * MERIT-1 to MERIT-6 and MARK-10: ranks the candidates of a campaign and allocates the free seats.
- * `candidateIds` limits the candidates (used when revising a list).
- */
 export async function buildList(
   institutionId: Id,
   campaignId: Id,
@@ -205,7 +198,6 @@ export async function buildList(
       breakdowns.set(key, agg.breakdown);
     }
     if (!Object.keys(aggregates).length) {
-      // MARK-10: the reason "marks not verified" is shown first when it applies.
       excluded.push({
         ...base,
         reason: reasons.includes('Marks not verified')
@@ -244,7 +236,6 @@ export async function buildList(
     );
   }
 
-  // Free seats per pool: capacity minus seats already held by earlier lists.
   const occupied = await occupiedSeats(campaignId, opts.supersedesId);
   const pools: Built['pools'] = [];
   for (const cp of campaign.programs) {
@@ -278,7 +269,6 @@ export async function buildList(
 
   const entries: Built['entries'] = [];
   const byId = new Map(applicants.map((a) => [a.id, a]));
-  // Unmatched applicants wait in their highest eligible preference.
   const waiting = new Map<string, typeof applicants>();
   for (const a of applicants) {
     if (result.matched.has(a.id)) continue;
@@ -314,7 +304,6 @@ export async function buildList(
         waitingPosition: null,
       }),
     );
-    // The waiting list is as long as the pool's capacity; the others are not selected.
     rest.forEach((a, i) => {
       const waits = i < pool.capacity;
       entries.push({
@@ -407,7 +396,6 @@ async function assertNoOpenList(campaignId: Id) {
     );
 }
 
-/** Table 3.13, step 4: generates the next merit list of a campaign as a draft. */
 export async function generateList(req: Request, campaignId: Id, offerDeadline: Date) {
   await assertNoOpenList(campaignId);
   if (offerDeadline <= new Date())
@@ -428,7 +416,6 @@ export async function generateList(req: Request, campaignId: Id, offerDeadline: 
   });
 }
 
-/** OFFER-2: a correction of a published list, allowed only before any offer is accepted. */
 export async function reviseList(req: Request, listId: Id, offerDeadline: Date) {
   const old = await MeritListModel.findOne({ _id: listId, institutionId: req.tenant!.institutionId }).lean();
   if (!old) throw ApiError.notFound('Merit list');
@@ -455,7 +442,6 @@ export async function reviseList(req: Request, listId: Id, offerDeadline: Date) 
   });
 }
 
-/** OFFER-1: four-eyes rule. */
 export async function approveList(req: Request, listId: Id) {
   const list = await MeritListModel.findOne({ _id: listId, institutionId: req.tenant!.institutionId });
   if (!list) throw ApiError.notFound('Merit list');
@@ -493,10 +479,6 @@ const OUTCOME_STATUS = {
   NOT_SELECTED: 'NOT_SELECTED',
 } as const;
 
-/**
- * Table 3.14, step 3: in one transaction re-checks seats, creates offers and waiting-list entries,
- * updates statuses and records the closing merit in the directory; then notifies applicants.
- */
 export async function publishList(req: Request, listId: Id) {
   const t = req.tenant!;
   const result = await withTransaction(async (session: ClientSession) => {
@@ -528,7 +510,6 @@ export async function publishList(req: Request, listId: Id) {
       await old.save({ session });
     }
 
-    // Seats may have changed since generation (an offer accepted or released meanwhile).
     const occupied = await occupiedSeats(list.campaignId, list.supersedesId);
     for (const pool of list.pools) {
       const free = (pool.capacity ?? 0) - (occupied.get(poolKey(pool.programId, pool.shift)) ?? 0);
@@ -591,7 +572,6 @@ export async function publishList(req: Request, listId: Id) {
     return { list, entries, campaign };
   });
 
-  // FIND-5: live notification and e-mail for every affected applicant.
   const users = await UserModel.find({ _id: { $in: result.entries.map((e) => e.applicantId) } })
     .select('email fullName')
     .lean();

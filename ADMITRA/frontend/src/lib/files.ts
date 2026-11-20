@@ -4,7 +4,6 @@ import { useEffect, useState } from 'react';
 import { api, errorMessage } from './api';
 import { toast } from '@/components/ui/toast';
 
-/** Private files and PDFs need the access token, so they are fetched as blobs (DOC-3). */
 export async function fetchBlob(url: string) {
   const r = await api.get<Blob>(url, { responseType: 'blob' });
   return r.data;

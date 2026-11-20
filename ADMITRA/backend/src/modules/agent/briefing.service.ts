@@ -14,7 +14,6 @@ import { getProvider } from './providers';
 import { pktDay, type AgentContext } from './tools/common';
 import { readTools } from './tools/read';
 
-/** AGENT-7: the daily briefing. Figures always come from the database; the AI only writes the summary. */
 const tool = (name: string) => readTools.find((t) => t.name === name)!;
 
 function systemCtx(
@@ -38,7 +37,6 @@ const n = (v: unknown) => Number(v ?? 0);
 
 async function summarise(kind: string, highlights: string[]) {
   const provider = getProvider();
-  // The offline mock writes no prose; the template is used instead.
   if (!provider || provider.name === 'mock' || !highlights.length)
     return { summary: highlights.join(' '), generatedBy: 'TEMPLATE' as const };
   try {
@@ -149,7 +147,6 @@ export async function institutionBriefing(institutionId: Types.ObjectId, date = 
   return b;
 }
 
-/** Sends a briefing to its readers: an in-app notification and an e-mail. */
 async function deliver(userIds: unknown[], title: string, summary: string, link: string) {
   const users = await UserModel.find({ _id: { $in: userIds }, status: 'ACTIVE' })
     .select('email')
@@ -168,7 +165,6 @@ async function deliver(userIds: unknown[], title: string, summary: string, link:
   }
 }
 
-/** Creates today's briefings that do not exist yet and delivers them. */
 export async function runDailyBriefings(date = pktDay()) {
   let made = 0;
   if (!(await BriefingModel.exists({ scope: 'PLATFORM', institutionId: null, date }))) {
@@ -196,7 +192,6 @@ export async function runDailyBriefings(date = pktDay()) {
   return made;
 }
 
-/** Checks every 10 minutes; after the briefing hour (Pakistan time) today's briefings are created once. */
 export function startBriefingJob() {
   const tick = async () => {
     const hour = new Date(Date.now() + 5 * 3600_000).getUTCHours();

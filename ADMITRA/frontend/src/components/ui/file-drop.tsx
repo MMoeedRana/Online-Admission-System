@@ -4,7 +4,6 @@ import { FileUp } from 'lucide-react';
 import { useRef, useState } from 'react';
 import { cn } from '@/lib/utils';
 
-/** Drop zone with a file picker (the camera of a phone is offered by the browser). */
 export function FileDrop({
   accept,
   hint,

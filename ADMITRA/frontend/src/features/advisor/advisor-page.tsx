@@ -73,7 +73,6 @@ function bodyOf(v: AdvisorInputs) {
   };
 }
 
-// The comparison selection is a per-viewer convenience kept in this browser only.
 const compareListeners = new Set<() => void>();
 function readCompare(): string {
   try {
@@ -103,9 +102,7 @@ export function useCompare() {
   const save = (next: string[]) => {
     try {
       localStorage.setItem(COMPARE_KEY, JSON.stringify(next));
-    } catch {
-      /* storage unavailable */
-    }
+    } catch {}
     compareListeners.forEach((l) => l());
   };
   const toggle = (id: string) => {
@@ -116,7 +113,6 @@ export function useCompare() {
   return { ids, toggle, clear: () => save([]) };
 }
 
-/** PRED-10: programs saved by a signed-in applicant. */
 export function useShortlist() {
   const { user } = useAuth();
   const qc = useQueryClient();
@@ -148,7 +144,6 @@ export function AdvisorPage({ base = '' }: { base?: string }) {
   const router = useRouter();
   const isApplicant = user?.accountType === 'APPLICANT';
   const [form, setV] = useState<AdvisorInputs>({ ...EMPTY, useSaved: false });
-  // Signed-in applicants start with their saved marks until they untick the option (PRED-2).
   const [savedChoice, setSavedChoice] = useState<boolean | null>(null);
   const v = useMemo(() => ({ ...form, useSaved: savedChoice ?? isApplicant }), [form, savedChoice, isApplicant]);
   const [errors, setErrors] = useState<Record<string, string>>({});
@@ -174,7 +169,6 @@ export function AdvisorPage({ base = '' }: { base?: string }) {
     },
   });
 
-  // PRED-10 what-if: once results are shown, changes are recalculated straight away.
   useEffect(() => {
     if (!ran.current) return;
     const t = setTimeout(() => run.mutate(v), 450);

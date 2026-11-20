@@ -1,7 +1,6 @@
 import { Check } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
-/** Numbered steps of the application wizard. */
 export function Stepper({
   steps,
   current,

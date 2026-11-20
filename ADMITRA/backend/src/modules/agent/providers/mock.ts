@@ -1,10 +1,5 @@
 import type { ChatMessage, ChatProvider, ChatResult, ToolSpec } from './types';
 
-/**
- * AGENT-1 (development and tests only): an offline stand-in for a real model. It picks a tool from
- * keywords in the question, then summarises the tool's real result. It lets the whole flow (tools,
- * streaming, action cards) be shown and tested without an API key. Refused in production.
- */
 const RULES: [RegExp, string, Record<string, unknown>][] = [
   [/remind.*offer|offer.*(expire|deadline)/i, 'remind_offer_deadline', { withinDays: 2 }],
   [/remind.*(fee|challan|payment)/i, 'remind_unpaid_fees', {}],
@@ -21,14 +16,12 @@ const RULES: [RegExp, string, Record<string, unknown>][] = [
 const ROMAN_URDU =
   /\b(kya|kia|kaya|kaise|kaisay|kaisi|aap|ap|hai|hain|hy|mujhe|mera|meri|kitn[ei]|kitna|aaj|kal|batao|bataein|bataiye|dikhao|karo|karein|nahi|nhi|haan|acha|accha|theek|shukriya|salam|assalam|kese|kesy|wala|wali|sab)\b/gi;
 
-/** Roman Urdu when at least two common Roman Urdu words appear (or one in a short message). */
 export function isRomanUrdu(text: string) {
   const hits = text.match(ROMAN_URDU)?.length ?? 0;
   const words = text.trim().split(/\s+/).length;
   return hits >= 2 || (hits === 1 && words <= 3);
 }
 
-/** Greetings and small talk are answered directly, without tools. */
 export function smallTalk(text: string, name: string, agent: string): string | null {
   const q = text
     .trim()
@@ -139,7 +132,6 @@ export class MockProvider implements ChatProvider {
     const last = req.messages.at(-1)!;
     const system = req.messages.find((m) => m.role === 'system')?.content ?? '';
     const fullName = system.match(/You assist ([^,]+),/)?.[1] ?? '';
-    // A role account such as "Platform Administrator" is greeted without a name.
     const userName = /admin/i.test(fullName) ? '' : (fullName.split(' ')[0] ?? '');
     const agent = system.match(/You are ([^,]+), the admission/)?.[1] ?? 'Mitra';
     const lastUser = [...req.messages].reverse().find((m) => m.role === 'user')?.content ?? '';

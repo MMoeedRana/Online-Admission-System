@@ -45,7 +45,6 @@ interface Detail {
 
 const norm = (s: string) => s.toUpperCase().replace(/[^A-Z]/g, '');
 
-/** MARK-7: entered marks vs the registry and the result card, side by side. */
 export function VerificationPanel({ id }: { id: string }) {
   const key = useInstKey();
   const qc = useQueryClient();

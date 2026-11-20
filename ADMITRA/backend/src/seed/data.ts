@@ -1,7 +1,3 @@
-/**
- * Sample data for development and demonstration only.
- * Institution names match the reference UI designs; they are not real institutions.
- */
 export const SAMPLE_PASSWORD = 'Admitra@123';
 
 export const plans = [

@@ -9,7 +9,6 @@ const BrandContext = createContext<Brand>(DEFAULT_BRAND);
 
 export const brandKey = ['branding'] as const;
 
-/** BRAND-1: the platform branding, rendered on the server first and refreshed in the browser. */
 export function BrandProvider({ initial, children }: { initial: Brand; children: ReactNode }) {
   const q = useQuery({
     queryKey: brandKey,

@@ -16,7 +16,6 @@ import { formatDate, formatMoney } from '@/lib/format';
 import { DATA_STATUS } from './directory-page';
 import { useBrand } from '@/features/branding/brand-context';
 
-/** DIR-1 / DIR-7: an institution of the directory with its programs. */
 export function DirectoryInstitutionDetail({ slug }: { slug: string }) {
   const brand = useBrand();
   const q = useQuery({

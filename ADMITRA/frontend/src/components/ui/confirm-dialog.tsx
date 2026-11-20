@@ -17,7 +17,6 @@ interface Props {
   reasonLabel?: string;
 }
 
-/** Confirmation before destructive or irreversible actions (SAFE-7). */
 export function ConfirmDialog({
   open,
   onClose,

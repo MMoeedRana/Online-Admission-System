@@ -46,7 +46,6 @@ const LEVEL_LABEL: Record<string, string> = {
 export const currentRecords = (userId: Id) =>
   RecordModel.find({ userId, current: true }).lean() as unknown as Promise<RecordLean[]>;
 
-/** APP-1: whether the applicant meets each requirement of a program, and why not. */
 export function eligibilityFor(program: Pick<ProgramDoc, 'eligibility'>, records: RecordLean[]) {
   const checks = (program.eligibility ?? []).map((rule) => {
     const rec = records.find((r) => r.level === rule.level);
@@ -92,7 +91,6 @@ export function eligibilityFor(program: Pick<ProgramDoc, 'eligibility'>, records
   return { eligible: checks.every((c) => c.ok), checks };
 }
 
-/** Records that a program's eligibility depends on (used for MARK-6 and FLOW-4). */
 export function relevantRecords(programs: Pick<ProgramDoc, 'eligibility'>[], records: RecordLean[]) {
   const levels = new Set(programs.flatMap((p) => (p.eligibility ?? []).map((e) => e.level)));
   return records.filter((r) => levels.has(r.level as never));
@@ -117,7 +115,6 @@ export async function contextOf(app: {
   return { campaign, institution, programs, chosen };
 }
 
-/** DOC-1: active document types that apply to the chosen degree levels. */
 export async function requiredDocumentTypes(institutionId: Id, chosen: Pick<ProgramDoc, 'degreeLevel'>[]) {
   const levels = new Set(chosen.map((p) => p.degreeLevel));
   const types = await DocumentTypeModel.find({ institutionId, active: true })
@@ -126,7 +123,6 @@ export async function requiredDocumentTypes(institutionId: Id, chosen: Pick<Prog
   return types.filter((t) => !t.degreeLevels?.length || t.degreeLevels.some((l) => levels.has(l)));
 }
 
-/** FEE-1: highest program fee or sum of program fees, by campaign policy. */
 export function applicationFee(
   campaign: Pick<Campaign, 'settings'>,
   chosen: Pick<ProgramDoc, 'applicationFee' | 'title'>[],
@@ -146,7 +142,6 @@ export function applicationFee(
   };
 }
 
-/** APP-3: every missing item that blocks submission. */
 export async function missingItems(app: AppDoc) {
   const ctx = await contextOf(app);
   const missing: { key: string; message: string }[] = [];
@@ -184,7 +179,6 @@ export async function missingItems(app: AppDoc) {
   return { missing, ctx, records };
 }
 
-/** FLOW-2: checks the transition table, actor and permission. */
 export function findTransition(from: ApplicationStatus, to: ApplicationStatus, actor: Actor) {
   return TRANSITIONS.find((t) => t.to === to && t.actor === actor && t.from.includes(from));
 }
@@ -208,7 +202,6 @@ export function pushHistory(
   app.status = to;
 }
 
-/** APP-4: number, snapshot and challan are created in one transaction. */
 export async function submitApplication(req: Request, app: AppDoc) {
   if (app.status !== 'DRAFT') throw ApiError.conflict('This application has already been submitted.');
   const { missing, ctx, records } = await missingItems(app);
@@ -309,7 +302,6 @@ export async function submitApplication(req: Request, app: AppDoc) {
   return { app, voucher };
 }
 
-/** Preconditions of staff transitions (FLOW-3, FLOW-4, FLOW-5). */
 export async function checkPreconditions(app: AppDoc, to: ApplicationStatus) {
   const ctx = await contextOf(app);
   const separateEligibility = ctx.institution.settings?.eligibilityAsSeparateStep ?? true;
@@ -368,7 +360,6 @@ export async function checkPreconditions(app: AppDoc, to: ApplicationStatus) {
   return ctx;
 }
 
-/** FLOW-2: staff status change with permission, note and precondition checks. */
 export async function staffTransition(req: Request, app: AppDoc, to: ApplicationStatus, note: string) {
   const t = findTransition(app.status as ApplicationStatus, to, 'STAFF');
   if (!t)
@@ -428,7 +419,6 @@ export async function staffTransition(req: Request, app: AppDoc, to: Application
   return app;
 }
 
-/** Progress shown on the applicant dashboard (percentage of the admission journey). */
 export const PROGRESS: Record<string, number> = {
   DRAFT: 10,
   SUBMITTED: 25,

@@ -1,7 +1,6 @@
 import { CampaignModel } from '../modules/campaigns/campaign.model';
 import { logger } from '../lib/logger';
 
-/** Closes open campaigns whose closing time has passed (CAMP-1, automatic). */
 export async function closeExpiredCampaigns(now = new Date()): Promise<number> {
   const due = await CampaignModel.find({ status: 'OPEN', closesAt: { $lte: now } });
   for (const c of due) {

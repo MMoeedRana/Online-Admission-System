@@ -19,7 +19,6 @@ import {
 
 type Inst = Awaited<ReturnType<typeof createInstitution>>;
 
-/** A second staff member of the same institution with the given roles. */
 async function staff(inst: Inst, email: string, roles: string[]) {
   const user = await createUser(email);
   await MemberModel.create({
@@ -40,7 +39,6 @@ async function staff(inst: Inst, email: string, roles: string[]) {
 }
 
 let n = 0;
-/** A verified application with officer-verified (or weaker) records, created directly. */
 async function verifiedApplicant(
   ctx: { inst: Inst; camp: { _id: string } },
   name: string,
@@ -158,7 +156,7 @@ describe('merit formulas (MERIT-1, MERIT-2)', () => {
     expect(bad.status).toBe(422);
     const list = await committee.get(`/merit-formulas?campaignId=${camp._id}`);
     const active = list.body.data.find((x: { program: { _id: string } }) => x.program._id === cs._id).active;
-    expect((await committee.patch(`/merit-formulas/${active._id}`).send(FORMULA)).status).toBe(409); // locked
+    expect((await committee.patch(`/merit-formulas/${active._id}`).send(FORMULA)).status).toBe(409);
     const nv = await committee.post(`/merit-formulas/${active._id}/new-version`);
     expect(nv.status).toBe(201);
     expect(nv.body.data.version).toBe(2);
@@ -190,13 +188,12 @@ describe('merit lists, offers and enrollment (Sections 3.12, 3.13)', () => {
       status: 'DOCUMENT_VERIFICATION',
     });
 
-    // Generate (MERIT-6, MARK-10)
     const gen = await committee
       .post('/merit-lists')
       .send({ campaignId: camp._id, offerDeadline: deadline() });
     expect(gen.status).toBe(201);
     const listId = gen.body.data._id;
-    expect(gen.body.data.counts.selected).toBe(4); // 2 + 1 + 1 seats
+    expect(gen.body.data.counts.selected).toBe(4);
     const reasons = gen.body.data.excluded.map((x: { reason: string }) => x.reason);
     expect(reasons).toContain('Marks not verified');
     expect(reasons.some((r: string) => r.startsWith('Application not ready'))).toBe(true);
@@ -207,22 +204,19 @@ describe('merit lists, offers and enrollment (Sections 3.12, 3.13)', () => {
     expect(outcome(ali.app._id).breakdown).toHaveLength(3);
     expect(outcome(noor.app._id).outcome).toBe('WAITLISTED');
 
-    // OFFER-1: four-eyes rule
     expect((await committee.post(`/merit-lists/${listId}/approve`)).status).toBe(403);
     expect((await committee2.post(`/merit-lists/${listId}/approve`)).status).toBe(200);
-    expect((await committee2.post(`/merit-lists/${listId}/publish`)).status).toBe(403); // admin publishes
+    expect((await committee2.post(`/merit-lists/${listId}/publish`)).status).toBe(403);
     const pub = await inst.as.post(`/merit-lists/${listId}/publish`);
     expect(pub.status).toBe(200);
     expect(await OfferModel.countDocuments({ meritListId: listId })).toBe(4);
     expect((await ApplicationModel.findById(ali.app._id))!.status).toBe('OFFER_ISSUED');
     expect((await ApplicationModel.findById(noor.app._id))!.status).toBe('WAITLISTED');
-    // DIR-5 and FIND-5
     expect(await MeritHistoryModel.countDocuments({ origin: 'ADMITRA', status: 'VERIFIED' })).toBeGreaterThan(
       0,
     );
     expect(await NotificationModel.countDocuments({ type: 'OFFER_ISSUED' })).toBeGreaterThanOrEqual(4);
 
-    // Accept, pay the admission fee, finance verifies: enrollment with a registration number (OFFER-4)
     const aliOffer = (await OfferModel.findOne({ applicationId: ali.app._id }))!;
     const acc = await ali.agent.post(`/me/offers/${aliOffer._id}/accept`);
     expect(acc.status).toBe(200);
@@ -248,13 +242,11 @@ describe('merit lists, offers and enrollment (Sections 3.12, 3.13)', () => {
     expect(letter.status).toBe(200);
     expect(letter.headers['content-type']).toContain('application/pdf');
 
-    // Decline and expiry release seats (OFFER-3)
     const sanaOffer = (await OfferModel.findOne({ applicationId: sana.app._id }))!;
     expect((await sana.agent.post(`/me/offers/${sanaOffer._id}/decline`)).status).toBe(200);
     expect(await expireOffers(new Date(Date.now() + 6 * 864e5))).toBe(2);
     expect((await ApplicationModel.findById(umar.app._id))!.status).toBe('OFFER_EXPIRED');
 
-    // Second list: waitlisted applicants move into the released seats
     const gen2 = await committee
       .post('/merit-lists')
       .send({ campaignId: camp._id, offerDeadline: deadline() });
@@ -264,7 +256,6 @@ describe('merit lists, offers and enrollment (Sections 3.12, 3.13)', () => {
     expect((await inst.as.post(`/merit-lists/${gen2.body.data._id}/publish`)).status).toBe(200);
     expect((await ApplicationModel.findById(noor.app._id))!.status).toBe('OFFER_ISSUED');
 
-    // OFFER-2: a correction supersedes the list while no offer is accepted
     const rev = await committee
       .post(`/merit-lists/${gen2.body.data._id}/revise`)
       .send({ offerDeadline: deadline() });
@@ -277,7 +268,6 @@ describe('merit lists, offers and enrollment (Sections 3.12, 3.13)', () => {
       await OfferModel.countDocuments({ meritListId: gen2.body.data._id, status: 'CANCELLED' }),
     ).toBeGreaterThan(0);
 
-    // MARK-11: revocation with a CNIC block
     const revoke = await inst.as
       .post(`/offers/${aliOffer._id}/revoke`)
       .send({ reason: 'Intermediate marks found to be false', blockCnic: true });

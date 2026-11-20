@@ -74,7 +74,6 @@ interface Detail {
   can: { approve: boolean; publish: boolean; discard: boolean; revise: boolean };
 }
 
-/** One merit list: ranking, exclusions and the approval workflow (OFFER-1, OFFER-2, MERIT-6). */
 export function MeritListDetail({ id }: { id: string }) {
   const key = useInstKey();
   const qc = useQueryClient();

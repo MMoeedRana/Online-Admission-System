@@ -15,7 +15,6 @@ export const INSTITUTION_STATUSES = ['PENDING', 'ACTIVE', 'SUSPENDED', 'REJECTED
 export const DEGREE_LEVELS = ['INTERMEDIATE', 'DIPLOMA', 'ASSOCIATE', 'BS', 'MS', 'MPHIL', 'PHD'] as const;
 export type DegreeLevel = (typeof DEGREE_LEVELS)[number];
 
-/** Qualifications that can appear in eligibility rules and academic records. */
 export const QUALIFICATION_LEVELS = [
   'MATRIC',
   'INTERMEDIATE',
@@ -30,7 +29,6 @@ export const SHIFTS = ['MORNING', 'EVENING', 'WEEKEND'] as const;
 export const CAMPAIGN_STATUSES = ['DRAFT', 'OPEN', 'CLOSED', 'ARCHIVED'] as const;
 export type CampaignStatus = (typeof CAMPAIGN_STATUSES)[number];
 
-/** CAMP-1: allowed campaign status changes. */
 export const CAMPAIGN_TRANSITIONS: Record<CampaignStatus, CampaignStatus[]> = {
   DRAFT: ['OPEN'],
   OPEN: ['CLOSED'],

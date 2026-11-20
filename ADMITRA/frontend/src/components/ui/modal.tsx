@@ -17,7 +17,6 @@ interface Props {
 
 const widths = { sm: 'sm:max-w-md', md: 'sm:max-w-lg', lg: 'sm:max-w-2xl', xl: 'sm:max-w-4xl' };
 
-/** Dialog; opens as a full-width sheet on phones (Section 4.1.2). */
 export function Modal({ open, onClose, title, description, children, footer, size = 'md' }: Props) {
   const id = useId();
   useEffect(() => {

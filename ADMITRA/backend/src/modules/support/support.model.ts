@@ -1,6 +1,5 @@
 import { Schema, Types, model, type InferSchemaType } from 'mongoose';
 
-/** SUP-1: categories, priorities with response targets (hours) and statuses of a ticket. */
 export const TICKET_CATEGORIES = [
   'TECHNICAL',
   'BILLING',
@@ -30,10 +29,8 @@ const messageSchema = new Schema(
   {
     authorId: { type: Types.ObjectId, ref: 'User', required: true },
     authorName: { type: String, required: true },
-    /** Which side wrote the message: the institution or the platform team. */
     side: { type: String, enum: ['INSTITUTION', 'PLATFORM'], required: true },
     body: { type: String, required: true, maxlength: 5000 },
-    /** Status set together with this reply, if any. */
     statusChange: { type: String, enum: [...TICKET_STATUSES, null], default: null },
   },
   { timestamps: { createdAt: true, updatedAt: false } },
@@ -49,7 +46,6 @@ const ticketSchema = new Schema(
     category: { type: String, enum: TICKET_CATEGORIES, required: true },
     priority: { type: String, enum: TICKET_PRIORITIES, default: 'NORMAL' },
     status: { type: String, enum: TICKET_STATUSES, default: 'OPEN', index: true },
-    /** Time by which the platform team should first reply (SUP-1). */
     responseDueAt: { type: Date, required: true },
     firstResponseAt: { type: Date, default: null },
     assignedTo: { type: Types.ObjectId, ref: 'User', default: null },
@@ -69,7 +65,6 @@ export function responseDue(priority: TicketPriority, from = new Date()): Date {
   return new Date(from.getTime() + RESPONSE_TARGET_HOURS[priority] * 60 * 60 * 1000);
 }
 
-/** Whether the first platform reply is late (or will be late if nobody replies now). */
 export function responseState(t: { responseDueAt: Date; firstResponseAt?: Date | null; status: string }) {
   if (t.firstResponseAt) return t.firstResponseAt <= t.responseDueAt ? 'MET' : 'MISSED';
   if (t.status === 'RESOLVED' || t.status === 'CLOSED') return 'MET';

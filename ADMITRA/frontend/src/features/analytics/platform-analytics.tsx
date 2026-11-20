@@ -62,7 +62,6 @@ interface PlatformAnalytics {
   };
 }
 
-/** Ranked list with a single-hue bar per row and the figure printed beside it. */
 function BarList({ rows, empty }: { rows: { name: string; count: number }[]; empty: string }) {
   const max = Math.max(1, ...rows.map((r) => r.count));
   if (!rows.length) return <p className="text-muted py-6 text-center text-[13px]">{empty}</p>;
@@ -83,7 +82,6 @@ function BarList({ rows, empty }: { rows: { name: string; count: number }[]; emp
   );
 }
 
-/** RPT-3: Admission Advisor usage by program and registry match rates for the Super Admin. */
 export function PlatformAnalyticsPage() {
   const [days, setDays] = useState<'14' | '30' | '90'>('30');
   const q = useQuery({

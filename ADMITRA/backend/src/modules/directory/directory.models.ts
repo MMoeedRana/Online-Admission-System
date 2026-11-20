@@ -9,7 +9,6 @@ import {
 } from '../../constants/enums';
 import { MERIT_COMPONENTS } from '../../lib/merit';
 
-/** DIR-1: institutions of the reference directory (on ADMITRA or not). */
 const dirInstitutionSchema = new Schema(
   {
     name: { type: String, required: true, trim: true },
@@ -22,9 +21,7 @@ const dirInstitutionSchema = new Schema(
     website: { type: String, default: '' },
     about: { type: String, default: '' },
     campuses: [{ _id: false, name: String, city: String }],
-    /** Set when the institution uses ADMITRA (its data then comes from published merit lists). */
     institutionId: { type: Types.ObjectId, ref: 'Institution', default: null, index: true },
-    /** DIR-7: an institution can claim its profile; the super admin approves the claim. */
     claim: {
       institutionId: { type: Types.ObjectId, ref: 'Institution', default: null },
       institutionName: { type: String, default: '' },
@@ -40,7 +37,6 @@ dirInstitutionSchema.index({ name: 'text', city: 'text' });
 export type DirectoryInstitution = InferSchemaType<typeof dirInstitutionSchema>;
 export const DirInstitutionModel = model('DirectoryInstitution', dirInstitutionSchema);
 
-/** DIR-1: programs with fee, seats, eligibility, formula weights and usual admission months. */
 const dirProgramSchema = new Schema(
   {
     directoryInstitutionId: {
@@ -54,7 +50,6 @@ const dirProgramSchema = new Schema(
     degreeLevel: { type: String, enum: DEGREE_LEVELS, required: true },
     fieldGroup: { type: String, default: '' },
     durationYears: { type: Number, default: 4 },
-    /** Approximate fee per semester in rupees. */
     feePerSemester: { type: Number, default: 0 },
     shifts: [{ type: String, enum: SHIFTS }],
     seats: { type: Number, default: 0 },
@@ -78,7 +73,6 @@ dirProgramSchema.index({ title: 'text' });
 export type DirectoryProgram = InferSchemaType<typeof dirProgramSchema>;
 export const DirProgramModel = model('DirectoryProgram', dirProgramSchema);
 
-/** DIR-2 to DIR-5: closing merit per year, round, shift and quota with its source. */
 const historySchema = new Schema(
   {
     directoryProgramId: { type: Types.ObjectId, ref: 'DirectoryProgram', required: true, index: true },
@@ -105,7 +99,6 @@ historySchema.index({ directoryProgramId: 1, year: 1, round: 1, shift: 1, quota:
 export type MeritHistory = InferSchemaType<typeof historySchema>;
 export const MeritHistoryModel = model('MeritHistory', historySchema);
 
-/** PRED-10: programs saved by a signed-in applicant. */
 const shortlistSchema = new Schema(
   {
     userId: { type: Types.ObjectId, ref: 'User', required: true, index: true },
@@ -117,7 +110,6 @@ const shortlistSchema = new Schema(
 shortlistSchema.index({ userId: 1, directoryProgramId: 1 }, { unique: true });
 export const ShortlistModel = model('Shortlist', shortlistSchema);
 
-/** PRED-12: anonymous advisor usage (rounded inputs, no identity). */
 const advisorLogSchema = new Schema(
   {
     inputs: {

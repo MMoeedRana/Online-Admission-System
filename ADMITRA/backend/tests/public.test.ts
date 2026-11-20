@@ -19,7 +19,7 @@ describe('Public website API (CAMP-3)', () => {
     ).body.data._id;
 
     let rows = (await api().get('/api/v1/public/open-admissions')).body.data;
-    expect(rows).toHaveLength(0); // still a draft
+    expect(rows).toHaveLength(0);
     await a.as.post(`/campaigns/${cid}/status`).send({ to: 'OPEN' });
     rows = (await api().get('/api/v1/public/open-admissions')).body.data;
     expect(rows).toHaveLength(1);

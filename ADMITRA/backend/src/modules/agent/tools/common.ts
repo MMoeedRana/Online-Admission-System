@@ -6,7 +6,6 @@ import { CampaignModel } from '../../campaigns/campaign.model';
 import { InstitutionModel } from '../../institutions/institution.model';
 import type { AgentScope } from '../agent.models';
 
-/** Who is asking and in which workspace; every tool is limited by it (SEC-1, SEC-2). */
 export interface AgentContext {
   req: Request;
   scope: AgentScope;
@@ -19,22 +18,16 @@ export interface AgentContext {
 
 export interface AgentTool<I = Record<string, unknown>> {
   name: string;
-  /** Shown to the model. */
   description: string;
-  /** Shown to the person while the tool runs. */
   label: string;
   scope: 'platform' | 'institution' | 'both';
-  /** read: answers questions; action: prepared and run only after a person confirms (AGENT-4). */
   kind: 'read' | 'action';
-  /** Permission an institution user needs (the Super Admin can use every platform tool). */
   permission?: string;
   input: z.ZodType<I>;
   run: (ctx: AgentContext, input: I) => Promise<unknown>;
-  /** For actions: what will happen, in one sentence, before the person confirms. */
   describe?: (ctx: AgentContext, input: I) => Promise<string>;
 }
 
-// Each tool types its own input; the registry stores them with a common type.
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const defineTool = (t: AgentTool<any>) => t as unknown as AgentTool;
 
@@ -44,13 +37,11 @@ export const pktDay = (d: Date = new Date()) =>
   new Date(d.getTime() + 5 * 3600_000).toISOString().slice(0, 10);
 export const startOfPktDay = (d: Date = new Date()) => new Date(`${pktDay(d)}T00:00:00+05:00`);
 
-/** CNIC is never given to the model in full (privacy): only the last four digits. */
 export const maskCnic = (cnic?: string | null) =>
   cnic ? `*********${String(cnic).replace(/\D/g, '').slice(-4)}` : '';
 
 export class ToolError extends Error {}
 
-/** The institution a platform question is about (by name, short name, slug or id); institutions get their own. */
 export async function resolveInstitution(ctx: AgentContext, ref?: string | null) {
   if (ctx.scope === 'INSTITUTION') return InstitutionModel.findById(ctx.institutionId).lean();
   if (!ref) return null;
@@ -72,7 +63,6 @@ export async function resolveInstitution(ctx: AgentContext, ref?: string | null)
   return found[0];
 }
 
-/** Filter by tenant: an institution always sees only its own data; the platform may narrow to one. */
 export async function tenantFilter(
   ctx: AgentContext,
   institution?: string | null,
@@ -83,7 +73,6 @@ export async function tenantFilter(
   return i ? { institutionId: i._id } : {};
 }
 
-/** A campaign by title or code, or the latest one. */
 export async function resolveCampaign(filter: Record<string, unknown>, ref?: string | null) {
   if (ref) {
     const rx = new RegExp(escapeRegex(ref.trim()), 'i');

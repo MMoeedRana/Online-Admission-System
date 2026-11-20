@@ -21,7 +21,6 @@ publicRouter.use(publicLimiter);
 
 const INST_PUBLIC = 'name shortName slug type sector city province website branding about';
 
-/** Open campaigns (CAMP-3) of active institutions, keyed by program id. */
 async function openCampaignsByProgram(programIds?: unknown[]) {
   const filter: Record<string, unknown> = { status: 'OPEN', closesAt: { $gt: new Date() } };
   if (programIds) filter['programs.programId'] = { $in: programIds };
@@ -124,7 +123,6 @@ publicRouter.get('/filters', async (_req, res) => {
   });
 });
 
-/** Rows for the "Open admission campaigns" table on the home page. */
 publicRouter.get('/open-admissions', async (req, res) => {
   const { limit } = parse(z.object({ limit: z.coerce.number().int().min(1).max(50).default(8) }), req.query);
   const insts = await InstitutionModel.find({ status: 'ACTIVE' }).select(INST_PUBLIC).lean();
@@ -329,7 +327,6 @@ publicRouter.get('/institutions/:slug', async (req, res) => {
   });
 });
 
-/** INST-1: an institution requests a workspace from the public website. */
 publicRouter.post('/onboarding-requests', async (req, res) => {
   const body = parse(
     z.object({

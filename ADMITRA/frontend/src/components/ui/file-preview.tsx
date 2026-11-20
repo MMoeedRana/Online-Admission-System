@@ -5,7 +5,6 @@ import { openFile, useBlobUrl } from '@/lib/files';
 import { cn } from '@/lib/utils';
 import { Spinner } from './spinner';
 
-/** Inline preview of an uploaded image or PDF. */
 export function FilePreview({ fileId, className }: { fileId: string | null | undefined; className?: string }) {
   const url = fileId ? `/files/${fileId}` : null;
   const blob = useBlobUrl(url);

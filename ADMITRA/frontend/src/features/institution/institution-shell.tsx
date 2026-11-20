@@ -40,7 +40,6 @@ export function InstitutionShell({ children }: { children: ReactNode }) {
   const role = current?.roles.includes('INSTITUTION_ADMIN')
     ? STAFF_ROLES.INSTITUTION_ADMIN
     : current?.roles.map((r) => STAFF_ROLES[r]).join(' · ');
-  // BRAND-2: the institution's logo and colours while its plan includes custom branding.
   const b = current?.branding?.active ? current.branding : null;
   return (
     <>

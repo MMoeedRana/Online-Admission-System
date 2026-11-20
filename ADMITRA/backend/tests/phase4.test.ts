@@ -35,7 +35,6 @@ async function staff(inst: Inst, email: string, roles: string[]) {
     api()[method](`/api/v1${url}`).set('Authorization', `Bearer ${token}`).set('X-Institution-Id', inst.id);
 }
 
-/** A campaign with one program (40 seats) and applications at each step of the funnel. */
 async function funnelData(inst: Inst) {
   const prog = (
     await inst.as
@@ -53,7 +52,6 @@ async function funnelData(inst: Inst) {
   });
   if (campRes.status !== 201) throw new Error(JSON.stringify(campRes.body));
   const camp = campRes.body.data;
-  // status, fee paid, offered, accepted, enrolled
   const steps: [string, boolean, boolean, boolean, boolean][] = [
     ['SUBMITTED', false, false, false, false],
     ['UNDER_REVIEW', true, false, false, false],
@@ -168,7 +166,7 @@ describe('institution analytics (RPT-1)', () => {
     expect(d.fees.application.collected).toBe(12000);
     expect(d.fees.application.outstanding).toBe(2000);
     expect(d.documents).toMatchObject({ reviewed: 4, rejected: 1, rejectionRate: 25 });
-    expect(d.marks.verifiedShare).toBeCloseTo(57.1, 1); // 4 of 7 records at trust level 2
+    expect(d.marks.verifiedShare).toBeCloseTo(57.1, 1);
     expect((await inst.as.get('/analytics?days=30')).body.data.dailySubmissions).toHaveLength(30);
     expect((await inst.as.get('/analytics?days=7')).status).toBe(422);
   });
@@ -194,9 +192,9 @@ describe('reports (RPT-2)', () => {
     expect(csv.status).toBe(200);
     expect(csv.headers['content-type']).toContain('text/csv');
     const lines = csv.text.trim().split('\r\n');
-    expect(lines).toHaveLength(8); // header + 7 submitted
+    expect(lines).toHaveLength(8);
     expect(lines[0]).toContain('"Application"');
-    expect(csv.text).toContain(`"'=HYPERLINK(""x"")"`); // formula neutralised
+    expect(csv.text).toContain(`"'=HYPERLINK(""x"")"`);
     const pdf = await inst.as.get('/reports/applications.pdf').buffer(true);
     expect(pdf.headers['content-type']).toBe('application/pdf');
     expect(String(pdf.body.slice(0, 4))).toBe('%PDF');
@@ -238,28 +236,25 @@ describe('support tickets (SUP-1, SUP-2, SUP-3)', () => {
     expect(t.ticketNumber).toMatch(/^TKT-\d{4}-\d{5}$/);
     expect(t.status).toBe('OPEN');
     const hours = (new Date(t.responseDueAt).getTime() - new Date(t.createdAt).getTime()) / 3600_000;
-    expect(Math.round(hours)).toBe(2); // URGENT: 2 hours
+    expect(Math.round(hours)).toBe(2);
     expect(
       await NotificationModel.countDocuments({ type: 'SUPPORT', link: `/platform/support/${t._id}` }),
     ).toBe(1);
     expect(sentMails.some((m) => m.to === 'root@admitra.test' && m.subject.includes(t.ticketNumber))).toBe(
       true,
     );
-    // SEC-4: text written by users is escaped in the HTML e-mail
     await inst.as
       .post(`/support/tickets/${t._id}/replies`)
       .send({ message: '<img src=x onerror=alert(1)> please check' });
     expect(sentMails.at(-1)!.html).toContain('&lt;img src=x');
     expect(sentMails.at(-1)!.html).not.toContain('<img src=x');
 
-    // SUP-2: another institution neither lists nor opens it
     expect((await other.as.get(`/support/tickets/${t._id}`)).status).toBe(404);
     expect((await other.as.get('/support/tickets')).body.data).toHaveLength(0);
     expect((await inst.as.get('/support/tickets')).body.data).toHaveLength(1);
     const officer = await staff(inst, `off.${inst.id}@x.test`, ['ADMISSION_OFFICER']);
     expect((await officer('/support/tickets')).status).toBe(403);
 
-    // SUP-3: platform reply moves it on and notifies the institution
     const list = await asRoot('/platform/support?status=ACTIVE');
     expect(list.body.data[0].institution.name).toBe(inst.inst.name);
     const rep = await asRoot(`/platform/support/${t._id}/replies`, 'post').send({
@@ -273,7 +268,6 @@ describe('support tickets (SUP-1, SUP-2, SUP-3)', () => {
       await NotificationModel.countDocuments({ type: 'SUPPORT', link: `/institution/support/${t._id}` }),
     ).toBe(1);
 
-    // The institution's reply reopens the ticket
     const back = await inst.as
       .post(`/support/tickets/${t._id}/replies`)
       .send({ message: 'Challan CH-2026-000123 is affected.' });
@@ -399,7 +393,7 @@ describe('OpenAPI and caching (PERF-9)', () => {
   it('serves an OpenAPI 3.1 document that lists every mounted endpoint', async () => {
     const committed = JSON.parse(readFileSync(join(__dirname, '../src/docs/openapi.json'), 'utf8'));
     const fresh = openApiDocument(await collectRouters());
-    expect(Object.keys(committed.paths).sort()).toEqual(Object.keys(fresh.paths).sort()); // run `npm run docs:api` if this fails
+    expect(Object.keys(committed.paths).sort()).toEqual(Object.keys(fresh.paths).sort());
     const r = await api().get('/api/v1/openapi.json');
     expect(r.body.openapi).toBe('3.1.0');
     expect(r.body.paths['/api/v1/support/tickets'].post).toBeDefined();

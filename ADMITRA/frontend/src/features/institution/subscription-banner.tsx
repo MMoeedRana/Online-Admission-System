@@ -11,7 +11,6 @@ interface Sub {
   subscription: { endsAt: string | null; isTrial: boolean };
 }
 
-/** INST-4: warns staff during the grace period and when the workspace is read-only. */
 export function SubscriptionBanner() {
   const { current } = useAuth();
   const q = useQuery({

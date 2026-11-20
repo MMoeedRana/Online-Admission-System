@@ -58,7 +58,6 @@ interface Summary {
 
 type TabKey = 'ALL' | 'OFFERED' | 'ACCEPTED' | 'PENDING_ORIGINALS' | 'ENROLLED' | 'DECLINED' | 'EXPIRED' | 'REVOKED';
 
-/** Section 3.13: offers, admission fees, enrollment, originals (MARK-12) and revocation (MARK-11). */
 export function OffersPage() {
   const { campaigns, id, select, loading } = useCampaign();
   const key = useInstKey();

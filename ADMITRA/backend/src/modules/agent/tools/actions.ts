@@ -32,7 +32,6 @@ import {
 const esc = (s: string) =>
   s.replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]!);
 
-/** Sends one reminder per person: an in-app notification and an e-mail. */
 async function remind(userIds: unknown[], n: { title: string; body: string; link: string }) {
   const users = await UserModel.find({ _id: { $in: [...new Set(userIds.map(String))] }, status: 'ACTIVE' })
     .select('email fullName')

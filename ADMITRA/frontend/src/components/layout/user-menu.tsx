@@ -8,7 +8,6 @@ import { useBrand } from '@/features/branding/brand-context';
 import { avatarBackground } from '@/lib/brand';
 import { initials } from '@/lib/utils';
 
-/** BRAND-4: profile picture, or the initials on the colour chosen by the platform (one per name by default). */
 export function Avatar({
   name,
   src,

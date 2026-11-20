@@ -1,7 +1,6 @@
 import crypto from 'node:crypto';
 import { Schema, model } from 'mongoose';
 
-/** FIND-7: a short arithmetic CAPTCHA rendered as a distorted SVG image. */
 const captchaSchema = new Schema({
   answerHash: { type: String, required: true },
   expiresAt: { type: Date, required: true, index: { expires: 0 } },
@@ -42,7 +41,6 @@ export async function createCaptcha() {
   return { captchaId: String(doc._id), svg: svgFor(`${a}+${b}=?`) };
 }
 
-/** A CAPTCHA can be answered once; it is deleted whatever the answer. */
 export async function checkCaptcha(id: string, answer: string) {
   if (!/^[a-f0-9]{24}$/.test(id)) return false;
   const doc = await CaptchaModel.findByIdAndDelete(id).lean();

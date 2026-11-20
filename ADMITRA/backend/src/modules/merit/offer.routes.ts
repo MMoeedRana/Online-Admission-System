@@ -17,7 +17,6 @@ import { EnrollmentModel, OFFER_STATUSES, OfferModel } from './merit.models';
 import { poolCapacities } from './merit.service';
 import { revokeAdmission, verifyOriginals } from './offer.service';
 
-/** Offers and enrollment (Section 3.13) for the institution staff. */
 export const offerRouter = Router();
 offerRouter.use(
   requirePermission(
@@ -93,7 +92,6 @@ offerRouter.get('/', async (req, res) => {
   );
 });
 
-/** Seats, offers, acceptances and enrollments per program and shift. */
 offerRouter.get('/summary', async (req, res) => {
   const { campaignId } = parse(z.object({ campaignId: objectId }), req.query);
   const campaign = await CampaignModel.findOne({
@@ -115,7 +113,6 @@ offerRouter.get('/summary', async (req, res) => {
   ok(res, {
     pendingOriginals: pending,
     rows: programs.flatMap((p) => {
-      // Seats of this campaign: a campaign seat cap reduces the program's seats (as in the merit engine).
       const cap = campaign.programs.find((x) => String(x.programId) === String(p._id))?.seatCap;
       return poolCapacities(p as never, cap).map((s) => {
         const c = (st: string) =>
@@ -141,7 +138,6 @@ offerRouter.get('/summary', async (req, res) => {
   });
 });
 
-/** MARK-11: revocation with a written reason and an optional CNIC block. */
 offerRouter.post('/:id/revoke', requirePermission(PERMISSIONS.MERIT_PUBLISH), async (req, res) => {
   const { id } = parse(idParams, req.params);
   const b = parse(
@@ -154,7 +150,6 @@ offerRouter.post('/:id/revoke', requirePermission(PERMISSIONS.MERIT_PUBLISH), as
   ok(res, await revokeAdmission(req, id, b.reason, b.blockCnic));
 });
 
-/** MARK-12: originals checked on the reporting day. */
 offerRouter.post(
   '/enrollments/:id/originals',
   requirePermission(PERMISSIONS.APPLICATIONS_REVIEW),

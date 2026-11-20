@@ -30,7 +30,6 @@ async function storeImage(file: string, kind: 'INSTITUTION_LOGO' | 'AVATAR', own
   return key;
 }
 
-/** BRAND-1 to BRAND-4: default platform branding, two institution logos, RIT colours and a profile picture. */
 async function seedBranding() {
   await PlatformSettingsModel.updateOne({ _id: 'platform' }, { $setOnInsert: {} }, { upsert: true });
   const cvu = await InstitutionModel.findOne({ shortName: 'CVU' });
@@ -64,10 +63,6 @@ async function seedBranding() {
   log('Branding: platform defaults, CVU and RIT logos, RIT teal colours, a profile picture for Ayesha Noor');
 }
 
-/**
- * AGENT-5 to AGENT-7: platform fee payments (renewals), two subscriptions that need attention,
- * two cases for the integrity rules, and today's briefings.
- */
 async function seedAssistantData() {
   const now = Date.now();
   const admin = await UserModel.findOne({ platformRole: 'SUPER_ADMIN' }).lean();
@@ -76,7 +71,6 @@ async function seedAssistantData() {
   for (const [i, inst] of insts.entries()) {
     const plan = await PlanModel.findById(inst.planId).lean();
     if (!plan) continue;
-    // A yearly renewal paid some weeks ago, and for two institutions a top-up this month.
     const paidAt = new Date(now - (40 + i * 9) * DAY);
     await SubscriptionPaymentModel.create({
       institutionId: inst._id,
@@ -94,7 +88,6 @@ async function seedAssistantData() {
     });
     fees++;
   }
-  // MCU's subscription ends in 12 days; NSC's ended 2 days ago (grace period).
   await InstitutionModel.updateOne(
     { shortName: 'MCU' },
     { $set: { 'subscription.endsAt': new Date(now + 12 * DAY) } },
@@ -104,7 +97,6 @@ async function seedAssistantData() {
     { $set: { 'subscription.endsAt': new Date(now - 2 * DAY) } },
   );
 
-  // Integrity case 1 (RIT): an admission-fee payment verified although it is Rs. 5,000 short.
   const rit = insts.find((x) => x.shortName === 'RIT');
   if (rit) {
     const p = await PaymentModel.findOne({ institutionId: rit._id, status: 'VERIFIED' }).sort({
@@ -117,7 +109,6 @@ async function seedAssistantData() {
       await p.save();
     }
   }
-  // Integrity case 2 (CVU): marks confirmed by an officer although the registry showed other values.
   const cvu = insts.find((x) => x.shortName === 'CVU');
   const officer = await UserModel.findOne({ email: 'officer@cvu.example.edu.pk' }).lean();
   const rec = await RecordModel.findOne({ verificationStatus: 'MISMATCH', current: true }).lean();
@@ -144,7 +135,7 @@ async function seedAssistantData() {
 
 export async function seedPhase5() {
   const level = logger.level;
-  logger.level = 'warn'; // the briefing e-mails of the sample data are not printed one by one
+  logger.level = 'warn';
   try {
     await seedBranding();
     await seedAssistantData();

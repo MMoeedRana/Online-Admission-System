@@ -1,7 +1,3 @@
-/**
- * Sample reference directory (Section 3.14). Every institution and figure here is fictional and
- * exists only to demonstrate the directory and the Admission Advisor.
- */
 type Formula = { component: 'MATRIC' | 'INTERMEDIATE' | 'ENTRY_TEST' | 'BACHELOR_16'; weight: number }[];
 
 export interface DirProgramSeed {
@@ -12,15 +8,12 @@ export interface DirProgramSeed {
   fee: number;
   seats: number;
   shifts: ('MORNING' | 'EVENING')[];
-  /** Closing merit of the latest year; earlier years are derived from it. */
   closing: number;
   minInter: number;
   groups: string[];
   formula?: Formula;
   test?: string;
-  /** How many past years of history exist (default 3). */
   years_of_data?: number;
-  /** The latest year is still waiting for the super admin's verification. */
   latestDraft?: boolean;
 }
 
@@ -686,7 +679,6 @@ export const directoryInstitutions: DirInstitutionSeed[] = [
   },
 ];
 
-/** Deterministic pseudo-random numbers so that the sample data is the same on every run. */
 export function rng(seed: number) {
   let a = seed >>> 0;
   return () => {

@@ -6,7 +6,6 @@ const message = {
   error: { code: 'RATE_LIMITED', message: 'Too many requests. Please wait and try again.' },
 };
 
-/** AUTH-4: sign-in attempts are limited per IP address. */
 export const authLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
   limit: isTest ? 1000 : 100,
@@ -15,7 +14,6 @@ export const authLimiter = rateLimit({
   message,
 });
 
-/** Public endpoints (directory, programs, onboarding). */
 export const publicLimiter = rateLimit({
   windowMs: 60 * 1000,
   limit: isTest ? 10000 : 120,
@@ -24,7 +22,6 @@ export const publicLimiter = rateLimit({
   message,
 });
 
-/** FIND-7: the public status lookup is limited per IP address. */
 export const statusLookupLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
   limit: isTest ? 1000 : 20,

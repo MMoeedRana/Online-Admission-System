@@ -143,7 +143,6 @@ programRouter.patch('/:id', requirePermission(PERMISSIONS.PROGRAMS_MANAGE), asyn
   ok(res, p);
 });
 
-/** PROG-4: programs used by other records are archived, not deleted. */
 programRouter.post('/:id/status', requirePermission(PERMISSIONS.PROGRAMS_MANAGE), async (req, res) => {
   const { id } = parse(idParams, req.params);
   const { status } = parse(z.object({ status: z.enum(['ACTIVE', 'ARCHIVED']) }), req.body);

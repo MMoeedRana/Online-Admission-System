@@ -23,7 +23,6 @@ export interface AdvisorInput {
   q?: string;
 }
 
-/** PRED-9: where the marks came from. */
 export type MarksBasis = 'VERIFIED' | 'SELF_DECLARED' | 'ENTERED';
 
 type DirProgramLean = Awaited<ReturnType<typeof loadPrograms>>[number];
@@ -45,7 +44,6 @@ async function loadPrograms(filter: Record<string, unknown>) {
   return DirProgramModel.find({ status: 'ACTIVE', ...filter }).lean();
 }
 
-/** PRED-2: marks of a signed-in applicant from the saved academic record. */
 export async function savedMarks(userId: Id) {
   const records = await currentRecords(userId);
   const best = (level: string) =>
@@ -65,7 +63,6 @@ export async function savedMarks(userId: Id) {
   };
 }
 
-/** Closing merit of the final round of each year, latest first (verified history only, DIR-4). */
 function closingsFor(history: HistoryLean[], shift: string) {
   const forShift = history.filter((h) => h.shift === shift);
   const rows = forShift.length ? forShift : history;
@@ -90,7 +87,6 @@ function formulaOf(p: DirProgramLean, hasTest: boolean) {
   };
 }
 
-/** PRED-3: eligibility with the reason when a program cannot be chosen. */
 function eligibilityOf(p: DirProgramLean, input: AdvisorInput) {
   const reasons: string[] = [];
   for (const e of p.eligibility ?? []) {
@@ -121,7 +117,6 @@ function eligibilityOf(p: DirProgramLean, input: AdvisorInput) {
   return { eligible: reasons.length === 0, reasons };
 }
 
-/** PRED-11: indicative standing among applicants with verified marks (no identities). */
 async function standingIn(programId: Id, campaignId: Id, aggregate: number) {
   const formula = await MeritFormulaModel.findOne({ campaignId, programId, status: 'ACTIVE' }).lean();
   if (!formula) return null;
@@ -170,7 +165,6 @@ export async function adviseProgram(
   const hasTest = input.test != null;
   const { lines, standard } = formulaOf(p, hasTest);
   const usesTest = lines.some((l) => l.component === 'ENTRY_TEST');
-  // When no entry-test marks are given, the Intermediate percentage stands in (shown in the explanation).
   const assumedTest = usesTest && !hasTest;
   const marks = [
     { level: 'MATRIC', percentage: input.matric, trustLevel: 3 },
@@ -252,7 +246,6 @@ export async function adviseProgram(
 
 export type AdvisorResult = Awaited<ReturnType<typeof adviseProgram>>;
 
-/** PRED-1 to PRED-7: every matching directory program with its chance. */
 export async function advise(input: AdvisorInput) {
   const instFilter: Record<string, unknown> = { status: 'ACTIVE' };
   if (input.city) instFilter.city = input.city;
@@ -290,7 +283,6 @@ export async function advise(input: AdvisorInput) {
   return out;
 }
 
-/** One program with all of its verified history and the indicative standing (Figure 4.3). */
 export async function explain(directoryProgramId: Id, input: AdvisorInput) {
   const p = await DirProgramModel.findById(directoryProgramId).lean();
   if (!p) return null;

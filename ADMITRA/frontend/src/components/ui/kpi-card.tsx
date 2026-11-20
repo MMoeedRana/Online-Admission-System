@@ -15,7 +15,6 @@ const tints = {
   },
 };
 
-/** A figure such as "1,250", "Rs. 10,000" or "70%" is counted up; anything else is shown as it is. */
 function Figure({ value }: { value: ReactNode }) {
   if (typeof value === 'number') return <CountUp value={value} />;
   if (typeof value === 'string') {
@@ -34,12 +33,10 @@ function Figure({ value }: { value: ReactNode }) {
   return <>{value}</>;
 }
 
-/** Row of KPI cards that appear one after another. */
 export function KpiGrid({ children, className }: { children: ReactNode; className?: string }) {
   return <Stagger className={cn('grid gap-4 sm:grid-cols-2 xl:grid-cols-4', className)}>{children}</Stagger>;
 }
 
-/** Key figure card used on dashboards (as in the reference designs). */
 export function KpiCard({
   label,
   value,

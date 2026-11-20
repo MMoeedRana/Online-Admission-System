@@ -14,7 +14,6 @@ test.describe('My Results (FIND-1, FIND-2, FIND-4, FIND-8) and confirmations (SA
     await expect(page.getByText(/Accept by /).first()).toBeVisible();
     await page.getByRole('button', { name: 'How my aggregate was calculated' }).first().click();
     await expect(page.getByRole('columnheader', { name: 'Contribution' }).first()).toBeVisible();
-    // SAFE-7: declining asks for confirmation first, and cancelling changes nothing.
     await page.getByRole('button', { name: 'Decline', exact: true }).first().click();
     const dialog = page.getByRole('dialog');
     await expect(dialog).toBeVisible();

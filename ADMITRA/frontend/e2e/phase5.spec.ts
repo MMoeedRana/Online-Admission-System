@@ -10,7 +10,6 @@ test.describe('branding (BRAND-1, BRAND-2, BRAND-5)', () => {
       getComputedStyle(document.documentElement).getPropertyValue('--primary').trim(),
     );
     expect(primary.toUpperCase()).toBe('#0F766E');
-    // The sidebar (with the logo) is a drawer on phones.
     if (!isMobile) await expect(page.locator('aside img').first()).toBeVisible();
   });
 

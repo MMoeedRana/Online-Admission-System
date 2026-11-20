@@ -6,7 +6,6 @@ const counterSchema = new Schema({
 });
 const CounterModel = model('Counter', counterSchema);
 
-/** Atomic sequence used for application, challan and receipt numbers. */
 export async function nextSeq(key: string, session?: ClientSession): Promise<number> {
   const c = await CounterModel.findOneAndUpdate(
     { _id: key },

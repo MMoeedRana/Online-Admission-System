@@ -3,7 +3,6 @@ import { DEFAULT_BRAND, type Brand } from './brand';
 
 const API_URL = process.env.API_URL ?? 'http://localhost:5000';
 
-/** Platform branding for server rendering (cached for 30 seconds); falls back to the defaults. */
 export async function serverBrand(): Promise<Brand> {
   try {
     const r = await fetch(`${API_URL}/api/v1/public/branding`, { next: { revalidate: 30 } });

@@ -18,23 +18,19 @@ interface AuthState {
   login: (email: string, password: string) => Promise<Session>;
   logout: () => Promise<void>;
   updateUser: (u: User) => void;
-  /** Reloads the user and memberships (after a profile picture or branding change). */
   reloadMe: () => Promise<void>;
   can: (permission: string) => boolean;
 }
 
 const AuthContext = createContext<AuthState | null>(null);
 const STORAGE_KEY = 'admitra.institution';
-/** Set while this browser has a session, so visitors are not sent to the refresh endpoint. */
 const SIGNED_IN_KEY = 'admitra.signedIn';
 
 function setSignedIn(on: boolean) {
   try {
     if (on) localStorage.setItem(SIGNED_IN_KEY, '1');
     else localStorage.removeItem(SIGNED_IN_KEY);
-  } catch {
-    /* storage unavailable */
-  }
+  } catch {}
 }
 
 function wasSignedIn() {
@@ -53,7 +49,6 @@ function readStoredInstitution() {
   }
 }
 
-/** Where each user lands after signing in (AUTH-6). */
 export function homeFor(user: User, memberships: Membership[]): string {
   if (user.platformRole === 'SUPER_ADMIN') return '/platform/dashboard';
   if (user.accountType === 'APPLICANT') return '/applicant/dashboard';
@@ -104,9 +99,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       setInstitutionHeader(id);
       try {
         localStorage.setItem(STORAGE_KEY, id);
-      } catch {
-        /* storage unavailable */
-      }
+      } catch {}
       queryClient.removeQueries({ predicate: (q) => q.queryKey[0] === 'inst' });
     },
     [queryClient],

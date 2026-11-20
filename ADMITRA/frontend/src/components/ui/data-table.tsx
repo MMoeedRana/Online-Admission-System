@@ -6,9 +6,7 @@ export interface Column<T> {
   header: string;
   cell: (row: T) => ReactNode;
   className?: string;
-  /** Shown as the title of the card on phones. */
   primary?: boolean;
-  /** Hidden from the phone card. */
   hideOnMobile?: boolean;
 }
 
@@ -21,7 +19,6 @@ interface Props<T> {
   loading?: boolean;
 }
 
-/** Data table on larger screens; stacked cards on phones (Section 4.1.2). */
 export function DataTable<T>({ columns, rows, rowKey, onRowClick, empty, loading }: Props<T>) {
   if (loading) {
     return (

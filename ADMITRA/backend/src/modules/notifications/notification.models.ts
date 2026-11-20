@@ -1,6 +1,5 @@
 import { Schema, Types, model } from 'mongoose';
 
-/** NOTIF-1: stored notifications with read state. */
 const notificationSchema = new Schema(
   {
     userId: { type: Types.ObjectId, ref: 'User', required: true, index: true },
@@ -15,7 +14,6 @@ const notificationSchema = new Schema(
 notificationSchema.index({ userId: 1, createdAt: -1 });
 export const NotificationModel = model('Notification', notificationSchema);
 
-/** NOTIF-3: wording of e-mails customised by an institution. */
 const templateSchema = new Schema(
   {
     institutionId: { type: Types.ObjectId, ref: 'Institution', required: true },

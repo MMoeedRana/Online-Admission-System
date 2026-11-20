@@ -4,7 +4,6 @@ import Link from 'next/link';
 import { useBrand } from '@/features/branding/brand-context';
 import { cn } from '@/lib/utils';
 
-/** BRAND-1: the platform logo; without an uploaded logo the first letter of the platform name is shown. */
 export function LogoMark({ className, src, name }: { className?: string; src?: string; name?: string }) {
   const brand = useBrand();
   const url = src ?? brand.logoUrl;

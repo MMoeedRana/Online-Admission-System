@@ -1,8 +1,3 @@
-/**
- * BRAND-5: turns the colours chosen by the Super Admin or an institution into a full set of
- * design tokens that always keep WCAG 2.2 AA contrast (4.5:1 for text), in light and dark themes.
- * Any colour can be picked; it is darkened or lightened only as much as contrast requires.
- */
 export interface Brand {
   platformName: string;
   tagline: string;
@@ -45,12 +40,10 @@ export function contrast(a: string, b: string) {
   const [x, y] = [luminance(a), luminance(b)].sort((p, q) => q - p);
   return (x! + 0.05) / (y! + 0.05);
 }
-/** Mixes `a` towards `b` (t = 0 gives a, t = 1 gives b). */
 export const mix = (a: string, b: string, t: number) => {
   const [x, y] = [hexToRgb(a), hexToRgb(b)];
   return rgbToHex([x[0] + (y[0] - x[0]) * t, x[1] + (y[1] - x[1]) * t, x[2] + (y[2] - x[2]) * t] as RGB);
 };
-/** Moves a colour towards black or white in small steps until it reaches the contrast it needs. */
 function until(hex: string, target: 'black' | 'white', ok: (c: string) => boolean) {
   let c = hex;
   for (let i = 0; i <= 40 && !ok(c); i++) c = mix(hex, target === 'black' ? '#000000' : '#FFFFFF', i / 40);
@@ -60,23 +53,18 @@ function until(hex: string, target: 'black' | 'white', ok: (c: string) => boolea
 const LIGHT = { page: '#F5F7FB', card: '#FFFFFF' };
 const DARK = { page: '#0A1226', card: '#0F1A33', soft: '#13203D' };
 
-/** Every token derived from the two brand colours. */
 export function palette(primaryColor: string, sidebarColor: string) {
   const base = isHex(primaryColor) ? primaryColor : DEFAULT_BRAND.primaryColor;
-  // Fill colour: white text on it must reach 4.5:1.
   const primary = until(base, 'black', (c) => contrast(c, '#FFFFFF') >= 4.6);
   const softLight = mix(primary, '#FFFFFF', 0.9);
-  // Primary used as text on light surfaces (page, card and its own soft tint).
   const textLight = until(primary, 'black', (c) => contrast(c, softLight) >= 4.6 && contrast(c, LIGHT.page) >= 4.6);
   const softDark = mix(primary, DARK.card, 0.78);
-  // In the dark theme the text colour is a lighter version that reads on dark surfaces.
   const textDark = until(
     base,
     'white',
     (c) => contrast(c, DARK.card) >= 4.8 && contrast(c, softDark) >= 4.6 && contrast(c, DARK.soft) >= 4.6,
   );
   const sideBase = isHex(sidebarColor) ? sidebarColor : DEFAULT_BRAND.sidebarColor;
-  // The sidebar stays dark enough for its light text (slate-300 needs 4.5:1, white about 10:1).
   const navy = until(sideBase, 'black', (c) => contrast(c, '#FFFFFF') >= 11 && contrast(c, '#CBD5E1') >= 6.5);
   const [r, g, b] = hexToRgb(primary);
   return {
@@ -103,7 +91,6 @@ export function palette(primaryColor: string, sidebarColor: string) {
   };
 }
 
-/** CSS that overrides the design tokens; `html` raises specificity above the defaults in globals.css. */
 export function brandCss(primaryColor: string, sidebarColor: string) {
   const p = palette(primaryColor, sidebarColor);
   const body = (o: Record<string, string>) =>
@@ -113,7 +100,6 @@ export function brandCss(primaryColor: string, sidebarColor: string) {
   return `html:root{${body(p.light)}}html.dark{${body(p.dark)}}`;
 }
 
-/** Background of a person's initials: the chosen colour (kept dark enough for white text) or one per name. */
 const AUTO = ['#C2410C', '#B91C1C', '#7C3AED', '#0F766E', '#1D4ED8', '#BE185D', '#4D7C0F', '#0E7490'];
 export function avatarBackground(name: string, chosen: string) {
   if (isHex(chosen)) return until(chosen, 'black', (c) => contrast(c, '#FFFFFF') >= 4.6);

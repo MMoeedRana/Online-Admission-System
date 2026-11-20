@@ -7,7 +7,6 @@ import { Providers } from './providers';
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter', display: 'swap' });
 
-/** BRAND-1: name, description and favicon follow the platform branding. */
 export async function generateMetadata(): Promise<Metadata> {
   const b = await serverBrand();
   return {

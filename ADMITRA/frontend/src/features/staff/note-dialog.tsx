@@ -5,7 +5,6 @@ import { Button, type ButtonVariant } from '@/components/ui/button';
 import { Field, Textarea } from '@/components/ui/input';
 import { Modal } from '@/components/ui/modal';
 
-/** Staff decision with a note: required (rejection, deficiency) or optional. */
 export function NoteDialog({
   open,
   onClose,

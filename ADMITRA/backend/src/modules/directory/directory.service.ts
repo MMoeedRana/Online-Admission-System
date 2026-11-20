@@ -6,7 +6,6 @@ import { ProgramModel, totalSeats } from '../programs/program.model';
 import { CampusModel } from '../structure/structure.models';
 import { DirInstitutionModel, DirProgramModel, MeritHistoryModel } from './directory.models';
 
-/** Directory profile of an ADMITRA institution, created on first use and kept in step. */
 export async function ensureDirectoryInstitution(institutionId: Id, session?: ClientSession) {
   const existing = await DirInstitutionModel.findOne({ institutionId }).session(session ?? null);
   if (existing) return existing;
@@ -17,7 +16,6 @@ export async function ensureDirectoryInstitution(institutionId: Id, session?: Cl
   const campuses = await CampusModel.find({ institutionId })
     .session(session ?? null)
     .lean();
-  // A directory entry with the same name may exist already (entered before the institution joined).
   const byName = await DirInstitutionModel.findOne({ name: inst.name, institutionId: null }).session(
     session ?? null,
   );
@@ -47,7 +45,6 @@ export async function ensureDirectoryInstitution(institutionId: Id, session?: Cl
   return doc!;
 }
 
-/** Directory program of an ADMITRA program (DIR-5). */
 export async function ensureDirectoryProgram(programId: Id, session?: ClientSession) {
   const existing = await DirProgramModel.findOne({ programId }).session(session ?? null);
   if (existing) return existing;
@@ -82,10 +79,6 @@ export async function ensureDirectoryProgram(programId: Id, session?: ClientSess
   return doc!;
 }
 
-/**
- * DIR-5: on publication the closing aggregate of every program and shift is stored as
- * verified history marked "Official (ADMITRA)".
- */
 export async function recordOfficialMerit(
   list: {
     listNumber: number;

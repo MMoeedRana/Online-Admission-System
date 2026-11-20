@@ -23,7 +23,6 @@ export async function uniqueSlug(name: string): Promise<string> {
   return slug;
 }
 
-/** Invites a person as staff of an institution and e-mails the single-use link (AUTH-5, AUTH-7). */
 export async function inviteMember(
   req: Request,
   institution: { _id: Id; name: string },
@@ -179,7 +178,6 @@ export async function renewSubscription(
   endsAt.setMonth(endsAt.getMonth() + months);
   inst.subscription = { startsAt: inst.subscription?.startsAt ?? now, endsAt, isTrial: false };
   await inst.save();
-  // AGENT-5: the platform fee of the renewal (plan price x months unless another amount was received).
   const plan = await PlanModel.findById(inst.planId).lean();
   if (plan)
     await SubscriptionPaymentModel.create({

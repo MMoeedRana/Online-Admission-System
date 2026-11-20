@@ -34,7 +34,6 @@ function below1000(n: number): string {
   return parts.join(' ');
 }
 
-/** FEE-2: amount in words using the Pakistani system (thousand, lakh, crore). */
 export function amountInWords(amount: number): string {
   let n = Math.round(amount);
   if (n === 0) return 'Zero Rupees Only';

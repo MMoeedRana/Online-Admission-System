@@ -1,7 +1,6 @@
 import type { Permission } from './permissions';
 import { PERMISSIONS } from './permissions';
 
-/** FLOW-1: statuses of an application (later statuses are used from Phase 3 onwards). */
 export const APPLICATION_STATUSES = [
   'DRAFT',
   'SUBMITTED',
@@ -34,7 +33,6 @@ export interface Transition {
   label: string;
 }
 
-/** FLOW-2: the transition table checked on every status change. */
 export const TRANSITIONS: Transition[] = [
   { from: ['DRAFT'], to: 'SUBMITTED', actor: 'APPLICANT', label: 'Submit application' },
   { from: ['SUBMITTED'], to: 'PAYMENT_PENDING', actor: 'SYSTEM', label: 'Fee challan issued' },
@@ -94,7 +92,6 @@ export const TRANSITIONS: Transition[] = [
   },
 ];
 
-/** Statuses in which an applicant counts as having an active application in a campaign (APP-2). */
 export const ACTIVE_STATUSES: ApplicationStatus[] = [
   'DRAFT',
   'SUBMITTED',

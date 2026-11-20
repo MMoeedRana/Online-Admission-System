@@ -7,7 +7,6 @@ import { logger } from './logger';
 
 let io: Server | null = null;
 
-/** NOTIF-1: live notifications over WebSocket, authenticated with the access token. */
 export function initSocket(server: HttpServer) {
   io = new Server(server, { path: '/api/v1/socket', cors: { origin: env.WEB_URL, credentials: true } });
   io.use((socket, next) => {

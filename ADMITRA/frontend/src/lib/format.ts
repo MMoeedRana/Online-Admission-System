@@ -8,7 +8,6 @@ const dateTimeFmt = new Intl.DateTimeFormat('en-GB', {
 });
 const numberFmt = new Intl.NumberFormat('en-PK');
 
-/** "30 Nov 2026" */
 export function formatDate(value?: string | Date | null) {
   if (!value) return '-';
   return dateFmt.format(new Date(value));
@@ -19,7 +18,6 @@ export function formatDateTime(value?: string | Date | null) {
   return dateTimeFmt.format(new Date(value));
 }
 
-/** "Rs. 4,500" */
 export function formatMoney(value?: number | null) {
   if (value === null || value === undefined) return '-';
   return `Rs. ${numberFmt.format(value)}`;
@@ -33,7 +31,6 @@ export function daysLeft(value: string | Date) {
   return Math.ceil((new Date(value).getTime() - Date.now()) / 86_400_000);
 }
 
-/** Value for <input type="datetime-local"> */
 export function toLocalInput(value?: string | Date | null) {
   if (!value) return '';
   const d = new Date(value);

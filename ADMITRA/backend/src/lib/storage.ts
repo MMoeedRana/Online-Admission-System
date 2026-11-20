@@ -11,7 +11,6 @@ import type { Id } from './types';
 
 export const STORAGE_ROOT = path.resolve(env.STORAGE_DIR);
 
-/** Uploads are kept in memory first so their content can be checked before saving (DOC-2). */
 export const upload = multer({
   storage: multer.memoryStorage(),
   limits: { fileSize: 10 * 1024 * 1024, files: 1 },
@@ -20,7 +19,6 @@ export const upload = multer({
 type Format = (typeof DOCUMENT_FORMATS)[number];
 const EXT: Record<string, string> = { 'application/pdf': 'pdf', 'image/jpeg': 'jpg', 'image/png': 'png' };
 
-/** Detects the real type from the file content (magic bytes), never from the file name. */
 export async function detectMime(buffer: Buffer): Promise<string | null> {
   const { fileTypeFromBuffer } = await import('file-type');
   const t = await fileTypeFromBuffer(buffer);
@@ -66,7 +64,6 @@ export async function saveUpload(
   });
 }
 
-/** Streams a stored file to an authorised user (DOC-3). */
 export function streamFile(
   res: Response,
   f: { storageKey: string; mimeType: string; originalName?: string | null },

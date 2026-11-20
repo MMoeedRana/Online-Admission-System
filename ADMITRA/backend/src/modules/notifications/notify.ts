@@ -15,10 +15,6 @@ export async function templateFor(institutionId: Id | null | undefined, key: Tem
   return custom ?? DEFAULT_TEMPLATES[key]!;
 }
 
-/**
- * Stores a notification, pushes it live (NOTIF-1) and optionally sends the institution's
- * e-mail template (NOTIF-2, NOTIF-3). Failures never break the calling operation.
- */
 export async function notify(
   userId: Id,
   n: { type: string; title: string; body: string; link?: string },

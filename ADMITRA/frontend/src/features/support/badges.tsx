@@ -17,7 +17,6 @@ export function PriorityBadge({ priority }: { priority: Ticket['priority'] }) {
   );
 }
 
-/** First-response target: due, overdue, met or missed (SUP-1). */
 export function ResponseBadge({ t, now }: { t: Ticket; now: number }) {
   const r = RESPONSE[t.responseState];
   return (

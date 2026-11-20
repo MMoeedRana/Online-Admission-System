@@ -32,11 +32,9 @@ describe('backup and restore (SAFE-4)', () => {
     expect(manifest.collections.users).toBe(1);
     expect(manifest.files).toBe(1);
 
-    // Data is lost ...
     await UserModel.deleteMany({});
     await AuditLogModel.deleteMany({});
     await fs.rm(storage, { recursive: true });
-    // ... and restored with the same ids, types and files.
     const r = await restoreBackup(db, { dir, storageDir: storage });
     expect(r.restored.users).toBe(1);
     const user = await UserModel.findById(id).lean();
@@ -46,7 +44,6 @@ describe('backup and restore (SAFE-4)', () => {
     expect(log!.createdAt.toISOString()).toBe(at.toISOString());
     expect(await fs.readFile(path.join(storage, 'documents', 'a.pdf'), 'utf8')).toBe('%PDF-1.4 test');
 
-    // Retention: backups older than 14 days are removed, newer ones are kept.
     const backups = path.join(tmp, 'backups');
     for (const d of ['2026-08-01T02-00-00', '2026-08-20T02-00-00', '2026-08-30T02-00-00'])
       await fs.mkdir(path.join(backups, `backup-${d}`));

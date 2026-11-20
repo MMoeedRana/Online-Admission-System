@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import path from 'node:path';
 import mongoose from 'mongoose';
 import { env } from '../config/env';
@@ -6,10 +5,6 @@ import { connectDatabase, disconnectDatabase } from '../lib/db';
 import { STORAGE_ROOT } from '../lib/storage';
 import { createBackup, KEEP_DAYS, pruneBackups, restoreBackup } from './backup';
 
-/**
- * npm run backup            -> new backup in BACKUP_DIR (default ./backups), then old ones are pruned
- * npm run restore -- <dir>  -> restores the given backup folder (asks for --yes)
- */
 async function main() {
   const [cmd, arg] = process.argv.slice(2);
   const backupDir = path.resolve(process.env.BACKUP_DIR ?? './backups');

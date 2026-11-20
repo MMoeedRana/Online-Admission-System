@@ -64,7 +64,6 @@ export function BandBadge({ band, className }: { band: Band; className?: string 
   );
 }
 
-/** Animated ring with the chance in the middle (PRED-6: shown between 1% and 99%). */
 export function ChanceRing({ chance, band, size = 64 }: { chance: number | null; band: Band; size?: number }) {
   const r = (size - 8) / 2;
   const c = 2 * Math.PI * r;

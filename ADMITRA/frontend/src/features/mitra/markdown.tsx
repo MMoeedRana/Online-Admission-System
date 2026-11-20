@@ -1,6 +1,5 @@
 import { Fragment, type ReactNode } from 'react';
 
-/** Minimal, safe Markdown for the assistant's answers: bold, italics, code, lists, headings and tables. */
 function inline(text: string, key: string): ReactNode[] {
   return text
     .split(/(\*\*[^*]+\*\*|`[^`]+`|\*[^*\s][^*]*\*)/g)

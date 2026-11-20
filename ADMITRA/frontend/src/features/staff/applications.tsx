@@ -33,7 +33,6 @@ const TABS: { value: TabKey; label: string }[] = [
   { value: 'REJECTED', label: 'Rejected' },
 ];
 
-/** APP-6 / FLOW: review queue of submitted applications. */
 export function ApplicationsQueue() {
   const sp = useSearchParams();
   const router = useRouter();

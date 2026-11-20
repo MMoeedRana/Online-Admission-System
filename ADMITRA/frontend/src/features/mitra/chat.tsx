@@ -86,7 +86,6 @@ function ActionCard({ action, scope, onDone }: { action: AgentAction; scope: Sco
   );
 }
 
-/** AGENT-2: chat with the assistant; answers stream in with the steps it takes. */
 export function ChatPanel({ scope, compact = false }: { scope: Scope; compact?: boolean }) {
   const qc = useQueryClient();
   const brand = useBrand();

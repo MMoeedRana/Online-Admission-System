@@ -18,9 +18,7 @@ export interface NavItem {
   href: string;
   label: string;
   icon: LucideIcon;
-  /** Shown when the member has the permission (or any of them). */
   permission?: string | string[];
-  /** Shown only when the institution's plan includes the assistant (AGENT-3, AGENT-7). */
   when?: 'ai';
 }
 export interface NavSection {
@@ -35,9 +33,7 @@ interface Props {
   search?: { placeholder: string; href: (q: string) => string };
   headerExtra?: ReactNode;
   banner?: ReactNode;
-  /** BRAND-2: an institution's own logo and short name in the sidebar instead of the platform's. */
   brandMark?: { logoUrl: string; name: string };
-  /** Floating assistant button (AGENT-2). */
   assistant?: ReactNode;
   children: ReactNode;
 }
@@ -111,7 +107,6 @@ function Sidebar({
   );
 }
 
-/** Staff and super admin layout: navy sidebar, header with search, theme, notifications and account (Section 4.1.7). */
 export function StaffShell({
   sections,
   roleLabel,

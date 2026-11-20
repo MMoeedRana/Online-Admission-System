@@ -2,7 +2,6 @@ import { z, type ZodType } from 'zod';
 import { Types } from 'mongoose';
 import { ApiError } from './http';
 
-/** Parses input with a Zod schema; returns field-level messages on failure (SEC-4). */
 export function parse<T extends ZodType>(schema: T, data: unknown): z.infer<T> {
   const result = schema.safeParse(data);
   if (!result.success) {
@@ -19,7 +18,6 @@ export function parse<T extends ZodType>(schema: T, data: unknown): z.infer<T> {
 export const objectId = z.string().refine((v) => Types.ObjectId.isValid(v), 'Invalid id');
 export const idParams = z.object({ id: objectId });
 
-/** AUTH-1: at least 8 characters with upper-case, lower-case and a digit. */
 export const passwordSchema = z
   .string()
   .min(8, 'Password must be at least 8 characters.')

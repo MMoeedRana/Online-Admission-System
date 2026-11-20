@@ -26,7 +26,6 @@ const LABEL: Record<string, string> = {
   BACHELOR_16: "Bachelor's",
 };
 
-/** DIR-6 / PRED-10: up to four programs side by side. */
 export function ComparePage({ base = '' }: { base?: string }) {
   const brand = useBrand();
   const sp = useSearchParams();

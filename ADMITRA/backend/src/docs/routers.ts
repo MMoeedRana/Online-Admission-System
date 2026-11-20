@@ -16,7 +16,6 @@ function files(dir: string): string[] {
   });
 }
 
-/** Every exported Express router of the modules, by its variable name. */
 export async function collectRouters(): Promise<Record<string, unknown>> {
   const out: Record<string, unknown> = { apiRouter };
   for (const f of files(join(__dirname, '..', 'modules'))) {

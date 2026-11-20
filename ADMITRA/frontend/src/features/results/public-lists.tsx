@@ -30,7 +30,6 @@ interface ListItem {
   campaign: { title: string; code: string };
 }
 
-/** FIND-6: published merit lists of every institution on ADMITRA. */
 export function PublicMeritLists() {
   const [q, setQ] = useState('');
   const [page, setPage] = useState(1);
@@ -148,7 +147,6 @@ const OUTCOME = {
   NOT_SELECTED: { label: 'Not selected', tone: 'gray' as const },
 };
 
-/** FIND-6: one published list with search and PDF download. */
 export function PublicMeritList({ id }: { id: string }) {
   const [q, setQ] = useState('');
   const [pool, setPool] = useState('');

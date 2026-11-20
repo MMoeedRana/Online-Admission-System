@@ -19,7 +19,6 @@ import { PriorityBadge, ResponseBadge, TicketStatusBadge } from './badges';
 import { base, CATEGORIES, pageBase, PRIORITIES, TICKET_STATUS, type Side, type Ticket } from './types';
 import { useBrand } from '@/features/branding/brand-context';
 
-/** SUP-3: threaded conversation; each reply notifies the other party. */
 export function TicketDetail({ id, side }: { id: string; side: Side }) {
   const brand = useBrand();
   const qc = useQueryClient();

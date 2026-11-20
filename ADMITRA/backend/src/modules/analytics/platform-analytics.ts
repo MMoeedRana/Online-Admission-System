@@ -14,11 +14,9 @@ import { lastDays, REPORT_TZ } from './analytics.service';
 const DAY = 24 * 60 * 60 * 1000;
 const rate = (part: number, whole: number) => (whole ? Math.round((part / whole) * 1000) / 10 : 0);
 
-/** RPT-3: advisor usage by program and registry match rates, for the Super Admin. */
 export async function platformAnalytics(days: number) {
   const since = new Date(Date.now() - days * DAY);
 
-  // ---- Admission Advisor usage (anonymous logs, PRED-12) ----
   const [runs, signedIn, daily, byField, byLevel, topPrograms, bands] = await Promise.all([
     AdvisorLogModel.countDocuments({ createdAt: { $gte: since } }),
     AdvisorLogModel.countDocuments({ createdAt: { $gte: since }, signedIn: true }),
@@ -112,7 +110,6 @@ export async function platformAnalytics(days: number) {
     }),
   };
 
-  // ---- Registry match rates (MARK-4) over the automatic checks of the period ----
   const [checks, byBoard] = await Promise.all([
     VerificationModel.aggregate<{ _id: string; n: number }>([
       { $match: { method: 'REGISTRY', createdAt: { $gte: since } } },
@@ -150,7 +147,6 @@ export async function platformAnalytics(days: number) {
     boards: boards.sort((a, b) => b.checks - a.checks),
   };
 
-  // ---- Platform activity ----
   const [institutions, applications, appsPerInst, tickets] = await Promise.all([
     InstitutionModel.countDocuments({ status: 'ACTIVE' }),
     ApplicationModel.countDocuments({ status: { $ne: 'DRAFT' }, submittedAt: { $gte: since } }),

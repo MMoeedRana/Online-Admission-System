@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 import { afterAll, afterEach, beforeAll, inject } from 'vitest';
-import '../src/lib/db'; // same Mongoose settings as the server
+import '../src/lib/db';
 import { sentMails } from '../src/lib/mailer';
 
 beforeAll(async () => {

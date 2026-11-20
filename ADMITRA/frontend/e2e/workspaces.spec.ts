@@ -64,7 +64,7 @@ test.describe('institution workspace', () => {
     await login(page, ACCOUNTS.cvuAdmin);
     await page.goto('/institution/support');
     await settle(page);
-    await expect(page.getByText('Merit list 2 shows a candidate twice')).toHaveCount(0); // a RIT ticket
+    await expect(page.getByText('Merit list 2 shows a candidate twice')).toHaveCount(0);
     await page.getByRole('button', { name: 'New ticket' }).click();
     const subject = `Test ticket ${info.project.name} ${Date.now()}`;
     await page.fill('#tk-subject', subject);

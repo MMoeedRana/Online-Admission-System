@@ -8,7 +8,6 @@ export interface User {
   platformRole: 'SUPER_ADMIN' | null;
   emailVerified: boolean;
   theme: 'light' | 'dark' | 'system';
-  /** BRAND-4: profile picture, empty when the person has none. */
   avatarUrl?: string;
 }
 
@@ -20,8 +19,6 @@ export interface Membership {
   city: string;
   status: string;
   logoUrl: string;
-  /** BRAND-2: own logo and colours, applied while the plan includes custom branding. */
-  /** AGENT-3 / AGENT-7: assistant features of the plan. */
   ai?: { copilot: boolean; briefing: boolean };
   branding?: { active: boolean; logoUrl: string; primaryColor: string; sidebarColor: string };
   roles: StaffRole[];
@@ -186,7 +183,6 @@ export interface AuditEntry {
   ip: string;
 }
 
-/** Public program card returned by /public endpoints. */
 export interface PublicProgram {
   id: string;
   title: string;

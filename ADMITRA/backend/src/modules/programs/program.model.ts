@@ -36,7 +36,6 @@ const programSchema = new Schema(
   },
   { timestamps: true },
 );
-// PROG-3: program codes are unique within an institution.
 programSchema.index({ institutionId: 1, code: 1 }, { unique: true });
 programSchema.index({ title: 'text', code: 'text' });
 

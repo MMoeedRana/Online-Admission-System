@@ -9,11 +9,6 @@ import { ProgramModel } from '../programs/program.model';
 import { MemberModel } from '../staff/member.model';
 import { IntegrityAlertModel } from './agent.models';
 
-/**
- * AGENT-6: rule-based integrity checks. Each rule looks for a pattern that deserves a human look and
- * returns the evidence (record numbers, counts, times). The assistant explains the findings but never
- * decides that something was illegal: every finding is "needs review".
- */
 export interface Finding {
   key: string;
   code: string;
@@ -26,7 +21,7 @@ export interface Finding {
 }
 
 const DAY = 24 * 3600_000;
-const PKT = 5 * 3600_000; // Pakistan time is UTC+5 all year
+const PKT = 5 * 3600_000;
 const pktHour = (d: Date) => new Date(d.getTime() + PKT).getUTCHours();
 const pktDay = (d: Date) => new Date(d.getTime() + PKT).toISOString().slice(0, 10);
 
@@ -57,7 +52,6 @@ export async function runIntegrityRules(
     findings.push({ ...rest, key: `${f.code}:${String(f.institutionId ?? 'platform')}:${keyPart}` });
   };
 
-  // 1. Bulk verification by one officer in one day.
   const decisions = await AuditLogModel.find({
     ...scope,
     action: 'MARKS_VERIFIED',
@@ -90,7 +84,6 @@ export async function runIntegrityRules(
         keyPart: k,
       });
 
-  // 2. Officer verified although the registry differed.
   const overridden = await VerificationModel.find({
     ...(inst ? { institutionId: inst } : {}),
     method: 'OFFICER',
@@ -118,7 +111,6 @@ export async function runIntegrityRules(
       keyPart: 'recent',
     });
 
-  // 3. Verified payments below the challan amount.
   const verified = await PaymentModel.find({ ...scope, status: 'VERIFIED', decidedAt: { $gte: since } })
     .select('voucherId amount reference institutionId')
     .lean();
@@ -143,7 +135,6 @@ export async function runIntegrityRules(
     });
   }
 
-  // 4. Payment proofs waiting more than 3 days.
   const stale = await PaymentModel.aggregate<{ _id: Types.ObjectId; n: number; oldest: Date }>([
     { $match: { ...scope, status: 'PENDING', createdAt: { $lt: new Date(now.getTime() - 3 * DAY) } } },
     { $group: { _id: '$institutionId', n: { $sum: 1 }, oldest: { $min: '$createdAt' } } },
@@ -160,7 +151,6 @@ export async function runIntegrityRules(
       keyPart: 'pending',
     });
 
-  // 5. Open fraud flags older than 3 days (flags belong to applicants; shown on the platform view).
   if (!inst) {
     const flags = await FraudFlagModel.find({
       status: 'OPEN',
@@ -181,7 +171,6 @@ export async function runIntegrityRules(
       });
   }
 
-  // 6. Repeated revisions of published lists.
   const revisions = await MeritListModel.aggregate<{
     _id: { campaignId: Types.ObjectId; institutionId: Types.ObjectId };
     n: number;
@@ -202,7 +191,6 @@ export async function runIntegrityRules(
       keyPart: String(r._id.campaignId),
     });
 
-  // 7. Revocation spike.
   const revoked = await AuditLogModel.aggregate<{ _id: Types.ObjectId; n: number }>([
     {
       $match: {
@@ -226,7 +214,6 @@ export async function runIntegrityRules(
       keyPart: pktDay(now),
     });
 
-  // 8. Sensitive actions at night.
   const sensitive = [
     'MARKS_VERIFIED',
     'PAYMENT_VERIFIED',
@@ -256,7 +243,6 @@ export async function runIntegrityRules(
         keyPart: 'night',
       });
 
-  // 9. Offers above capacity (SAFE-3 must make this impossible; checked as a safeguard).
   const active = await OfferModel.aggregate<{
     _id: {
       programId: Types.ObjectId;
@@ -300,7 +286,6 @@ export async function runIntegrityRules(
     }
   }
 
-  // 10. Late applications.
   const late = await ApplicationModel.aggregate<{ _id: Types.ObjectId; n: number }>([
     { $match: { ...scope, late: true, submittedAt: { $gte: since } } },
     { $group: { _id: '$institutionId', n: { $sum: 1 } } },
@@ -320,7 +305,6 @@ export async function runIntegrityRules(
   return findings;
 }
 
-/** Runs the rules and stores the findings as alerts (an existing alert is updated, not duplicated). */
 export async function refreshAlerts(
   opts: { institutionId?: string | Types.ObjectId | null; days?: number; now?: Date } = {},
 ) {
@@ -347,7 +331,6 @@ export async function refreshAlerts(
   return findings;
 }
 
-/** Names of institutions for alert lists. */
 export async function institutionNames(ids: unknown[]) {
   const list = await InstitutionModel.find({ _id: { $in: ids.filter(Boolean) } })
     .select('name shortName')

@@ -36,14 +36,12 @@ describe('platform branding (BRAND-1, BRAND-3)', () => {
       avatarColor: '#7C3AED',
     });
 
-    // The new name is used in e-mails.
     await api()
       .post('/api/v1/auth/register')
       .send({ fullName: 'Brand Check', email: 'brand@example.com', password: PASSWORD });
     expect(sentMails.at(-1)!.heading).toContain('Welcome to Daakhla');
     expect(sentMails.at(-1)!.html).toContain('Daakhla');
 
-    // Logo: images only, never SVG; served publicly with a long cache.
     expect((await as('post', '/logo').attach('file', SVG, 'logo.svg')).status).toBe(422);
     const up = await as('post', '/logo').attach('file', PNG, 'logo.png');
     expect(up.status).toBe(200);
@@ -53,7 +51,6 @@ describe('platform branding (BRAND-1, BRAND-3)', () => {
     expect(img.status).toBe(200);
     expect(img.headers['content-type']).toBe('image/png');
     expect(img.headers['cache-control']).toContain('immutable');
-    // Replacing the logo removes the old image.
     const up2 = await as('post', '/logo').attach('file', PNG, 'logo2.png');
     expect((await api().get(url)).status).toBe(404);
     expect((await as('delete', '/logo')).body.data.logoUrl).toBe('');

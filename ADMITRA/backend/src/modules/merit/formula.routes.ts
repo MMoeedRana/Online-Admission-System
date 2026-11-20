@@ -17,10 +17,8 @@ import { CampaignModel } from '../campaigns/campaign.model';
 import { ProgramModel } from '../programs/program.model';
 import { MeritFormulaModel } from './merit.models';
 
-/** MERIT-1, MERIT-2: versioned merit formulas with a test mode. */
 export const formulaRouter = Router();
 formulaRouter.use(requirePermission(PERMISSIONS.MERIT_MANAGE, PERMISSIONS.MERIT_PUBLISH));
-/** Formulas are written by the merit committee; the admin can view them. */
 const manage = requirePermission(PERMISSIONS.MERIT_MANAGE);
 
 const component = z.object({
@@ -41,7 +39,6 @@ function checkWeights(components: FormulaComponent[]) {
   if (err) throw ApiError.validation(err, { fields: { components: err } });
 }
 
-/** Formulas of a campaign, grouped by program, with the latest version first. */
 formulaRouter.get('/', async (req, res) => {
   const q = parse(z.object({ campaignId: objectId }), req.query);
   const campaign = await CampaignModel.findOne({
@@ -100,7 +97,6 @@ async function own(req: Request, id: string) {
   return f;
 }
 
-/** MERIT-2: only drafts can be edited; active versions are locked. */
 formulaRouter.patch('/:id', manage, async (req, res) => {
   const { id } = parse(idParams, req.params);
   const b = parse(body, req.body);
@@ -133,7 +129,6 @@ formulaRouter.post('/:id/activate', manage, async (req, res) => {
   ok(res, f);
 });
 
-/** MERIT-2: editing a locked version starts a new draft version. */
 formulaRouter.post('/:id/new-version', manage, async (req, res) => {
   const { id } = parse(idParams, req.params);
   const f = await own(req, id);
@@ -166,7 +161,6 @@ formulaRouter.delete('/:id', manage, async (req, res) => {
   ok(res, { deleted: true });
 });
 
-/** Test mode: the aggregate and the breakdown for sample marks (Table 3.13, step 2). */
 formulaRouter.post('/test', async (req, res) => {
   const b = parse(
     z.object({

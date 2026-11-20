@@ -23,7 +23,6 @@ const code = z
   .regex(/^[A-Za-z0-9-]+$/, 'Use letters, digits and -');
 const inUse = (what: string) => ApiError.conflict(`This record is used by ${what} and cannot be deleted.`);
 
-/** Overview used by forms (selects) and the academic structure screen. */
 structureRouter.get('/', canView, async (req, res) => {
   const institutionId = tid(req);
   const [campuses, faculties, departments, sessions] = await Promise.all([
@@ -35,7 +34,6 @@ structureRouter.get('/', canView, async (req, res) => {
   ok(res, { campuses, faculties, departments, sessions });
 });
 
-// ---------------- Campuses ----------------
 const campusBody = z.object({
   name: z.string().trim().min(2).max(120),
   code,
@@ -82,7 +80,6 @@ structureRouter.delete('/campuses/:id', canManage, async (req, res) => {
   ok(res, { deleted: true });
 });
 
-// ---------------- Faculties ----------------
 const facultyBody = z.object({ name: z.string().trim().min(2).max(120), code });
 
 structureRouter.post('/faculties', canManage, async (req, res) => {
@@ -113,7 +110,6 @@ structureRouter.delete('/faculties/:id', canManage, async (req, res) => {
   ok(res, { deleted: true });
 });
 
-// ---------------- Departments ----------------
 const departmentBody = z.object({
   name: z.string().trim().min(2).max(120),
   code,
@@ -163,7 +159,6 @@ structureRouter.delete('/departments/:id', canManage, async (req, res) => {
   ok(res, { deleted: true });
 });
 
-// ---------------- Academic sessions ----------------
 const sessionBody = z
   .object({
     name: z.string().trim().min(4).max(30),

@@ -1,11 +1,9 @@
-/** Account types of users (see Section 2.3 of the proposal). */
 export const ACCOUNT_TYPES = ['APPLICANT', 'STAFF', 'PLATFORM'] as const;
 export type AccountType = (typeof ACCOUNT_TYPES)[number];
 
 export const PLATFORM_ROLES = ['SUPER_ADMIN'] as const;
 export type PlatformRole = (typeof PLATFORM_ROLES)[number];
 
-/** Roles a staff member can hold inside one institution. */
 export const STAFF_ROLES = [
   'INSTITUTION_ADMIN',
   'ADMISSION_OFFICER',

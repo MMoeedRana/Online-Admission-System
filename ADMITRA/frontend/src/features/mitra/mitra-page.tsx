@@ -27,7 +27,6 @@ const SEVERITY: Record<Alert['severity'], { tone: Tone; label: string }> = {
   LOW: { tone: 'blue', label: 'Low' },
 };
 
-/** AGENT-7: today's briefing (latest) with its highlights. */
 export function BriefingCard({ scope, compact = false }: { scope: Scope; compact?: boolean }) {
   const brand = useBrand();
   const qc = useQueryClient();
@@ -261,7 +260,6 @@ function AlertsList({ scope }: { scope: Scope }) {
   );
 }
 
-/** AGENT-2 to AGENT-7: the assistant page with chat, briefings and integrity alerts. */
 export function MitraPage({ scope }: { scope: Scope }) {
   const brand = useBrand();
   const [tab, setTab] = useState<'ask' | 'briefing' | 'alerts'>('ask');

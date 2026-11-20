@@ -7,7 +7,6 @@ import { PlatformShell } from '@/features/platform/platform-shell';
 import { useAuth } from './auth-context';
 import { RequireAuth } from './require-auth';
 
-/** Pages shared by every signed-in user (account, notifications) use the shell of the user's role. */
 export function RoleShell({ children }: { children: ReactNode }) {
   const { user, memberships } = useAuth();
   let shell: ReactNode;

@@ -7,11 +7,6 @@ import { InstitutionModel, subscriptionState } from '../modules/institutions/ins
 import { MemberModel } from '../modules/staff/member.model';
 import { brand } from '../lib/brand';
 
-/**
- * Resolves the institution (tenant) of a staff request from the X-Institution-Id header and
- * checks that the user is an active member of it (SEC-1). Suspended institutions are blocked
- * immediately (INST-5) and expired subscriptions become read-only after the grace period (INST-4).
- */
 export async function resolveTenant(req: Request, _res: Response, next: NextFunction) {
   const id = String(req.headers['x-institution-id'] ?? '');
   if (!req.auth) throw ApiError.unauthorized();

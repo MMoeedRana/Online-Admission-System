@@ -61,7 +61,6 @@ export async function createPlan(
   });
 }
 
-/** Creates an active institution with one admin, a campus, a faculty, a department and a session. */
 export async function createInstitution(
   slug: string,
   opts: { roles?: string[]; plan?: Awaited<ReturnType<typeof createPlan>>; endsAt?: Date } = {},
@@ -152,8 +151,6 @@ export function programPayload(
   };
 }
 
-// ---------------- Phase 2 helpers ----------------
-/** Smallest valid PDF and PNG files, detected by their content (DOC-2). */
 export const PDF = Buffer.from(
   '%PDF-1.4\n1 0 obj\n<< /Type /Catalog >>\nendobj\ntrailer\n<< /Root 1 0 R >>\n%%EOF\n',
 );

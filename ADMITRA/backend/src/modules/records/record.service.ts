@@ -27,9 +27,6 @@ export interface RecordInput {
 export type RecordDoc = HydratedDocument<AcademicRecord>;
 const round2 = (n: number) => Math.round(n * 100) / 100;
 
-/**
- * MARK-2 integrity rules. Errors reject the input; flags are kept on the record for the officer.
- */
 export function checkIntegrity(r: RecordInput): { errors: Record<string, string>; flags: string[] } {
   const errors: Record<string, string> = {};
   const flags: string[] = [];
@@ -57,7 +54,6 @@ function subjectKey(name: string) {
   return name.toUpperCase().replace(/[^A-Z]/g, '');
 }
 
-/** MARK-4: compares the entered record with the official row and returns every difference. */
 export function compareWithOfficial(
   r: RecordInput,
   o: {
@@ -84,7 +80,6 @@ export function compareWithOfficial(
   return diff;
 }
 
-/** Trust level when no registry match exists: 1 if a result card is attached, else 0. */
 const baseTrust = (rec: { resultCardFileId?: unknown }) =>
   rec.resultCardFileId ? TRUST.DOCUMENT : TRUST.DECLARED;
 
@@ -102,7 +97,6 @@ async function raiseRepeatedMismatch(userId: Id) {
   }
 }
 
-/** MARK-9: the same roll number claimed by different applicants. */
 export async function checkRollNumberClaims(rec: RecordDoc) {
   const others = await RecordModel.find({
     _id: { $ne: rec._id },
@@ -131,7 +125,6 @@ export async function checkRollNumberClaims(rec: RecordDoc) {
   );
 }
 
-/** MARK-4/MARK-5: automatic registry check. Locked (officer-verified) records are never changed. */
 export async function runRegistryCheck(rec: RecordDoc, source: ResultSource = registryResultSource) {
   if (rec.locked) return rec;
   const official = await source.lookup({
@@ -176,7 +169,6 @@ export async function runRegistryCheck(rec: RecordDoc, source: ResultSource = re
   return rec;
 }
 
-/** Creates or updates a record. Verified or locked records get a new version (MARK-8). */
 export async function saveRecord(req: Request, userId: Id, input: RecordInput, existing?: RecordDoc) {
   const { errors, flags } = checkIntegrity(input);
   if (Object.keys(errors).length) throw ApiError.validation('Please correct the marks.', { fields: errors });
@@ -229,7 +221,6 @@ export async function saveRecord(req: Request, userId: Id, input: RecordInput, e
   return rec;
 }
 
-/** MARK-6: attaching a result card raises the trust level to 1 when not registry verified. */
 export async function attachResultCard(
   rec: RecordDoc,
   file: { _id: unknown; sha256: string; ownerId: unknown },
@@ -239,7 +230,6 @@ export async function attachResultCard(
   if (rec.trustLevel < TRUST.DOCUMENT) rec.trustLevel = TRUST.DOCUMENT;
   if (rec.verificationStatus === 'DECLARED') rec.verificationStatus = 'UNDER_VERIFICATION';
   await rec.save();
-  // MARK-9: the same result card used by another applicant.
   const reused = await RecordModel.find({ resultCardHash: file.sha256, userId: { $ne: rec.userId } }).lean();
   if (reused.length) {
     await FraudFlagModel.updateOne(
@@ -261,7 +251,6 @@ export async function attachResultCard(
   return rec;
 }
 
-/** MARK-7: officer decision. VERIFIED locks the record at trust level 3. */
 export async function officerDecision(
   req: Request,
   rec: RecordDoc,

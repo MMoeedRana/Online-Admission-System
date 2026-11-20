@@ -10,7 +10,6 @@ import { cn } from '@/lib/utils';
 export function ThemeToggle({ className }: { className?: string }) {
   const { resolvedTheme, setTheme } = useTheme();
   const { user } = useAuth();
-  // true only in the browser after hydration (avoids a theme icon mismatch)
   const mounted = useSyncExternalStore(
     () => () => undefined,
     () => true,

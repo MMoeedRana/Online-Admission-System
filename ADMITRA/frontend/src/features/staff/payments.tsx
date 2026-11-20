@@ -45,7 +45,6 @@ interface Row {
 }
 type TabKey = 'PENDING' | 'VERIFIED' | 'REJECTED' | 'ALL';
 
-/** FEE-4/FEE-5: verification of proofs of payment and reconciliation export. */
 export function PaymentsPage() {
   const key = useInstKey();
   const qc = useQueryClient();

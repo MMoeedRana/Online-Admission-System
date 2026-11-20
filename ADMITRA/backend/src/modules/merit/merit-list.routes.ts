@@ -12,7 +12,6 @@ import { InstitutionModel } from '../institutions/institution.model';
 import { MeritEntryModel, MeritFormulaModel, MeritListModel, OfferModel } from './merit.models';
 import { approveList, discardList, generateList, publishList, reviseList } from './merit.service';
 
-/** Merit committee workspace: generate, approve (four-eyes), publish, revise and discard. */
 export const meritListRouter = Router();
 meritListRouter.use(requirePermission(PERMISSIONS.MERIT_MANAGE, PERMISSIONS.MERIT_PUBLISH));
 
@@ -20,7 +19,6 @@ const deadline = z.object({
   offerDeadline: z.coerce.date({ message: 'Choose the offer deadline.' }),
 });
 
-/** Lists of a campaign and what is needed before the next one can be generated. */
 meritListRouter.get('/', async (req, res) => {
   const { campaignId } = parse(z.object({ campaignId: objectId }), req.query);
   const campaign = await CampaignModel.findOne({
@@ -115,7 +113,6 @@ meritListRouter.post('/:id/revise', requirePermission(PERMISSIONS.MERIT_MANAGE),
   created(res, await reviseList(req, id, b.offerDeadline));
 });
 
-/** PDF of a list in the public format (shortened names, no CNIC). */
 export async function meritListPdfData(listId: Id): Promise<MeritListPdfData> {
   const list = await MeritListModel.findById(listId).lean();
   if (!list) throw ApiError.notFound('Merit list');

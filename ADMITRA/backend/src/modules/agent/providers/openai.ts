@@ -8,7 +8,6 @@ interface OpenAIMessage {
   name?: string;
 }
 
-/** OpenAI Chat Completions with tools. Gemini, Groq, OpenRouter and Ollama offer the same API. */
 export class OpenAICompatibleProvider implements ChatProvider {
   constructor(
     readonly name: string,

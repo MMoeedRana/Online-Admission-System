@@ -56,7 +56,6 @@ async function counts(base: Record<string, unknown>) {
   };
 }
 
-// ---------------- Institution side (SUP-2: only its own tickets) ----------------
 export const institutionSupportRouter = Router();
 institutionSupportRouter.use(requirePermission(PERMISSIONS.SUPPORT_TICKETS));
 
@@ -115,7 +114,6 @@ institutionSupportRouter.post('/:id/replies', async (req, res) => {
   ok(res, view(await reply(req, id, 'INSTITUTION', b, { institutionId: req.tenant!.institutionId })));
 });
 
-/** The institution confirms a resolved ticket and closes it, without writing a reply. */
 institutionSupportRouter.post('/:id/close', async (req, res) => {
   const { id } = parse(idParams, req.params);
   const t = await SupportTicketModel.findOne({ _id: id, institutionId: req.tenant!.institutionId });
@@ -127,7 +125,6 @@ institutionSupportRouter.post('/:id/close', async (req, res) => {
   ok(res, view(t));
 });
 
-// ---------------- Platform side (Super Admin) ----------------
 export const platformSupportRouter = Router();
 platformSupportRouter.use(authenticate, requireSuperAdmin);
 
@@ -186,7 +183,6 @@ platformSupportRouter.post('/:id/replies', async (req, res) => {
   ok(res, view(await reply(req, id, 'PLATFORM', b)));
 });
 
-/** Changes the status, priority or assignee without a reply. */
 platformSupportRouter.patch('/:id', async (req, res) => {
   const { id } = parse(idParams, req.params);
   const b = parse(
@@ -202,7 +198,6 @@ platformSupportRouter.patch('/:id', async (req, res) => {
   if (b.status) applyStatus(t, b.status);
   if (b.priority && b.priority !== t.priority) {
     t.priority = b.priority;
-    // A new priority moves the response target, counted from when the ticket was opened.
     if (!t.firstResponseAt)
       t.responseDueAt = new Date(t.createdAt.getTime() + RESPONSE_TARGET_HOURS[b.priority] * 3600_000);
   }

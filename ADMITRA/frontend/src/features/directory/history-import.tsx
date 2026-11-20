@@ -17,7 +17,6 @@ interface Preview {
   sample: { line: number; year: number; round: number; shift: string; closingMerit: number }[];
 }
 
-/** DIR-3: merit history from a CSV or Excel file; a source is mandatory and rows stay DRAFT. */
 export function HistoryImport({ base, onDone }: { base: string; onDone: () => void }) {
   const [file, setFile] = useState<File | null>(null);
   const [source, setSource] = useState('');

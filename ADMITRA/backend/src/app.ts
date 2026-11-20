@@ -27,7 +27,6 @@ export function createApp() {
   app.use(express.json({ limit: '1mb' }));
   app.use(cookieParser());
 
-  // OpenAPI 3.1 description and Swagger UI (regenerate with `npm run docs:api`).
   app.get('/api/v1/openapi.json', (_req, res) => {
     res.json(openApiSpec);
   });

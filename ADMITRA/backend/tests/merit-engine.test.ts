@@ -68,8 +68,8 @@ describe('tie-breakers (MERIT-4)', () => {
   const a = { id: 'a', applicationNumber: 'X-2', aggregate: 80, scores: { ENTRY_TEST: 70 } };
   const b = { id: 'b', applicationNumber: 'X-1', aggregate: 80, scores: { ENTRY_TEST: 75 } };
   it('uses the configured tie-breakers in order, then the application number', () => {
-    expect(compareCandidates(a, b, ['ENTRY_TEST'])).toBeGreaterThan(0); // b has the higher test
-    expect(compareCandidates(a, { ...b, scores: { ENTRY_TEST: 70 } }, ['ENTRY_TEST'])).toBeGreaterThan(0); // X-1 first
+    expect(compareCandidates(a, b, ['ENTRY_TEST'])).toBeGreaterThan(0);
+    expect(compareCandidates(a, { ...b, scores: { ENTRY_TEST: 70 } }, ['ENTRY_TEST'])).toBeGreaterThan(0);
     const younger = { ...a, dateOfBirth: '2007-01-01' };
     const older = { ...b, scores: { ENTRY_TEST: 70 }, dateOfBirth: '2005-01-01' };
     expect(compareCandidates(younger, older, ['YOUNGER'])).toBeLessThan(0);
@@ -148,7 +148,6 @@ describe('stable seat allocation (MERIT-5)', () => {
 describe('chance prediction (PRED-5, PRED-6) and waiting list (FIND-3)', () => {
   it('matches the worked example of Table 3.16', () => {
     const z = (mu: number, sigma: number) => (83.12 - mu) / sigma;
-    // Values computed through the same normal distribution as the table.
     expect(Math.round(z(80.6, 1.8) * 100) / 100).toBe(1.4);
     const one = predictChance(83.12, [80.6])!;
     expect(one.sigma).toBe(2);
@@ -162,7 +161,6 @@ describe('chance prediction (PRED-5, PRED-6) and waiting list (FIND-3)', () => {
   });
 
   it('classifies 92% as Safe, 67% as Target and 29% as Reach', () => {
-    // mu/sigma chosen so that z equals the values of Table 3.16.
     expect(predictChance(80.6 + 1.4 * 2, [80.6])!.chance).toBe(92);
     expect(predictChance(82.4 + 0.45 * 2, [82.4])!.band).toBe('TARGET');
     expect(predictChance(84 - 0.55 * 2, [84])!.band).toBe('REACH');

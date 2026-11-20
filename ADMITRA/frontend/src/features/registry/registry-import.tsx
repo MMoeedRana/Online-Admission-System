@@ -47,10 +47,6 @@ interface Batch {
 
 const isDuplicate = (m: string) => /already in the registry|Duplicate roll number/.test(m);
 
-/**
- * REG-1 to REG-3 (board gazettes, platform) and REG-5 (entry-test results, institution):
- * preview, commit with the official source, and roll back a batch within 7 days.
- */
 export function RegistryImport({
   base,
   queryKey,

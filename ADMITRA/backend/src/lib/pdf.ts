@@ -41,7 +41,6 @@ export interface ChallanData {
   amount: number;
 }
 
-/** FEE-2: three copies (bank, institution, applicant) on one landscape A4 page. */
 export function challanPdf(res: Response, d: ChallanData) {
   const doc = new PDFDocument({
     size: 'A4',
@@ -159,7 +158,6 @@ export function challanPdf(res: Response, d: ChallanData) {
   send(res, doc, `challan-${d.voucherNumber}.pdf`);
 }
 
-/** FEE-5: payment receipt. */
 export function receiptPdf(
   res: Response,
   d: {
@@ -220,7 +218,6 @@ export function receiptPdf(
   send(res, doc, `receipt-${d.receiptNumber}.pdf`);
 }
 
-/** Printable copy of a submitted application. */
 export function applicationPdf(
   res: Response,
   d: {
@@ -348,7 +345,6 @@ export interface LetterData {
   enrolledAt: Date;
 }
 
-/** OFFER-4: admission letter with the registration number. */
 export function admissionLetterPdf(res: Response, d: LetterData) {
   const doc = new PDFDocument({
     size: 'A4',
@@ -442,7 +438,6 @@ export interface MeritListPdfData {
   }[];
 }
 
-/** FIND-6 / OFFER-5: public merit list with shortened names; CNICs are never printed. */
 export function meritListPdf(res: Response, d: MeritListPdfData) {
   const doc = new PDFDocument({
     size: 'A4',
@@ -538,7 +533,6 @@ const BAND_TEXT: Record<string, string> = {
   NOT_ELIGIBLE: 'Not eligible',
 };
 
-/** PRED-10: the applicant's shortlist with chances, as a PDF. */
 export function shortlistPdf(res: Response, d: ShortlistPdfData) {
   const doc = new PDFDocument({
     size: 'A4',
@@ -598,15 +592,12 @@ export interface ReportPdfData {
   title: string;
   subtitle: string;
   filename: string;
-  /** Column labels with relative widths; the table always fills the page width. */
   columns: { label: string; width: number; align?: 'left' | 'right' }[];
   rows: (string | number)[][];
-  /** Optional summary figures printed above the table. */
   summary?: { label: string; value: string }[];
   landscape?: boolean;
 }
 
-/** RPT-2: a tabular report (applications, payments, merit lists) as an A4 PDF. */
 export function reportPdf(res: Response, d: ReportPdfData) {
   const doc = new PDFDocument({
     size: 'A4',

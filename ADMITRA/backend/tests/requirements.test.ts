@@ -12,7 +12,6 @@ import { officerDecision } from '../src/modules/records/record.service';
 import { UserModel } from '../src/modules/users/user.model';
 import { api, PASSWORD } from './helpers';
 
-/** Checks for requirements that are not already named in another test file (see docs/TRACEABILITY.md). */
 describe('account and credential rules (AUTH-7, SEC-3)', () => {
   it('self-registration always creates an applicant; staff only come through invitations', async () => {
     const r = await api().post('/api/v1/auth/register').send({
@@ -80,7 +79,6 @@ describe('configuration (SEC-8)', () => {
     const r = await api().get('/api/v1/health').set('Origin', 'https://evil.example');
     expect(r.headers['x-content-type-options']).toBe('nosniff');
     expect(r.headers['content-security-policy']).toBeDefined();
-    // The only allowed origin is the web application, so the browser blocks every other site.
     expect(r.headers['access-control-allow-origin']).toBe(env.WEB_URL);
     expect(r.headers['access-control-allow-origin']).not.toBe('https://evil.example');
   });

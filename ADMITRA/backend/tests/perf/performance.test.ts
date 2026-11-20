@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import type { Request } from 'express';
 import { Types } from 'mongoose';
 import { describe, expect, it } from 'vitest';
@@ -20,10 +19,6 @@ import { commitImport } from '../../src/modules/registry/registry.service';
 import { UserModel } from '../../src/modules/users/user.model';
 import { api, createInstitution, createUser, programPayload } from '../helpers';
 
-/**
- * Performance requirements of Table 5.1 (PERF-2 to PERF-10), measured on the test machine.
- * Run with `npm run test:perf`. Each test prints the measured time next to its target.
- */
 const results: string[] = [];
 async function timed<T>(id: string, target: number, fn: () => Promise<T>): Promise<{ ms: number; value: T }> {
   const t = performance.now();
@@ -98,7 +93,6 @@ describe('performance (Table 5.1)', () => {
       })),
     );
 
-    // PERF-10: the entry plan takes at least 2,000 applications per cycle; 1,500 are used here.
     const N = 1500;
     const r = rand(42);
     const ids = Array.from({ length: N }, () => new Types.ObjectId());
@@ -180,7 +174,6 @@ describe('performance (Table 5.1)', () => {
     expect(pub.ms).toBeLessThan(30000);
     expect(await OfferModel.countDocuments({ meritListId: list!._id })).toBe(300);
 
-    // PERF-8: 2,000 My Results requests from the applicants, 50 at a time.
     const tokens = ids.map((u, i) =>
       signAccessToken({ sub: String(u), typ: 'APPLICANT', role: null, name: `Applicant ${i + 1}` }),
     );

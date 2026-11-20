@@ -97,7 +97,6 @@ institutionRouter.get('/subscription', async (req, res) => {
   });
 });
 
-/** Base dashboard of the institution workspace (Phase 1 figures). */
 institutionRouter.get('/dashboard', requirePermission(PERMISSIONS.DASHBOARD_VIEW), async (req, res) => {
   const institutionId = req.tenant!.institutionId;
   const [programs, campaigns, staff, departments, session] = await Promise.all([

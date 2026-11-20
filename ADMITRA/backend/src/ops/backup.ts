@@ -9,12 +9,6 @@ import mongoose from 'mongoose';
 const { EJSON } = mongoose.mongo.BSON;
 type Db = mongoose.mongo.Db;
 
-/**
- * SAFE-4: daily backups of the database and the uploaded files, kept for at least 14 days.
- * A backup is a folder `backup-YYYY-MM-DDTHH-mm-ss` with one gzip file per collection
- * (one Extended JSON document per line, so types such as ObjectId and Date survive),
- * a copy of the uploads folder and a manifest with counts used to check the restore.
- */
 export const KEEP_DAYS = 14;
 
 export interface Manifest {
@@ -69,7 +63,6 @@ export async function createBackup(db: Db, opts: { backupDir: string; storageDir
   return { dir, manifest };
 }
 
-/** Removes backups older than KEEP_DAYS days (never the newest one). */
 export async function pruneBackups(backupDir: string, now = new Date(), keepDays = KEEP_DAYS) {
   const names = (await fs.readdir(backupDir).catch(() => [] as string[]))
     .filter((n) => n.startsWith('backup-'))
@@ -86,7 +79,6 @@ export async function pruneBackups(backupDir: string, now = new Date(), keepDays
   return removed;
 }
 
-/** Restores a backup: every collection is replaced by its copy and the uploads folder is restored. */
 export async function restoreBackup(db: Db, opts: { dir: string; storageDir: string }) {
   const manifest = JSON.parse(await fs.readFile(path.join(opts.dir, 'manifest.json'), 'utf8')) as Manifest;
   const restored: Record<string, number> = {};

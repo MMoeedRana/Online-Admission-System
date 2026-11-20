@@ -25,7 +25,6 @@ import { SubscriptionPaymentModel } from '../src/modules/platform/billing.model'
 import { VerificationModel } from '../src/modules/records/record.models';
 import { api, createInstitution, createPlan, createUser, superAdminToken } from './helpers';
 
-/** A scripted provider: returns the queued answers in order and records what it was sent. */
 class FakeProvider implements ChatProvider {
   readonly name = 'fake';
   readonly model = 'fake-1';
@@ -132,7 +131,7 @@ describe('provider layer (AGENT-1)', () => {
     });
     const body = JSON.parse(String((fetchMock.mock.calls[0] as unknown as [string, RequestInit])[1].body));
     expect(body.system).toBe('sys');
-    expect(body.messages.at(-1).content).toHaveLength(2); // both tool results in one user turn
+    expect(body.messages.at(-1).content).toHaveLength(2);
     expect((fetchMock.mock.calls[0] as unknown as [string, RequestInit])[1].headers).toMatchObject({
       'x-api-key': 'KEY',
     });
@@ -185,7 +184,6 @@ describe('the assistant at work (AGENT-2, AGENT-3, AGENT-4)', () => {
         .filter((e: { type: string }) => e.type === 'tool')
         .map((e: { name: string }) => e.name),
     ).toEqual(['get_overview', 'list_institutions']);
-    // The tool results went back to the model.
     const toolMsgs = fake.calls[1]!.messages.filter((m) => m.role === 'tool');
     expect(JSON.parse(toolMsgs[0]!.content).applicationsSubmitted).toBe(1);
     expect(fake.calls[0]!.messages[0]!.content).toContain('Super Admin');
@@ -229,10 +227,9 @@ describe('the assistant at work (AGENT-2, AGENT-3, AGENT-4)', () => {
     expect(names).not.toContain('list_institutions');
     expect(names).not.toContain('send_renewal_reminder');
     const results = fake.calls[1]!.messages.filter((m) => m.role === 'tool');
-    expect(JSON.parse(results[0]!.content)).toEqual([]); // other institution's application is invisible
+    expect(JSON.parse(results[0]!.content)).toEqual([]);
     expect(JSON.parse(results[1]!.content).error).toMatch(/not allowed/);
     expect(fake.calls[0]!.messages[0]!.content).toContain(inst.inst.name);
-    // A staff member without the permission cannot use it.
     const officer = await createUser(`off.${inst.id}@x.test`);
     expect(officer).toBeTruthy();
   });
@@ -266,12 +263,12 @@ describe('the assistant at work (AGENT-2, AGENT-3, AGENT-4)', () => {
       .send({ message: 'Remind expiring offers' });
     const action = r.body.data.events.find((e: { type: string }) => e.type === 'action').action;
     expect(action.summary).toContain('Remind 1 applicant');
-    expect(await NotificationModel.countDocuments({ userId: applicant._id })).toBe(0); // nothing sent yet
+    expect(await NotificationModel.countDocuments({ userId: applicant._id })).toBe(0);
     const done = await inst.as.post(`/agent/actions/${action._id}/confirm`);
     expect(done.body.data.status).toBe('DONE');
     expect(await NotificationModel.countDocuments({ userId: applicant._id, type: 'REMINDER' })).toBe(1);
     expect(sentMails.some((m) => m.to === applicant.email)).toBe(true);
-    expect((await inst.as.post(`/agent/actions/${action._id}/confirm`)).status).toBe(409); // only once
+    expect((await inst.as.post(`/agent/actions/${action._id}/confirm`)).status).toBe(409);
     const conv = await inst.as.get(`/agent/conversations/${c.body.data._id}`);
     expect(conv.body.data.messages.at(-1).content).toMatch(/^Done:/);
 
@@ -343,7 +340,7 @@ describe('integrity alerts and briefings (AGENT-5, AGENT-6, AGENT-7)', () => {
       'VERIFIED_DESPITE_REGISTRY_DIFFERENCE',
     ]);
     await refreshAlerts({ institutionId: inst.inst._id });
-    expect(await IntegrityAlertModel.countDocuments()).toBe(2); // not duplicated
+    expect(await IntegrityAlertModel.countDocuments()).toBe(2);
     const list = await api()
       .get('/api/v1/platform/agent/alerts')
       .set('Authorization', `Bearer ${await superAdminToken()}`);
@@ -363,11 +360,11 @@ describe('integrity alerts and briefings (AGENT-5, AGENT-6, AGENT-7)', () => {
     const fee = await SubscriptionPaymentModel.findOne({ institutionId: inst.inst._id }).lean();
     expect(fee).toMatchObject({ months: 3, amount: plan!.priceMonthly * 3, reference: 'IBFT-778' });
     const made = await runDailyBriefings('2026-11-20');
-    expect(made).toBe(2); // platform + the institution whose plan has briefings
+    expect(made).toBe(2);
     const b = await BriefingModel.findOne({ scope: 'PLATFORM' }).lean();
     expect(b!.highlights.join(' ')).toContain('Platform fees received: 1 payment(s)');
     expect(await NotificationModel.countDocuments({ type: 'BRIEFING' })).toBeGreaterThanOrEqual(2);
-    expect(await runDailyBriefings('2026-11-20')).toBe(0); // once per day
+    expect(await runDailyBriefings('2026-11-20')).toBe(0);
   });
 });
 

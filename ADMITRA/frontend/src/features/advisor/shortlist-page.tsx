@@ -28,7 +28,6 @@ interface Item {
   advice: AdvisorResult | null;
 }
 
-/** PRED-10: saved programs with chances, comparison of up to four and PDF export. */
 export function ShortlistPage() {
   const qc = useQueryClient();
   const [pick, setPick] = useState<string[]>([]);

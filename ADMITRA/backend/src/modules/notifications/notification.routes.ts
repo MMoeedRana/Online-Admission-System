@@ -10,7 +10,6 @@ import { requirePermission } from '../../middleware/tenant';
 import { EmailTemplateModel, NotificationModel } from './notification.models';
 import { DEFAULT_TEMPLATES, TEMPLATE_VARIABLES, renderTemplate } from './templates';
 
-/** Notifications of the signed-in user (any account type). */
 export const notificationRouter = Router();
 notificationRouter.use(authenticate);
 
@@ -45,7 +44,6 @@ notificationRouter.post('/:id/read', async (req, res) => {
   ok(res, { done: true });
 });
 
-/** NOTIF-3: institution e-mail templates (tenant routes). */
 export const emailTemplateRouter = Router();
 emailTemplateRouter.use(requirePermission(PERMISSIONS.INSTITUTION_SETTINGS));
 

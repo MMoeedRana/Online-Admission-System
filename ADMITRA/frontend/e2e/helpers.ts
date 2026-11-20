@@ -11,7 +11,6 @@ export const ACCOUNTS = {
 };
 export const SUPER_ADMIN_PASSWORD = process.env.E2E_SUPER_ADMIN_PASSWORD ?? 'Admin@12345';
 
-/** Collects uncaught page errors so a test can assert there were none. */
 export function watchErrors(page: Page) {
   const errors: string[] = [];
   page.on('pageerror', (e) => errors.push(e.message));
@@ -27,7 +26,6 @@ export async function login(page: Page, email: string, password = PASSWORD) {
   await page.waitForURL((u) => !u.pathname.startsWith('/login'), { timeout: 30_000 });
 }
 
-/** Waits for the data of a page and scrolls through it so that every animated section is shown. */
 export async function settle(page: Page) {
   await page.waitForLoadState('networkidle');
   await page.waitForTimeout(600);
@@ -40,7 +38,6 @@ export async function settle(page: Page) {
   await page.waitForTimeout(700);
 }
 
-/** The page must never scroll sideways (responsive layout). */
 export async function expectNoHorizontalScroll(page: Page) {
   const overflow = await page.evaluate(
     () => document.documentElement.scrollWidth - document.documentElement.clientWidth,
@@ -48,7 +45,6 @@ export async function expectNoHorizontalScroll(page: Page) {
   expect(overflow, 'horizontal overflow in px').toBeLessThanOrEqual(0);
 }
 
-/** WCAG 2.2 AA check with axe-core: no serious or critical violations are allowed. */
 export async function expectAccessible(page: Page) {
   const result = await new AxeBuilder({ page: page as never })
     .withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa'])
@@ -66,7 +62,6 @@ export async function expectAccessible(page: Page) {
   ).toEqual([]);
 }
 
-/** Opens a page, waits for it, and runs the layout and accessibility checks. */
 export async function checkPage(page: Page, path: string, heading?: RegExp) {
   await page.goto(path);
   await settle(page);

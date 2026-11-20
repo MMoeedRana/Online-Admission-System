@@ -14,10 +14,6 @@ export interface OfficialResult {
   subjects: { name?: string | null; obtained?: number | null; total?: number | null }[];
 }
 
-/**
- * REG-6: the matching service talks to this interface only, so an official board API can
- * replace the imported registry later without changing the rest of the system.
- */
 export interface ResultSource {
   lookup(q: {
     board: string;
@@ -27,7 +23,6 @@ export interface ResultSource {
   }): Promise<OfficialResult | null>;
 }
 
-/** Imported result gazettes; entry-test results may be private to the institution that imported them (REG-5). */
 export const registryResultSource: ResultSource = {
   async lookup(q) {
     const filter: Record<string, unknown> = {

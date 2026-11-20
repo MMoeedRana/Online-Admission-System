@@ -59,7 +59,6 @@ export const TRUST_LEVELS = {
   3: 'Officer verified',
 } as const;
 
-/** FEE-3 */
 export const PAYMENT_METHODS = {
   BANK_DEPOSIT: 'Bank deposit (challan)',
   ONLINE_TRANSFER: 'Online bank transfer',

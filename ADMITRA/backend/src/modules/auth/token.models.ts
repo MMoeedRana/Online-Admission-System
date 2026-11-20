@@ -1,6 +1,5 @@
 import { Schema, Types, model } from 'mongoose';
 
-/** Rotating, single-use refresh tokens (AUTH-3). Only the SHA-256 hash is stored. */
 const refreshTokenSchema = new Schema(
   {
     userId: { type: Types.ObjectId, ref: 'User', required: true, index: true },
@@ -20,7 +19,6 @@ export const RefreshTokenModel = model('RefreshToken', refreshTokenSchema);
 export const ACTION_TOKEN_TYPES = ['VERIFY_EMAIL', 'RESET_PASSWORD', 'INVITATION'] as const;
 export type ActionTokenType = (typeof ACTION_TOKEN_TYPES)[number];
 
-/** Single-use links sent by e-mail (AUTH-5). */
 const actionTokenSchema = new Schema(
   {
     type: { type: String, enum: ACTION_TOKEN_TYPES, required: true },

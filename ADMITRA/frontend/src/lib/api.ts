@@ -3,11 +3,6 @@
 import axios, { AxiosError, type InternalAxiosRequestConfig } from 'axios';
 import type { Session } from './types';
 
-/**
- * One shared Axios instance (Section 2.1.1 of the proposal):
- *  - adds the access token (kept only in memory) and the selected institution to every request
- *  - refreshes the access token once when it expires and repeats the request
- */
 export const api = axios.create({ baseURL: '/api/v1', withCredentials: true, timeout: 20000 });
 
 let accessToken: string | null = null;
@@ -92,7 +87,6 @@ export function errorCode(err: unknown): string | undefined {
   return (err as AxiosError<ApiErrorBody>)?.response?.data?.error?.code;
 }
 
-/** Unwraps the { success, data, meta } envelope. */
 export async function get<T>(url: string, params?: object): Promise<T> {
   const r = await api.get<{ data: T }>(url, { params });
   return r.data.data;

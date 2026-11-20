@@ -13,7 +13,6 @@ import { MeritEntryModel, MeritListModel } from '../merit/merit.models';
 import { meritListPdfData } from '../merit/merit-list.routes';
 import { ProfileModel } from '../profile/profile.model';
 
-/** FIND-6 and FIND-7: published merit lists and the public status lookup. */
 export const publicResultsRouter = Router();
 publicResultsRouter.use(publicLimiter);
 
@@ -62,7 +61,6 @@ publicResultsRouter.get('/merit-lists', async (req, res) => {
   );
 });
 
-/** OFFER-5: shortened names and application numbers only; CNICs are never returned. */
 publicResultsRouter.get('/merit-lists/:id', async (req, res) => {
   const { id } = parse(idParams, req.params);
   const q = parse(
@@ -153,7 +151,6 @@ const STATUS_LABELS: Record<string, string> = {
   REVOKED: 'Admission revoked',
 };
 
-/** FIND-7: application number + last four CNIC digits + CAPTCHA; returns only the status. */
 publicResultsRouter.post('/status', statusLookupLimiter, async (req, res) => {
   const b = parse(
     z.object({
@@ -175,7 +172,6 @@ publicResultsRouter.post('/status', statusLookupLimiter, async (req, res) => {
     .select('applicantId status updatedAt')
     .lean();
   const profile = app ? await ProfileModel.findOne({ userId: app.applicantId }).select('cnic').lean() : null;
-  // The same message for "not found" and "wrong digits" so that numbers cannot be probed.
   if (!app || !profile || !profile.cnic.endsWith(b.cnicLast4))
     throw ApiError.notFound('Application with these details');
   ok(res, { status: app.status, label: STATUS_LABELS[app.status] ?? app.status, updatedAt: app.updatedAt });

@@ -4,8 +4,7 @@ Final Year Project, Department of Computer Science, Government College Universit
 
 ADMITRA is a multi-institution online admission platform: many colleges and universities run their
 admissions in private workspaces, while each student keeps one profile and applies everywhere.
-The complete requirements are in [`docs/proposal`](../docs/proposal) and the phase plan in
-[`docs/PHASES.md`](../docs/PHASES.md).
+The development phases are described in the [main README](../README.md).
 
 ```
 ADMITRA/
@@ -211,7 +210,7 @@ templates.
 
 Uploaded files are stored in `backend/storage` (outside the web root) and are only served to the
 owner and the staff of the institution. Templates for the registry files are in
-[`docs/templates`](../docs/templates).
+[`frontend/public/templates`](frontend/public/templates) and can be downloaded from the import screens.
 
 ### Phase 3 requirements
 
@@ -248,13 +247,9 @@ tests, performance checks for PERF-1 to PERF-10, Playwright tests on a phone and
 e-mails, CSV formula injection, dependency audit) and a production build. Every clickable element shows
 the pointer cursor and every form field has a placeholder.
 
-Documentation: the final report in [`docs/report`](../docs/report) (Word and PDF), user manuals in [`docs/manuals`](../docs/manuals), the requirement traceability matrix
-in [`docs/TRACEABILITY.md`](../docs/TRACEABILITY.md) and real screenshots of every screen (desktop,
-mobile and dark theme) in [`docs/screenshots`](../docs/screenshots).
-
 ### Phase 5 requirements
 
-BRAND-1 to BRAND-5 and AGENT-1 to AGENT-8 (see `docs/proposal/Phase5_Addendum.md`): platform branding
+BRAND-1 to BRAND-5 and AGENT-1 to AGENT-8: platform branding
 by the Super Admin (name, tagline, assistant name, logo, favicon, primary, sidebar and initials colours,
 used in every page, e-mail and PDF), institution branding on plans with custom branding, profile pictures,
 and colours that are adjusted automatically to keep WCAG AA contrast; and **Mitra**, the admission copilot:

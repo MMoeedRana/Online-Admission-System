@@ -61,7 +61,6 @@ const groups = [
 
 export default async function HelpPage() {
   const brand = await serverBrand();
-  // The answers name the platform; it follows the platform branding (BRAND-1).
   const t = (s: string) => s.replaceAll('ADMITRA', brand.platformName);
   return (
     <div className="mx-auto max-w-[900px] px-4 py-8 sm:px-6">

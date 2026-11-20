@@ -1,7 +1,3 @@
-/**
- * Demonstration data for Phase 2 screens. Every person and result here is fictional.
- * Applicants are taken through the real services so that numbers, challans and checks are genuine.
- */
 import type { Request } from 'express';
 import PDFDocument from 'pdfkit';
 import { Types } from 'mongoose';
@@ -142,7 +138,6 @@ export async function seedDemo() {
   const admin = await UserModel.findOne({ platformRole: 'SUPER_ADMIN' });
   const passwordHash = await hashPassword(SAMPLE_PASSWORD);
 
-  // 1. A fictional result gazette in the board result registry (REG-1).
   const batch = await RegistryBatchModel.create({
     source: 'SAMPLE gazette: BISE Faisalabad Matric 2022 and Intermediate 2024 (fictional data)',
     fileName: 'sample-gazette.csv',
@@ -153,9 +148,8 @@ export async function seedDemo() {
   });
   const rows = [];
   for (const p of people) {
-    if (p.name === 'Hamza Ali') continue; // Hamza's board result is not imported: officer verification needed
+    if (p.name === 'Hamza Ali') continue;
     for (const level of ['MATRIC', 'INTERMEDIATE'] as const) {
-      // Sara's Intermediate row is imported after she applies (see step 3).
       if (p.name === 'Sara Khan' && level === 'INTERMEDIATE') continue;
       const r = recordOf(p, level);
       rows.push({
@@ -197,7 +191,6 @@ export async function seedDemo() {
   const program = async (instId: unknown, code: string) =>
     (await ProgramModel.findOne({ institutionId: instId as Types.ObjectId, code }).lean())!;
 
-  // 2. Applicants with profiles and records (checked by the real verification service).
   const users: Record<string, { id: string; person: Person }> = {};
   for (const p of people) {
     let user = await UserModel.findOne({ email: p.email });
@@ -252,7 +245,6 @@ export async function seedDemo() {
     }
   }
 
-  // 3. Applications at different stages.
   async function apply(name: string, campaign: typeof cvuCampaign, codes: string[]) {
     const { id, person } = users[name]!;
     const inst = await InstitutionModel.findById(campaign!.institutionId).lean();
@@ -349,7 +341,6 @@ export async function seedDemo() {
 
   const ayeshaCvu = await apply('Ayesha Noor', cvuCampaign, ['BSCS', 'BSSE', 'BSAI']);
   await pay(ayeshaCvu, 'HBL-FSD-778812', true);
-  // Ayesha's application to RIT is created with the Phase 3 sample data (seed/phase3.ts).
 
   const bilal = await apply('Bilal Ahmed', cvuCampaign, ['BSIT', 'BSCS']);
   await pay(bilal, 'MCB-FSD-220145', true);
@@ -366,8 +357,6 @@ export async function seedDemo() {
   await pay(sara, 'UBL-FSD-551030', true);
   pushHistory(sara.app, 'DOCUMENT_VERIFICATION', 'STAFF', by);
   await sara.app.save();
-  // The gazette row of Sara's Intermediate arrives after she applied and shows 60 marks fewer:
-  // the automatic re-check flags a MISMATCH for the officer.
   const saraInter = recordOf(sara.person, 'INTERMEDIATE');
   await RegistryRowModel.create({
     batchId: batch._id,

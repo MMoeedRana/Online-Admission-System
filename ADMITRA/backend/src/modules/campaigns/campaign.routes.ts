@@ -131,7 +131,6 @@ campaignRouter.patch('/:id', requirePermission(PERMISSIONS.CAMPAIGNS_MANAGE), as
   ok(res, c);
 });
 
-/** CAMP-1: DRAFT -> OPEN -> CLOSED -> (OPEN | ARCHIVED). */
 campaignRouter.post('/:id/status', requirePermission(PERMISSIONS.CAMPAIGNS_MANAGE), async (req, res) => {
   const { id } = parse(idParams, req.params);
   const { to } = parse(z.object({ to: z.enum(CAMPAIGN_STATUSES) }), req.body);

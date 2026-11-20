@@ -20,7 +20,6 @@ import { cn } from '@/lib/utils';
 import { useApplication } from './use-application';
 import { DocumentUpload, Wizard } from './wizard';
 
-/** Draft -> wizard; submitted -> status, timeline, deficiencies and fee (APP-4, APP-6, FLOW-5). */
 export function ApplicationView({ id }: { id: string }) {
   const { data, refresh, error } = useApplication(id);
   const [withdraw, setWithdraw] = useState(false);

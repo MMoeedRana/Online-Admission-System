@@ -40,7 +40,6 @@ export interface Ticket {
   } | null;
 }
 
-/** SUP-1 categories. */
 export const CATEGORIES = {
   TECHNICAL: 'Technical problem',
   BILLING: 'Billing and plan',
@@ -50,7 +49,6 @@ export const CATEGORIES = {
   OTHER: 'Other',
 } as const;
 
-/** SUP-1 priorities with their first-response targets. */
 export const PRIORITIES = {
   URGENT: { label: 'Urgent', hours: 2, tone: 'red' as Tone },
   HIGH: { label: 'High', hours: 8, tone: 'amber' as Tone },
@@ -58,7 +56,6 @@ export const PRIORITIES = {
   LOW: { label: 'Low', hours: 72, tone: 'gray' as Tone },
 } as const;
 
-/** SUP-1 statuses. */
 export const TICKET_STATUS = {
   OPEN: { label: 'Open', tone: 'blue' as Tone },
   IN_PROGRESS: { label: 'In progress', tone: 'purple' as Tone },
@@ -77,7 +74,6 @@ export const RESPONSE = {
 export const base = (side: Side) => (side === 'platform' ? '/platform/support' : '/support/tickets');
 export const pageBase = (side: Side) => (side === 'platform' ? '/platform/support' : '/institution/support');
 
-/** "in 3 h", "2 d ago" style relative time. */
 export function relative(iso: string, now = Date.now()) {
   const diff = new Date(iso).getTime() - now;
   const abs = Math.abs(diff);

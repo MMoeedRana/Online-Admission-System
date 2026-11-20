@@ -26,7 +26,6 @@ export const DATA_STATUS: Record<string, { label: string; tone: 'green' | 'amber
   NONE: { label: 'No data yet', tone: 'gray' },
 };
 
-/** DIR-6 (Figure 4.4): institutions and programs with filters and comparison. */
 export function DirectoryPage() {
   const brand = useBrand();
   const [f, setF] = useState({

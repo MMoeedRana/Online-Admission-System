@@ -33,7 +33,6 @@ export const toast = {
 
 const EMPTY: ToastItem[] = [];
 
-/** Toasts appear top-right on desktop and at the bottom on phones (Section 4.1.3). */
 export function Toaster() {
   const list = useSyncExternalStore(
     (l) => {

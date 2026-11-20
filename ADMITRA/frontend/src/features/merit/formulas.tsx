@@ -73,7 +73,6 @@ const TIE: Record<string, string> = {
 };
 const COLORS = ['bg-[#1F6FEB]', 'bg-[#16A34A]', 'bg-[#D97706]', 'bg-[#7C3AED]', 'bg-[#0EA5E9]', 'bg-[#DB2777]'];
 
-/** MERIT-1, MERIT-2 and the test mode of Table 3.13. */
 export function MeritFormulas() {
   const { campaigns, campaign, id, select, loading } = useCampaign();
   const key = useInstKey();

@@ -71,7 +71,6 @@ apiRouter.use('/platform', platformRouter);
 apiRouter.use('/notifications', notificationRouter);
 apiRouter.use('/files', fileRouter);
 
-// Applicant portal: every route needs an applicant account.
 const me = Router();
 me.use(authenticate, requireApplicant);
 me.use('/profile', profileRouter);
@@ -82,7 +81,6 @@ me.use(myResultsRouter);
 me.use('/shortlist', shortlistRouter);
 apiRouter.use('/me', me);
 
-// Institution workspace: every route is authenticated and scoped to one tenant (SEC-1).
 const tenant = Router();
 tenant.use(authenticate, resolveTenant);
 tenant.use('/institution', institutionRouter);

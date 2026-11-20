@@ -12,7 +12,6 @@ import { CampaignModel } from '../campaigns/campaign.model';
 import { advise, explain, savedMarks, type AdvisorInput, type MarksBasis } from './advisor.service';
 import { AdvisorLogModel, DirInstitutionModel, DirProgramModel, MeritHistoryModel } from './directory.models';
 
-/** DIR-6, DIR-7 and the Admission Advisor (Section 3.15) for visitors and applicants. */
 export const publicDirectoryRouter = Router();
 publicDirectoryRouter.use(publicLimiter);
 
@@ -37,7 +36,6 @@ const filters = {
   q: optionalText,
 };
 
-/** Latest verified closing merit and data status of each program (Figure 4.4). */
 async function historySummary(programIds: Id[]) {
   const rows = await MeritHistoryModel.find({
     directoryProgramId: { $in: programIds },
@@ -124,7 +122,6 @@ publicDirectoryRouter.get('/directory/programs', async (req, res) => {
       .map((i) => i._id);
     filter.$or = [{ title: rx }, { directoryInstitutionId: { $in: byName } }];
   }
-  // DIR-6 "deadline": only programs of an open ADMITRA campaign.
   if (q.openOnly) {
     const open = await CampaignModel.find({ status: 'OPEN', closesAt: { $gt: new Date() } }).distinct(
       'programs.programId',
@@ -187,7 +184,6 @@ publicDirectoryRouter.get('/directory/programs/:id', async (req, res) => {
   ok(res, { program: p, institution: inst, history, openCampaign: open(p.programId) });
 });
 
-/** DIR-6: comparison of up to four programs. */
 publicDirectoryRouter.get('/directory/compare', async (req, res) => {
   const { ids } = parse(
     z.object({ ids: z.string().transform((s) => s.split(',').filter(Boolean)) }),
@@ -276,7 +272,6 @@ publicDirectoryRouter.get('/directory/institutions/:slug', async (req, res) => {
   });
 });
 
-// ------------------------------------------------------------------ Admission Advisor (PRED)
 const advisorBody = z.object({
   useSaved: z.boolean().default(false),
   matric: pct.optional(),
@@ -296,7 +291,6 @@ const filtersOf = (b: z.infer<typeof advisorBody>) => ({
   q: b.q,
 });
 
-/** Builds the advisor input from the form or, for a signed-in applicant, from the saved record (PRED-2). */
 async function inputFrom(req: Request, raw: unknown) {
   const b = parse(advisorBody, raw);
   let basis: MarksBasis = 'ENTERED';
@@ -314,7 +308,6 @@ async function inputFrom(req: Request, raw: unknown) {
       ...rest,
       matric: saved.matric,
       inter: saved.inter,
-      // What-if: a test value sent by the page replaces the saved one.
       test: test !== undefined ? test : saved.test,
       fieldGroup: fieldGroup || saved.fieldGroup,
     };
@@ -339,11 +332,9 @@ async function inputFrom(req: Request, raw: unknown) {
 
 const round = (n: number | null | undefined) => (n == null ? null : Math.round(n));
 
-/** Table 3.17, steps 1-3: "Show my chances". */
 publicDirectoryRouter.post('/advisor', optionalAuth, async (req, res) => {
   const { input, basis } = await inputFrom(req, req.body);
   const results = await advise(input);
-  // PRED-12: anonymous log with rounded inputs and no identity.
   await AdvisorLogModel.create({
     inputs: {
       matric: round(input.matric),
@@ -376,7 +367,6 @@ publicDirectoryRouter.post('/advisor', optionalAuth, async (req, res) => {
   });
 });
 
-/** PRED-8: "Explain" for one program, with the what-if values from the query. */
 publicDirectoryRouter.post('/advisor/programs/:id', optionalAuth, async (req, res) => {
   const { id } = parse(idParams, req.params);
   const { input, basis } = await inputFrom(req, req.body);

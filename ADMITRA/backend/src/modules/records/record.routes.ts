@@ -97,7 +97,6 @@ recordRouter.delete('/:id', async (req, res) => {
   ok(res, { deleted: true });
 });
 
-/** MARK-6: result card (DMC) upload. */
 recordRouter.post('/:id/result-card', upload.single('file'), async (req, res) => {
   const { id } = parse(idParams, req.params);
   const rec = await RecordModel.findOne({ _id: id, userId: req.auth!.userId, current: true });
@@ -114,7 +113,6 @@ recordRouter.post('/:id/result-card', upload.single('file'), async (req, res) =>
   ok(res, rec);
 });
 
-/** MARK-8: all versions of a record with their verification history. */
 recordRouter.get('/:id/history', async (req, res) => {
   const { id } = parse(idParams, req.params);
   const rec = await RecordModel.findOne({ _id: id, userId: req.auth!.userId }).lean();

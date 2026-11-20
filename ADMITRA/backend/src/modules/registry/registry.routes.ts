@@ -54,7 +54,6 @@ function routes(scope: (req: Request) => { institutionId: string | null; onlyLev
   return r;
 }
 
-/** REG-1: board result gazettes imported by the super admin. */
 export const platformRegistryRouter = Router();
 platformRegistryRouter.use(
   authenticate,
@@ -62,7 +61,6 @@ platformRegistryRouter.use(
   routes(() => ({ institutionId: null })),
 );
 
-/** REG-5: an institution's own entry-test results, private to that institution. */
 export const institutionRegistryRouter = Router();
 institutionRegistryRouter.use(
   requirePermission(PERMISSIONS.INSTITUTION_SETTINGS),

@@ -1,15 +1,11 @@
-/** Upper-case, remove punctuation and titles, collapse spaces. */
 export function normalizeName(name: string): string {
-  return (
-    name
-      .toUpperCase()
-      .replace(/[^A-Z\s]/g, ' ')
-      .replace(/\b(MR|MRS|MS|MISS|DR)\b/g, ' ')
-      // common spellings of the same name are treated as one
-      .replace(/\b(MOHAMMAD|MOHAMMED|MUHAMMED|MOHAMED|MUHAMAD|M)\b/g, 'MUHAMMAD')
-      .replace(/\s+/g, ' ')
-      .trim()
-  );
+  return name
+    .toUpperCase()
+    .replace(/[^A-Z\s]/g, ' ')
+    .replace(/\b(MR|MRS|MS|MISS|DR)\b/g, ' ')
+    .replace(/\b(MOHAMMAD|MOHAMMED|MUHAMMED|MOHAMED|MUHAMAD|M)\b/g, 'MUHAMMAD')
+    .replace(/\s+/g, ' ')
+    .trim();
 }
 
 function levenshtein(a: string, b: string): number {
@@ -26,7 +22,6 @@ function levenshtein(a: string, b: string): number {
   return prev[b.length]!;
 }
 
-/** MARK-4: similarity between 0 and 1 (1 = identical) based on edit distance. */
 export function nameSimilarity(a: string, b: string): number {
   const x = normalizeName(a);
   const y = normalizeName(b);

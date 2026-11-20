@@ -8,7 +8,6 @@ import { useInstKey } from '@/features/institution/hooks';
 import { get } from '@/lib/api';
 import type { Campaign } from '@/lib/types';
 
-/** The campaign shown on merit screens; kept in the address (?campaign=) so links can be shared. */
 export function useCampaign() {
   const key = useInstKey();
   const sp = useSearchParams();
@@ -16,7 +15,6 @@ export function useCampaign() {
   const pathname = usePathname();
   const list = useQuery({ queryKey: key('campaigns'), queryFn: () => get<Campaign[]>('/campaigns') });
   const campaigns = (list.data ?? []).filter((c) => c.status !== 'DRAFT');
-  // Default: the most recent closed campaign (merit lists are prepared after closing), else the latest.
   const fallback = campaigns.find((c) => c.status === 'CLOSED') ?? campaigns[0];
   const id = sp.get('campaign') ?? fallback?._id ?? '';
   const campaign = campaigns.find((c) => c._id === id) ?? null;

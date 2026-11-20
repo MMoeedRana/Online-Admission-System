@@ -1,7 +1,6 @@
 import { Schema, Types, model } from 'mongoose';
 import { RECORD_LEVELS } from '../../constants/academics';
 
-/** REG-3: each import is one batch that can be rolled back within 7 days. */
 const batchSchema = new Schema(
   {
     institutionId: { type: Types.ObjectId, ref: 'Institution', default: null },
@@ -20,7 +19,6 @@ const batchSchema = new Schema(
 );
 export const RegistryBatchModel = model('RegistryImportBatch', batchSchema);
 
-/** REG-1 / REG-4: official result rows, readable only by the matching service. */
 const rowSchema = new Schema(
   {
     batchId: { type: Types.ObjectId, ref: 'RegistryImportBatch', required: true, index: true },

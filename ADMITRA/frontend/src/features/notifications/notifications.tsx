@@ -30,7 +30,6 @@ export async function markRead(id?: string) {
   else await post('/notifications/read-all');
 }
 
-/** NOTIF-1: live notifications pushed by the API over WebSocket. */
 export function NotificationSocket() {
   const { status, user } = useAuth();
   const qc = useQueryClient();

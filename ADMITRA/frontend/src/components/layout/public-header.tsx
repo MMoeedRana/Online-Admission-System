@@ -22,7 +22,6 @@ export function isActive(pathname: string, href: string) {
   return href === '/' ? pathname === '/' : pathname === href || pathname.startsWith(href + '/');
 }
 
-/** White top bar used by visitors and applicants (Section 4.1.1). */
 export function PublicHeader() {
   const pathname = usePathname();
   const auth = useAuth();

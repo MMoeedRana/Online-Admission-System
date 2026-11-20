@@ -45,7 +45,6 @@ interface Meta {
   statusCounts: Record<string, number>;
 }
 
-/** Merit committee workspace (Section 3.12 and 3.13). */
 export function MeritListsPage() {
   const { campaigns, id, select, loading } = useCampaign();
   const key = useInstKey();

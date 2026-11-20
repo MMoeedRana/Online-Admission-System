@@ -18,7 +18,6 @@ const tooltipStyle = {
   fontSize: 12.5,
 };
 
-/** One series per day (single hue); the hover tooltip gives the exact figure. */
 export function DailyBars({ data, label }: { data: { date: string; count: number }[]; label: string }) {
   const rows = data.map((d) => ({ ...d, day: shortDay(d.date) }));
   const total = data.reduce((s, d) => s + d.count, 0);
@@ -54,7 +53,6 @@ export function DailyBars({ data, label }: { data: { date: string; count: number
   );
 }
 
-/** Funnel as horizontal bars: width is the share of the first step; the drop from the previous step is printed. */
 export function Funnel({ steps }: { steps: { key: string; label: string; value: number }[] }) {
   const top = steps[0]?.value || 1;
   return (
@@ -97,7 +95,6 @@ export function Funnel({ steps }: { steps: { key: string; label: string; value: 
   );
 }
 
-/** A labelled meter (0-100 %). */
 export function Meter({
   label,
   value,

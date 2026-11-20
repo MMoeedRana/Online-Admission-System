@@ -1,8 +1,3 @@
-/**
- * Phase 3 sample data: reference directory, merit formulas and a complete admission cycle at
- * Riverside Institute of Technology (applications, three merit lists, offers, enrollment, expiry,
- * revocation and a list waiting for the second committee member). All people are fictional.
- */
 import type { Request } from 'express';
 import type { Types } from 'mongoose';
 import { permissionsFor } from '../constants/permissions';
@@ -199,7 +194,6 @@ const INTER_SUBJECTS: Record<string, string[]> = {
   'Pre-Medical (with Mathematics)': ['English', 'Urdu', 'Biology', 'Physics', 'Chemistry', 'Mathematics'],
 };
 
-/** Subject marks that add up exactly to the percentage (integrity rule MARK-2). */
 function subjectMarks(names: string[], totals: number[], pct: number) {
   const total = totals.reduce((s, x) => s + x, 0);
   const target = Math.round((total * pct) / 100);
@@ -252,10 +246,8 @@ const TINY_PDF = Buffer.from(
 const asFile = (name: string) =>
   ({ buffer: TINY_PDF, size: TINY_PDF.length, originalname: name }) as Express.Multer.File;
 
-// ===================================================================== 1. Directory
 async function seedDirectory(adminId: Types.ObjectId) {
   const year = realNow().getFullYear();
-  // ADMITRA tenants: directory profiles from their programs (DIR-5) with three past years.
   const tenants = await InstitutionModel.find({ status: 'ACTIVE' }).lean();
   let tenantPrograms = 0;
   for (const t of tenants) {
@@ -333,7 +325,6 @@ async function seedDirectory(adminId: Types.ObjectId) {
     }
   }
 
-  // Institutions that do not use ADMITRA (entered from their published merit lists).
   let programs = 0;
   let drafts = 0;
   for (const s of directoryInstitutions) {
@@ -412,7 +403,6 @@ async function seedDirectory(adminId: Types.ObjectId) {
     }
   }
 
-  // DIR-7: Northern Science College asks to take over its old listing.
   const nsc = await InstitutionModel.findOne({ shortName: 'NSC' }).lean();
   if (nsc) {
     await DirInstitutionModel.updateOne(
@@ -433,7 +423,6 @@ async function seedDirectory(adminId: Types.ObjectId) {
   );
 }
 
-// ===================================================================== 2. Merit formulas
 async function seedFormulas(campaignId: Types.ObjectId, inst: Inst, byEmail: string, draftFor?: string) {
   const campaign = (await CampaignModel.findById(campaignId).lean())!;
   const programs = await ProgramModel.find({
@@ -498,7 +487,6 @@ async function seedFormulas(campaignId: Types.ObjectId, inst: Inst, byEmail: str
   }
 }
 
-// ===================================================================== 3. RIT admission cycle
 interface Candidate {
   id: string;
   name: string;
@@ -612,7 +600,6 @@ async function makeApplicant(
       await rec.save();
     }
   }
-  // REG-5: the entry-test result comes from RIT's own result import.
   const testRoll = `RIT-26-${pad(1000 + Math.floor(random() * 8999), 4)}`;
   const testObtained = Math.round(c.test);
   await RegistryRowModel.create({
@@ -681,7 +668,6 @@ async function applyAndProcess(
   await submitApplication(req, app);
   if (c.finalStatus === 'PAYMENT_PENDING') return app;
 
-  // Proof of payment the next day, verified by the officer the day after.
   setClock(submitAt + between(0.6, 1.4) * DAY);
   const voucher = (await VoucherModel.findOne({ applicationId: app._id, type: 'APPLICATION' }))!;
   const slip = await saveUpload(asFile('deposit-slip.pdf'), {
@@ -715,7 +701,6 @@ async function applyAndProcess(
   pushHistory(fresh, 'UNDER_REVIEW', 'SYSTEM', undefined, `Fee verified, receipt ${pay.receiptNumber}`);
   await fresh.save();
 
-  // Document verification and eligibility by the admission officer.
   setClock(submitAt + between(3, 4.5) * DAY);
   const by = { id: officer.auth!.userId, name: officer.auth!.name };
   pushHistory(fresh, 'DOCUMENT_VERIFICATION', 'STAFF', by);
@@ -741,7 +726,6 @@ async function applyAndProcess(
   return fresh;
 }
 
-/** Applicant accepts, pays the admission fee and (optionally) the finance officer verifies it. */
 async function acceptAndPay(offerId: unknown, c: Candidate, finance: Request, when: number, verify: boolean) {
   setClock(when);
   const { offer, voucher } = await acceptOffer(applicantReq(c.id, c.name), offerId as string);
@@ -788,12 +772,9 @@ async function seedRitCycle(passwordHash: string, adminId: Types.ObjectId) {
   const opens = T - 52 * DAY;
   const closes = T - 24 * DAY;
 
-  // The campaign ran earlier this year with a seat cap per program for this intake.
   const progs = await ProgramModel.find({ institutionId: rit._id }).lean();
   const cap: Record<string, number> = { BSIT: 10, BSDS: 6, BSEE: 6 };
   campaign.opensAt = new Date(opens);
-  // While the sample data is being created the closing date stays in the future, so that a
-  // running API (whose jobs close campaigns and expire offers) does not interfere.
   campaign.closesAt = new Date(T + 30 * DAY);
   campaign.set(
     'programs',
@@ -831,11 +812,9 @@ async function seedRitCycle(passwordHash: string, adminId: Types.ObjectId) {
     years: [2026],
   });
 
-  // ---- applicants
   const candidates: Candidate[] = [];
   const used = new Set<string>();
   const N = 74;
-  // Fixed demonstration accounts: one stays on the waiting list, one is not selected.
   const fixed: Record<
     number,
     { name: string; email: string; matric: number; inter: number; test: number; group: string; male: boolean }
@@ -903,7 +882,7 @@ async function seedRitCycle(passwordHash: string, adminId: Types.ObjectId) {
       matric: round2(matric),
       inter: round2(inter),
       test: Math.round(test),
-      verifiedMarks: f ? true : i % 13 !== 5, // a few applicants only have uploaded result cards (MARK-10)
+      verifiedMarks: f ? true : i % 13 !== 5,
       codes: f ? ['BSIT', 'BSDS'] : eligible,
       finalStatus:
         i === 7 || i === 23 || i === 38
@@ -923,7 +902,6 @@ async function seedRitCycle(passwordHash: string, adminId: Types.ObjectId) {
     candidates.push({ ...c, id });
   }
 
-  // The named demonstration applicants also apply here.
   const ayesha = (await UserModel.findOne({ email: 'ayesha.noor@example.com' }).lean())!;
   const bilal = (await UserModel.findOne({ email: 'bilal.ahmed@example.com' }).lean())!;
   const named: { user: typeof ayesha; test: number; codes: string[]; father: string; group: string }[] = [
@@ -988,23 +966,17 @@ async function seedRitCycle(passwordHash: string, adminId: Types.ObjectId) {
     campaign.history.push({ from: 'OPEN', to: 'CLOSED', at: new Date(), auto: true });
     await campaign.save();
 
-    // ---- formulas by the committee
     setClock(closes + 2 * DAY);
     await seedFormulas(campaign._id as Types.ObjectId, rit, 'merit1@rit.example.edu.pk');
 
-    // ---- merit list 1: generated, approved by the second member, published by the admin
     setClock(T - 20 * DAY);
-    // For the demonstration Ayesha should be at the top of the BSIT waiting list in list 1, so
-    // that list 2 selects her and her offer is still open today. Her test score is tuned once.
     await tuneWaitlist(merit1, campaign._id, String(ayesha._id));
-    // The real deadline (T - 10 days) is set after the responses, for the same reason as above.
     const l1 = await generateList(merit1, campaign._id as never, new Date(T + 20 * DAY));
     setClock(T - 19 * DAY);
     await approveList(merit2, l1._id as never);
     setClock(T - 18 * DAY);
     await publishList(admin, l1._id as never);
 
-    // ---- responses to list 1
     const byId = new Map(candidates.map((c) => [c.id, c]));
     const offers1 = await OfferModel.find({ meritListId: l1._id }).sort({ meritPosition: 1 }).lean();
     const enrolled: unknown[] = [];
@@ -1013,7 +985,6 @@ async function seedRitCycle(passwordHash: string, adminId: Types.ObjectId) {
       const c = byId.get(String(o.applicantId))!;
       const when = T - 17 * DAY + between(0, 4) * DAY;
       if (c.email === 'zainab.tariq@example.com') {
-        // The enrolled demonstration student: accepts, pays and reports first.
         const e = await acceptAndPay(o._id, c, admin, T - 17 * DAY, true);
         if (e) enrolled.unshift(e._id);
         continue;
@@ -1026,7 +997,6 @@ async function seedRitCycle(passwordHash: string, adminId: Types.ObjectId) {
         setClock(when);
         await declineOffer(applicantReq(c.id, c.name), o._id as never);
       }
-      // the others do not respond and their offers expire
     }
     await MeritListModel.updateOne({ _id: l1._id }, { offerDeadline: new Date(T - 10 * DAY) });
     await OfferModel.updateMany({ meritListId: l1._id }, { deadline: new Date(T - 10 * DAY) });
@@ -1039,14 +1009,12 @@ async function seedRitCycle(passwordHash: string, adminId: Types.ObjectId) {
     setClock(T - 10 * DAY + 2 * HOUR);
     await expireOffers(new Date());
 
-    // MARK-12: originals checked on the reporting day (two students have not reported yet).
     for (const [i, e] of enrolled.entries()) {
       if (i >= enrolled.length - 2) break;
       setClock(T - 9 * DAY + i * 2 * HOUR);
       await verifyOriginals(officer, e as never);
     }
 
-    // MARK-11: altered marks found on one result card.
     const revokeOffer = await OfferModel.findOne({ meritListId: l1._id, status: 'ENROLLED' })
       .sort({ meritPosition: -1 })
       .lean();
@@ -1060,7 +1028,6 @@ async function seedRitCycle(passwordHash: string, adminId: Types.ObjectId) {
       );
     }
 
-    // ---- merit list 2 for the released seats
     setClock(T - 6 * DAY);
     const l2 = await generateList(merit2, campaign._id as never, new Date(T + 4 * DAY));
     setClock(T - 5 * DAY);
@@ -1072,11 +1039,10 @@ async function seedRitCycle(passwordHash: string, adminId: Types.ObjectId) {
     let j = 0;
     for (const o of offers2) {
       const c = byId.get(String(o.applicantId))!;
-      if (c.email === 'ayesha.noor@example.com') continue; // Ayesha decides herself in the demonstration
+      if (c.email === 'ayesha.noor@example.com') continue;
       const when = T - 3 * DAY + between(0, 2) * DAY;
       const r = j++ % 4;
-      if (r === 0)
-        await acceptAndPay(o._id, c, admin, when, false); // proof waiting for the finance officer
+      if (r === 0) await acceptAndPay(o._id, c, admin, when, false);
       else if (r === 1) {
         setClock(when);
         await declineOffer(applicantReq(c.id, c.name), o._id as never);
@@ -1086,7 +1052,6 @@ async function seedRitCycle(passwordHash: string, adminId: Types.ObjectId) {
       }
     }
 
-    // ---- merit list 3 generated by one member and waiting for the other (OFFER-1)
     setClock(T - 6 * HOUR);
     try {
       const l3 = await generateList(merit1, campaign._id as never, new Date(T + 12 * DAY));
@@ -1094,9 +1059,7 @@ async function seedRitCycle(passwordHash: string, adminId: Types.ObjectId) {
         await MeritEntryModel.deleteMany({ meritListId: l3._id });
         await MeritListModel.deleteOne({ _id: l3._id });
       }
-    } catch {
-      /* no free seats: nothing to generate */
-    }
+    } catch {}
   } finally {
     uninstallClock();
   }
@@ -1161,7 +1124,6 @@ async function tuneWaitlist(req: Request, campaignId: unknown, userId: string) {
   await setTestScore(userId, best ?? Math.max(40, hi));
 }
 
-// ===================================================================== 4. Advisor usage and shortlist
 async function seedAdvisorUsage() {
   const T = realNow().getTime();
   const runs = [];
@@ -1236,10 +1198,9 @@ async function seedShortlist() {
 
 export async function seedPhase3(passwordHash: string) {
   const level = logger.level;
-  logger.level = 'warn'; // e-mails of the sample data are not printed one by one
+  logger.level = 'warn';
   try {
     const admin = (await UserModel.findOne({ platformRole: 'SUPER_ADMIN' }).lean())!;
-    // An earlier academic session for completeness of the structure.
     const year = realNow().getFullYear();
     const cvu = (await InstitutionModel.findOne({ shortName: 'CVU' }))!;
     await AcademicSessionModel.create({

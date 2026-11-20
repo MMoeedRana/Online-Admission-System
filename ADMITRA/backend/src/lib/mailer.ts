@@ -20,7 +20,6 @@ export interface MailMessage {
   action?: { label: string; url: string };
 }
 
-/** Sent mails are kept in memory during tests so that links can be read. */
 export const sentMails: (MailMessage & { html: string })[] = [];
 
 function render(m: MailMessage): string {

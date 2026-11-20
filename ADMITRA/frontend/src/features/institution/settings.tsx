@@ -310,7 +310,6 @@ function SettingsForm({ initial }: { initial: Institution }) {
   );
 }
 
-/** BRAND-2: own logo and colours of the workspace (plans with custom branding). */
 function BrandingTab({
   enabled,
   planName,

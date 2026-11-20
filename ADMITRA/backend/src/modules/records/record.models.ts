@@ -10,7 +10,6 @@ const subject = new Schema(
   { _id: false },
 );
 
-/** MARK-1: subject-wise academic record with a trust level (MARK-3) and versions (MARK-8). */
 const recordSchema = new Schema(
   {
     userId: { type: Types.ObjectId, ref: 'User', required: true, index: true },
@@ -48,7 +47,6 @@ recordSchema.index({ board: 1, level: 1, year: 1, rollNo: 1 });
 export type AcademicRecord = InferSchemaType<typeof recordSchema>;
 export const RecordModel = model('AcademicRecord', recordSchema);
 
-/** Every check and officer decision is kept (MARK-7, MARK-13). */
 const verificationSchema = new Schema(
   {
     recordId: { type: Types.ObjectId, ref: 'AcademicRecord', required: true, index: true },
@@ -67,7 +65,6 @@ export const VerificationModel = model('MarksVerification', verificationSchema);
 
 export const FRAUD_TYPES = ['ROLL_NUMBER_CLAIMED_TWICE', 'RESULT_CARD_REUSED', 'REPEATED_MISMATCH'] as const;
 
-/** MARK-9: suspicious patterns, visible to staff only. */
 const fraudSchema = new Schema(
   {
     type: { type: String, enum: FRAUD_TYPES, required: true },

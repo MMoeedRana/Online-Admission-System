@@ -1,6 +1,5 @@
 import { z } from 'zod';
 
-/** AUTH-1: the same password rules as the API. */
 export const password = z
   .string()
   .min(8, 'Password must be at least 8 characters.')

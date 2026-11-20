@@ -1,7 +1,3 @@
-/**
- * AGENT-1: one interface for every AI provider. The agent only talks to `ChatProvider`, so switching
- * between Gemini, OpenAI, Claude or any OpenAI-compatible service is a change of environment values.
- */
 export interface ToolCall {
   id: string;
   name: string;
@@ -17,7 +13,6 @@ export type ChatMessage =
 export interface ToolSpec {
   name: string;
   description: string;
-  /** JSON Schema of the arguments (an object). */
   parameters: Record<string, unknown>;
 }
 

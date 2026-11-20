@@ -2,12 +2,6 @@ import { readdirSync, readFileSync, statSync } from 'node:fs';
 import { join, relative } from 'node:path';
 import type { Router } from 'express';
 
-/**
- * Builds the OpenAPI 3.1 description of the API from the routers that are really mounted,
- * so the document can never list an endpoint that does not exist (or miss one that does).
- * Summaries come from the JSDoc comment written above each route in the source.
- */
-
 interface Layer {
   rawPath?: string;
   route?: { path: string; methods: Record<string, boolean> };
@@ -30,7 +24,6 @@ function walkFiles(dir: string): string[] {
   });
 }
 
-/** Router variable name -> its routes' JSDoc comments, read from the module sources. */
 function sourceComments() {
   const out = new Map<string, string>();
   const names = new Map<string, string>();
@@ -52,7 +45,6 @@ function sourceComments() {
   return { comments: out, files: names };
 }
 
-/** Walks the mounted routers and lists every endpoint with its full path. */
 export function listRoutes(api: Router, routers: Record<string, unknown>): RouteInfo[] {
   const nameOf = new Map<unknown, string>();
   for (const [name, r] of Object.entries(routers)) nameOf.set(r, name);
@@ -141,7 +133,6 @@ const words = (w: string) =>
     .toLowerCase();
 const cap = (w: string) => w.charAt(0).toUpperCase() + w.slice(1);
 
-/** Readable summary for a route without a JSDoc comment, e.g. POST /merit-lists/:id/publish -> Publish merit list. */
 export function humanize(method: string, path: string) {
   const segs = path.replace('/api/v1/', '').split('/').filter(Boolean);
   const last = segs.at(-1) ?? '';
@@ -164,7 +155,6 @@ export function humanize(method: string, path: string) {
   }
   if (method === 'delete') return `Delete ${words(singular(endsWithParam ? resource : resource))}`;
   if (method === 'patch' || method === 'put') return `Update ${words(singular(resource))}`;
-  // POST
   if (parentParam) {
     if (resource.endsWith('s') && !resource.endsWith('ss'))
       return `Add ${words(singular(resource))} to ${words(singular(parent))}`;

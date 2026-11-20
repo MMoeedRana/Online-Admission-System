@@ -89,7 +89,6 @@ applicantAppRouter.get('/', async (req, res) => {
   );
 });
 
-/** Starts (or reopens) a draft for an open campaign; APP-2 one active application per campaign. */
 applicantAppRouter.post('/', async (req, res) => {
   const body = parse(z.object({ campaignId: objectId, programId: objectId.optional() }), req.body);
   const campaign = await CampaignModel.findById(body.campaignId).lean();
@@ -97,7 +96,6 @@ applicantAppRouter.post('/', async (req, res) => {
     throw ApiError.conflict('This admission campaign is not open.');
   const inst = await InstitutionModel.findOne({ _id: campaign.institutionId, status: 'ACTIVE' }).lean();
   if (!inst) throw ApiError.notFound('Campaign');
-  // MARK-11: a CNIC blocked after confirmed false marks cannot apply again in this cycle.
   const myProfile = await ProfileModel.findOne({ userId: req.auth!.userId }).select('cnic').lean();
   if (myProfile && (await CnicBlockModel.exists({ campaignId: campaign._id, cnic: myProfile.cnic })))
     throw new ApiError(
@@ -139,7 +137,6 @@ applicantAppRouter.post('/', async (req, res) => {
   created(res, app);
 });
 
-/** Everything the wizard and the details page need. */
 applicantAppRouter.get('/:id', async (req, res) => {
   const { id } = parse(idParams, req.params);
   const app = await own(req, id);
@@ -238,7 +235,6 @@ applicantAppRouter.put('/:id/preferences', async (req, res) => {
   ok(res, app);
 });
 
-/** DOC-2: upload a document for a requirement (drafts, or rejected documents of deficient applications). */
 applicantAppRouter.post('/:id/documents', upload.single('file'), async (req, res) => {
   const { id } = parse(idParams, req.params);
   const { documentTypeId } = parse(z.object({ documentTypeId: objectId }), req.body);
@@ -295,7 +291,6 @@ applicantAppRouter.post('/:id/submit', async (req, res) => {
   ok(res, { application: r.app, voucher: r.voucher });
 });
 
-/** FLOW: the applicant resubmits after correcting a deficiency. */
 applicantAppRouter.post('/:id/resubmit', async (req, res) => {
   const { id } = parse(idParams, req.params);
   const app = await own(req, id);
@@ -359,7 +354,6 @@ applicantAppRouter.delete('/:id', async (req, res) => {
   ok(res, { deleted: true });
 });
 
-// ---------------- Fees (FEE-2 to FEE-5) ----------------
 export async function challanData(appId: Id, type: 'APPLICATION' | 'ADMISSION' = 'APPLICATION') {
   const app = await ApplicationModel.findById(appId).lean();
   const voucher = await VoucherModel.findOne({ applicationId: appId, type, status: { $ne: 'CANCELLED' } })
@@ -473,7 +467,6 @@ applicantAppRouter.get('/:id/payments/:paymentId/receipt.pdf', async (req, res) 
   receiptPdf(res, await receiptData(paymentId));
 });
 
-/** FEE-2/FEE-3: proof of payment. */
 applicantAppRouter.post('/:id/payments', upload.single('file'), async (req, res) => {
   const { id } = parse(idParams, req.params);
   const app = await own(req, id);
@@ -491,7 +484,6 @@ applicantAppRouter.post('/:id/payments', upload.single('file'), async (req, res)
     }),
     req.body,
   );
-  // The admission challan (after an offer is accepted) is paid the same way as the application fee.
   const voucher =
     (await VoucherModel.findOne({
       applicationId: app._id,
@@ -545,7 +537,6 @@ applicantAppRouter.post('/:id/payments', upload.single('file'), async (req, res)
   created(res, pay);
 });
 
-// ---------------- Applicant dashboard ----------------
 export const applicantDashboardRouter = Router();
 applicantDashboardRouter.get('/', async (req, res) => {
   const userId = req.auth!.userId;

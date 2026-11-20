@@ -1,9 +1,3 @@
-/**
- * Protected seed command (AUTH-7).
- *   npm run seed                    -> creates the first Super Admin (from .env) and the plans
- *   npm run seed -- --sample        -> also adds the sample institutions used for the demonstration
- *   npm run seed -- --reset --sample-> clears the database first (development only)
- */
 import mongoose from 'mongoose';
 import { env, isProd } from '../config/env';
 import { hashPassword } from '../lib/crypto';

@@ -14,7 +14,6 @@ import { useEffect, useRef, type ReactNode } from 'react';
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 
-/** Fades and lifts its content into view once (respects "reduce motion"). */
 export function Reveal({
   children,
   delay = 0,
@@ -36,13 +35,11 @@ export function Reveal({
   );
 }
 
-/** A container whose StaggerItem children appear one after another. */
 export function Stagger({ children, className, gap = 0.06, ...rest }: HTMLMotionProps<'div'> & { gap?: number }) {
   return (
     <motion.div
       className={className}
       initial="hidden"
-      // Animates on mount (not on scroll), so cards loaded later can never stay hidden.
       animate="show"
       variants={{ hidden: {}, show: { transition: { staggerChildren: gap } } }}
       {...rest}
@@ -57,10 +54,6 @@ export const itemVariants = {
   show: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.45, ease: EASE } },
 };
 
-/**
- * Child of Stagger; lifts slightly on hover when `hover` is set. A hover card that holds a link
- * opens it when any empty part of the card is clicked, so the whole card is clickable.
- */
 export function StaggerItem({
   children,
   className,
@@ -89,7 +82,6 @@ export function StaggerItem({
   );
 }
 
-/** Counts up to a number the first time it is visible. Non-numeric values are shown as they are. */
 export function CountUp({
   value,
   format = (n) => Math.round(n).toLocaleString('en-PK'),
@@ -114,7 +106,6 @@ export function CountUp({
   return <motion.span ref={ref}>{text}</motion.span>;
 }
 
-/** Soft entrance for every page of a shell (keyed by the path so it runs on each navigation). */
 export function PageFade({ children }: { children: ReactNode }) {
   const path = usePathname();
   return (

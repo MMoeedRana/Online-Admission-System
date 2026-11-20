@@ -1,4 +1,3 @@
-/** NOTIF-2 / NOTIF-3: e-mail templates with their default wording and variables. */
 export const TEMPLATE_VARIABLES = [
   'applicantName',
   'institutionName',

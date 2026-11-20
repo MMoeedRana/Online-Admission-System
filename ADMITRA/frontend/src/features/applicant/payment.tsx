@@ -29,7 +29,6 @@ const schema = z.object({
 });
 type Values = z.input<typeof schema>;
 
-/** FEE-1 to FEE-4: challan, proof of payment and receipts. */
 export function PaymentPage({ id }: { id: string }) {
   const { data, refresh } = useApplication(id);
   const [file, setFile] = useState<File | null>(null);
@@ -56,7 +55,6 @@ export function PaymentPage({ id }: { id: string }) {
     },
   });
   if (!data) return <FullPageLoader />;
-  // After an offer is accepted, the admission challan is shown and paid here (Table 3.14, step 4).
   const admission = data.vouchers.filter((v) => v.type === 'ADMISSION' && v.status !== 'CANCELLED').at(-1);
   const voucher = admission ?? data.vouchers.find((v) => v.type === 'APPLICATION');
   const isAdmission = voucher?.type === 'ADMISSION';

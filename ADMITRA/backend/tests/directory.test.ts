@@ -21,7 +21,6 @@ const root = async () => {
   };
 };
 
-/** A directory institution with one BS program and three years of closing merit. */
 async function seedProgram(
   sa: Awaited<ReturnType<typeof root>>,
   name = 'Riverbend University',
@@ -78,13 +77,13 @@ describe('reference directory (DIR-1 to DIR-8)', () => {
     const sa = await root();
     const { prog, historyIds } = await seedProgram(sa);
     const before = await api().post('/api/v1/public/advisor').send({ matric: 86.4, inter: 81.2, test: 84 });
-    expect(before.body.data[0].band).toBe('INSUFFICIENT_DATA'); // drafts are not used (DIR-4)
+    expect(before.body.data[0].band).toBe('INSUFFICIENT_DATA');
     const gaps = await sa.get('/platform/directory/data-gaps?year=2026');
     expect(gaps.body.data.some((g: { _id: string }) => g._id === prog._id)).toBe(true);
     const bad = await sa
       .post('/platform/directory/history/decision')
       .send({ ids: historyIds, decision: 'REJECTED' });
-    expect(bad.status).toBe(422); // reason needed
+    expect(bad.status).toBe(422);
     expect(
       (await sa.post('/platform/directory/history/decision').send({ ids: historyIds, decision: 'VERIFIED' }))
         .body.data.updated,
@@ -156,23 +155,19 @@ describe('Admission Advisor (PRED-1 to PRED-12)', () => {
     expect(['SAFE', 'TARGET']).toContain(res.band);
     expect(r.body.meta.basis).toBe('ENTERED');
     expect(r.body.meta.notice).toMatch(/not a guarantee/);
-    // PRED-3: group requirement
     const fa = await api()
       .post('/api/v1/public/advisor')
       .send({ matric: 86.4, inter: 81.2, test: 84, fieldGroup: 'FA' });
     expect(fa.body.data[0].band).toBe('NOT_ELIGIBLE');
     expect(fa.body.data[0].reasons[0]).toMatch(/group must be/);
-    // PRED-10: what-if (lower test marks give a lower chance)
     const low = await api()
       .post(`/api/v1/public/advisor/programs/${prog._id}`)
       .send({ matric: 86.4, inter: 81.2, test: 60, fieldGroup: 'ICS' });
     expect(low.body.data.prediction.chance).toBeLessThan(res.prediction.chance);
     expect(low.body.data.allHistory).toHaveLength(3);
-    // PRED-12: inputs are rounded and no identity is stored
     const log = await AdvisorLogModel.findOne().sort({ createdAt: -1 }).lean();
     expect(log!.inputs!.matric).toBe(86);
     expect(log).not.toHaveProperty('userId');
-    // PRED-2: saved marks need an applicant account
     expect((await api().post('/api/v1/public/advisor').send({ useSaved: true })).status).toBe(401);
   });
 

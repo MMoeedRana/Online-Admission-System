@@ -20,21 +20,17 @@ const color = (label: string) =>
     .trim()
     .regex(/^#[0-9A-Fa-f]{6}$/, `Choose the ${label} as a hex colour such as #1A62D6.`);
 
-// ---------------- Public ----------------
-/** BRAND-3: public images (logos, favicon, profile pictures) by their random key. */
 export const assetRouter = Router();
 assetRouter.get('/:key', async (req, res) => {
   await streamPublicImage(res, String(req.params.key));
 });
 
-/** BRAND-1: the platform branding every page needs (name, agent name, logo, favicon, colours). */
 export const publicBrandingRouter = Router();
 publicBrandingRouter.get('/branding', (_req, res) => {
   res.setHeader('Cache-Control', 'public, max-age=30');
   ok(res, brand());
 });
 
-// ---------------- Super Admin ----------------
 export const platformBrandingRouter = Router();
 platformBrandingRouter.use(authenticate, requireSuperAdmin);
 
@@ -90,7 +86,6 @@ for (const [slot, kind, field] of [
   });
 }
 
-/** Restores every default (name, colours, assistant name) but keeps the uploaded images. */
 platformBrandingRouter.post('/reset-colors', async (req, res) => {
   await PlatformSettingsModel.updateOne(
     { _id: 'platform' },
@@ -107,7 +102,6 @@ platformBrandingRouter.post('/reset-colors', async (req, res) => {
   ok(res, await loadBrand());
 });
 
-// ---------------- Institution (BRAND-2) ----------------
 export const institutionBrandingRouter = Router();
 institutionBrandingRouter.use(requirePermission(PERMISSIONS.INSTITUTION_SETTINGS));
 
@@ -149,7 +143,6 @@ institutionBrandingRouter.delete('/logo', async (req, res) => {
   ok(res, { logoUrl: '' });
 });
 
-// ---------------- Profile pictures (BRAND-4) ----------------
 export const avatarRouter = Router();
 avatarRouter.use(authenticate);
 avatarRouter.post('/', upload.single('file'), async (req, res) => {

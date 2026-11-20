@@ -43,7 +43,6 @@ const EMPTY: Form = {
 };
 const FORMATS = ['PDF', 'JPG', 'PNG'];
 
-/** DOC-1: which documents applicants must upload, with formats and size limits. */
 export function DocumentRequirements() {
   const key = useInstKey();
   const qc = useQueryClient();

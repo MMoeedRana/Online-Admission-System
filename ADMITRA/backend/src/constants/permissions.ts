@@ -1,9 +1,5 @@
 import type { StaffRole } from './roles';
 
-/**
- * Permission names checked on every protected endpoint (SEC-2).
- * Matches the role permission matrix (Table 2.4 of the proposal).
- */
 export const PERMISSIONS = {
   INSTITUTION_SETTINGS: 'institution.settings',
   STRUCTURE_MANAGE: 'structure.manage',

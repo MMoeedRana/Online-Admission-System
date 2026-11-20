@@ -92,7 +92,6 @@ export async function readTable(file: Express.Multer.File): Promise<Record<strin
   });
 }
 
-/** REG-2: validates every row and returns the valid rows and a row-level error report. */
 export async function parseRegistryFile(
   file: Express.Multer.File | undefined,
   opts: { onlyLevel?: RecordLevel; institutionId?: Id | null },
@@ -167,7 +166,6 @@ export async function parseRegistryFile(
     });
   });
 
-  // Rows already in the registry are reported as duplicates.
   if (valid.length) {
     const existing = await RegistryRowModel.find({
       institutionId: opts.institutionId ?? null,
@@ -201,7 +199,6 @@ export async function parseRegistryFile(
   };
 }
 
-/** Records waiting for a result of this board/year are checked again after an import. */
 async function recheckWaiting(rows: { board: string; level: string; year: number; rollNo: string }[]) {
   if (!rows.length) return 0;
   const filter: Record<string, unknown> = {
@@ -255,7 +252,6 @@ export async function commitImport(
   return { batch, summary: parsed.summary, rechecked, errors: parsed.errors.slice(0, 200) };
 }
 
-/** REG-3: a batch can be rolled back within 7 days; auto-verified records are checked again. */
 export async function rollbackBatch(req: Request, id: string, institutionId: Id | null) {
   const batch = await RegistryBatchModel.findOne({ _id: id, institutionId });
   if (!batch) throw ApiError.notFound('Import batch');

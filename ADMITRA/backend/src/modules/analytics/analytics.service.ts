@@ -9,11 +9,9 @@ import { EnrollmentModel, OfferModel } from '../merit/merit.models';
 import { ProgramModel, totalSeats } from '../programs/program.model';
 import { RecordModel } from '../records/record.models';
 
-/** Time zone used to group figures by calendar day (Pakistan Standard Time). */
 export const REPORT_TZ = 'Asia/Karachi';
 const DAY = 24 * 60 * 60 * 1000;
 
-/** Statuses an application can only reach after it was verified. */
 const AFTER_VERIFIED = [
   'VERIFIED',
   'OFFER_ISSUED',
@@ -30,17 +28,14 @@ export interface AnalyticsFilter {
   days: 14 | 30;
 }
 
-/** Calendar day (YYYY-MM-DD) in Pakistan time. */
 export function dayKey(d: Date): string {
   return new Intl.DateTimeFormat('en-CA', { timeZone: REPORT_TZ }).format(d);
 }
 
-/** The last `days` calendar days, oldest first, ending today. */
 export function lastDays(days: number, now = new Date()): string[] {
   return Array.from({ length: days }, (_, i) => dayKey(new Date(now.getTime() - (days - 1 - i) * DAY)));
 }
 
-/** RPT-1: every figure of the institution analytics screen in one call (cached for 30 s, PERF-9). */
 export function institutionAnalytics(institutionId: Id, f: AnalyticsFilter) {
   return cached(`analytics:${String(institutionId)}:${f.campaignId ?? 'all'}:${f.days}`, () =>
     computeAnalytics(new Types.ObjectId(String(institutionId)), f),
@@ -69,7 +64,6 @@ async function computeAnalytics(institutionId: Types.ObjectId, f: AnalyticsFilte
     OfferModel.find({ ...scope, status: { $in: ['ACCEPTED', 'ENROLLED'] } }).distinct('applicationId'),
     EnrollmentModel.find({ ...scope, status: 'ENROLLED' }).distinct('applicationId'),
   ]);
-  // Application fees are only issued for submitted applications; the campaign filter applies through them.
   const submittedSet = new Set(submittedIds.map(String));
   const feePaid = paidAppIds.filter((id) => submittedSet.has(String(id))).length;
 
@@ -82,7 +76,6 @@ async function computeAnalytics(institutionId: Types.ObjectId, f: AnalyticsFilte
     { key: 'ENROLLED', label: 'Enrolled', value: enrolledIds.length },
   ];
 
-  // Daily submissions for the last 14 or 30 days.
   const days = lastDays(f.days);
   const since = new Date(Date.now() - (f.days + 1) * DAY);
   const daily = await ApplicationModel.aggregate<{ _id: string; n: number }>([
@@ -96,7 +89,6 @@ async function computeAnalytics(institutionId: Types.ObjectId, f: AnalyticsFilte
   ]);
   const dailySubmissions = days.map((d) => ({ date: d, count: daily.find((x) => x._id === d)?.n ?? 0 }));
 
-  // Applications and applicants per seat for each program of the selected campaigns.
   const programIds = [...new Set(campaigns.flatMap((c) => c.programs.map((p) => String(p.programId))))];
   const [programs, perProgram] = await Promise.all([
     ProgramModel.find({ _id: { $in: programIds } })
@@ -142,10 +134,8 @@ async function computeAnalytics(institutionId: Types.ObjectId, f: AnalyticsFilte
     })
     .sort((a, b) => b.applicationsPerSeat - a.applicationsPerSeat);
 
-  // Fee totals by challan type, and the payment proofs waiting for finance.
   const [vouchers, payments] = await Promise.all([
     VoucherModel.aggregate<{ _id: { type: string; status: string }; amount: number; n: number }>([
-      // Challans carry no campaign; with a campaign filter they are matched through its applications.
       { $match: f.campaignId ? { institutionId, applicationId: { $in: submittedIds } } : { institutionId } },
       { $group: { _id: { type: '$type', status: '$status' }, amount: { $sum: '$amount' }, n: { $sum: 1 } } },
     ]),
@@ -181,7 +171,6 @@ async function computeAnalytics(institutionId: Types.ObjectId, f: AnalyticsFilte
   };
   const feeTotal = fees.application.collected + fees.admission.collected;
 
-  // Document rejection rate over every review decision taken.
   const [decisions, docStates] = await Promise.all([
     ApplicantDocumentModel.aggregate<{ _id: string; n: number }>([
       { $match: f.campaignId ? { institutionId, applicationId: { $in: submittedIds } } : { institutionId } },
@@ -209,7 +198,6 @@ async function computeAnalytics(institutionId: Types.ObjectId, f: AnalyticsFilte
     awaitingReview: docStates.find((d) => d._id === 'UPLOADED')?.n ?? 0,
   };
 
-  // Share of verified marks among the current records of the applicants.
   const applicantIds = await ApplicationModel.find(submittedFilter).distinct('applicantId');
   const recordStates = await RecordModel.aggregate<{ _id: { status: string; verified: boolean }; n: number }>(
     [

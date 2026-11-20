@@ -11,7 +11,6 @@ export class ServerApiError extends Error {
   }
 }
 
-/** Fetch used by Server Components for public pages. Returns { data, meta }. */
 export async function serverGet<T>(path: string, params?: Record<string, string | undefined>) {
   const qs = new URLSearchParams();
   for (const [k, v] of Object.entries(params ?? {})) if (v) qs.set(k, v);

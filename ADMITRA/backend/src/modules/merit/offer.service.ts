@@ -49,7 +49,6 @@ async function mailVars(offer: {
   };
 }
 
-/** Table 3.14, step 4: accepting an offer issues the admission-fee challan. */
 export async function acceptOffer(req: Request, offerId: Id) {
   const result = await withTransaction(async (session) => {
     const offer = await OfferModel.findOne({ _id: offerId, applicantId: req.auth!.userId }).session(session);
@@ -101,7 +100,6 @@ export async function acceptOffer(req: Request, offerId: Id) {
   return result;
 }
 
-/** The applicant declines; the seat goes to the next list (OFFER-3). */
 export async function declineOffer(req: Request, offerId: Id) {
   return withTransaction(async (session) => {
     const offer = await OfferModel.findOne({ _id: offerId, applicantId: req.auth!.userId }).session(session);
@@ -139,10 +137,6 @@ export async function declineOffer(req: Request, offerId: Id) {
   });
 }
 
-/**
- * OFFER-3: offers past their deadline expire, unless a payment proof is waiting for verification
- * or the fee is already paid. Runs every minute from the job scheduler.
- */
 export async function expireOffers(now = new Date()) {
   const due = await OfferModel.find({ status: { $in: ['OFFERED', 'ACCEPTED'] }, deadline: { $lt: now } });
   let expired = 0;
@@ -182,7 +176,6 @@ export async function expireOffers(now = new Date()) {
   return expired;
 }
 
-/** OFFER-4: CVU-F26-BSCS-001 */
 async function registrationNumber(offer: OfferDoc, session: ClientSession) {
   const [inst, campaign, program] = await Promise.all([
     InstitutionModel.findById(offer.institutionId).session(session).lean(),
@@ -209,10 +202,6 @@ async function completeEnrollment(enrollment: EnrollmentDoc, offer: OfferDoc, se
   await app.save({ session });
 }
 
-/**
- * Table 3.14, step 5: called inside the payment-verification transaction when an admission fee
- * is verified. MARK-12: with the originals check enabled, enrollment waits for the officer.
- */
 export async function enrollAfterPayment(voucherId: Id, session: ClientSession) {
   const offer = await OfferModel.findOne({ voucherId }).session(session);
   if (!offer || offer.status !== 'ACCEPTED') return null;
@@ -260,7 +249,6 @@ export async function notifyEnrollment(enrollmentId: Id) {
   );
 }
 
-/** MARK-12: the officer confirms the originals on the reporting day. */
 export async function verifyOriginals(req: Request, enrollmentId: Id) {
   const id = await withTransaction(async (session) => {
     const e = await EnrollmentModel.findOne({
@@ -289,10 +277,6 @@ export async function verifyOriginals(req: Request, enrollmentId: Id) {
   return EnrollmentModel.findById(id).lean();
 }
 
-/**
- * MARK-11: if false marks are confirmed after an offer or enrollment, the admission is revoked
- * with a written reason, the seat is released and the CNIC can be blocked for the cycle.
- */
 export async function revokeAdmission(req: Request, offerId: Id, reason: string, blockCnic: boolean) {
   const offer = await withTransaction(async (session) => {
     const o = await OfferModel.findOne({ _id: offerId, institutionId: req.tenant!.institutionId }).session(
@@ -344,7 +328,6 @@ export async function revokeAdmission(req: Request, offerId: Id, reason: string,
   return offer;
 }
 
-/** Payments on an admission challan are refused once the offer is gone. */
 export async function assertOfferOpenForPayment(voucherId: Id) {
   const offer = await OfferModel.findOne({ voucherId }).lean();
   if (offer && offer.status !== 'ACCEPTED')
@@ -352,7 +335,6 @@ export async function assertOfferOpenForPayment(voucherId: Id) {
 }
 
 let timer: NodeJS.Timeout | null = null;
-/** Background job: offer expiry every minute (src/jobs in Section 2.5). */
 export function startOfferExpiryJob() {
   if (timer) return;
   timer = setInterval(() => {

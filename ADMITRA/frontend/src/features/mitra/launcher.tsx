@@ -10,7 +10,6 @@ import { useBrand } from '@/features/branding/brand-context';
 import { ChatPanel } from './chat';
 import { pageBase, type Scope } from './types';
 
-/** AGENT-2: "Ask Mitra" from any page of the workspace, in a side drawer. */
 export function MitraLauncher({ scope }: { scope: Scope }) {
   const brand = useBrand();
   const pathname = usePathname();

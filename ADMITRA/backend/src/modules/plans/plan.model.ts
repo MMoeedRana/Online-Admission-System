@@ -18,9 +18,7 @@ const planSchema = new Schema(
       customBranding: { type: Boolean, default: false },
       advancedAnalytics: { type: Boolean, default: false },
       apiAccess: { type: Boolean, default: false },
-      /** AGENT-3: the assistant (chat and actions) for the institution admins. */
       aiCopilot: { type: Boolean, default: false },
-      /** AGENT-7: the daily briefing of the institution. */
       aiBriefing: { type: Boolean, default: false },
     },
     status: { type: String, enum: ['ACTIVE', 'RETIRED'], default: 'ACTIVE' },

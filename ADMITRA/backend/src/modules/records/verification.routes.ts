@@ -15,11 +15,9 @@ import { UserModel } from '../users/user.model';
 import { FraudFlagModel, RecordModel, VerificationModel } from './record.models';
 import { checkIntegrity, officerDecision, type RecordInput } from './record.service';
 
-/** MARK-7: officer verification panel. */
 export const verificationRouter = Router();
 verificationRouter.use(requirePermission(PERMISSIONS.MARKS_VERIFY));
 
-/** Applicants who have a submitted application in this institution (within the officer's scope). */
 async function applicantsInScope(req: Request) {
   return ApplicationModel.find(await scopeFilter(req)).distinct('applicantId');
 }
@@ -72,7 +70,6 @@ async function loadRecord(req: Request, id: string) {
   return rec;
 }
 
-/** Entered marks, the registry row and the result card side by side, with integrity checks. */
 verificationRouter.get('/:id', async (req, res) => {
   const { id } = parse(idParams, req.params);
   const rec = await loadRecord(req, id);

@@ -21,7 +21,6 @@ import {
 } from 'lucide-react';
 import type { NavSection } from '@/components/layout/staff-shell';
 
-/** Institution workspace menu; items are shown by permission. */
 export const institutionNav: NavSection[] = [
   {
     title: 'Workspace',

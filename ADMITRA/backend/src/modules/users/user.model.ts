@@ -13,7 +13,6 @@ const userSchema = new Schema(
     lockedUntil: { type: Date, default: null },
     status: { type: String, enum: ['ACTIVE', 'DISABLED'], default: 'ACTIVE' },
     theme: { type: String, enum: ['light', 'dark', 'system'], default: 'system' },
-    /** BRAND-4: profile picture (public image key). */
     avatarKey: { type: String, default: '' },
     lastLoginAt: Date,
   },

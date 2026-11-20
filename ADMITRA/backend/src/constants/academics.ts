@@ -1,4 +1,3 @@
-/** Examination boards and universities offered in the academic record form. */
 export const BOARDS = [
   'BISE Lahore',
   'BISE Faisalabad',
@@ -37,11 +36,6 @@ export type RecordLevel = (typeof RECORD_LEVELS)[number];
 
 export const EXAM_TYPES = ['ANNUAL', 'SUPPLEMENTARY', 'SEMESTER', 'TEST'] as const;
 
-/**
- * MARK-2: standard grand totals per level. A record whose total is not one of these is flagged
- * for the officer (it is not rejected, because some boards and years use other totals).
- * Bachelor, Master and entry tests vary by university, so they have no fixed standard.
- */
 export const STANDARD_TOTALS: Partial<
   Record<RecordLevel, { fromYear: number; toYear: number; totals: number[] }[]>
 > = {
@@ -61,7 +55,6 @@ export function standardTotalsFor(level: RecordLevel, year: number): number[] | 
   return rows.find((r) => year >= r.fromYear && year <= r.toYear)?.totals ?? null;
 }
 
-/** MARK-3 trust levels. */
 export const TRUST = { DECLARED: 0, DOCUMENT: 1, REGISTRY: 2, OFFICER: 3 } as const;
 
 export const VERIFICATION_STATUSES = [
@@ -75,5 +68,4 @@ export const VERIFICATION_STATUSES = [
 ] as const;
 export type VerificationStatus = (typeof VERIFICATION_STATUSES)[number];
 
-/** MARK-4: minimum similarity of names for a registry match. */
 export const NAME_SIMILARITY = 0.9;

@@ -12,7 +12,6 @@ describe('Tenant isolation and permissions (SEC-1, SEC-2)', () => {
     expect((await a.as.get(`/programs/${pid}`)).status).toBe(404);
     expect((await a.as.patch(`/programs/${pid}`).send(programPayload(a))).status).toBe(404);
     expect((await a.as.delete(`/programs/${pid}`)).status).toBe(404);
-    // Switching the header to another institution without membership is refused.
     const forged = await api()
       .get('/api/v1/programs')
       .set('Authorization', `Bearer ${a.token}`)

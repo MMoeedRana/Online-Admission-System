@@ -16,7 +16,6 @@ function allowed(area: Area, auth: ReturnType<typeof useAuth>) {
   return u.accountType === 'STAFF' && auth.memberships.length > 0;
 }
 
-/** Client-side guard for signed-in areas; the API checks every request again (SEC-2). */
 export function RequireAuth({ area, children }: { area: Area; children: ReactNode }) {
   const auth = useAuth();
   const router = useRouter();

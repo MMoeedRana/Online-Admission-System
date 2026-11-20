@@ -17,7 +17,6 @@ const applicationSchema = new Schema(
         order: { type: Number, required: true },
       },
     ],
-    /** APP-4: frozen copy of the profile and records at submission. */
     snapshot: {
       profile: { type: Schema.Types.Mixed, default: null },
       records: [{ type: Schema.Types.Mixed }],
@@ -36,7 +35,6 @@ const applicationSchema = new Schema(
         at: { type: Date, default: Date.now },
       },
     ],
-    /** FLOW-5: internal notes are never shown to applicants. */
     notes: [
       {
         _id: false,

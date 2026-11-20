@@ -185,7 +185,6 @@ export function AccountSettings() {
   );
 }
 
-/** PROF-5: download all personal data or delete the account. */
 function YourData() {
   const brand = useBrand();
   const { logout } = useAuth();

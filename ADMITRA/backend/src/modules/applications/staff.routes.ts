@@ -29,7 +29,6 @@ staffAppRouter.use(
   requirePermission(PERMISSIONS.APPLICATIONS_REVIEW, PERMISSIONS.PAYMENTS_VERIFY, PERMISSIONS.MERIT_MANAGE),
 );
 
-/** HOD officers only see applications of their departments. */
 export async function scopeFilter(req: Request): Promise<Record<string, unknown>> {
   const t = req.tenant!;
   const filter: Record<string, unknown> = { institutionId: t.institutionId, status: { $ne: 'DRAFT' } };
@@ -51,7 +50,6 @@ async function load(req: Request, id: string) {
   return app as AppDoc;
 }
 
-/** Worst marks state of an applicant, shown in the queue's marks column. */
 export function marksState(records: { verificationStatus: string; trustLevel: number }[]) {
   if (!records.length) return 'NONE';
   if (records.some((r) => r.verificationStatus === 'MISMATCH')) return 'MISMATCH';
@@ -216,7 +214,6 @@ staffAppRouter.post(
   },
 );
 
-/** DOC-4: approve or reject one document with a reason. */
 staffAppRouter.post(
   '/:id/documents/:docId/review',
   requirePermission(PERMISSIONS.APPLICATIONS_REVIEW),

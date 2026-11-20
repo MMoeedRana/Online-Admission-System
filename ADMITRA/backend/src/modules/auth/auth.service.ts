@@ -24,7 +24,6 @@ export const TOKEN_LIFETIME_MINUTES: Record<ActionTokenType, number> = {
   INVITATION: 7 * 24 * 60,
 };
 
-/** Creates a single-use e-mail token and returns the raw value (only its hash is stored). */
 export async function createActionToken(
   type: ActionTokenType,
   data: { userId?: Id; memberId?: Id; email: string },
@@ -41,7 +40,6 @@ export async function createActionToken(
   return raw;
 }
 
-/** AUTH-5: a link can be used only once and only before it expires. */
 export async function consumeActionToken(type: ActionTokenType, raw: string, peek = false) {
   const token = await ActionTokenModel.findOne({ type, tokenHash: sha256(raw) });
   if (!token || token.usedAt || token.expiresAt < new Date()) {
@@ -89,8 +87,6 @@ export async function membershipsOf(userId: Id) {
         city: i.city,
         status: i.status,
         logoUrl: i.branding?.logoUrl ?? '',
-        // BRAND-2: the workspace uses the institution's colours only while its plan includes branding.
-        // AGENT-3 / AGENT-7: which assistant features the plan includes.
         ai: {
           copilot: Boolean(plans.find((p) => String(p._id) === String(i.planId))?.features?.aiCopilot),
           briefing: Boolean(plans.find((p) => String(p._id) === String(i.planId))?.features?.aiBriefing),
@@ -135,7 +131,6 @@ async function issueRefreshToken(req: Request, res: Response, userId: Id, family
   setRefreshCookie(res, raw);
 }
 
-/** Builds the session returned after login, register and refresh. */
 export async function sessionPayload(user: UserDoc) {
   return {
     accessToken: signAccessToken({
@@ -213,7 +208,6 @@ export async function login(req: Request, res: Response, input: { email: string;
   return startSession(req, res, user);
 }
 
-/** AUTH-3: rotating single-use refresh tokens; reuse revokes the whole login (family). */
 export async function refresh(req: Request, res: Response) {
   const raw = req.cookies?.[REFRESH_COOKIE];
   if (!raw) throw ApiError.unauthorized('Your session has ended. Please sign in again.');
@@ -262,7 +256,7 @@ export async function verifyEmail(raw: string) {
 
 export async function forgotPassword(email: string) {
   const user = await UserModel.findOne({ email, status: 'ACTIVE' });
-  if (!user) return; // do not reveal whether the e-mail exists
+  if (!user) return;
   const raw = await createActionToken('RESET_PASSWORD', { userId: user._id, email: user.email });
   await sendMail({
     to: user.email,
@@ -282,7 +276,6 @@ export async function resetPassword(raw: string, password: string) {
     { _id: token.userId },
     { passwordHash: await hashPassword(password), failedLogins: 0, lockedUntil: null, emailVerified: true },
   );
-  // End every existing session after a password change.
   await RefreshTokenModel.updateMany({ userId: token.userId, revokedAt: null }, { revokedAt: new Date() });
 }
 
@@ -302,7 +295,6 @@ export async function invitationPreview(raw: string) {
   };
 }
 
-/** Staff join an institution through an invitation (AUTH-7). */
 export async function acceptInvitation(
   req: Request,
   res: Response,

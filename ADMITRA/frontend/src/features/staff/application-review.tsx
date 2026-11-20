@@ -36,7 +36,6 @@ import type { StaffAppDetail } from './types';
 
 const DANGER = ['REJECTED', 'DEFICIENT'];
 
-/** APP-6, DOC-4, FLOW-2 to FLOW-4: review of one application. */
 export function ApplicationReview({ id }: { id: string }) {
   const key = useInstKey();
   const qc = useQueryClient();
@@ -63,7 +62,6 @@ export function ApplicationReview({ id }: { id: string }) {
     onSuccess: async (_d, v) => {
       toast.success(v.decision === 'APPROVED' ? 'Document approved.' : 'Document rejected.');
       setRejectDoc(null);
-      // Move on to the next document that still needs a decision.
       const docs = q.data?.documents.filter((x) => x.current) ?? [];
       const next = docs.find((x) => x._id !== v.docId && x.status === 'UPLOADED');
       if (next) setSelectedDoc(next._id);

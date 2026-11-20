@@ -1,6 +1,5 @@
 import { Schema, Types, model } from 'mongoose';
 
-/** AGENT-5: a platform fee paid by an institution, recorded when its subscription is renewed. */
 const subscriptionPaymentSchema = new Schema(
   {
     institutionId: { type: Types.ObjectId, ref: 'Institution', required: true, index: true },

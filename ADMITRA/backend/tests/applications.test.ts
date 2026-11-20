@@ -44,7 +44,6 @@ async function official(
   });
 }
 
-/** An open campaign with one BS program and the default document requirements. */
 async function setup(opts: { separateEligibility?: boolean } = {}) {
   const inst = await createInstitution(`ins-${Math.random().toString(36).slice(2, 7)}`);
   await ensureDefaultDocumentTypes(inst.inst._id);
@@ -75,7 +74,6 @@ async function setup(opts: { separateEligibility?: boolean } = {}) {
   return { inst, prog, camp, types };
 }
 
-/** Applicant with profile and both records verified by the registry. */
 async function readyApplicant(email: string, cnic: string) {
   const a = await applicantAgent(email);
   await a.put('/me/profile').send(profilePayload(cnic));
@@ -129,14 +127,12 @@ describe('Application journey (APP, DOC, FEE, FLOW)', () => {
     const draft = await a.post('/me/applications').send({ campaignId: camp._id, programId: prog._id });
     expect(draft.status).toBe(201);
     const appId = draft.body.data._id;
-    // TC-21: missing documents are listed and submission is refused.
     const early = await a.post(`/me/applications/${appId}/submit`);
     expect(early.status).toBe(422);
     expect(early.body.error.details.missing.map((m: { key: string }) => m.key)).toEqual(
       expect.arrayContaining(['document:CNIC', 'document:PHOTO']),
     );
 
-    // TC-22: an executable renamed to .pdf is rejected by its content.
     const exe = await a
       .post(`/me/applications/${appId}/documents`)
       .field('documentTypeId', String(types[0]!._id))
@@ -152,9 +148,7 @@ describe('Application journey (APP, DOC, FEE, FLOW)', () => {
     expect(sub.body.data.application.snapshot.profile.cnic).toBe('3520211111111');
     expect(sentMails.some((m) => m.subject.includes('received'))).toBe(true);
 
-    // APP-2: a second application in the same campaign is refused.
     expect((await a.post('/me/applications').send({ campaignId: camp._id })).status).toBe(409);
-    // APP-5: documents cannot be changed after submission.
     expect(
       (
         await a
@@ -163,12 +157,10 @@ describe('Application journey (APP, DOC, FEE, FLOW)', () => {
           .attach('file', PDF, 'x.pdf')
       ).status,
     ).toBe(409);
-    // TC-26: document verification cannot start before the fee is verified.
     expect(
       (await inst.as.post(`/applications/${appId}/transition`).send({ to: 'DOCUMENT_VERIFICATION' })).status,
     ).toBe(409);
 
-    // TC-23: wrong amount is rejected.
     const pay = (amount: number, reference: string) =>
       a
         .post(`/me/applications/${appId}/payments`)
@@ -180,9 +172,8 @@ describe('Application journey (APP, DOC, FEE, FLOW)', () => {
     expect((await pay(1500, 'TRX1001')).status).toBe(422);
     const proof = await pay(2000, 'TRX1001');
     expect(proof.status).toBe(201);
-    expect((await pay(2000, 'TRX1002')).status).toBe(409); // already waiting
+    expect((await pay(2000, 'TRX1002')).status).toBe(409);
 
-    // TC-25: finance verifies -> receipt, voucher paid, application under review.
     const dec = await inst.as
       .post(`/payments/${proof.body.data._id}/decision`)
       .send({ decision: 'VERIFIED' });
@@ -197,13 +188,12 @@ describe('Application journey (APP, DOC, FEE, FLOW)', () => {
     ).toBe(409);
     expect((await ApplicationModel.findById(appId))!.status).toBe('UNDER_REVIEW');
 
-    // Officer: document verification, approve every document, eligibility, verified.
     expect(
       (await inst.as.post(`/applications/${appId}/transition`).send({ to: 'DOCUMENT_VERIFICATION' })).status,
     ).toBe(200);
     expect(
       (await inst.as.post(`/applications/${appId}/transition`).send({ to: 'ELIGIBILITY_CHECK' })).status,
-    ).toBe(409); // docs not approved
+    ).toBe(409);
     const detail = await inst.as.get(`/applications/${appId}`);
     expect(detail.body.data.preferences[0]).toMatchObject({ order: 1, shift: expect.any(String) });
     for (const d of detail.body.data.documents.filter((d: { current: boolean }) => d.current)) {
@@ -215,7 +205,6 @@ describe('Application journey (APP, DOC, FEE, FLOW)', () => {
         ).status,
       ).toBe(200);
     }
-    // DOC-4: every decision is kept with the reviewer and the time.
     const reviewed = await ApplicantDocumentModel.find({ applicationId: appId, current: true }).lean();
     expect(
       reviewed.every(
@@ -230,7 +219,6 @@ describe('Application journey (APP, DOC, FEE, FLOW)', () => {
     );
     expect(await NotificationModel.countDocuments({ type: 'APPLICATION_VERIFIED' })).toBe(1);
 
-    // FLOW-5: internal notes are hidden from the applicant.
     await inst.as.post(`/applications/${appId}/notes`).send({ text: 'Checked originals at the counter' });
     const mine = await a.get(`/me/applications/${appId}`);
     expect(mine.body.data.application.notes).toBeUndefined();
@@ -246,7 +234,7 @@ describe('Application journey (APP, DOC, FEE, FLOW)', () => {
 
   it('FLOW-4: an application with unverified marks cannot become VERIFIED; deficiency and resubmission', async () => {
     const { inst, prog, camp, types } = await setup({ separateEligibility: false });
-    const a = await readyApplicant('flow2@example.com', '3520222222222'); // no registry rows -> under verification
+    const a = await readyApplicant('flow2@example.com', '3520222222222');
     const recs = (await a.get('/me/records')).body.data;
     for (const r of recs) await a.post(`/me/records/${r._id}/result-card`).attach('file', PDF, 'dmc.pdf');
     const appId = (await a.post('/me/applications').send({ campaignId: camp._id, programId: prog._id })).body
@@ -265,7 +253,6 @@ describe('Application journey (APP, DOC, FEE, FLOW)', () => {
 
     const detail = (await inst.as.get(`/applications/${appId}`)).body.data;
     const docs = detail.documents.filter((d: { current: boolean }) => d.current);
-    // Reject the CNIC copy, send a deficiency notice (note required).
     await inst.as
       .post(`/applications/${appId}/documents/${docs[0]._id}/review`)
       .send({ decision: 'REJECTED', reason: 'The copy is not readable' });
@@ -298,7 +285,6 @@ describe('Application journey (APP, DOC, FEE, FLOW)', () => {
     expect(blocked.status).toBe(409);
     expect(blocked.body.error.message).toMatch(/trust level 2/);
 
-    // Officer verifies both records in the panel (trust level 3), then the application can be verified.
     for (const r of recs)
       expect(
         (

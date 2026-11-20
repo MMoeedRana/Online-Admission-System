@@ -36,7 +36,6 @@ const NAV = [
   { href: '/applicant/shortlist', label: 'Shortlist', icon: Bookmark, match: ['/applicant/shortlist'] },
 ];
 
-/** Section 4.1.6: Home, Advisor, Apply, Results, Profile. */
 const TABS = [
   { href: '/applicant/dashboard', label: 'Home', icon: LayoutGrid, match: ['/applicant/dashboard'] },
   {
@@ -67,7 +66,6 @@ const TABS = [
 
 const on = (pathname: string, match: string[]) => match.some((m) => pathname === m || pathname.startsWith(m + '/'));
 
-/** Applicant layout: white top bar on desktop, bottom tab bar on phones (Section 4.1.5 and 4.1.6). */
 export function ApplicantShell({ children }: { children: ReactNode }) {
   const pathname = usePathname();
   const { user } = useAuth();

@@ -7,7 +7,6 @@ import { idParams, objectId, parse } from '../../lib/validate';
 import { adviseProgram, savedMarks } from './advisor.service';
 import { DirInstitutionModel, DirProgramModel, MeritHistoryModel, ShortlistModel } from './directory.models';
 
-/** PRED-10: saved programs with comparison and PDF export (signed-in applicants). */
 export const shortlistRouter = Router();
 const MAX = 30;
 

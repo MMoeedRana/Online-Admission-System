@@ -101,7 +101,6 @@ function CampaignForm({
   const selectedIds = new Map(
     (campaign?.programs ?? []).map((p) => [typeof p.programId === 'object' ? p.programId._id : p.programId, p.seatCap]),
   );
-  // Archived programs that are still part of the campaign are listed too.
   const extra = (campaign?.programs ?? [])
     .map((p) => p.programId)
     .filter((p): p is Program => typeof p === 'object' && !programs.some((x) => x._id === p._id));

@@ -5,7 +5,6 @@ import { useAuth } from '@/features/auth/auth-context';
 import { get } from '@/lib/api';
 import type { AcademicSession, Campus, Department, Faculty } from '@/lib/types';
 
-/** Query key scoped to the selected institution so switching workspaces never mixes data. */
 export function useInstKey() {
   const { current } = useAuth();
   return (...parts: unknown[]) => ['inst', current?.institutionId, ...parts];

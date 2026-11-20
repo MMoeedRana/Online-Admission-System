@@ -7,7 +7,6 @@ const address = {
   province: { type: String, enum: [...PROVINCES, ''], default: '' },
 };
 
-/** PROF-1: personal data entered once and reused in every application. */
 const profileSchema = new Schema(
   {
     userId: { type: Types.ObjectId, ref: 'User', required: true, unique: true },
@@ -35,7 +34,6 @@ const profileSchema = new Schema(
 export type Profile = InferSchemaType<typeof profileSchema>;
 export const ProfileModel = model('ApplicantProfile', profileSchema);
 
-/** Shows a 13-digit CNIC as 12345-1234567-1 (PROF-4). */
 export function formatCnic(cnic: string) {
   return cnic.length === 13 ? `${cnic.slice(0, 5)}-${cnic.slice(5, 12)}-${cnic.slice(12)}` : cnic;
 }

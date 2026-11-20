@@ -10,7 +10,6 @@ const nextConfig: NextConfig = {
       '*.css': { loaders: ['@tailwindcss/turbopack'], as: '*.css' },
     },
   },
-  // The browser calls /api/v1 on the same origin; Next.js forwards it to the Express API.
   async rewrites() {
     return [{ source: '/api/v1/:path*', destination: `${API_URL}/api/v1/:path*` }];
   },

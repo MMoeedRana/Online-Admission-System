@@ -94,7 +94,7 @@ describe('Institution onboarding and subscriptions (INST-1 to INST-5, UC-12)', (
     const write = await ro.as.patch('/institution/profile').send({ about: 'Updated' });
     expect(write.status).toBe(403);
     expect(write.body.error.code).toBe('SUBSCRIPTION_EXPIRED');
-    expect(await InstitutionModel.countDocuments()).toBe(2); // data is never deleted
+    expect(await InstitutionModel.countDocuments()).toBe(2);
   });
 
   it('renewal extends the subscription from its end date', async () => {

@@ -104,7 +104,6 @@ export function useResults() {
   });
 }
 
-/** FIND-1 to FIND-4 and FIND-8 (Figure 4.9): one card per application in every institution. */
 export function MyResults() {
   const q = useResults();
   if (!q.data) return <FullPageLoader />;
@@ -209,7 +208,6 @@ function ResultCard({ r, suggestions }: { r: ResultItem; suggestions: AdvisorRes
           </div>
         )}
 
-        {/* FIND-2: Selected */}
         {kind === 'SELECTED' && r.offer && (
           <div className="mt-4 space-y-3">
             {r.offer.status === 'OFFERED' && (
@@ -291,7 +289,6 @@ function ResultCard({ r, suggestions }: { r: ResultItem; suggestions: AdvisorRes
           </div>
         )}
 
-        {/* FIND-3: Waitlisted */}
         {kind === 'WAITLISTED' && r.latest?.waitlist && (
           <div className="mt-4 flex flex-wrap items-center gap-3 text-[13.5px]">
             <Badge tone={CHANCE[r.latest.waitlist.chance].tone}>
@@ -305,7 +302,6 @@ function ResultCard({ r, suggestions }: { r: ResultItem; suggestions: AdvisorRes
           </div>
         )}
 
-        {/* FIND-4: Not selected */}
         {kind === 'NOT_SELECTED' && r.latest?.gap != null && (
           <div className="mt-4 space-y-3">
             <p className="text-[13.5px]">
@@ -405,7 +401,6 @@ function Fact({ label, value }: { label: string; value: string }) {
   );
 }
 
-/** FIND-8: component, percentage, weight and contribution. */
 export function Breakdown({ lines, aggregate }: { lines: BreakdownLine[]; aggregate: number }) {
   return (
     <table className="mt-3 w-full text-left text-[13px]">
@@ -437,7 +432,6 @@ export function Breakdown({ lines, aggregate }: { lines: BreakdownLine[]; aggreg
   );
 }
 
-/** Figure 4.5: the dashboard highlights newly published merit lists with a direct link. */
 export function ResultHighlights() {
   const q = useResults();
   const now = q.dataUpdatedAt;

@@ -7,7 +7,6 @@ import { homeFor, useAuth } from '@/features/auth/auth-context';
 import { cn } from '@/lib/utils';
 import { isActive } from './public-header';
 
-/** On phones the top navigation becomes a bottom tab bar (Section 4.1.6). */
 export function MobileTabBar() {
   const pathname = usePathname();
   const auth = useAuth();

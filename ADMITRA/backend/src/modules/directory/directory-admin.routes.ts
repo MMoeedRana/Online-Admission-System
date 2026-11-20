@@ -23,7 +23,6 @@ import { readTable } from '../registry/registry.service';
 import { AdvisorLogModel, DirInstitutionModel, DirProgramModel, MeritHistoryModel } from './directory.models';
 import { ensureDirectoryInstitution } from './directory.service';
 
-/** PATCH: keep only the fields that were sent (defaults of a partial schema must not reset others). */
 function sent<T extends object>(parsed: T, body: unknown): Partial<T> {
   const keys = new Set(Object.keys((body ?? {}) as object));
   return Object.fromEntries(Object.entries(parsed).filter(([k]) => keys.has(k))) as Partial<T>;
@@ -80,7 +79,6 @@ const programBody = z.object({
   status: z.enum(['ACTIVE', 'HIDDEN']).default('ACTIVE'),
 });
 
-/** DIR-2 / DIR-3: one merit-history row with a mandatory source. */
 const historyBody = z
   .object({
     directoryProgramId: objectId,
@@ -103,7 +101,6 @@ const historyBody = z
     path: ['openingMerit'],
   });
 
-/** CSV columns of a merit-history import (docs/templates/merit-history-template.csv). */
 export const HISTORY_COLUMNS = [
   'institution',
   'program',
@@ -117,7 +114,6 @@ export const HISTORY_COLUMNS = [
   'source_url',
 ];
 
-/** DIR-3: checks every row of an import; rows are matched to directory programs by institution and program name. */
 async function parseHistoryFile(
   file: Express.Multer.File | undefined,
   scope: { directoryInstitutionId?: Id } = {},
@@ -200,7 +196,6 @@ async function commitHistory(
       shift: data.shift,
       quota: data.quota,
     });
-    // Verified and official rows are never overwritten by an import.
     if (exists && (exists.status === 'VERIFIED' || exists.origin === 'ADMITRA')) {
       skipped++;
       continue;
@@ -231,7 +226,6 @@ async function commitHistory(
   return { saved, skipped };
 }
 
-// ================================================================ Super Admin (DIR-1 to DIR-8)
 export const platformDirectoryRouter = Router();
 platformDirectoryRouter.use(authenticate, requireSuperAdmin);
 
@@ -321,7 +315,6 @@ platformDirectoryRouter.patch('/programs/:id', async (req, res) => {
   ok(res, doc);
 });
 
-/** Merit history waiting for verification (DIR-4) or of one program. */
 platformDirectoryRouter.get('/history', async (req, res) => {
   const q = parse(
     paginationQuery.extend({
@@ -385,7 +378,6 @@ platformDirectoryRouter.post('/history', async (req, res) => {
   created(res, doc);
 });
 
-/** DIR-4: the super admin checks the source and verifies (or rejects) draft rows. */
 platformDirectoryRouter.post('/history/decision', async (req, res) => {
   const b = parse(
     z.object({
@@ -448,7 +440,6 @@ platformDirectoryRouter.post('/import', upload.single('file'), async (req, res) 
   created(res, { ...r, errors: p.errors.slice(0, 200) });
 });
 
-/** DIR-8: programs without verified data for the current admission year. */
 platformDirectoryRouter.get('/data-gaps', async (req, res) => {
   const { year } = parse(
     z.object({ year: z.coerce.number().int().min(2000).max(2100).default(new Date().getFullYear()) }),
@@ -493,7 +484,6 @@ platformDirectoryRouter.get('/data-gaps', async (req, res) => {
   ok(res, gaps, { year, programs: programs.length, missing: gaps.length });
 });
 
-/** DIR-7: claims by institutions. */
 platformDirectoryRouter.post('/institutions/:id/claim', async (req, res) => {
   const { id } = parse(idParams, req.params);
   const { decision } = parse(z.object({ decision: z.enum(['APPROVED', 'REJECTED']) }), req.body);
@@ -503,7 +493,6 @@ platformDirectoryRouter.post('/institutions/:id/claim', async (req, res) => {
     if (
       await DirInstitutionModel.exists({ institutionId: inst.claim.institutionId, _id: { $ne: inst._id } })
     ) {
-      // The institution's own automatic profile is merged into the claimed one.
       const own = await DirInstitutionModel.findOne({
         institutionId: inst.claim.institutionId,
         _id: { $ne: inst._id },
@@ -522,7 +511,6 @@ platformDirectoryRouter.post('/institutions/:id/claim', async (req, res) => {
   ok(res, inst);
 });
 
-/** PRED-12: anonymous advisor usage and demand by program. */
 platformDirectoryRouter.get('/advisor-stats', async (_req, res) => {
   const since = new Date(Date.now() - 30 * 864e5);
   const [runs, byDay, demand, bands] = await Promise.all([
@@ -581,7 +569,6 @@ platformDirectoryRouter.get('/advisor-stats', async (_req, res) => {
   });
 });
 
-// ================================================================ Institution workspace (DIR-7)
 export const institutionDirectoryRouter = Router();
 institutionDirectoryRouter.use(requirePermission(PERMISSIONS.DIRECTORY_EDIT));
 
@@ -607,7 +594,6 @@ institutionDirectoryRouter.get('/', async (req, res) => {
   });
 });
 
-/** DIR-7: the institution corrects its public profile. */
 institutionDirectoryRouter.patch('/profile', async (req, res) => {
   const b = sent(
     parse(institutionBody.pick({ website: true, about: true, campuses: true }).partial(), req.body),
@@ -641,7 +627,6 @@ institutionDirectoryRouter.patch('/programs/:id', async (req, res) => {
   ok(res, p);
 });
 
-/** Past merit history of the institution's own programs (stays DRAFT until the super admin verifies it). */
 institutionDirectoryRouter.post('/history', async (req, res) => {
   const b = parse(historyBody, req.body);
   const inst = await ensureDirectoryInstitution(req.tenant!.institutionId);
@@ -695,7 +680,6 @@ institutionDirectoryRouter.post('/import', upload.single('file'), async (req, re
   created(res, { ...r, errors: p.errors.slice(0, 200) });
 });
 
-/** DIR-7: directory entries entered before the institution joined, which it can claim. */
 institutionDirectoryRouter.get('/claimable', async (req, res) => {
   const { q } = parse(z.object({ q: z.string().trim().max(80).default('') }), req.query);
   const filter: Record<string, unknown> = { institutionId: null, 'claim.status': { $ne: 'PENDING' } };

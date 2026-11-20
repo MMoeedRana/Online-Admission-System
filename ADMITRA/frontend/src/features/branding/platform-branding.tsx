@@ -17,7 +17,6 @@ import { BrandPreview, ColorField, ImageField } from './brand-fields';
 
 type Form = Pick<Brand, 'platformName' | 'tagline' | 'agentName' | 'primaryColor' | 'sidebarColor' | 'avatarColor'>;
 
-/** BRAND-1: the Super Admin changes the platform name, assistant name, logo, favicon and colours. */
 export function PlatformBranding() {
   const qc = useQueryClient();
   const q = useQuery({ queryKey: ['platform', 'branding'], queryFn: () => get<Brand>('/platform/branding') });

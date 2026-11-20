@@ -51,7 +51,6 @@ const STATUS: Record<string, [Tone, string]> = {
   GRACE: ['amber', 'Grace period'],
   READ_ONLY: ['red', 'Read-only'],
   NONE: ['gray', 'No subscription'],
-  // applications (FLOW-1)
   SUBMITTED: ['blue', 'Submitted'],
   PAYMENT_PENDING: ['amber', 'Payment pending'],
   UNDER_REVIEW: ['blue', 'Under review'],
@@ -60,7 +59,6 @@ const STATUS: Record<string, [Tone, string]> = {
   ELIGIBILITY_CHECK: ['purple', 'Eligibility check'],
   VERIFIED: ['green', 'Verified'],
   WITHDRAWN: ['gray', 'Withdrawn'],
-  // challans and payments
   ISSUED: ['amber', 'Awaiting payment'],
   AWAITING_VERIFICATION: ['amber', 'Awaiting verification'],
   PAID: ['green', 'Paid'],
@@ -69,7 +67,6 @@ const STATUS: Record<string, [Tone, string]> = {
   APPROVED: ['green', 'Approved'],
   UPLOADED: ['blue', 'Uploaded'],
   ROLLED_BACK: ['gray', 'Rolled back'],
-  // merit lists, offers and enrollment (Phase 3)
   PUBLISHED: ['green', 'Published'],
   SUPERSEDED: ['gray', 'Superseded'],
   DISCARDED: ['gray', 'Discarded'],
@@ -85,13 +82,11 @@ const STATUS: Record<string, [Tone, string]> = {
   DECLINED: ['gray', 'Declined'],
   PENDING_ORIGINALS: ['amber', 'Originals pending'],
   SELECTED: ['green', 'Selected'],
-  // support tickets (Phase 4)
   IN_PROGRESS: ['purple', 'In progress'],
   WAITING_ON_INSTITUTION: ['amber', 'Waiting on institution'],
   RESOLVED: ['green', 'Resolved'],
 };
 
-/** Marks verification state of an academic record (MARK-3). */
 const RECORD: Record<string, [Tone, string]> = {
   DECLARED: ['gray', 'Self-declared'],
   UNDER_VERIFICATION: ['amber', 'Needs officer review'],
@@ -107,7 +102,6 @@ export function RecordBadge({ status }: { status: string }) {
   return <Badge tone={tone}>{text}</Badge>;
 }
 
-/** Summary of an applicant's marks in staff lists. */
 const MARKS: Record<string, [Tone, string]> = {
   VERIFIED: ['green', 'Verified'],
   PENDING: ['amber', 'Not in registry'],
@@ -121,7 +115,6 @@ export function MarksBadge({ state }: { state: string }) {
   return <Badge tone={tone}>{text}</Badge>;
 }
 
-/** Trust level 0-3 as a numbered chip (Section 4.1.1). */
 export function TrustChip({ level }: { level: number }) {
   const tones = [
     'bg-slate-100 text-slate-600 dark:bg-slate-500/20 dark:text-slate-300',

@@ -48,7 +48,6 @@ interface Detail {
   openCampaign: { campaignId: string; title: string; closesAt: string } | null;
 }
 
-/** DIR-2 / DIR-7: a program with its merit history, sources and data status. */
 export function DirectoryProgramDetail({ id }: { id: string }) {
   const brand = useBrand();
   const router = useRouter();

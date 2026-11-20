@@ -9,7 +9,6 @@ import { markRead, NOTIF_KEY, useNotifications } from '@/features/notifications/
 import { formatDateTime } from '@/lib/format';
 import { cn } from '@/lib/utils';
 
-/** Notifications bell with unread counter on every signed-in page (NOTIF-1). */
 export function NotificationBell({ className }: { className?: string }) {
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);

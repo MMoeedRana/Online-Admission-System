@@ -42,7 +42,6 @@ const SUGGESTIONS: Record<AgentScope, string[]> = {
   ],
 };
 
-/** The same routes for the Super Admin (PLATFORM) and for institution admins (INSTITUTION). */
 function agentRouter(scope: AgentScope) {
   const r = Router();
   const own = (req: Request) => ({
@@ -91,7 +90,6 @@ function agentRouter(scope: AgentScope) {
     const actions = await AgentActionModel.find({ conversationId: c._id })
       .select('tool summary status result decidedAt')
       .lean();
-    // The person sees the questions, answers and action cards; tool data stays on the server.
     ok(res, {
       _id: c._id,
       title: c.title,
@@ -119,7 +117,6 @@ function agentRouter(scope: AgentScope) {
     ok(res, { deleted: true });
   });
 
-  /** Sends a message. With "Accept: text/event-stream" progress (tools, actions) is streamed. */
   r.post('/conversations/:id/messages', async (req: Request, res: Response) => {
     const { id } = parse(idParams, req.params);
     const { message } = parse(
@@ -160,7 +157,6 @@ function agentRouter(scope: AgentScope) {
     ok(res, await decideAction(ctx, id, decision === 'confirm'));
   });
 
-  // ---- Integrity alerts (AGENT-6) ----
   r.get('/alerts', async (req, res) => {
     const q = parse(
       paginationQuery.extend({
@@ -219,7 +215,6 @@ function agentRouter(scope: AgentScope) {
     ok(res, a);
   });
 
-  // ---- Briefings (AGENT-7) ----
   r.get('/briefings', async (req, res) => {
     const list = await BriefingModel.find({ scope, institutionId: own(req).institutionId })
       .sort({ date: -1 })
@@ -245,6 +240,5 @@ function agentRouter(scope: AgentScope) {
 export const platformAgentRouter = Router();
 platformAgentRouter.use(authenticate, requireSuperAdmin, agentRouter('PLATFORM'));
 
-/** Institution side: chat needs the AI_COPILOT permission and plan; briefings need the plan's briefing feature. */
 export const institutionAgentRouter = Router();
 institutionAgentRouter.use(requirePermission(PERMISSIONS.AI_COPILOT), agentRouter('INSTITUTION'));

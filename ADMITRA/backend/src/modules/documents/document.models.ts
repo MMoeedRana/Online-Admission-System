@@ -3,7 +3,6 @@ import { DOCUMENT_FORMATS } from '../../constants/applications';
 import { DEGREE_LEVELS } from '../../constants/enums';
 import type { Id } from '../../lib/types';
 
-/** DOC-1: documents required by an institution. */
 const typeSchema = new Schema(
   {
     institutionId: { type: Types.ObjectId, ref: 'Institution', required: true, index: true },
@@ -23,7 +22,6 @@ typeSchema.index({ institutionId: 1, code: 1 }, { unique: true });
 export type DocumentType = InferSchemaType<typeof typeSchema>;
 export const DocumentTypeModel = model('DocumentType', typeSchema);
 
-/** DOC-4: every upload version and review decision is kept. */
 const docSchema = new Schema(
   {
     applicationId: { type: Types.ObjectId, ref: 'Application', required: true, index: true },
@@ -48,7 +46,6 @@ const docSchema = new Schema(
 );
 export const ApplicantDocumentModel = model('ApplicantDocument', docSchema);
 
-/** Default document requirements created for every institution. */
 export const DEFAULT_DOCUMENT_TYPES = [
   {
     code: 'CNIC',
@@ -98,7 +95,6 @@ export const DEFAULT_DOCUMENT_TYPES = [
   },
 ];
 
-/** Creates the default document requirements for a new institution (they can be changed later). */
 export async function ensureDefaultDocumentTypes(institutionId: Id) {
   if (await DocumentTypeModel.exists({ institutionId })) return;
   await DocumentTypeModel.insertMany(DEFAULT_DOCUMENT_TYPES.map((d) => ({ ...d, institutionId })));

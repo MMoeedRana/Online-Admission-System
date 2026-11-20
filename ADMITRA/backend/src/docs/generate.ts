@@ -1,9 +1,7 @@
-/* eslint-disable no-console */
 import { writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { collectRouters, openApiDocument } from './routers';
 
-/** `npm run docs:api`: writes src/docs/openapi.json from the mounted routers. */
 async function main() {
   const routers = await collectRouters();
   const spec = openApiDocument(routers);

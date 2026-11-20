@@ -14,7 +14,6 @@ import { get } from '@/lib/api';
 import { formatDate, formatMoney } from '@/lib/format';
 import type { AppListItem } from './types';
 
-/** APP-1: every application of the applicant, across institutions. */
 export function ApplicationsList() {
   const apps = useQuery({ queryKey: ['me', 'applications'], queryFn: () => get<AppListItem[]>('/me/applications') });
   if (!apps.data) return <FullPageLoader />;

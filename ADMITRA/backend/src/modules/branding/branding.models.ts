@@ -2,10 +2,6 @@ import { Schema, Types, model } from 'mongoose';
 
 export const ASSET_KINDS = ['PLATFORM_LOGO', 'FAVICON', 'INSTITUTION_LOGO', 'AVATAR'] as const;
 
-/**
- * BRAND-3: images that are shown publicly (logos, favicon, profile pictures). They are served by an
- * unguessable random key; documents and other private files never use this store (DOC-3).
- */
 const assetSchema = new Schema(
   {
     key: { type: String, required: true, unique: true },
@@ -29,7 +25,6 @@ export const DEFAULT_BRAND = {
   avatarColor: '',
 };
 
-/** BRAND-1: the platform's own branding, set by the Super Admin (a single document). */
 const platformSettingsSchema = new Schema(
   {
     _id: { type: String, default: 'platform' },
@@ -40,7 +35,6 @@ const platformSettingsSchema = new Schema(
     faviconKey: { type: String, default: '' },
     primaryColor: { type: String, default: DEFAULT_BRAND.primaryColor, match: HEX },
     sidebarColor: { type: String, default: DEFAULT_BRAND.sidebarColor, match: HEX },
-    /** Background of initials when a person has no profile picture; empty = a colour per name. */
     avatarColor: { type: String, default: '' },
     updatedBy: { type: Types.ObjectId, ref: 'User', default: null },
   },

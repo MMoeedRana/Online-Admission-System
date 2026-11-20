@@ -18,7 +18,6 @@ import { ProgramModel } from '../programs/program.model';
 import { RecordModel } from '../records/record.models';
 import { institutionAnalytics } from './analytics.service';
 
-/** RPT-1: analytics of the institution workspace. */
 export const analyticsRouter = Router();
 analyticsRouter.use(requirePermission(PERMISSIONS.ANALYTICS_VIEW));
 
@@ -41,10 +40,8 @@ analyticsRouter.get('/', async (req, res) => {
   ok(res, await institutionAnalytics(req.tenant!.institutionId, { campaignId: q.campaignId, days: q.days }));
 });
 
-/** Most rows a single export may hold; larger exports should be filtered by campaign. */
 export const EXPORT_LIMIT = 20000;
 
-/** RPT-2: CSV and PDF exports of applications, payments and merit lists. */
 export const reportRouter = Router();
 
 const appQuery = z.object({
@@ -340,7 +337,6 @@ reportRouter.get('/merit-lists/:id.csv', meritAccess, async (req, res) => {
   );
 });
 
-/** Internal PDF with full names (the public PDF shortens names, OFFER-5). */
 reportRouter.get('/merit-lists/:id.pdf', meritAccess, async (req, res) => {
   const r = await meritRows(req);
   reportPdf(res, {

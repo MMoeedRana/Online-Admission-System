@@ -26,7 +26,6 @@ import { useBrand } from '@/features/branding/brand-context';
 type TabKey = 'ACTIVE' | 'OPEN' | 'IN_PROGRESS' | 'WAITING_ON_INSTITUTION' | 'RESOLVED' | 'CLOSED' | 'ALL';
 type Meta = PageMeta & { counts: Record<string, number> };
 
-/** SUP-1 / SUP-2: ticket list of an institution (only its own) or of the platform team. */
 export function TicketList({ side }: { side: Side }) {
   const brand = useBrand();
   const router = useRouter();

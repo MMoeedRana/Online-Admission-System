@@ -1,7 +1,3 @@
-/**
- * PERF-9: a small in-process cache for read-heavy figures. Entries live for at most 30 seconds,
- * so dashboards and reports are never more than half a minute behind the database.
- */
 export const MAX_CACHE_SECONDS = 30;
 
 const store = new Map<string, { at: number; ttl: number; value: Promise<unknown> }>();
@@ -23,7 +19,6 @@ export async function cached<T>(
   return value;
 }
 
-/** Drops cached entries whose key starts with the prefix (for example after a change). */
 export function invalidate(prefix: string) {
   for (const k of store.keys()) if (k.startsWith(prefix)) store.delete(k);
 }

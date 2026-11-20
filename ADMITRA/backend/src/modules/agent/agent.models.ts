@@ -3,7 +3,6 @@ import { Schema, Types, model } from 'mongoose';
 export const AGENT_SCOPES = ['PLATFORM', 'INSTITUTION'] as const;
 export type AgentScope = (typeof AGENT_SCOPES)[number];
 
-/** AGENT-2: a conversation with the assistant, kept per person and workspace. */
 const messageSchema = new Schema(
   {
     role: { type: String, enum: ['user', 'assistant', 'tool'], required: true },
@@ -29,7 +28,6 @@ const conversationSchema = new Schema(
 conversationSchema.index({ userId: 1, scope: 1, institutionId: 1, lastMessageAt: -1 });
 export const ConversationModel = model('AgentConversation', conversationSchema);
 
-/** AGENT-4: an action the assistant prepared; nothing happens until a person confirms it. */
 const actionSchema = new Schema(
   {
     conversationId: { type: Types.ObjectId, ref: 'AgentConversation', required: true, index: true },
@@ -52,7 +50,6 @@ const actionSchema = new Schema(
 );
 export const AgentActionModel = model('AgentAction', actionSchema);
 
-/** AGENT-6: findings of the integrity rules, with evidence; never an accusation, always "needs review". */
 const alertSchema = new Schema(
   {
     key: { type: String, required: true, unique: true },
@@ -74,7 +71,6 @@ const alertSchema = new Schema(
 );
 export const IntegrityAlertModel = model('IntegrityAlert', alertSchema);
 
-/** AGENT-7: the daily briefing of the platform or of one institution. */
 const briefingSchema = new Schema(
   {
     scope: { type: String, enum: AGENT_SCOPES, required: true },
@@ -90,7 +86,6 @@ const briefingSchema = new Schema(
 briefingSchema.index({ scope: 1, institutionId: 1, date: -1 }, { unique: true });
 export const BriefingModel = model('Briefing', briefingSchema);
 
-/** AGENT-8: messages and tokens per person and day, to keep the cost under control. */
 const usageSchema = new Schema({
   userId: { type: Types.ObjectId, required: true },
   date: { type: String, required: true },

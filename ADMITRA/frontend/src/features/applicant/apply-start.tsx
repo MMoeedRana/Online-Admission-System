@@ -8,7 +8,6 @@ import { FullPageLoader } from '@/components/ui/spinner';
 import { errorMessage, post, type ApiErrorBody } from '@/lib/api';
 import type { AxiosError } from 'axios';
 
-/** Opens (or creates) the draft for a campaign and moves to the wizard (APP-2). */
 export function ApplyStart() {
   const sp = useSearchParams();
   const router = useRouter();

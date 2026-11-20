@@ -20,7 +20,6 @@ const auditQuery = paginationQuery.extend({
 });
 type AuditQuery = z.infer<typeof auditQuery>;
 
-/** SEC-7: filters of the audit log screen (search, action, entity, actor and period). */
 function auditFilter(q: AuditQuery, base: Record<string, unknown>) {
   const f: Record<string, unknown> = { ...base };
   if (q.action) f.action = q.action;
@@ -82,7 +81,6 @@ async function exportCsv(req: Request, res: Parameters<typeof sendCsv>[0], base:
   );
 }
 
-/** Audit log of one institution, for its admin. */
 export const institutionAuditRouter = Router();
 institutionAuditRouter.use(requirePermission(PERMISSIONS.AUDIT_VIEW));
 institutionAuditRouter.get('/', async (req, res) => {
@@ -93,7 +91,6 @@ institutionAuditRouter.get('/export.csv', (req, res) =>
   exportCsv(req, res, { institutionId: req.tenant!.institution._id }),
 );
 
-/** Audit log of the whole platform, for the Super Admin. */
 export const platformAuditRouter = Router();
 platformAuditRouter.use(authenticate, requireSuperAdmin);
 const platformBase = (req: Request) => {

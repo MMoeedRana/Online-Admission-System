@@ -22,11 +22,6 @@ import { DAY, HOUR, realNow } from './clock';
 const log = (msg: string) => console.log(`  ${msg}`);
 const IP = '127.0.0.1';
 
-/**
- * Audit entries for the set-up work that the seed writes straight to the database
- * (plans, approvals, programs, campaigns, staff, reviews and payments), so the audit log
- * screens show the same history as a real cycle.
- */
 async function seedSetupAudit(superAdmin: { _id: Types.ObjectId; fullName: string }) {
   const rows: Record<string, unknown>[] = [];
   const add = (r: Record<string, unknown>) => rows.push({ ip: IP, ...r });
@@ -43,7 +38,6 @@ async function seedSetupAudit(superAdmin: { _id: Types.ObjectId; fullName: strin
 
   for (const inst of await InstitutionModel.find({ status: 'ACTIVE' }).lean()) {
     const plan = await PlanModel.findById(inst.planId).select('code').lean();
-    // Set-up happened before the first campaign opened (the seed itself runs today).
     const firstCampaign = await CampaignModel.findOne({ institutionId: inst._id })
       .sort({ opensAt: 1 })
       .lean();
@@ -111,7 +105,6 @@ async function seedSetupAudit(superAdmin: { _id: Types.ObjectId; fullName: strin
     }
   }
 
-  // Staff decisions on applications, from the applications' own history.
   const apps = await ApplicationModel.find({ 'history.actor': 'STAFF' })
     .select('institutionId history')
     .lean();
@@ -128,7 +121,6 @@ async function seedSetupAudit(superAdmin: { _id: Types.ObjectId; fullName: strin
         createdAt: h.at,
       });
 
-  // Finance decisions on payment proofs that the seed created directly.
   const logged = new Set((await AuditLogModel.find({ entity: 'Payment' }).distinct('entityId')).map(String));
   for (const p of await PaymentModel.find({ status: { $ne: 'PENDING' } }).lean())
     if (!logged.has(String(p._id)))
@@ -351,7 +343,6 @@ async function seedTickets(superAdmin: { _id: Types.ObjectId; fullName: string }
         ip: IP,
         createdAt: at(m.afterHours),
       });
-    // SUP-3: the other party was notified of the latest message.
     const toPlatform = last.side === 'INSTITUTION';
     await NotificationModel.create({
       userId: toPlatform ? superAdmin._id : user._id,

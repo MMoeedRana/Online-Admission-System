@@ -17,7 +17,6 @@ import { formatDate, formatDateTime, formatMoney } from '@/lib/format';
 import { cn } from '@/lib/utils';
 import { Breakdown, useResults } from './my-results';
 
-/** Figure 4.10: the offer, the admission fee and enrollment as a timeline. */
 export function OfferPage({ applicationId }: { applicationId: string }) {
   const q = useResults();
   const qc = useQueryClient();

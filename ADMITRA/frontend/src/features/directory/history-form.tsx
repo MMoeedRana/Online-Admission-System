@@ -9,7 +9,6 @@ import { toast } from '@/components/ui/toast';
 import { errorMessage, fieldErrors, post } from '@/lib/api';
 import { SHIFTS } from '@/lib/constants';
 
-/** DIR-2: one row of merit history entered by hand (stays DRAFT until verified). */
 export function HistoryForm({
   url,
   programs,

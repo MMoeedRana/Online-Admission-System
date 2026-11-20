@@ -29,7 +29,6 @@ const LABELS: Record<LimitKey, string> = {
   staff: 'staff members',
 };
 
-/** INST-3: refuses a new record when the plan limit is reached. */
 export async function assertWithinLimit(institution: { _id: unknown; planId?: unknown }, key: LimitKey) {
   const plan = await planOf(institution);
   const usage = await usageOf(institution._id as Id);

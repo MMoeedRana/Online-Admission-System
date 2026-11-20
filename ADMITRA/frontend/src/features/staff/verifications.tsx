@@ -21,7 +21,6 @@ import type { PageMeta } from '@/lib/types';
 type Row = AcademicRecord & { applicantName: string; flagged: boolean };
 type TabKey = 'PENDING' | 'UNDER_VERIFICATION' | 'MISMATCH' | 'DECLARED' | 'AUTO_VERIFIED' | 'VERIFIED';
 
-/** MARK-7: records that need an officer decision. */
 export function VerificationQueue() {
   const key = useInstKey();
   const router = useRouter();

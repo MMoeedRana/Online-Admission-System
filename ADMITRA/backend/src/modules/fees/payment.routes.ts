@@ -65,7 +65,6 @@ paymentRouter.get('/', async (req, res) => {
   ok(res, r.items, { ...pageMeta(q.page, q.limit, r.total), pending });
 });
 
-/** FEE-5: payments CSV for reconciliation with the bank statement. */
 paymentRouter.get('/export.csv', async (req, res) => {
   const q = parse(listQuery, req.query);
   const r = await rows(req.tenant!.institutionId, q, true);
@@ -112,7 +111,6 @@ paymentRouter.get('/:id/receipt.pdf', async (req, res) => {
   receiptPdf(res, await receiptData(id));
 });
 
-/** FEE-4: a payment is counted only after verification and can be decided only once. */
 paymentRouter.post('/:id/decision', async (req, res) => {
   const { id } = parse(idParams, req.params);
   const body = parse(
@@ -149,7 +147,6 @@ paymentRouter.post('/:id/decision', async (req, res) => {
     await pay.save({ session });
     await voucher!.save({ session });
     await app.save({ session });
-    // Table 3.14, step 5: a verified admission fee enrolls the applicant.
     const enrollment =
       body.decision === 'VERIFIED' && voucher!.type === 'ADMISSION'
         ? await enrollAfterPayment(voucher!._id, session)

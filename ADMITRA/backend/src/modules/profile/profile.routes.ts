@@ -24,7 +24,6 @@ const address = z.object({
   province: z.enum(PROVINCES),
 });
 
-/** PROF-4: 13 digits, typed with or without dashes. */
 const cnicSchema = z
   .string()
   .trim()
@@ -59,7 +58,6 @@ profileRouter.get('/', async (req, res) => {
   ok(res, p ? { ...p, cnicFormatted: formatCnic(p.cnic) } : null);
 });
 
-/** PROF-1: create or update the profile. Locked once an application is submitted (APP-5). */
 profileRouter.put('/', async (req, res) => {
   const body = parse(profileBody, req.body);
   const userId = req.auth!.userId;
@@ -94,7 +92,6 @@ profileRouter.put('/', async (req, res) => {
   ok(res, { ...p, cnicFormatted: formatCnic(p!.cnic) });
 });
 
-/** PROF-5: the applicant can download all personal data. */
 profileRouter.get('/export', async (req, res) => {
   const userId = req.auth!.userId;
   const [user, profile, records, applications, notifications] = await Promise.all([
@@ -115,7 +112,6 @@ profileRouter.get('/export', async (req, res) => {
   });
 });
 
-/** PROF-5: delete the account while nothing is submitted. */
 profileRouter.delete('/account', async (req, res) => {
   const userId = req.auth!.userId;
   if (await ApplicationModel.exists({ applicantId: userId, status: { $nin: ['DRAFT'] } })) {

@@ -3,7 +3,6 @@
 import { getAccessToken, getInstitutionHeader, refreshSession } from '@/lib/api';
 import type { StreamEvent } from './types';
 
-/** Sends a message and reads the server-sent events of the answer (tools, actions, final text). */
 export async function streamMessage(url: string, message: string, onEvent: (e: StreamEvent) => void) {
   const call = () =>
     fetch(`/api/v1${url}`, {
@@ -23,9 +22,7 @@ export async function streamMessage(url: string, message: string, onEvent: (e: S
     let msg = 'The message could not be sent.';
     try {
       msg = ((await res.json()) as { error?: { message?: string } }).error?.message ?? msg;
-    } catch {
-      /* not JSON */
-    }
+    } catch {}
     onEvent({ type: 'error', message: msg });
     return;
   }

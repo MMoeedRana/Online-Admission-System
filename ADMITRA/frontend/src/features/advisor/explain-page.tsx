@@ -37,7 +37,6 @@ const ORIGIN: Record<string, string> = {
   MANUAL: 'Entered from source',
 };
 
-/** PRED-8 (Figure 4.3): how a chance is calculated, with a what-if slider for the entry test. */
 export function ExplainPage({ id, base = '' }: { id: string; base?: string }) {
   const sp = useSearchParams();
   const router = useRouter();

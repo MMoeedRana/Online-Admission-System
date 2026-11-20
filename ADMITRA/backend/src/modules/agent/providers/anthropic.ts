@@ -5,7 +5,6 @@ type Block =
   | { type: 'tool_use'; id: string; name: string; input: Record<string, unknown> }
   | { type: 'tool_result'; tool_use_id: string; content: string };
 
-/** Claude through the Anthropic Messages API with tool use. */
 export class AnthropicProvider implements ChatProvider {
   readonly name = 'anthropic';
   constructor(
@@ -24,7 +23,6 @@ export class AnthropicProvider implements ChatProvider {
       .filter((m) => m.role === 'system')
       .map((m) => m.content)
       .join('\n\n');
-    // Consecutive tool results are sent together in one user turn, as the API expects.
     const messages: { role: 'user' | 'assistant'; content: Block[] }[] = [];
     for (const m of req.messages) {
       if (m.role === 'system') continue;

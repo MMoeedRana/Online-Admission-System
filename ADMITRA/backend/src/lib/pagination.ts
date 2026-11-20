@@ -12,7 +12,6 @@ export function pageMeta(page: number, limit: number, total: number) {
   return { page, limit, total, pages: Math.max(1, Math.ceil(total / limit)) };
 }
 
-/** Escapes a user string for safe use inside a regular expression search. */
 export function escapeRegex(text: string): string {
   return text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 }

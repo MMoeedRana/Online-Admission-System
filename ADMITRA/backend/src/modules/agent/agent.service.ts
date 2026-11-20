@@ -17,7 +17,6 @@ export const MAX_STEPS = 6;
 const MAX_TOOL_RESULT = 12_000;
 const HISTORY = 30;
 
-/** AGENT-3: the assistant of the Super Admin (whole platform) or of an institution admin (own data only). */
 export async function contextFor(req: Request, scope: AgentScope): Promise<AgentContext> {
   if (scope === 'PLATFORM') {
     if (req.auth?.platformRole !== 'SUPER_ADMIN') throw ApiError.forbidden();
@@ -98,7 +97,6 @@ function toWire(m: {
   return { role: 'user', content: m.content };
 }
 
-/** AGENT-8: daily message limit per person. */
 async function useQuota(userId: string, tokens = { input: 0, output: 0 }, count = 0) {
   const date = pktDay();
   const u = await AgentUsageModel.findOneAndUpdate(
@@ -120,7 +118,6 @@ export type AgentEvent =
   | { type: 'message'; message: { _id: string; content: string; createdAt: Date } }
   | { type: 'error'; message: string };
 
-/** One turn: the user's message, tool calls in a loop (at most MAX_STEPS), then the answer. */
 export async function runTurn(
   ctx: AgentContext,
   conversationId: string,
@@ -177,7 +174,6 @@ export async function runTurn(
   const specs = tools.map(toolSpec);
   for (let step = 0; step < MAX_STEPS; step++) {
     const history = conv.messages.slice(-HISTORY);
-    // A history slice must not start with tool results whose call was cut off.
     while (history.length && history[0]!.role === 'tool') history.shift();
     let result;
     try {
@@ -249,7 +245,6 @@ export async function runTurn(
   return finish('I needed too many steps for this question. Please ask it in smaller parts.');
 }
 
-/** AGENT-4: runs (or cancels) an action the assistant prepared, after the person confirmed it. */
 export async function decideAction(ctx: AgentContext, actionId: string, confirm: boolean) {
   const action = await AgentActionModel.findOne({
     _id: actionId,

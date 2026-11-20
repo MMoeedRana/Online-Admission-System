@@ -1067,8 +1067,7 @@
           "Directory and advisor"
         ],
         "operationId": "get_public_directory_compare",
-        "summary": "DIR-6: comparison of up to four programs.",
-        "description": "DIR-6: comparison of up to four programs.",
+        "summary": "Get compare",
         "parameters": [
           {
             "name": "page",
@@ -1220,8 +1219,7 @@
           "Directory and advisor"
         ],
         "operationId": "post_public_advisor",
-        "summary": "Table 3.17, steps 1-3: \"Show my chances\".",
-        "description": "Table 3.17, steps 1-3: \"Show my chances\".",
+        "summary": "Advisor",
         "requestBody": {
           "required": false,
           "content": {
@@ -1263,8 +1261,7 @@
           "Directory and advisor"
         ],
         "operationId": "post_public_advisor_programs_id",
-        "summary": "PRED-8: \"Explain\" for one program, with the what-if values from the query.",
-        "description": "PRED-8: \"Explain\" for one program, with the what-if values from the query.",
+        "summary": "Create program",
         "parameters": [
           {
             "name": "id",
@@ -1372,8 +1369,7 @@
           "Public results"
         ],
         "operationId": "get_public_merit_lists_id",
-        "summary": "OFFER-5: shortened names and application numbers only; CNICs are never returned.",
-        "description": "OFFER-5: shortened names and application numbers only; CNICs are never returned.",
+        "summary": "Get merit list",
         "parameters": [
           {
             "name": "id",
@@ -1515,8 +1511,7 @@
           "Public results"
         ],
         "operationId": "post_public_status",
-        "summary": "FIND-7: application number + last four CNIC digits + CAPTCHA; returns only the status.",
-        "description": "FIND-7: application number + last four CNIC digits + CAPTCHA; returns only the status.",
+        "summary": "Create statu",
         "requestBody": {
           "required": false,
           "content": {
@@ -1668,8 +1663,7 @@
           "Public site"
         ],
         "operationId": "get_public_open_admissions",
-        "summary": "Rows for the \"Open admission campaigns\" table on the home page.",
-        "description": "Rows for the \"Open admission campaigns\" table on the home page.",
+        "summary": "List open admissions",
         "parameters": [
           {
             "name": "page",
@@ -1919,8 +1913,7 @@
           "Public site"
         ],
         "operationId": "post_public_onboarding_requests",
-        "summary": "INST-1: an institution requests a workspace from the public website.",
-        "description": "INST-1: an institution requests a workspace from the public website.",
+        "summary": "Create onboarding request",
         "requestBody": {
           "required": false,
           "content": {
@@ -2488,8 +2481,7 @@
           "Platform data"
         ],
         "operationId": "get_platform_directory_history",
-        "summary": "Merit history waiting for verification (DIR-4) or of one program.",
-        "description": "Merit history waiting for verification (DIR-4) or of one program.",
+        "summary": "Get history",
         "parameters": [
           {
             "name": "page",
@@ -2594,8 +2586,7 @@
           "Platform data"
         ],
         "operationId": "post_platform_directory_history_decision",
-        "summary": "DIR-4: the super admin checks the source and verifies (or rejects) draft rows.",
-        "description": "DIR-4: the super admin checks the source and verifies (or rejects) draft rows.",
+        "summary": "Decision",
         "requestBody": {
           "required": false,
           "content": {
@@ -2784,8 +2775,7 @@
           "Platform data"
         ],
         "operationId": "get_platform_directory_data_gaps",
-        "summary": "DIR-8: programs without verified data for the current admission year.",
-        "description": "DIR-8: programs without verified data for the current admission year.",
+        "summary": "List data gaps",
         "parameters": [
           {
             "name": "page",
@@ -2845,8 +2835,7 @@
           "Platform data"
         ],
         "operationId": "post_platform_directory_institutions_id_claim",
-        "summary": "DIR-7: claims by institutions.",
-        "description": "DIR-7: claims by institutions.",
+        "summary": "Claim institution",
         "parameters": [
           {
             "name": "id",
@@ -2904,8 +2893,7 @@
           "Platform data"
         ],
         "operationId": "get_platform_directory_advisor_stats",
-        "summary": "PRED-12: anonymous advisor usage and demand by program.",
-        "description": "PRED-12: anonymous advisor usage and demand by program.",
+        "summary": "List advisor stats",
         "parameters": [
           {
             "name": "page",
@@ -3234,8 +3222,7 @@
           "Platform"
         ],
         "operationId": "post_platform_branding_reset_colors",
-        "summary": "Restores every default (name, colours, assistant name) but keeps the uploaded images.",
-        "description": "Restores every default (name, colours, assistant name) but keeps the uploaded images.",
+        "summary": "Create reset color",
         "requestBody": {
           "required": false,
           "content": {
@@ -3996,8 +3983,7 @@
           "Support (platform)"
         ],
         "operationId": "patch_platform_support_id",
-        "summary": "Changes the status, priority or assignee without a reply.",
-        "description": "Changes the status, priority or assignee without a reply.",
+        "summary": "Update support",
         "parameters": [
           {
             "name": "id",
@@ -4551,8 +4537,7 @@
           "Platform"
         ],
         "operationId": "post_platform_institutions",
-        "summary": "INST-1: the super admin can also create an institution directly.",
-        "description": "INST-1: the super admin can also create an institution directly.",
+        "summary": "Create institution",
         "requestBody": {
           "required": false,
           "content": {
@@ -5326,8 +5311,7 @@
           "Applicant portal"
         ],
         "operationId": "put_me_profile",
-        "summary": "PROF-1: create or update the profile.",
-        "description": "PROF-1: create or update the profile. Locked once an application is submitted (APP-5).",
+        "summary": "Update profile",
         "requestBody": {
           "required": false,
           "content": {
@@ -5374,8 +5358,7 @@
           "Applicant portal"
         ],
         "operationId": "get_me_profile_export",
-        "summary": "PROF-5: the applicant can download all personal data.",
-        "description": "PROF-5: the applicant can download all personal data.",
+        "summary": "Get export",
         "parameters": [
           {
             "name": "page",
@@ -5435,8 +5418,7 @@
           "Applicant portal"
         ],
         "operationId": "delete_me_profile_account",
-        "summary": "PROF-5: delete the account while nothing is submitted.",
-        "description": "PROF-5: delete the account while nothing is submitted.",
+        "summary": "Delete account",
         "responses": {
           "200": {
             "description": "Success",
@@ -5742,8 +5724,7 @@
           "Applicant portal"
         ],
         "operationId": "post_me_records_id_result_card",
-        "summary": "MARK-6: result card (DMC) upload.",
-        "description": "MARK-6: result card (DMC) upload.",
+        "summary": "Result card record",
         "parameters": [
           {
             "name": "id",
@@ -5801,8 +5782,7 @@
           "Applicant portal"
         ],
         "operationId": "get_me_records_id_history",
-        "summary": "MARK-8: all versions of a record with their verification history.",
-        "description": "MARK-8: all versions of a record with their verification history.",
+        "summary": "Get record history",
         "parameters": [
           {
             "name": "id",
@@ -5908,8 +5888,7 @@
           "Applicant portal"
         ],
         "operationId": "post_me_applications",
-        "summary": "Starts (or reopens) a draft for an open campaign; APP-2 one active application per campaign.",
-        "description": "Starts (or reopens) a draft for an open campaign; APP-2 one active application per campaign.",
+        "summary": "Create application",
         "requestBody": {
           "required": false,
           "content": {
@@ -5956,8 +5935,7 @@
           "Applicant portal"
         ],
         "operationId": "get_me_applications_id",
-        "summary": "Everything the wizard and the details page need.",
-        "description": "Everything the wizard and the details page need.",
+        "summary": "Get application",
         "parameters": [
           {
             "name": "id",
@@ -6109,8 +6087,7 @@
           "Applicant portal"
         ],
         "operationId": "post_me_applications_id_documents",
-        "summary": "DOC-2: upload a document for a requirement (drafts, or rejected documents of deficient applications).",
-        "description": "DOC-2: upload a document for a requirement (drafts, or rejected documents of deficient applications).",
+        "summary": "Add document to application",
         "parameters": [
           {
             "name": "id",
@@ -6226,8 +6203,7 @@
           "Applicant portal"
         ],
         "operationId": "post_me_applications_id_resubmit",
-        "summary": "FLOW: the applicant resubmits after correcting a deficiency.",
-        "description": "FLOW: the applicant resubmits after correcting a deficiency.",
+        "summary": "Resubmit application",
         "parameters": [
           {
             "name": "id",
@@ -6499,8 +6475,7 @@
           "Applicant portal"
         ],
         "operationId": "post_me_applications_id_payments",
-        "summary": "FEE-2/FEE-3: proof of payment.",
-        "description": "FEE-2/FEE-3: proof of payment.",
+        "summary": "Add payment to application",
         "parameters": [
           {
             "name": "id",
@@ -7228,8 +7203,7 @@
           "Institution workspace"
         ],
         "operationId": "get_institution_dashboard",
-        "summary": "Base dashboard of the institution workspace (Phase 1 figures).",
-        "description": "Base dashboard of the institution workspace (Phase 1 figures).",
+        "summary": "Get dashboard",
         "parameters": [
           {
             "name": "X-Institution-Id",
@@ -7681,8 +7655,7 @@
           "Institution workspace"
         ],
         "operationId": "get_structure",
-        "summary": "Overview used by forms (selects) and the academic structure screen.",
-        "description": "Overview used by forms (selects) and the academic structure screen.",
+        "summary": "Get structure",
         "parameters": [
           {
             "name": "X-Institution-Id",
@@ -8773,8 +8746,7 @@
           "Institution workspace"
         ],
         "operationId": "post_programs_id_status",
-        "summary": "PROG-4: programs used by other records are archived, not deleted.",
-        "description": "PROG-4: programs used by other records are archived, not deleted.",
+        "summary": "Add statu to program",
         "parameters": [
           {
             "name": "id",
@@ -9143,8 +9115,7 @@
           "Institution workspace"
         ],
         "operationId": "post_campaigns_id_status",
-        "summary": "CAMP-1: DRAFT -> OPEN -> CLOSED -> (OPEN | ARCHIVED).",
-        "description": "CAMP-1: DRAFT -> OPEN -> CLOSED -> (OPEN | ARCHIVED).",
+        "summary": "Add statu to campaign",
         "parameters": [
           {
             "name": "id",
@@ -9404,8 +9375,7 @@
           "Admissions office"
         ],
         "operationId": "post_applications_id_documents_docId_review",
-        "summary": "DOC-4: approve or reject one document with a reason.",
-        "description": "DOC-4: approve or reject one document with a reason.",
+        "summary": "Review document",
         "parameters": [
           {
             "name": "id",
@@ -9733,8 +9703,7 @@
           "Admissions office"
         ],
         "operationId": "get_verifications_id",
-        "summary": "Entered marks, the registry row and the result card side by side, with integrity checks.",
-        "description": "Entered marks, the registry row and the result card side by side, with integrity checks.",
+        "summary": "Get verification",
         "parameters": [
           {
             "name": "id",
@@ -9994,8 +9963,7 @@
           "Admissions office"
         ],
         "operationId": "get_payments_export_csv",
-        "summary": "FEE-5: payments CSV for reconciliation with the bank statement.",
-        "description": "FEE-5: payments CSV for reconciliation with the bank statement.",
+        "summary": "Download export (CSV)",
         "parameters": [
           {
             "name": "X-Institution-Id",
@@ -10101,8 +10069,7 @@
           "Admissions office"
         ],
         "operationId": "post_payments_id_decision",
-        "summary": "FEE-4: a payment is counted only after verification and can be decided only once.",
-        "description": "FEE-4: a payment is counted only after verification and can be decided only once.",
+        "summary": "Decision payment",
         "parameters": [
           {
             "name": "id",
@@ -10915,8 +10882,7 @@
           "Applicant portal"
         ],
         "operationId": "get_merit_formulas",
-        "summary": "Formulas of a campaign, grouped by program, with the latest version first.",
-        "description": "Formulas of a campaign, grouped by program, with the latest version first.",
+        "summary": "List merit formulas",
         "parameters": [
           {
             "name": "X-Institution-Id",
@@ -11041,8 +11007,7 @@
           "Applicant portal"
         ],
         "operationId": "patch_merit_formulas_id",
-        "summary": "MERIT-2: only drafts can be edited; active versions are locked.",
-        "description": "MERIT-2: only drafts can be edited; active versions are locked.",
+        "summary": "Update merit formula",
         "parameters": [
           {
             "name": "id",
@@ -11231,8 +11196,7 @@
           "Applicant portal"
         ],
         "operationId": "post_merit_formulas_id_new_version",
-        "summary": "MERIT-2: editing a locked version starts a new draft version.",
-        "description": "MERIT-2: editing a locked version starts a new draft version.",
+        "summary": "New version merit formula",
         "parameters": [
           {
             "name": "id",
@@ -11299,8 +11263,7 @@
           "Applicant portal"
         ],
         "operationId": "post_merit_formulas_test",
-        "summary": "Test mode: the aggregate and the breakdown for sample marks (Table 3.13, step 2).",
-        "description": "Test mode: the aggregate and the breakdown for sample marks (Table 3.13, step 2).",
+        "summary": "Test",
         "parameters": [
           {
             "name": "X-Institution-Id",
@@ -11358,8 +11321,7 @@
           "Applicant portal"
         ],
         "operationId": "get_merit_lists",
-        "summary": "Lists of a campaign and what is needed before the next one can be generated.",
-        "description": "Lists of a campaign and what is needed before the next one can be generated.",
+        "summary": "List merit lists",
         "parameters": [
           {
             "name": "X-Institution-Id",
@@ -11936,8 +11898,7 @@
           "Merit and offers"
         ],
         "operationId": "get_offers_summary",
-        "summary": "Seats, offers, acceptances and enrollments per program and shift.",
-        "description": "Seats, offers, acceptances and enrollments per program and shift.",
+        "summary": "Get summary",
         "parameters": [
           {
             "name": "X-Institution-Id",
@@ -12006,8 +11967,7 @@
           "Merit and offers"
         ],
         "operationId": "post_offers_id_revoke",
-        "summary": "MARK-11: revocation with a written reason and an optional CNIC block.",
-        "description": "MARK-11: revocation with a written reason and an optional CNIC block.",
+        "summary": "Revoke offer",
         "parameters": [
           {
             "name": "id",
@@ -12074,8 +12034,7 @@
           "Merit and offers"
         ],
         "operationId": "post_offers_enrollments_id_originals",
-        "summary": "MARK-12: originals checked on the reporting day.",
-        "description": "MARK-12: originals checked on the reporting day.",
+        "summary": "Add original to enrollment",
         "parameters": [
           {
             "name": "id",
@@ -12269,8 +12228,7 @@
           "Institution workspace"
         ],
         "operationId": "patch_directory_profile",
-        "summary": "DIR-7: the institution corrects its public profile.",
-        "description": "DIR-7: the institution corrects its public profile.",
+        "summary": "Update profile",
         "parameters": [
           {
             "name": "X-Institution-Id",
@@ -12395,8 +12353,7 @@
           "Institution workspace"
         ],
         "operationId": "post_directory_history",
-        "summary": "Past merit history of the institution's own programs (stays DRAFT until the super admin verifies it).",
-        "description": "Past merit history of the institution's own programs (stays DRAFT until the super admin verifies it).",
+        "summary": "History",
         "parameters": [
           {
             "name": "X-Institution-Id",
@@ -12570,8 +12527,7 @@
           "Institution workspace"
         ],
         "operationId": "get_directory_claimable",
-        "summary": "DIR-7: directory entries entered before the institution joined, which it can claim.",
-        "description": "DIR-7: directory entries entered before the institution joined, which it can claim.",
+        "summary": "Get claimable",
         "parameters": [
           {
             "name": "X-Institution-Id",
@@ -13018,8 +12974,7 @@
           "Analytics"
         ],
         "operationId": "get_reports_merit_lists_id_pdf",
-        "summary": "Internal PDF with full names (the public PDF shortens names, OFFER-5).",
-        "description": "Internal PDF with full names (the public PDF shortens names, OFFER-5).",
+        "summary": "Download merit lists (PDF)",
         "parameters": [
           {
             "name": "id",
@@ -13395,8 +13350,7 @@
           "Support (institution)"
         ],
         "operationId": "post_support_tickets_id_close",
-        "summary": "The institution confirms a resolved ticket and closes it, without writing a reply.",
-        "description": "The institution confirms a resolved ticket and closes it, without writing a reply.",
+        "summary": "Close ticket",
         "parameters": [
           {
             "name": "id",

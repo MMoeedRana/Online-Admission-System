@@ -39,9 +39,7 @@ export function optionalAuth(req: Request, _res: Response, next: NextFunction) {
   try {
     const p = readToken(req);
     if (p) setAuth(req, p);
-  } catch {
-    /* public endpoint: ignore invalid tokens */
-  }
+  } catch {}
   next();
 }
 

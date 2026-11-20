@@ -1,10 +1,5 @@
 import { defineConfig, devices } from '@playwright/test';
 
-/**
- * End-to-end and accessibility tests (Phase 4). They run against the app started with
- * `npm run dev` (frontend) and `npm run dev` (backend) on a database filled by `npm run seed:demo`.
- * Every page is checked on a phone and on a desktop.
- */
 export default defineConfig({
   testDir: './e2e',
   timeout: 60_000,

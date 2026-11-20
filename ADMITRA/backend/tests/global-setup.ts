@@ -7,7 +7,6 @@ declare module 'vitest' {
   }
 }
 
-/** Starts a real single-node MongoDB 8 replica set so that transactions work in tests. */
 export default async function setup(project: TestProject) {
   const rs = await MongoMemoryReplSet.create({
     replSet: { count: 1, storageEngine: 'wiredTiger' },

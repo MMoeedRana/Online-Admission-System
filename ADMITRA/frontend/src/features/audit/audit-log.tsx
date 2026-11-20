@@ -32,7 +32,6 @@ type Meta = PageMeta & { actions: string[]; entities: string[] };
 
 const words = (s: string) => s.charAt(0) + s.slice(1).toLowerCase().replace(/_/g, ' ');
 
-/** Colour by the kind of action, always shown with its name. */
 function actionTone(a: string): Tone {
   if (/REJECT|REVOK|DELETE|DISABL|MISMATCH|DISCARD|SUSPEND|CANCEL/.test(a)) return 'red';
   if (/APPROV|VERIFIED|PUBLISH|ACTIVAT|ENROLL|ACCEPT|RESOLV/.test(a)) return 'green';
@@ -41,7 +40,6 @@ function actionTone(a: string): Tone {
   return 'gray';
 }
 
-/** SEC-7: searchable audit log, for an institution admin (own entries) or the Super Admin (all). */
 export function AuditLog({ scope }: { scope: 'institution' | 'platform' }) {
   const url = scope === 'platform' ? '/platform/audit-logs' : '/audit-logs';
   const [f, setF] = useState({ q: '', action: '', entity: '', from: '', to: '' });

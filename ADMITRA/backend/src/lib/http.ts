@@ -1,6 +1,5 @@
 import type { Response } from 'express';
 
-/** Error with an HTTP status and a stable machine-readable code. */
 export class ApiError extends Error {
   constructor(
     public status: number,
@@ -39,7 +38,6 @@ export interface Meta {
   [key: string]: unknown;
 }
 
-/** Uniform success envelope: { success: true, data, meta }. */
 export function ok<T>(res: Response, data: T, meta?: Meta, status = 200) {
   return res.status(status).json({ success: true, data, ...(meta ? { meta } : {}) });
 }

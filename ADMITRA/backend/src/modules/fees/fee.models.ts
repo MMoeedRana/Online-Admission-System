@@ -1,7 +1,6 @@
 import { Schema, Types, model, type InferSchemaType } from 'mongoose';
 import { PAYMENT_METHODS } from '../../constants/applications';
 
-/** FEE-2: bank challan. */
 const voucherSchema = new Schema(
   {
     institutionId: { type: Types.ObjectId, ref: 'Institution', required: true, index: true },
@@ -23,7 +22,6 @@ const voucherSchema = new Schema(
 export type FeeVoucher = InferSchemaType<typeof voucherSchema>;
 export const VoucherModel = model('FeeVoucher', voucherSchema);
 
-/** FEE-3/FEE-4: proof of payment and the finance decision. */
 const paymentSchema = new Schema(
   {
     institutionId: { type: Types.ObjectId, ref: 'Institution', required: true, index: true },

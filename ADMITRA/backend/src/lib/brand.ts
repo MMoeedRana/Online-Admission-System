@@ -1,10 +1,6 @@
 import { DEFAULT_BRAND, PlatformSettingsModel, assetUrl } from '../modules/branding/branding.models';
 import { logger } from './logger';
 
-/**
- * BRAND-1: the platform name and agent name used in e-mails, PDFs and messages. Kept in memory and
- * refreshed whenever the Super Admin saves the branding, so synchronous code (PDFs) can use it.
- */
 let current = { ...DEFAULT_BRAND, logoUrl: '', faviconUrl: '', updatedAt: new Date(0) as Date };
 
 export function brand() {

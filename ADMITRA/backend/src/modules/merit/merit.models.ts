@@ -2,7 +2,6 @@ import { Schema, Types, model, type InferSchemaType } from 'mongoose';
 import { SHIFTS } from '../../constants/enums';
 import { MERIT_COMPONENTS, TIE_BREAKERS } from '../../lib/merit';
 
-/** MERIT-1 / MERIT-2: versioned formula of one program in one campaign. */
 const formulaSchema = new Schema(
   {
     institutionId: { type: Types.ObjectId, ref: 'Institution', required: true, index: true },
@@ -35,7 +34,6 @@ export const MeritFormulaModel = model('MeritFormula', formulaSchema);
 
 export const LIST_STATUSES = ['DRAFT', 'APPROVED', 'PUBLISHED', 'SUPERSEDED', 'DISCARDED'] as const;
 
-/** OFFER-1 / OFFER-2: a generated list, approved by a second member and published by the admin. */
 const listSchema = new Schema(
   {
     institutionId: { type: Types.ObjectId, ref: 'Institution', required: true, index: true },
@@ -100,7 +98,6 @@ listSchema.index({ campaignId: 1, listNumber: 1, revision: 1 }, { unique: true }
 export type MeritList = InferSchemaType<typeof listSchema>;
 export const MeritListModel = model('MeritList', listSchema);
 
-/** One ranked application in a list, with the aggregate breakdown (FIND-8). */
 const entrySchema = new Schema(
   {
     meritListId: { type: Types.ObjectId, ref: 'MeritList', required: true, index: true },
@@ -145,7 +142,6 @@ export const OFFER_STATUSES = [
   'CANCELLED',
 ] as const;
 
-/** OFFER-3: admission offer with a deadline. */
 const offerSchema = new Schema(
   {
     institutionId: { type: Types.ObjectId, ref: 'Institution', required: true, index: true },
@@ -169,7 +165,6 @@ const offerSchema = new Schema(
 export type AdmissionOffer = InferSchemaType<typeof offerSchema>;
 export const OfferModel = model('AdmissionOffer', offerSchema);
 
-/** OFFER-4 / MARK-12: enrollment with the registration number and the originals check. */
 const enrollmentSchema = new Schema(
   {
     institutionId: { type: Types.ObjectId, ref: 'Institution', required: true, index: true },
@@ -197,7 +192,6 @@ enrollmentSchema.index(
 export type Enrollment = InferSchemaType<typeof enrollmentSchema>;
 export const EnrollmentModel = model('Enrollment', enrollmentSchema);
 
-/** MARK-11: a CNIC blocked for one campaign after confirmed false marks. */
 const blockSchema = new Schema(
   {
     institutionId: { type: Types.ObjectId, ref: 'Institution', required: true },

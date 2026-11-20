@@ -19,7 +19,6 @@ import { formatMoney } from '@/lib/format';
 import { cn } from '@/lib/utils';
 import { HistoryForm } from './history-form';
 import { HistoryImport } from './history-import';
-import { useBrand } from '@/features/branding/brand-context';
 
 type Program = DirProgram & {
   history: (HistoryRow & { _id: string; status: 'DRAFT' | 'VERIFIED' | 'REJECTED'; rejectReason?: string })[];
@@ -32,7 +31,6 @@ interface Data {
 
 const ORIGIN: Record<string, string> = { ADMITRA: 'Official', IMPORT: 'Import', MANUAL: 'Form' };
 
-/** DIR-5, DIR-7: the institution's own directory profile and merit history. */
 export function InstitutionDirectory() {
   const key = useInstKey();
   const qc = useQueryClient();

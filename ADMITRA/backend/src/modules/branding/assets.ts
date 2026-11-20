@@ -25,7 +25,6 @@ const EXT: Record<string, string> = {
   'image/vnd.microsoft.icon': 'ico',
 };
 
-/** BRAND-3: checks an image by its content (never SVG, which can carry scripts) and stores it. */
 export async function savePublicImage(
   file: Express.Multer.File | undefined,
   kind: (typeof ASSET_KINDS)[number],
@@ -53,7 +52,6 @@ export async function savePublicImage(
   return PublicAssetModel.create({ key, kind, ownerId, storageKey, mimeType: mime, size: file.size });
 }
 
-/** Removes an image that is no longer used (old logo, previous profile picture). */
 export async function removePublicImage(key?: string | null) {
   if (!key) return;
   const a = await PublicAssetModel.findOneAndDelete({ key });
@@ -68,7 +66,6 @@ export async function streamPublicImage(res: Response, key: string) {
   if (!full.startsWith(STORAGE_ROOT) || !fs.existsSync(full)) throw ApiError.notFound('Image');
   res.setHeader('Content-Type', a.mimeType);
   res.setHeader('Content-Length', String(a.size));
-  // The key changes with every upload, so the image can be cached for a long time.
   res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
   res.setHeader('X-Content-Type-Options', 'nosniff');
   res.setHeader('Content-Security-Policy', "default-src 'none'; img-src 'self'; sandbox");

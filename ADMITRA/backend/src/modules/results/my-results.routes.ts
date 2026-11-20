@@ -14,10 +14,8 @@ import { acceptOffer, declineOffer } from '../merit/offer.service';
 import { ProgramModel } from '../programs/program.model';
 import { advise, savedMarks } from '../directory/advisor.service';
 
-/** FIND-1 to FIND-4 and FIND-8: "Where is my name?" for the signed-in applicant. */
 export const myResultsRouter = Router();
 
-/** Share of decided offers that were declined or expired (FIND-3); 10% until there is enough data. */
 async function declineRate(campaignId: unknown) {
   const decided = await OfferModel.aggregate([
     { $match: { campaignId, status: { $in: ['ACCEPTED', 'ENROLLED', 'DECLINED', 'EXPIRED'] } } },
@@ -110,7 +108,6 @@ myResultsRouter.get('/results', async (req, res) => {
       ? await PaymentModel.findOne({ voucherId: voucher._id }).sort({ createdAt: -1 }).lean()
       : null;
     const enrollment = offer ? await EnrollmentModel.findOne({ offerId: offer._id }).lean() : null;
-    // FIND-1: the outcome of the latest published list, or Pending.
     const result = [
       'ENROLLED',
       'REVOKED',
@@ -170,7 +167,6 @@ myResultsRouter.get('/results', async (req, res) => {
         : null,
     });
   }
-  // FIND-4: other programs suggested by the Admission Advisor when a list did not select the applicant.
   let suggestions: Awaited<ReturnType<typeof advise>> = [];
   if (out.some((o) => ['NOT_SELECTED', 'WAITLISTED', 'OFFER_EXPIRED'].includes(o.result))) {
     const marks = await savedMarks(req.auth!.userId);

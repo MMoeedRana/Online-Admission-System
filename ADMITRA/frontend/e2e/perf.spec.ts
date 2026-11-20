@@ -1,10 +1,5 @@
 import { expect, test } from '@playwright/test';
 
-/**
- * PERF-1: first meaningful content of public pages within 2 seconds on a typical 4G connection.
- * Measured on the production build (`npm run build && npm start`); set E2E_PROD=1 to run it.
- * 4G profile: 9 Mbit/s down, 1.5 Mbit/s up, 60 ms latency, empty cache.
- */
 test.skip(!process.env.E2E_PROD, 'PERF-1 is measured against the production build (E2E_PROD=1).');
 
 for (const path of ['/', '/programs', '/directory', '/advisor', '/merit-lists', '/status', '/login']) {

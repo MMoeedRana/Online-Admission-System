@@ -2,7 +2,6 @@ import { Schema, Types, model, type InferSchemaType } from 'mongoose';
 
 export const FILE_PURPOSES = ['DOCUMENT', 'RESULT_CARD', 'PAYMENT_PROOF'] as const;
 
-/** Metadata of a privately stored upload (DOC-3). The file itself lives outside the public folder. */
 const fileSchema = new Schema(
   {
     ownerId: { type: Types.ObjectId, ref: 'User', required: true, index: true },

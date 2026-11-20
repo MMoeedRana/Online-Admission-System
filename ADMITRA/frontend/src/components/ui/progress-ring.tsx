@@ -1,6 +1,5 @@
 import { cn } from '@/lib/utils';
 
-/** Circular progress used on application cards (reference design). */
 export function ProgressRing({
   value,
   size = 56,

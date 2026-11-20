@@ -11,7 +11,6 @@ import { Field, Input } from '@/components/ui/input';
 import { errorMessage, fieldErrors, get, post } from '@/lib/api';
 import { formatDateTime } from '@/lib/format';
 
-/** FIND-7: status by application number, last four CNIC digits and a CAPTCHA. */
 export function StatusLookup() {
   const [v, setV] = useState({ applicationNumber: '', cnicLast4: '', captchaAnswer: '' });
   const [errors, setErrors] = useState<Record<string, string>>({});

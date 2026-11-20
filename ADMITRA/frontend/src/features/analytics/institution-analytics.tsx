@@ -58,7 +58,6 @@ export interface Analytics {
 
 const pct = (a: number, b: number) => (b ? Math.round((a / b) * 1000) / 10 : 0);
 
-/** RPT-1 / RPT-2: analytics and report exports of the institution. */
 export function InstitutionAnalytics() {
   const key = useInstKey();
   const { can } = useAuth();
