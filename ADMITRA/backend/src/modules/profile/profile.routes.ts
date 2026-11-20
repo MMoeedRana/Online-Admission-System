@@ -1,11 +1,9 @@
-import fs from 'node:fs';
-import path from 'node:path';
 import { Router } from 'express';
 import { z } from 'zod';
 import { PROVINCES } from '../../constants/enums';
 import { audit } from '../../lib/audit';
 import { ApiError, ok } from '../../lib/http';
-import { STORAGE_ROOT } from '../../lib/storage';
+import { fileStore } from '../../lib/file-store';
 import { parse, phoneSchema } from '../../lib/validate';
 import { ApplicationModel } from '../applications/application.model';
 import { ApplicantDocumentModel } from '../documents/document.models';
@@ -128,7 +126,7 @@ profileRouter.delete('/account', async (req, res) => {
     RefreshTokenModel.deleteMany({ userId }),
     FileModel.deleteMany({ ownerId: userId }),
   ]);
-  for (const f of files) await fs.promises.rm(path.join(STORAGE_ROOT, f.storageKey), { force: true });
+  for (const f of files) await fileStore().remove(f.storageKey);
   await UserModel.deleteOne({ _id: userId });
   await audit(req, 'ACCOUNT_DELETED', 'User', userId);
   res.clearCookie('admitra_rt', { path: '/api/v1/auth' });

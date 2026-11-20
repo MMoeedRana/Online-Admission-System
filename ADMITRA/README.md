@@ -130,7 +130,48 @@ and integrity alerts are built from the database, and Mitra explains how to conn
 default 8) are optional. The free Gemini tier may use requests to improve Google's products, so use a
 paid key for real student data.
 
-## 6. Sample accounts (after `npm run seed:demo`)
+## 6. File storage (local folder, Amazon S3 or Cloudflare R2)
+
+Uploaded documents (result cards, fee slips, payment proofs), logos, favicons and profile pictures are
+kept by a storage driver chosen in `ADMITRA/backend/.env`. The application works the same with every
+driver: files are always served through the API after the permission check, so the bucket stays private.
+
+| STORAGE_DRIVER | Where files are kept | What is needed |
+| -------------- | -------------------- | -------------- |
+| `local` (default) | the private folder `STORAGE_DIR` (default `./storage`) on the server | nothing; back it up with `npm run backup` |
+| `s3` | an Amazon S3 bucket | AWS account (a payment card is required), bucket, region, access key |
+| `r2` | a Cloudflare R2 bucket (S3-compatible, 10 GB free each month, no download fees) | Cloudflare account (a payment card is required to enable R2), bucket, account id, access key |
+
+The local folder is right for one server with a permanent disk. A bucket is needed when the API runs
+on several servers or on a host whose disk is erased on every deploy.
+
+Cloudflare R2:
+
+```
+STORAGE_DRIVER=r2
+STORAGE_BUCKET=admitra-files
+R2_ACCOUNT_ID=your-account-id
+STORAGE_ACCESS_KEY_ID=your-access-key-id
+STORAGE_SECRET_ACCESS_KEY=your-secret-access-key
+```
+
+Amazon S3:
+
+```
+STORAGE_DRIVER=s3
+STORAGE_BUCKET=admitra-files
+STORAGE_REGION=ap-south-1
+STORAGE_ACCESS_KEY_ID=your-access-key-id
+STORAGE_SECRET_ACCESS_KEY=your-secret-access-key
+```
+
+Create the bucket as private (no public access) and give the access key permission to read, write and
+delete objects in that bucket only. `STORAGE_ENDPOINT` can point to any other S3-compatible service.
+The API refuses to start if a value it needs is missing. Restart the API after changing `.env`; files
+uploaded before the change stay in the old place, so choose the driver before going live. With a bucket,
+turn on its versioning or backups, because `npm run backup` then saves the database only.
+
+## 7. Sample accounts (after `npm run seed:demo`)
 
 All sample accounts use the password `Admitra@123` (the Super Admin uses the one in `.env`).
 
@@ -142,7 +183,7 @@ All sample accounts use the password `Admitra@123` (the Super Admin uses the one
 | HOD Officer, Computer Science (CVU) | hod.cs@cvu.example.edu.pk | Applications of the CS department only |
 | Finance Officer (CVU) | finance@cvu.example.edu.pk | Payment verification |
 | Merit Committee (CVU) | merit1@cvu.example.edu.pk | Active formulas and a proposed version 2 for BSCS |
-| Institution Admin (Riverside Institute of Technology) | admin@rit.example.edu.pk | Enterprise plan: Mitra chat and actions, own teal colours and logo; merit lists, offers and enrollment; Analytics & Reports; Support; Audit Log |
+| Institution Admin (Riverside Institute of Technology) | admin@rit.example.edu.pk | Enterprise plan: Mitra chat and actions, own teal colors and logo; merit lists, offers and enrollment; Analytics & Reports; Support; Audit Log |
 | Admissions and Accounts (RIT) | officer@rit.example.edu.pk | Admission-fee proofs, originals check on the reporting day |
 | Merit Committee (RIT) | merit1@rit.example.edu.pk | Generated merit list 3, waiting for the second member |
 | Merit Committee (RIT) | merit2@rit.example.edu.pk | Can approve list 3 (four-eyes rule) |
@@ -160,7 +201,7 @@ declined offers and one revocation) and a reference directory of 18 institutions
 years of closing merit. Every institution, person and figure in it is fictional and exists only
 for development and demonstration. The seed command is refused in production.
 
-## 7. Scripts
+## 8. Scripts
 
 | Folder   | Command             | Purpose                                   |
 | -------- | ------------------- | ----------------------------------------- |
@@ -177,7 +218,7 @@ for development and demonstration. The seed command is refused in production.
 | frontend | `npm run build` / `npm start` | Production build and start      |
 | frontend | `npm run lint` / `npm run typecheck` | Code checks                |
 
-## 8. Development status
+## 9. Development status
 
 | Phase | Scope | Status |
 | ----- | ----- | ------ |
@@ -250,11 +291,14 @@ the pointer cursor and every form field has a placeholder.
 ### Phase 5 requirements
 
 BRAND-1 to BRAND-5 and AGENT-1 to AGENT-8: platform branding
-by the Super Admin (name, tagline, assistant name, logo, favicon, primary, sidebar and initials colours,
+by the Super Admin (name, tagline, assistant name, logo, favicon, primary, sidebar and initials colors,
 used in every page, e-mail and PDF), institution branding on plans with custom branding, profile pictures,
-and colours that are adjusted automatically to keep WCAG AA contrast; and **Mitra**, the admission copilot:
+and colors that are adjusted automatically to keep WCAG AA contrast; and **Mitra**, the admission copilot:
 switchable AI providers (Gemini by default, OpenAI, Claude or any OpenAI-compatible service), a chat for the
 Super Admin and for institution admins that answers from live data through permission-checked tools,
 actions that run only after Confirm (fee, offer and application reminders, renewal reminders, ticket
 replies, alerts), platform fee records on renewal, integrity rules with evidence, daily briefings by
 notification and e-mail, and a daily message limit.
+
+Uploaded files can be kept in the local storage folder (default), an Amazon S3 bucket or a Cloudflare R2
+bucket, chosen with `STORAGE_DRIVER` in `.env` (Section 6).

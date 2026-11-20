@@ -1,9 +1,9 @@
 import crypto from 'node:crypto';
-import fs from 'node:fs';
 import path from 'node:path';
 import type { Response } from 'express';
 import multer from 'multer';
 import { env } from '../config/env';
+import { fileStore } from './file-store';
 import { FileModel, type FILE_PURPOSES } from '../modules/files/file.model';
 import { MIME_BY_FORMAT, type DOCUMENT_FORMATS } from '../constants/applications';
 import { ApiError } from './http';
@@ -48,10 +48,9 @@ export async function saveUpload(
     });
   }
   const now = new Date();
-  const dir = path.join(String(now.getFullYear()), String(now.getMonth() + 1).padStart(2, '0'));
-  const storageKey = path.join(dir, `${crypto.randomUUID()}.${EXT[mime]}`);
-  await fs.promises.mkdir(path.join(STORAGE_ROOT, dir), { recursive: true });
-  await fs.promises.writeFile(path.join(STORAGE_ROOT, storageKey), file.buffer);
+  const dir = `${now.getFullYear()}/${String(now.getMonth() + 1).padStart(2, '0')}`;
+  const storageKey = `${dir}/${crypto.randomUUID()}.${EXT[mime]}`;
+  await fileStore().put(storageKey, file.buffer, mime);
   const sha256 = crypto.createHash('sha256').update(file.buffer).digest('hex');
   return FileModel.create({
     ownerId: opts.ownerId,
@@ -64,12 +63,12 @@ export async function saveUpload(
   });
 }
 
-export function streamFile(
+export async function streamFile(
   res: Response,
   f: { storageKey: string; mimeType: string; originalName?: string | null },
 ) {
-  const full = path.join(STORAGE_ROOT, f.storageKey);
-  if (!full.startsWith(STORAGE_ROOT) || !fs.existsSync(full)) throw ApiError.notFound('File');
+  const body = await fileStore().get(f.storageKey);
+  if (!body) throw ApiError.notFound('File');
   res.setHeader('Content-Type', f.mimeType);
   res.setHeader(
     'Content-Disposition',
@@ -77,5 +76,5 @@ export function streamFile(
   );
   res.setHeader('Cache-Control', 'private, no-store');
   res.setHeader('X-Content-Type-Options', 'nosniff');
-  fs.createReadStream(full).pipe(res);
+  body.pipe(res);
 }

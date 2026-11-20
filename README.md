@@ -28,7 +28,7 @@ Requirement tags (AUTH, MARK, MERIT, …) refer to the system features of the pr
 | 2. Applicant portal, verified marks and admission operations | Profile, subject-wise academic records, board result registry and matching, trust levels, officer verification panel, fraud flags, documents, application wizard, fee challans and payments, workflow, notifications and e-mail templates | PROF, MARK-1 to MARK-9 and MARK-13, REG, APP, DOC, FEE, FLOW, NOTIF | Complete |
 | 3. Merit, enrollment, Admission Advisor and Result Finder | Merit formulas and merit engine (stable seat allocation), merit lists, offers, enrollment, revocation, reference directory and merit history, Admission Advisor, Result Finder, public merit lists, status lookup | MARK-10 to MARK-12, MERIT, OFFER, DIR, PRED, FIND | Complete |
 | 4. Analytics, support, quality and delivery | Analytics and exports, support tickets, OpenAPI documentation, automated tests (API, browser, accessibility, performance), security hardening, production build, backups | RPT, SUP, non-functional requirements | Complete |
-| 5. Branding and the Mitra admission copilot | Platform and institution branding, profile pictures, contrast-safe colours; Mitra: switchable AI providers (Gemini, OpenAI, Claude), friendly chat in English and Roman Urdu with live-data tools, actions that run only after confirmation, platform fee records, integrity alerts and daily briefings | BRAND, AGENT | Complete |
+| 5. Branding and the Mitra admission copilot | Platform and institution branding, profile pictures, contrast-safe colors; Mitra: switchable AI providers (Gemini, OpenAI, Claude), friendly chat in English and Roman Urdu with live-data tools, actions that run only after confirmation, platform fee records, integrity alerts and daily briefings; file storage on the local disk, Amazon S3 or Cloudflare R2 | BRAND, AGENT | Complete |
 
 ### Phase deliverables
 
@@ -42,3 +42,4 @@ Requirement tags (AUTH, MARK, MERIT, …) refer to the system features of the pr
    system runs from a production build.
 5. **Phase 5:** the platform and each institution carry their own brand, and Mitra answers admission
    questions from live data, prepares reminders, writes a daily briefing and raises integrity alerts.
+   Uploaded files can move from the local disk to Amazon S3 or Cloudflare R2 by changing `.env` only.

@@ -2,7 +2,7 @@ import crypto from 'node:crypto';
 import fs from 'node:fs';
 import path from 'node:path';
 import type { Types } from 'mongoose';
-import { STORAGE_ROOT } from '../lib/storage';
+import { fileStore } from '../lib/file-store';
 import { assetUrl, PlatformSettingsModel, PublicAssetModel } from '../modules/branding/branding.models';
 import { InstitutionModel } from '../modules/institutions/institution.model';
 import { UserModel } from '../modules/users/user.model';
@@ -23,9 +23,8 @@ const ASSETS = path.join(__dirname, 'assets');
 async function storeImage(file: string, kind: 'INSTITUTION_LOGO' | 'AVATAR', ownerId: Types.ObjectId) {
   const buf = fs.readFileSync(path.join(ASSETS, file));
   const key = crypto.randomBytes(16).toString('hex');
-  const storageKey = path.join('public', `${key}.png`);
-  await fs.promises.mkdir(path.join(STORAGE_ROOT, 'public'), { recursive: true });
-  await fs.promises.writeFile(path.join(STORAGE_ROOT, storageKey), buf);
+  const storageKey = `public/${key}.png`;
+  await fileStore().put(storageKey, buf, 'image/png');
   await PublicAssetModel.create({ key, kind, ownerId, storageKey, mimeType: 'image/png', size: buf.length });
   return key;
 }

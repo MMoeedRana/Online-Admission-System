@@ -35,5 +35,5 @@ fileRouter.get('/:id', async (req, res) => {
         status: { $ne: 'DRAFT' },
       })));
   if (!linked) throw ApiError.notFound('File');
-  streamFile(res, file);
+  await streamFile(res, file);
 });

@@ -21,7 +21,14 @@ const schema = z.object({
   SMTP_PASS: z.string().optional().default(''),
   SMTP_SECURE: bool,
   MAIL_FROM: z.string().default('ADMITRA <no-reply@admitra.local>'),
+  STORAGE_DRIVER: z.enum(['local', 's3', 'r2']).default('local'),
   STORAGE_DIR: z.string().default('./storage'),
+  STORAGE_BUCKET: z.string().optional().default(''),
+  STORAGE_REGION: z.string().optional().default(''),
+  STORAGE_ACCESS_KEY_ID: z.string().optional().default(''),
+  STORAGE_SECRET_ACCESS_KEY: z.string().optional().default(''),
+  STORAGE_ENDPOINT: z.string().optional().default(''),
+  R2_ACCOUNT_ID: z.string().optional().default(''),
   AI_PROVIDER: z
     .enum(['gemini', 'openai', 'anthropic', 'openai-compatible', 'mock', 'none'])
     .default('gemini'),
@@ -32,7 +39,20 @@ const schema = z.object({
   AI_BRIEFING_HOUR: z.coerce.number().int().min(0).max(23).default(8),
 });
 
-const parsed = schema.safeParse(process.env);
+const parsed = schema
+  .superRefine((v, ctx) => {
+    if (v.STORAGE_DRIVER === 'local') return;
+    const need = (key: keyof typeof v, why: string) => {
+      if (!v[key]) ctx.addIssue({ code: 'custom', path: [key], message: why });
+    };
+    need('STORAGE_BUCKET', `required when STORAGE_DRIVER=${v.STORAGE_DRIVER}`);
+    need('STORAGE_ACCESS_KEY_ID', `required when STORAGE_DRIVER=${v.STORAGE_DRIVER}`);
+    need('STORAGE_SECRET_ACCESS_KEY', `required when STORAGE_DRIVER=${v.STORAGE_DRIVER}`);
+    if (v.STORAGE_DRIVER === 's3') need('STORAGE_REGION', 'required when STORAGE_DRIVER=s3, e.g. ap-south-1');
+    if (v.STORAGE_DRIVER === 'r2' && !v.STORAGE_ENDPOINT)
+      need('R2_ACCOUNT_ID', 'required when STORAGE_DRIVER=r2 (or set STORAGE_ENDPOINT)');
+  })
+  .safeParse(process.env);
 if (!parsed.success) {
   console.error('Invalid environment configuration:', z.prettifyError(parsed.error));
   process.exit(1);
