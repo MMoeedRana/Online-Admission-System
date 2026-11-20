@@ -1,5 +1,6 @@
 'use client';
 
+import { BriefingCard } from '@/features/mitra/mitra-page';
 import { useQuery } from '@tanstack/react-query';
 import { Building2, CalendarRange, Clock, GraduationCap, UserRound } from 'lucide-react';
 import Link from 'next/link';
@@ -77,6 +78,9 @@ export function PlatformDashboard() {
           tint="purple"
         />
       </KpiGrid>
+      <div className="mt-6">
+        <BriefingCard scope="platform" compact />
+      </div>
 
       <div className="mt-6 grid gap-6 xl:grid-cols-[1.4fr_1fr]">
         <Card>

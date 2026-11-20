@@ -21,6 +21,8 @@ export interface Membership {
   status: string;
   logoUrl: string;
   /** BRAND-2: own logo and colours, applied while the plan includes custom branding. */
+  /** AGENT-3 / AGENT-7: assistant features of the plan. */
+  ai?: { copilot: boolean; briefing: boolean };
   branding?: { active: boolean; logoUrl: string; primaryColor: string; sidebarColor: string };
   roles: StaffRole[];
   permissions: string[];
@@ -52,7 +54,14 @@ export interface Plan {
   priceMonthly: number;
   trialDays: number;
   limits: { campuses: number; programs: number; staff: number; applicationsPerCycle: number };
-  features: { multipleCampuses: boolean; customBranding: boolean; advancedAnalytics: boolean; apiAccess: boolean };
+  features: {
+    multipleCampuses: boolean;
+    customBranding: boolean;
+    advancedAnalytics: boolean;
+    apiAccess: boolean;
+    aiBriefing?: boolean;
+    aiCopilot?: boolean;
+  };
   status: 'ACTIVE' | 'RETIRED';
   institutions?: number;
 }

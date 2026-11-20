@@ -25,6 +25,8 @@ const FEATURES = [
   ['customBranding', 'Custom branding'],
   ['advancedAnalytics', 'Advanced analytics'],
   ['apiAccess', 'API access'],
+  ['aiBriefing', 'Daily AI briefing'],
+  ['aiCopilot', 'AI copilot (chat and actions)'],
 ] as const;
 
 const num = z.coerce.number().int().min(1, 'At least 1');
@@ -45,6 +47,8 @@ const schema = z.object({
     customBranding: z.boolean(),
     advancedAnalytics: z.boolean(),
     apiAccess: z.boolean(),
+    aiBriefing: z.boolean(),
+    aiCopilot: z.boolean(),
   }),
   status: z.enum(['ACTIVE', 'RETIRED']),
 });
@@ -137,7 +141,14 @@ function PlanModal({ plan, onClose }: { plan: Plan | null; onClose: () => void }
       priceMonthly: 0,
       trialDays: 30,
       limits: { campuses: 1, programs: 20, staff: 10, applicationsPerCycle: 2000 },
-      features: { multipleCampuses: false, customBranding: false, advancedAnalytics: false, apiAccess: false },
+      features: {
+        multipleCampuses: false,
+        customBranding: false,
+        advancedAnalytics: false,
+        apiAccess: false,
+        aiBriefing: false,
+        aiCopilot: false,
+      },
       status: 'ACTIVE',
     },
   });

@@ -16,6 +16,7 @@ import {
   Settings,
   ShieldCheck,
   Sigma,
+  Sparkles,
   Users,
 } from 'lucide-react';
 import type { NavSection } from '@/components/layout/staff-shell';
@@ -26,6 +27,7 @@ export const institutionNav: NavSection[] = [
     title: 'Workspace',
     items: [
       { href: '/institution/dashboard', label: 'Dashboard', icon: LayoutGrid, permission: 'dashboard.view' },
+      { href: '/institution/mitra', label: '{agent}', icon: Sparkles, permission: 'ai.copilot', when: 'ai' },
       { href: '/institution/analytics', label: 'Analytics & Reports', icon: BarChart3, permission: 'analytics.view' },
       { href: '/institution/applications', label: 'Applications', icon: FileText, permission: 'applications.review' },
       {

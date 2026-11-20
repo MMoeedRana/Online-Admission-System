@@ -44,6 +44,7 @@ export function InstitutionDetail({ id }: { id: string }) {
   const [planId, setPlanId] = useState('');
   const [days, setDays] = useState(30);
   const [months, setMonths] = useState(12);
+  const [fee, setFee] = useState({ amount: '', method: 'BANK_TRANSFER', reference: '' });
 
   if (!q.data) return <FullPageLoader />;
   const i = q.data;
@@ -272,7 +273,19 @@ export function InstitutionDetail({ id }: { id: string }) {
             </Button>
             <Button
               loading={action.isPending}
-              onClick={() => run('renew', { months, ...(planId ? { planId } : {}) }, 'Subscription renewed.')}
+              onClick={() =>
+                run(
+                  'renew',
+                  {
+                    months,
+                    ...(planId ? { planId } : {}),
+                    ...(fee.amount ? { amount: Number(fee.amount) } : {}),
+                    method: fee.method,
+                    reference: fee.reference,
+                  },
+                  'Subscription renewed and the platform fee recorded.',
+                )
+              }
             >
               Renew
             </Button>
@@ -298,6 +311,32 @@ export function InstitutionDetail({ id }: { id: string }) {
                 </option>
               ))}
             </Select>
+          </Field>
+          <Field label="Platform fee received (Rs.)" htmlFor="rn-amount" hint="Empty: plan price × months">
+            <Input
+              id="rn-amount"
+              inputMode="numeric"
+              placeholder="e.g. 420000"
+              value={fee.amount}
+              onChange={(e) => setFee({ ...fee, amount: e.target.value.replace(/[^\d]/g, '') })}
+            />
+          </Field>
+          <Field label="Payment method" htmlFor="rn-method">
+            <Select id="rn-method" value={fee.method} onChange={(e) => setFee({ ...fee, method: e.target.value })}>
+              <option value="BANK_TRANSFER">Bank transfer</option>
+              <option value="CHEQUE">Cheque</option>
+              <option value="CASH">Cash</option>
+              <option value="ONLINE">Online</option>
+            </Select>
+          </Field>
+          <Field label="Reference" htmlFor="rn-ref" className="sm:col-span-2">
+            <Input
+              id="rn-ref"
+              placeholder="e.g. IBFT-778812 or cheque number"
+              maxLength={60}
+              value={fee.reference}
+              onChange={(e) => setFee({ ...fee, reference: e.target.value })}
+            />
           </Field>
         </div>
       </Modal>

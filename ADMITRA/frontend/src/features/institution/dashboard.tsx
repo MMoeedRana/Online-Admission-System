@@ -12,6 +12,7 @@ import { EmptyState } from '@/components/ui/empty-state';
 import { KpiCard, KpiGrid } from '@/components/ui/kpi-card';
 import { PageHeader } from '@/components/ui/page-header';
 import { FullPageLoader } from '@/components/ui/spinner';
+import { BriefingCard } from '@/features/mitra/mitra-page';
 import { useAuth } from '@/features/auth/auth-context';
 import { get } from '@/lib/api';
 import { DEGREE_LEVELS } from '@/lib/constants';
@@ -106,6 +107,11 @@ export function InstitutionDashboard() {
           tint="purple"
         />
       </KpiGrid>
+      {current?.ai?.copilot || current?.ai?.briefing ? (
+        <div className="mt-6">
+          <BriefingCard scope="institution" compact />
+        </div>
+      ) : null}
       <div className="mt-6 grid gap-6 xl:grid-cols-[1.5fr_1fr]">
         <Card className="overflow-hidden">
           <CardHeader

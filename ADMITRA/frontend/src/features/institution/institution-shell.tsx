@@ -5,6 +5,7 @@ import type { ReactNode } from 'react';
 import { StaffShell } from '@/components/layout/staff-shell';
 import { useAuth } from '@/features/auth/auth-context';
 import { InstitutionBrandStyle } from '@/features/branding/brand-style';
+import { MitraLauncher } from '@/features/mitra/launcher';
 import { STAFF_ROLES } from '@/lib/constants';
 import { institutionNav } from './nav';
 import { SubscriptionBanner } from './subscription-banner';
@@ -53,6 +54,11 @@ export function InstitutionShell({ children }: { children: ReactNode }) {
         headerExtra={<InstitutionSwitcher />}
         search={{ placeholder: 'Search programs...', href: (q) => `/institution/programs?q=${encodeURIComponent(q)}` }}
         banner={<SubscriptionBanner />}
+        assistant={
+          current?.ai?.copilot && current.permissions.includes('ai.copilot') ? (
+            <MitraLauncher scope="institution" />
+          ) : undefined
+        }
       >
         {children}
       </StaffShell>

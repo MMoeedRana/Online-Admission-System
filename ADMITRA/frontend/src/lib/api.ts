@@ -24,6 +24,9 @@ export function getAccessToken() {
 export function setInstitutionHeader(id: string | null) {
   institutionId = id;
 }
+export function getInstitutionHeader() {
+  return institutionId;
+}
 export function onSession(cb: (s: Session | null) => void) {
   onSessionChange = cb;
 }

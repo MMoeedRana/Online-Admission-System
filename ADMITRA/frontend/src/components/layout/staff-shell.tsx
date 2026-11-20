@@ -20,6 +20,8 @@ export interface NavItem {
   icon: LucideIcon;
   /** Shown when the member has the permission (or any of them). */
   permission?: string | string[];
+  /** Shown only when the institution's plan includes the assistant (AGENT-3, AGENT-7). */
+  when?: 'ai';
 }
 export interface NavSection {
   title: string;
@@ -35,6 +37,8 @@ interface Props {
   banner?: ReactNode;
   /** BRAND-2: an institution's own logo and short name in the sidebar instead of the platform's. */
   brandMark?: { logoUrl: string; name: string };
+  /** Floating assistant button (AGENT-2). */
+  assistant?: ReactNode;
   children: ReactNode;
 }
 
@@ -46,7 +50,7 @@ function Sidebar({
   brandMark,
 }: Pick<Props, 'sections' | 'roleLabel' | 'orgName' | 'brandMark'> & { onNavigate?: () => void }) {
   const pathname = usePathname();
-  const { user, can } = useAuth();
+  const { user, can, current } = useAuth();
   const brand = useBrand();
   return (
     <div className="bg-navy flex h-full flex-col text-slate-300">
@@ -64,6 +68,7 @@ function Sidebar({
             </p>
             <ul className="space-y-1">
               {s.items
+                .filter((it) => it.when !== 'ai' || Boolean(current?.ai?.copilot || current?.ai?.briefing))
                 .filter(
                   (it) =>
                     !it.permission ||
@@ -84,7 +89,7 @@ function Sidebar({
                         )}
                       >
                         <it.icon className="size-[19px]" strokeWidth={1.8} />
-                        {it.label}
+                        {it.label.replace('{agent}', brand.agentName)}
                       </Link>
                     </li>
                   );
@@ -107,7 +112,17 @@ function Sidebar({
 }
 
 /** Staff and super admin layout: navy sidebar, header with search, theme, notifications and account (Section 4.1.7). */
-export function StaffShell({ sections, roleLabel, orgName, search, headerExtra, banner, brandMark, children }: Props) {
+export function StaffShell({
+  sections,
+  roleLabel,
+  orgName,
+  search,
+  headerExtra,
+  banner,
+  brandMark,
+  assistant,
+  children,
+}: Props) {
   const [open, setOpen] = useState(false);
   const [q, setQ] = useState('');
   const router = useRouter();
@@ -181,6 +196,7 @@ export function StaffShell({ sections, roleLabel, orgName, search, headerExtra, 
           <PageFade>{children}</PageFade>
         </main>
       </div>
+      {assistant}
     </div>
   );
 }

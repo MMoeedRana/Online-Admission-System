@@ -289,6 +289,8 @@ function SettingsForm({ initial }: { initial: Institution }) {
                   ['customBranding', 'Custom branding'],
                   ['advancedAnalytics', 'Advanced analytics'],
                   ['apiAccess', 'API access'],
+                  ['aiBriefing', 'Daily AI briefing'],
+                  ['aiCopilot', 'AI copilot'],
                 ] as const
               ).map(([k, l]) => (
                 <li key={k} className="flex items-center gap-2">
