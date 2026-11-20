@@ -85,6 +85,10 @@ const STATUS: Record<string, [Tone, string]> = {
   DECLINED: ['gray', 'Declined'],
   PENDING_ORIGINALS: ['amber', 'Originals pending'],
   SELECTED: ['green', 'Selected'],
+  // support tickets (Phase 4)
+  IN_PROGRESS: ['purple', 'In progress'],
+  WAITING_ON_INSTITUTION: ['amber', 'Waiting on institution'],
+  RESOLVED: ['green', 'Resolved'],
 };
 
 /** Marks verification state of an academic record (MARK-3). */

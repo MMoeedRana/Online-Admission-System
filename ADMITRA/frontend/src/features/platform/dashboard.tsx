@@ -158,7 +158,15 @@ export function PlatformDashboard() {
           </ul>
         </Card>
         <Card>
-          <CardHeader title="Recent activity" subtitle="From the platform audit log" />
+          <CardHeader
+            title="Recent activity"
+            subtitle="From the platform audit log"
+            action={
+              <Link href="/platform/audit-log" className="text-primary text-[13px] font-semibold">
+                Open audit log
+              </Link>
+            }
+          />
           <ul className="divide-line mt-3 divide-y">
             {d.recentActivity.map((a) => (
               <li key={a._id} className="flex items-start gap-3 px-5 py-3 sm:px-6">

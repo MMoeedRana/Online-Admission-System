@@ -249,14 +249,14 @@ reportRouter.get('/payments.pdf', payAccess, async (req, res) => {
     ],
     columns: [
       { label: 'Application', width: 11 },
-      { label: 'Applicant', width: 15 },
+      { label: 'Applicant', width: 14 },
       { label: 'Challan', width: 12 },
-      { label: 'Method', width: 9 },
+      { label: 'Method', width: 8 },
       { label: 'Reference', width: 12 },
       { label: 'Amount', width: 9, align: 'right' },
       { label: 'Paid on', width: 9 },
-      { label: 'Status', width: 8 },
-      { label: 'Receipt', width: 11 },
+      { label: 'Status', width: 7 },
+      { label: 'Receipt', width: 14 },
     ],
     rows: r.items.map((p) => [
       p.applicationNumber ?? '',

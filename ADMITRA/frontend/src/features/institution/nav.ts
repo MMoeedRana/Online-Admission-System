@@ -1,5 +1,6 @@
 import {
   Award,
+  BarChart3,
   BookOpen,
   Building,
   CalendarRange,
@@ -7,7 +8,9 @@ import {
   FileCheck2,
   FileText,
   GraduationCap,
+  History,
   LayoutGrid,
+  LifeBuoy,
   ListOrdered,
   Mail,
   Settings,
@@ -23,6 +26,7 @@ export const institutionNav: NavSection[] = [
     title: 'Workspace',
     items: [
       { href: '/institution/dashboard', label: 'Dashboard', icon: LayoutGrid, permission: 'dashboard.view' },
+      { href: '/institution/analytics', label: 'Analytics & Reports', icon: BarChart3, permission: 'analytics.view' },
       { href: '/institution/applications', label: 'Applications', icon: FileText, permission: 'applications.review' },
       {
         href: '/institution/verifications',
@@ -71,6 +75,8 @@ export const institutionNav: NavSection[] = [
         permission: 'institution.settings',
       },
       { href: '/institution/directory', label: 'Directory Data', icon: BookOpen, permission: 'directory.edit' },
+      { href: '/institution/support', label: 'Support', icon: LifeBuoy, permission: 'support.tickets' },
+      { href: '/institution/audit-log', label: 'Audit Log', icon: History, permission: 'audit.view' },
       { href: '/institution/settings', label: 'Settings', icon: Settings, permission: 'institution.settings' },
     ],
   },

@@ -25,6 +25,7 @@ import { ensureDefaultDocumentTypes } from '../modules/documents/document.models
 import { SAMPLE_PASSWORD, institutions, pendingRequests, plans, sampleApplicant } from './data';
 import { seedDemo } from './demo';
 import { seedPhase3 } from './phase3';
+import { seedPhase4 } from './phase4';
 
 const args = new Set(process.argv.slice(2));
 const DAY = 24 * 60 * 60 * 1000;
@@ -231,6 +232,7 @@ async function seedSample() {
   if (!(await UserModel.exists({ email: sampleApplicant.email }))) {
     await seedDemo();
     await seedPhase3(passwordHash);
+    await seedPhase4();
   }
   log(`All sample accounts use the password: ${SAMPLE_PASSWORD}`);
 }

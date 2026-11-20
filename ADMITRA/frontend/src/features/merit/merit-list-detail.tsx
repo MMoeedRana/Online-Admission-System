@@ -153,7 +153,23 @@ export function MeritListDetail({ id }: { id: string }) {
             icon={<Download className="size-4" />}
             onClick={() => void downloadFile(`/merit-lists/${id}/pdf`, `merit-list-${l.listNumber}.pdf`)}
           >
-            PDF
+            Public PDF
+          </Button>
+          <Button
+            variant="secondary"
+            icon={<Download className="size-4" />}
+            onClick={() =>
+              void downloadFile(`/reports/merit-lists/${id}.pdf`, `merit-list-${l.listNumber}-internal.pdf`)
+            }
+          >
+            Internal PDF
+          </Button>
+          <Button
+            variant="secondary"
+            icon={<Download className="size-4" />}
+            onClick={() => void downloadFile(`/reports/merit-lists/${id}.csv`, `merit-list-${l.listNumber}.csv`)}
+          >
+            CSV
           </Button>
           {l.status === 'PUBLISHED' && (
             <Button
