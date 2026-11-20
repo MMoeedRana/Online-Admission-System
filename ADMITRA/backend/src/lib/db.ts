@@ -5,7 +5,20 @@ mongoose.set('strictQuery', true);
 
 export async function connectDatabase(uri: string): Promise<void> {
   await mongoose.connect(uri, { serverSelectionTimeoutMS: 10000 });
-  logger.info({ db: mongoose.connection.name }, 'MongoDB connected');
+  const hello = await mongoose.connection.db!.admin().command({ hello: 1 });
+  if (!hello.setName) {
+    await mongoose.disconnect();
+    throw new Error(
+      [
+        'MongoDB is running as a single server, but ADMITRA needs a replica set for transactions (one node is enough).',
+        '  1. In mongod.cfg add:  replication:  replSetName: rs0   and restart the MongoDB service.',
+        "  2. In mongosh run once:  rs.initiate({ _id: 'rs0', members: [{ _id: 0, host: '127.0.0.1:27017' }] })",
+        '  3. In backend/.env use:  MONGODB_URI=mongodb://127.0.0.1:27017/admitra?replicaSet=rs0',
+        '  See section 2 of ADMITRA/README.md.',
+      ].join('\n'),
+    );
+  }
+  logger.info({ db: mongoose.connection.name, replicaSet: hello.setName }, 'MongoDB connected');
 }
 
 export async function disconnectDatabase(): Promise<void> {

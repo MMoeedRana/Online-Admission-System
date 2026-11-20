@@ -10,6 +10,8 @@ applies to any institution.
 - **Code:** [`ADMITRA/`](ADMITRA) — `backend` (Express.js + TypeScript + MongoDB) and `frontend`
   (Next.js + TypeScript + Tailwind CSS).
 - **Setup and running:** [`ADMITRA/README.md`](ADMITRA/README.md).
+- **Screenshots:** [`screenshots/`](screenshots) — every screen as it appears on a laptop (1440 × 900), on a phone
+  (iPhone 13) and in the dark theme.
 
 ## Technology
 
