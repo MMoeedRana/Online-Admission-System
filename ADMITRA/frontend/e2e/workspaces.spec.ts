@@ -21,6 +21,7 @@ test.describe('applicant portal', () => {
 
 test.describe('institution workspace', () => {
   test('every admin screen is responsive and accessible', async ({ page }) => {
+    test.setTimeout(240_000);
     const errors = watchErrors(page);
     await login(page, ACCOUNTS.ritAdmin);
     for (const path of [
@@ -41,6 +42,7 @@ test.describe('institution workspace', () => {
       '/institution/directory',
       '/institution/support',
       '/institution/audit-log',
+      '/institution/mitra',
       '/institution/settings',
     ])
       await checkPage(page, path);
@@ -87,6 +89,7 @@ test.describe('institution workspace', () => {
 
 test.describe('platform (Super Admin)', () => {
   test('every platform screen is responsive and accessible', async ({ page }) => {
+    test.setTimeout(180_000);
     const errors = watchErrors(page);
     await login(page, ACCOUNTS.superAdmin, SUPER_ADMIN_PASSWORD);
     for (const path of [
@@ -98,6 +101,8 @@ test.describe('platform (Super Admin)', () => {
       '/platform/analytics',
       '/platform/support',
       '/platform/audit-log',
+      '/platform/mitra',
+      '/platform/branding',
     ])
       await checkPage(page, path);
     expect(errors).toEqual([]);
