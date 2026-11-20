@@ -1,6 +1,6 @@
 # ADMITRA – Screenshots
 
-Real screenshots of every screen, taken from the running application with the demonstration data (`npm run seed:demo`) on 20 November 2026 (updated after Phase 5: Mitra, branding and RIT's own colours).
+Real screenshots of every screen, taken from the running application with the demonstration data (`npm run seed:demo`) on 20 November 2026 (updated after Phase 5: Mitra, branding and RIT's own colors).
 
 - `desktop/` – laptop screen of 1440 × 900 px, exactly what is visible on the screen
 - `mobile/` – iPhone 13 screen (390 px wide), exactly what is visible on the screen
