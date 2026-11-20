@@ -13,11 +13,11 @@ const RULES: [RegExp, string, Record<string, unknown>][] = [
   [/advisor|registry/i, 'advisor_and_registry', {}],
 ];
 
-const ROMAN_URDU =
+const LOCAL_WORDS =
   /\b(kya|kia|kaya|kaise|kaisay|kaisi|aap|ap|hai|hain|hy|mujhe|mera|meri|kitn[ei]|kitna|aaj|kal|batao|bataein|bataiye|dikhao|karo|karein|nahi|nhi|haan|acha|accha|theek|shukriya|salam|assalam|kese|kesy|wala|wali|sab)\b/gi;
 
-export function isRomanUrdu(text: string) {
-  const hits = text.match(ROMAN_URDU)?.length ?? 0;
+export function isLocalLanguage(text: string) {
+  const hits = text.match(LOCAL_WORDS)?.length ?? 0;
   const words = text.trim().split(/\s+/).length;
   return hits >= 2 || (hits === 1 && words <= 3);
 }
@@ -29,7 +29,7 @@ export function smallTalk(text: string, name: string, agent: string): string | n
     .replace(/[!?.,]+/g, ' ')
     .replace(/\s+/g, ' ')
     .trim();
-  const ur = isRomanUrdu(q);
+  const ur = isLocalLanguage(q);
   const hi = name ? ` ${name}` : '';
   const offer = ur
     ? 'Main admissions, applications, payments, seats, platform fees aur integrity alerts mein aap ki madad kar sakta hoon. Bataiye, kya dekhna hai?'
@@ -135,7 +135,7 @@ export class MockProvider implements ChatProvider {
     const userName = /admin/i.test(fullName) ? '' : (fullName.split(' ')[0] ?? '');
     const agent = system.match(/You are ([^,]+), the admission/)?.[1] ?? 'Mitra';
     const lastUser = [...req.messages].reverse().find((m) => m.role === 'user')?.content ?? '';
-    const ur = isRomanUrdu(lastUser);
+    const ur = isLocalLanguage(lastUser);
     if (last.role === 'tool') {
       const results = req.messages
         .slice(req.messages.findLastIndex((m) => m.role === 'assistant'))

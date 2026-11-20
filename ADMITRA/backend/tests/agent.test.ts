@@ -382,7 +382,7 @@ describe('offline provider for development (AGENT-1)', () => {
     expect(r.body.data.message.content).toContain('Here is what I found');
   });
 
-  it('answers greetings and small talk warmly without tools, in English or Roman Urdu', async () => {
+  it('answers greetings and small talk warmly without tools', async () => {
     const { MockProvider } = await import('../src/modules/agent/providers/mock.js');
     setProvider(new MockProvider());
     const root = await superAdminToken();
@@ -401,16 +401,16 @@ describe('offline provider for development (AGENT-1)', () => {
     expect(salam.body.data.message.content).toContain('Main bilkul theek hoon');
     const thanks = await ask('shukriya');
     expect(thanks.body.data.message.content).toContain('Koi baat nahi');
-    const roman = await ask('aaj koi suspicious alert hai kya?');
-    expect(roman.body.data.events[0]).toMatchObject({ type: 'tool', name: 'integrity_alerts' });
-    expect(roman.body.data.message.content).toContain('Yeh raha jo mujhe mila');
+    const local = await ask('aaj koi suspicious alert hai kya?');
+    expect(local.body.data.events[0]).toMatchObject({ type: 'tool', name: 'integrity_alerts' });
+    expect(local.body.data.message.content).toContain('Yeh raha jo mujhe mila');
   });
 
-  it('detects Roman Urdu and leaves English alone', async () => {
-    const { isRomanUrdu } = await import('../src/modules/agent/providers/mock.js');
-    expect(isRomanUrdu('aaj kitni applications aayi hain?')).toBe(true);
-    expect(isRomanUrdu('kaise ho')).toBe(true);
-    expect(isRomanUrdu('How many applications arrived today?')).toBe(false);
-    expect(isRomanUrdu('Show pending payments')).toBe(false);
+  it('detects the language of a message', async () => {
+    const { isLocalLanguage } = await import('../src/modules/agent/providers/mock.js');
+    expect(isLocalLanguage('aaj kitni applications aayi hain?')).toBe(true);
+    expect(isLocalLanguage('kaise ho')).toBe(true);
+    expect(isLocalLanguage('How many applications arrived today?')).toBe(false);
+    expect(isLocalLanguage('Show pending payments')).toBe(false);
   });
 });
