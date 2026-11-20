@@ -91,6 +91,8 @@ const planBody = z.object({
     customBranding: z.boolean().default(false),
     advancedAnalytics: z.boolean().default(false),
     apiAccess: z.boolean().default(false),
+    aiCopilot: z.boolean().default(false),
+    aiBriefing: z.boolean().default(false),
   }),
   status: z.enum(['ACTIVE', 'RETIRED']).default('ACTIVE'),
 });
@@ -244,10 +246,16 @@ platformRouter.post('/institutions/:id/reactivate', async (req, res) => {
 platformRouter.post('/institutions/:id/renew', async (req, res) => {
   const { id } = parse(idParams, req.params);
   const body = parse(
-    z.object({ months: z.coerce.number().int().min(1).max(36), planId: objectId.optional() }),
+    z.object({
+      months: z.coerce.number().int().min(1).max(36),
+      planId: objectId.optional(),
+      amount: z.coerce.number().min(0).max(100_000_000).optional(),
+      method: z.enum(['BANK_TRANSFER', 'CHEQUE', 'CASH', 'ONLINE']).optional(),
+      reference: z.string().trim().max(60).optional(),
+    }),
     req.body,
   );
-  ok(res, await svc.renewSubscription(req, id, body.months, body.planId));
+  ok(res, await svc.renewSubscription(req, id, body.months, body.planId, body));
 });
 
 platformRouter.post('/institutions/:id/resend-admin-invite', async (req, res) => {

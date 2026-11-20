@@ -90,6 +90,11 @@ export async function membershipsOf(userId: Id) {
         status: i.status,
         logoUrl: i.branding?.logoUrl ?? '',
         // BRAND-2: the workspace uses the institution's colours only while its plan includes branding.
+        // AGENT-3 / AGENT-7: which assistant features the plan includes.
+        ai: {
+          copilot: Boolean(plans.find((p) => String(p._id) === String(i.planId))?.features?.aiCopilot),
+          briefing: Boolean(plans.find((p) => String(p._id) === String(i.planId))?.features?.aiBriefing),
+        },
         branding: {
           active: Boolean(plans.find((p) => String(p._id) === String(i.planId))?.features?.customBranding),
           logoUrl: i.branding?.logoUrl ?? '',

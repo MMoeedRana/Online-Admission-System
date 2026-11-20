@@ -1,3 +1,4 @@
+import { SubscriptionPaymentModel } from './billing.model';
 import type { Request } from 'express';
 import { env } from '../../config/env';
 import { audit } from '../../lib/audit';
@@ -151,7 +152,17 @@ export async function setSuspended(req: Request, id: string, suspend: boolean, r
   return inst;
 }
 
-export async function renewSubscription(req: Request, id: string, months: number, planId?: string) {
+export async function renewSubscription(
+  req: Request,
+  id: string,
+  months: number,
+  planId?: string,
+  payment: {
+    amount?: number;
+    method?: 'BANK_TRANSFER' | 'CHEQUE' | 'CASH' | 'ONLINE';
+    reference?: string;
+  } = {},
+) {
   const inst = await InstitutionModel.findById(id);
   if (!inst) throw ApiError.notFound('Institution');
   if (!['ACTIVE', 'SUSPENDED'].includes(inst.status))
@@ -168,6 +179,22 @@ export async function renewSubscription(req: Request, id: string, months: number
   endsAt.setMonth(endsAt.getMonth() + months);
   inst.subscription = { startsAt: inst.subscription?.startsAt ?? now, endsAt, isTrial: false };
   await inst.save();
+  // AGENT-5: the platform fee of the renewal (plan price x months unless another amount was received).
+  const plan = await PlanModel.findById(inst.planId).lean();
+  if (plan)
+    await SubscriptionPaymentModel.create({
+      institutionId: inst._id,
+      planId: plan._id,
+      planName: plan.name,
+      months,
+      amount: payment.amount ?? plan.priceMonthly * months,
+      method: payment.method ?? 'BANK_TRANSFER',
+      reference: payment.reference ?? '',
+      periodStart: from,
+      periodEnd: endsAt,
+      recordedBy: req.auth?.userId ?? null,
+      recordedByName: req.auth?.name ?? '',
+    });
   await audit(
     req,
     'SUBSCRIPTION_RENEWED',

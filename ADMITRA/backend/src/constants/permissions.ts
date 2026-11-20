@@ -21,6 +21,7 @@ export const PERMISSIONS = {
   DIRECTORY_EDIT: 'directory.edit',
   SUPPORT_TICKETS: 'support.tickets',
   AUDIT_VIEW: 'audit.view',
+  AI_COPILOT: 'ai.copilot',
 } as const;
 
 export type Permission = (typeof PERMISSIONS)[keyof typeof PERMISSIONS];
@@ -44,6 +45,7 @@ export const ROLE_PERMISSIONS: Record<StaffRole, Permission[]> = {
     P.DIRECTORY_EDIT,
     P.SUPPORT_TICKETS,
     P.AUDIT_VIEW,
+    P.AI_COPILOT,
   ],
   ADMISSION_OFFICER: [P.DASHBOARD_VIEW, P.STRUCTURE_VIEW, P.APPLICATIONS_REVIEW, P.MARKS_VERIFY],
   HOD_OFFICER: [P.DASHBOARD_VIEW, P.STRUCTURE_VIEW, P.APPLICATIONS_REVIEW, P.MARKS_VERIFY],

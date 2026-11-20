@@ -22,6 +22,15 @@ const schema = z.object({
   SMTP_SECURE: bool,
   MAIL_FROM: z.string().default('ADMITRA <no-reply@admitra.local>'),
   STORAGE_DIR: z.string().default('./storage'),
+  // AGENT-1: the AI provider of the assistant. Change these four values to switch provider.
+  AI_PROVIDER: z.enum(['gemini', 'openai', 'anthropic', 'openai-compatible', 'none']).default('gemini'),
+  AI_API_KEY: z.string().optional().default(''),
+  AI_MODEL: z.string().optional().default(''),
+  AI_BASE_URL: z.string().optional().default(''),
+  /** Messages one person may send to the assistant per day. */
+  AI_DAILY_LIMIT: z.coerce.number().int().min(1).default(200),
+  /** Hour (Pakistan time) of the daily briefing. */
+  AI_BRIEFING_HOUR: z.coerce.number().int().min(0).max(23).default(8),
 });
 
 const parsed = schema.safeParse(process.env);

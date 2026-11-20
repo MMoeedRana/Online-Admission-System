@@ -42,6 +42,7 @@ import {
   platformBrandingRouter,
   publicBrandingRouter,
 } from './modules/branding/branding.routes';
+import { institutionAgentRouter, platformAgentRouter } from './modules/agent/agent.routes';
 import { shortlistRouter } from './modules/directory/shortlist.routes';
 
 export const apiRouter = Router();
@@ -62,6 +63,7 @@ apiRouter.use('/public', publicRouter);
 apiRouter.use('/platform/registry', platformRegistryRouter);
 apiRouter.use('/platform/directory', platformDirectoryRouter);
 apiRouter.use('/platform/branding', platformBrandingRouter);
+apiRouter.use('/platform/agent', platformAgentRouter);
 apiRouter.use('/platform/support', platformSupportRouter);
 apiRouter.use('/platform/audit-logs', platformAuditRouter);
 apiRouter.use('/platform/analytics', platformAnalyticsRouter);
@@ -103,4 +105,5 @@ tenant.use('/reports', reportRouter);
 tenant.use('/support/tickets', institutionSupportRouter);
 tenant.use('/audit-logs', institutionAuditRouter);
 tenant.use('/institution/branding', institutionBrandingRouter);
+tenant.use('/agent', institutionAgentRouter);
 apiRouter.use(tenant);

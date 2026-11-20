@@ -6,6 +6,7 @@ import { initSocket } from './lib/socket';
 import { startOfferExpiryJob } from './modules/merit/offer.service';
 import { closeExpiredCampaigns, startCampaignJobs } from './jobs/campaigns.job';
 import { brand, loadBrand } from './lib/brand';
+import { startBriefingJob } from './modules/agent/briefing.service';
 
 async function main() {
   assertProductionSafety();
@@ -19,6 +20,7 @@ async function main() {
   });
   initSocket(server);
   startOfferExpiryJob();
+  startBriefingJob();
 
   const shutdown = async (signal: string) => {
     logger.info(`${signal} received, shutting down`);
