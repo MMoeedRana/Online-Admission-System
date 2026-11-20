@@ -19,6 +19,9 @@ more than one institution chooses the workspace in the menu under his or her nam
 
 1. **Settings** – tabs **Profile** (public profile, website, e-mail, phone, address, about), **Bank
    account** (printed on challans), **Branding**, **Workflow**, **Entry-test results** and **Subscription**.
+   On plans with custom branding the **Branding** tab uploads your logo (shown in the sidebar and on your
+   public pages) and sets your primary and sidebar colours. A preview shows the result; colours are
+   adjusted automatically so that text stays readable. **Platform colour** goes back to the default.
 2. **Academic Structure** – campuses, faculties, departments and academic sessions (one is current).
 3. **Programs → Add program** – title, code, degree level, department, campus, duration, shifts with
    seats, eligibility rules (qualification, minimum %, groups, subjects), entry test and fees. A program
@@ -129,7 +132,27 @@ it; **Close ticket** when everything works. Only your institution can see its ti
 
 ![Support ticket](../screenshots/desktop/65-support-ticket.jpg)
 
-## 9. Audit Log (Institution Admin)
+## 9. Mitra, the admission copilot (Institution Admin)
+
+On the Enterprise plan the **Mitra** menu item and the **Ask Mitra** button (bottom right of every page)
+open the assistant. Ask in English, Urdu or Roman Urdu, for example "How many applications did we receive
+today?", "Which payments wait for verification?" or "How many seats are still free?". Mitra answers from
+your institution's live data only and shows each step it takes ("Reviewing payments…").
+
+Mitra can prepare work for you: reminders for unpaid challans, offers that expire soon and unfinished
+applications, opening a support ticket or closing a reviewed alert. A card shows exactly what will happen;
+nothing is sent until you press **Confirm** (or **Cancel**). Confirmed actions are recorded in the audit log.
+
+- **Briefing** – every morning a short summary of the last 24 hours (applications, payments, enrollments,
+  pending work, free seats, alerts) arrives as a notification and an e-mail. **Refresh** makes one now.
+  The Standard plan includes the briefing without the chat.
+- **Integrity alerts** – patterns that need a human look (for example a payment verified below the challan
+  amount or marks confirmed although the board registry differs), each with its evidence. Mark an alert as
+  reviewed or dismiss it with a note. Alerts are not proof of wrongdoing.
+
+Each person can send up to 200 messages a day.
+
+## 10. Audit Log (Institution Admin)
 
 Every important action of your institution: who, what, when and from which IP address. Search, filter by
 action, record type and dates, open an entry to see the recorded details, or **Export CSV**.

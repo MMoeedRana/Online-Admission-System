@@ -86,7 +86,9 @@
   "paths": {
     "/api/v1/health": {
       "get": {
-        "tags": ["System"],
+        "tags": [
+          "System"
+        ],
         "operationId": "get_health",
         "summary": "Get health",
         "parameters": [
@@ -139,7 +141,9 @@
     },
     "/api/v1/auth/me/avatar": {
       "post": {
-        "tags": ["Authentication"],
+        "tags": [
+          "Authentication"
+        ],
         "operationId": "post_auth_me_avatar",
         "summary": "Avatar",
         "requestBody": {
@@ -182,7 +186,9 @@
         "x-router": "avatarRouter"
       },
       "delete": {
-        "tags": ["Authentication"],
+        "tags": [
+          "Authentication"
+        ],
         "operationId": "delete_auth_me_avatar",
         "summary": "Delete avatar",
         "responses": {
@@ -217,7 +223,9 @@
     },
     "/api/v1/auth/register": {
       "post": {
-        "tags": ["Authentication"],
+        "tags": [
+          "Authentication"
+        ],
         "operationId": "post_auth_register",
         "summary": "Register",
         "requestBody": {
@@ -257,7 +265,9 @@
     },
     "/api/v1/auth/login": {
       "post": {
-        "tags": ["Authentication"],
+        "tags": [
+          "Authentication"
+        ],
         "operationId": "post_auth_login",
         "summary": "Login",
         "requestBody": {
@@ -297,7 +307,9 @@
     },
     "/api/v1/auth/refresh": {
       "post": {
-        "tags": ["Authentication"],
+        "tags": [
+          "Authentication"
+        ],
         "operationId": "post_auth_refresh",
         "summary": "Refresh",
         "requestBody": {
@@ -337,7 +349,9 @@
     },
     "/api/v1/auth/logout": {
       "post": {
-        "tags": ["Authentication"],
+        "tags": [
+          "Authentication"
+        ],
         "operationId": "post_auth_logout",
         "summary": "Logout",
         "requestBody": {
@@ -377,7 +391,9 @@
     },
     "/api/v1/auth/verify-email": {
       "post": {
-        "tags": ["Authentication"],
+        "tags": [
+          "Authentication"
+        ],
         "operationId": "post_auth_verify_email",
         "summary": "Verify email",
         "requestBody": {
@@ -417,7 +433,9 @@
     },
     "/api/v1/auth/resend-verification": {
       "post": {
-        "tags": ["Authentication"],
+        "tags": [
+          "Authentication"
+        ],
         "operationId": "post_auth_resend_verification",
         "summary": "Resend verification",
         "requestBody": {
@@ -457,7 +475,9 @@
     },
     "/api/v1/auth/forgot-password": {
       "post": {
-        "tags": ["Authentication"],
+        "tags": [
+          "Authentication"
+        ],
         "operationId": "post_auth_forgot_password",
         "summary": "Forgot password",
         "requestBody": {
@@ -497,7 +517,9 @@
     },
     "/api/v1/auth/reset-password": {
       "post": {
-        "tags": ["Authentication"],
+        "tags": [
+          "Authentication"
+        ],
         "operationId": "post_auth_reset_password",
         "summary": "Reset password",
         "requestBody": {
@@ -537,7 +559,9 @@
     },
     "/api/v1/auth/invitation": {
       "get": {
-        "tags": ["Authentication"],
+        "tags": [
+          "Authentication"
+        ],
         "operationId": "get_auth_invitation",
         "summary": "Get invitation",
         "parameters": [
@@ -590,7 +614,9 @@
     },
     "/api/v1/auth/accept-invitation": {
       "post": {
-        "tags": ["Authentication"],
+        "tags": [
+          "Authentication"
+        ],
         "operationId": "post_auth_accept_invitation",
         "summary": "Accept invitation",
         "requestBody": {
@@ -630,7 +656,9 @@
     },
     "/api/v1/auth/me": {
       "get": {
-        "tags": ["Authentication"],
+        "tags": [
+          "Authentication"
+        ],
         "operationId": "get_auth_me",
         "summary": "Get me",
         "parameters": [
@@ -686,7 +714,9 @@
         "x-router": "authRouter"
       },
       "patch": {
-        "tags": ["Authentication"],
+        "tags": [
+          "Authentication"
+        ],
         "operationId": "patch_auth_me",
         "summary": "Update me",
         "requestBody": {
@@ -731,7 +761,9 @@
     },
     "/api/v1/auth/change-password": {
       "post": {
-        "tags": ["Authentication"],
+        "tags": [
+          "Authentication"
+        ],
         "operationId": "post_auth_change_password",
         "summary": "Change password",
         "requestBody": {
@@ -776,7 +808,9 @@
     },
     "/api/v1/assets/{key}": {
       "get": {
-        "tags": ["Institution workspace"],
+        "tags": [
+          "Institution workspace"
+        ],
         "operationId": "get_assets_key",
         "summary": "Get asset",
         "parameters": [
@@ -821,7 +855,9 @@
     },
     "/api/v1/public/branding": {
       "get": {
-        "tags": ["Public site"],
+        "tags": [
+          "Public site"
+        ],
         "operationId": "get_public_branding",
         "summary": "Get branding",
         "parameters": [
@@ -874,7 +910,9 @@
     },
     "/api/v1/public/directory/filters": {
       "get": {
-        "tags": ["Directory and advisor"],
+        "tags": [
+          "Directory and advisor"
+        ],
         "operationId": "get_public_directory_filters",
         "summary": "List filters",
         "parameters": [
@@ -927,7 +965,9 @@
     },
     "/api/v1/public/directory/programs": {
       "get": {
-        "tags": ["Directory and advisor"],
+        "tags": [
+          "Directory and advisor"
+        ],
         "operationId": "get_public_directory_programs",
         "summary": "List programs",
         "parameters": [
@@ -980,7 +1020,9 @@
     },
     "/api/v1/public/directory/programs/{id}": {
       "get": {
-        "tags": ["Directory and advisor"],
+        "tags": [
+          "Directory and advisor"
+        ],
         "operationId": "get_public_directory_programs_id",
         "summary": "Get program",
         "parameters": [
@@ -1021,7 +1063,9 @@
     },
     "/api/v1/public/directory/compare": {
       "get": {
-        "tags": ["Directory and advisor"],
+        "tags": [
+          "Directory and advisor"
+        ],
         "operationId": "get_public_directory_compare",
         "summary": "DIR-6: comparison of up to four programs.",
         "description": "DIR-6: comparison of up to four programs.",
@@ -1075,7 +1119,9 @@
     },
     "/api/v1/public/directory/institutions": {
       "get": {
-        "tags": ["Directory and advisor"],
+        "tags": [
+          "Directory and advisor"
+        ],
         "operationId": "get_public_directory_institutions",
         "summary": "List institutions",
         "parameters": [
@@ -1128,7 +1174,9 @@
     },
     "/api/v1/public/directory/institutions/{slug}": {
       "get": {
-        "tags": ["Directory and advisor"],
+        "tags": [
+          "Directory and advisor"
+        ],
         "operationId": "get_public_directory_institutions_slug",
         "summary": "Get institution",
         "parameters": [
@@ -1168,7 +1216,9 @@
     },
     "/api/v1/public/advisor": {
       "post": {
-        "tags": ["Directory and advisor"],
+        "tags": [
+          "Directory and advisor"
+        ],
         "operationId": "post_public_advisor",
         "summary": "Table 3.17, steps 1-3: \"Show my chances\".",
         "description": "Table 3.17, steps 1-3: \"Show my chances\".",
@@ -1209,7 +1259,9 @@
     },
     "/api/v1/public/advisor/programs/{id}": {
       "post": {
-        "tags": ["Directory and advisor"],
+        "tags": [
+          "Directory and advisor"
+        ],
         "operationId": "post_public_advisor_programs_id",
         "summary": "PRED-8: \"Explain\" for one program, with the what-if values from the query.",
         "description": "PRED-8: \"Explain\" for one program, with the what-if values from the query.",
@@ -1261,7 +1313,9 @@
     },
     "/api/v1/public/merit-lists": {
       "get": {
-        "tags": ["Public results"],
+        "tags": [
+          "Public results"
+        ],
         "operationId": "get_public_merit_lists",
         "summary": "List merit lists",
         "parameters": [
@@ -1314,7 +1368,9 @@
     },
     "/api/v1/public/merit-lists/{id}": {
       "get": {
-        "tags": ["Public results"],
+        "tags": [
+          "Public results"
+        ],
         "operationId": "get_public_merit_lists_id",
         "summary": "OFFER-5: shortened names and application numbers only; CNICs are never returned.",
         "description": "OFFER-5: shortened names and application numbers only; CNICs are never returned.",
@@ -1356,7 +1412,9 @@
     },
     "/api/v1/public/merit-lists/{id}/pdf": {
       "get": {
-        "tags": ["Public results"],
+        "tags": [
+          "Public results"
+        ],
         "operationId": "get_public_merit_lists_id_pdf",
         "summary": "Download merit lists (PDF)",
         "parameters": [
@@ -1398,7 +1456,9 @@
     },
     "/api/v1/public/status/captcha": {
       "get": {
-        "tags": ["Public results"],
+        "tags": [
+          "Public results"
+        ],
         "operationId": "get_public_status_captcha",
         "summary": "Get captcha",
         "parameters": [
@@ -1451,7 +1511,9 @@
     },
     "/api/v1/public/status": {
       "post": {
-        "tags": ["Public results"],
+        "tags": [
+          "Public results"
+        ],
         "operationId": "post_public_status",
         "summary": "FIND-7: application number + last four CNIC digits + CAPTCHA; returns only the status.",
         "description": "FIND-7: application number + last four CNIC digits + CAPTCHA; returns only the status.",
@@ -1492,7 +1554,9 @@
     },
     "/api/v1/public/stats": {
       "get": {
-        "tags": ["Public site"],
+        "tags": [
+          "Public site"
+        ],
         "operationId": "get_public_stats",
         "summary": "List stats",
         "parameters": [
@@ -1545,7 +1609,9 @@
     },
     "/api/v1/public/filters": {
       "get": {
-        "tags": ["Public site"],
+        "tags": [
+          "Public site"
+        ],
         "operationId": "get_public_filters",
         "summary": "List filters",
         "parameters": [
@@ -1598,7 +1664,9 @@
     },
     "/api/v1/public/open-admissions": {
       "get": {
-        "tags": ["Public site"],
+        "tags": [
+          "Public site"
+        ],
         "operationId": "get_public_open_admissions",
         "summary": "Rows for the \"Open admission campaigns\" table on the home page.",
         "description": "Rows for the \"Open admission campaigns\" table on the home page.",
@@ -1652,7 +1720,9 @@
     },
     "/api/v1/public/programs": {
       "get": {
-        "tags": ["Public site"],
+        "tags": [
+          "Public site"
+        ],
         "operationId": "get_public_programs",
         "summary": "List programs",
         "parameters": [
@@ -1705,7 +1775,9 @@
     },
     "/api/v1/public/programs/{id}": {
       "get": {
-        "tags": ["Public site"],
+        "tags": [
+          "Public site"
+        ],
         "operationId": "get_public_programs_id",
         "summary": "Get program",
         "parameters": [
@@ -1746,7 +1818,9 @@
     },
     "/api/v1/public/institutions": {
       "get": {
-        "tags": ["Public site"],
+        "tags": [
+          "Public site"
+        ],
         "operationId": "get_public_institutions",
         "summary": "List institutions",
         "parameters": [
@@ -1799,7 +1873,9 @@
     },
     "/api/v1/public/institutions/{slug}": {
       "get": {
-        "tags": ["Public site"],
+        "tags": [
+          "Public site"
+        ],
         "operationId": "get_public_institutions_slug",
         "summary": "Get institution",
         "parameters": [
@@ -1839,7 +1915,9 @@
     },
     "/api/v1/public/onboarding-requests": {
       "post": {
-        "tags": ["Public site"],
+        "tags": [
+          "Public site"
+        ],
         "operationId": "post_public_onboarding_requests",
         "summary": "INST-1: an institution requests a workspace from the public website.",
         "description": "INST-1: an institution requests a workspace from the public website.",
@@ -1880,7 +1958,9 @@
     },
     "/api/v1/platform/registry/preview": {
       "post": {
-        "tags": ["Platform data"],
+        "tags": [
+          "Platform data"
+        ],
         "operationId": "post_platform_registry_preview",
         "summary": "Preview",
         "requestBody": {
@@ -1925,7 +2005,9 @@
     },
     "/api/v1/platform/registry/import": {
       "post": {
-        "tags": ["Platform data"],
+        "tags": [
+          "Platform data"
+        ],
         "operationId": "post_platform_registry_import",
         "summary": "Import",
         "requestBody": {
@@ -1970,7 +2052,9 @@
     },
     "/api/v1/platform/registry/batches": {
       "get": {
-        "tags": ["Platform data"],
+        "tags": [
+          "Platform data"
+        ],
         "operationId": "get_platform_registry_batches",
         "summary": "List batches",
         "parameters": [
@@ -2028,7 +2112,9 @@
     },
     "/api/v1/platform/registry/batches/{id}/rollback": {
       "post": {
-        "tags": ["Platform data"],
+        "tags": [
+          "Platform data"
+        ],
         "operationId": "post_platform_registry_batches_id_rollback",
         "summary": "Rollback batche",
         "parameters": [
@@ -2084,7 +2170,9 @@
     },
     "/api/v1/platform/directory/institutions": {
       "get": {
-        "tags": ["Platform data"],
+        "tags": [
+          "Platform data"
+        ],
         "operationId": "get_platform_directory_institutions",
         "summary": "List institutions",
         "parameters": [
@@ -2140,7 +2228,9 @@
         "x-router": "platformDirectoryRouter"
       },
       "post": {
-        "tags": ["Platform data"],
+        "tags": [
+          "Platform data"
+        ],
         "operationId": "post_platform_directory_institutions",
         "summary": "Create institution",
         "requestBody": {
@@ -2185,7 +2275,9 @@
     },
     "/api/v1/platform/directory/institutions/{id}": {
       "patch": {
-        "tags": ["Platform data"],
+        "tags": [
+          "Platform data"
+        ],
         "operationId": "patch_platform_directory_institutions_id",
         "summary": "Update institution",
         "parameters": [
@@ -2239,7 +2331,9 @@
         "x-router": "platformDirectoryRouter"
       },
       "get": {
-        "tags": ["Platform data"],
+        "tags": [
+          "Platform data"
+        ],
         "operationId": "get_platform_directory_institutions_id",
         "summary": "Get institution",
         "parameters": [
@@ -2285,7 +2379,9 @@
     },
     "/api/v1/platform/directory/programs": {
       "post": {
-        "tags": ["Platform data"],
+        "tags": [
+          "Platform data"
+        ],
         "operationId": "post_platform_directory_programs",
         "summary": "Create program",
         "requestBody": {
@@ -2330,7 +2426,9 @@
     },
     "/api/v1/platform/directory/programs/{id}": {
       "patch": {
-        "tags": ["Platform data"],
+        "tags": [
+          "Platform data"
+        ],
         "operationId": "patch_platform_directory_programs_id",
         "summary": "Update program",
         "parameters": [
@@ -2386,7 +2484,9 @@
     },
     "/api/v1/platform/directory/history": {
       "get": {
-        "tags": ["Platform data"],
+        "tags": [
+          "Platform data"
+        ],
         "operationId": "get_platform_directory_history",
         "summary": "Merit history waiting for verification (DIR-4) or of one program.",
         "description": "Merit history waiting for verification (DIR-4) or of one program.",
@@ -2443,7 +2543,9 @@
         "x-router": "platformDirectoryRouter"
       },
       "post": {
-        "tags": ["Platform data"],
+        "tags": [
+          "Platform data"
+        ],
         "operationId": "post_platform_directory_history",
         "summary": "History",
         "requestBody": {
@@ -2488,7 +2590,9 @@
     },
     "/api/v1/platform/directory/history/decision": {
       "post": {
-        "tags": ["Platform data"],
+        "tags": [
+          "Platform data"
+        ],
         "operationId": "post_platform_directory_history_decision",
         "summary": "DIR-4: the super admin checks the source and verifies (or rejects) draft rows.",
         "description": "DIR-4: the super admin checks the source and verifies (or rejects) draft rows.",
@@ -2534,7 +2638,9 @@
     },
     "/api/v1/platform/directory/history/{id}": {
       "delete": {
-        "tags": ["Platform data"],
+        "tags": [
+          "Platform data"
+        ],
         "operationId": "delete_platform_directory_history_id",
         "summary": "Delete history",
         "parameters": [
@@ -2580,7 +2686,9 @@
     },
     "/api/v1/platform/directory/import/preview": {
       "post": {
-        "tags": ["Platform data"],
+        "tags": [
+          "Platform data"
+        ],
         "operationId": "post_platform_directory_import_preview",
         "summary": "Preview",
         "requestBody": {
@@ -2625,7 +2733,9 @@
     },
     "/api/v1/platform/directory/import": {
       "post": {
-        "tags": ["Platform data"],
+        "tags": [
+          "Platform data"
+        ],
         "operationId": "post_platform_directory_import",
         "summary": "Import",
         "requestBody": {
@@ -2670,7 +2780,9 @@
     },
     "/api/v1/platform/directory/data-gaps": {
       "get": {
-        "tags": ["Platform data"],
+        "tags": [
+          "Platform data"
+        ],
         "operationId": "get_platform_directory_data_gaps",
         "summary": "DIR-8: programs without verified data for the current admission year.",
         "description": "DIR-8: programs without verified data for the current admission year.",
@@ -2729,7 +2841,9 @@
     },
     "/api/v1/platform/directory/institutions/{id}/claim": {
       "post": {
-        "tags": ["Platform data"],
+        "tags": [
+          "Platform data"
+        ],
         "operationId": "post_platform_directory_institutions_id_claim",
         "summary": "DIR-7: claims by institutions.",
         "description": "DIR-7: claims by institutions.",
@@ -2786,7 +2900,9 @@
     },
     "/api/v1/platform/directory/advisor-stats": {
       "get": {
-        "tags": ["Platform data"],
+        "tags": [
+          "Platform data"
+        ],
         "operationId": "get_platform_directory_advisor_stats",
         "summary": "PRED-12: anonymous advisor usage and demand by program.",
         "description": "PRED-12: anonymous advisor usage and demand by program.",
@@ -2845,7 +2961,9 @@
     },
     "/api/v1/platform/branding": {
       "get": {
-        "tags": ["Platform"],
+        "tags": [
+          "Platform"
+        ],
         "operationId": "get_platform_branding",
         "summary": "Get branding",
         "parameters": [
@@ -2901,7 +3019,9 @@
         "x-router": "platformBrandingRouter"
       },
       "patch": {
-        "tags": ["Platform"],
+        "tags": [
+          "Platform"
+        ],
         "operationId": "patch_platform_branding",
         "summary": "Update branding",
         "requestBody": {
@@ -2946,7 +3066,9 @@
     },
     "/api/v1/platform/branding/logo": {
       "post": {
-        "tags": ["Platform"],
+        "tags": [
+          "Platform"
+        ],
         "operationId": "post_platform_branding_logo",
         "summary": "Logo",
         "requestBody": {
@@ -2989,7 +3111,9 @@
         "x-router": "platformBrandingRouter"
       },
       "delete": {
-        "tags": ["Platform"],
+        "tags": [
+          "Platform"
+        ],
         "operationId": "delete_platform_branding_logo",
         "summary": "Delete logo",
         "responses": {
@@ -3024,7 +3148,9 @@
     },
     "/api/v1/platform/branding/favicon": {
       "post": {
-        "tags": ["Platform"],
+        "tags": [
+          "Platform"
+        ],
         "operationId": "post_platform_branding_favicon",
         "summary": "Favicon",
         "requestBody": {
@@ -3067,7 +3193,9 @@
         "x-router": "platformBrandingRouter"
       },
       "delete": {
-        "tags": ["Platform"],
+        "tags": [
+          "Platform"
+        ],
         "operationId": "delete_platform_branding_favicon",
         "summary": "Delete favicon",
         "responses": {
@@ -3102,7 +3230,9 @@
     },
     "/api/v1/platform/branding/reset-colors": {
       "post": {
-        "tags": ["Platform"],
+        "tags": [
+          "Platform"
+        ],
         "operationId": "post_platform_branding_reset_colors",
         "summary": "Restores every default (name, colours, assistant name) but keeps the uploaded images.",
         "description": "Restores every default (name, colours, assistant name) but keeps the uploaded images.",
@@ -3148,7 +3278,9 @@
     },
     "/api/v1/platform/agent/status": {
       "get": {
-        "tags": ["Platform"],
+        "tags": [
+          "Platform"
+        ],
         "operationId": "get_platform_agent_status",
         "summary": "List status",
         "parameters": [
@@ -3206,7 +3338,9 @@
     },
     "/api/v1/platform/agent/conversations": {
       "get": {
-        "tags": ["Platform"],
+        "tags": [
+          "Platform"
+        ],
         "operationId": "get_platform_agent_conversations",
         "summary": "List conversations",
         "parameters": [
@@ -3262,7 +3396,9 @@
         "x-router": "platformAgentRouter"
       },
       "post": {
-        "tags": ["Platform"],
+        "tags": [
+          "Platform"
+        ],
         "operationId": "post_platform_agent_conversations",
         "summary": "Create conversation",
         "requestBody": {
@@ -3307,7 +3443,9 @@
     },
     "/api/v1/platform/agent/conversations/{id}": {
       "get": {
-        "tags": ["Platform"],
+        "tags": [
+          "Platform"
+        ],
         "operationId": "get_platform_agent_conversations_id",
         "summary": "Get conversation",
         "parameters": [
@@ -3351,7 +3489,9 @@
         "x-router": "platformAgentRouter"
       },
       "delete": {
-        "tags": ["Platform"],
+        "tags": [
+          "Platform"
+        ],
         "operationId": "delete_platform_agent_conversations_id",
         "summary": "Delete conversation",
         "parameters": [
@@ -3397,7 +3537,9 @@
     },
     "/api/v1/platform/agent/conversations/{id}/messages": {
       "post": {
-        "tags": ["Platform"],
+        "tags": [
+          "Platform"
+        ],
         "operationId": "post_platform_agent_conversations_id_messages",
         "summary": "Add message to conversation",
         "parameters": [
@@ -3453,7 +3595,9 @@
     },
     "/api/v1/platform/agent/actions/{id}/{decision}": {
       "post": {
-        "tags": ["Platform"],
+        "tags": [
+          "Platform"
+        ],
         "operationId": "post_platform_agent_actions_id_decision",
         "summary": "Add action to agent",
         "parameters": [
@@ -3517,7 +3661,9 @@
     },
     "/api/v1/platform/agent/alerts": {
       "get": {
-        "tags": ["Platform"],
+        "tags": [
+          "Platform"
+        ],
         "operationId": "get_platform_agent_alerts",
         "summary": "List alerts",
         "parameters": [
@@ -3575,7 +3721,9 @@
     },
     "/api/v1/platform/agent/alerts/{id}/review": {
       "post": {
-        "tags": ["Platform"],
+        "tags": [
+          "Platform"
+        ],
         "operationId": "post_platform_agent_alerts_id_review",
         "summary": "Review alert",
         "parameters": [
@@ -3631,7 +3779,9 @@
     },
     "/api/v1/platform/agent/briefings": {
       "get": {
-        "tags": ["Platform"],
+        "tags": [
+          "Platform"
+        ],
         "operationId": "get_platform_agent_briefings",
         "summary": "List briefings",
         "parameters": [
@@ -3689,7 +3839,9 @@
     },
     "/api/v1/platform/agent/briefings/generate": {
       "post": {
-        "tags": ["Platform"],
+        "tags": [
+          "Platform"
+        ],
         "operationId": "post_platform_agent_briefings_generate",
         "summary": "Generate",
         "requestBody": {
@@ -3734,7 +3886,9 @@
     },
     "/api/v1/platform/support": {
       "get": {
-        "tags": ["Support (platform)"],
+        "tags": [
+          "Support (platform)"
+        ],
         "operationId": "get_platform_support",
         "summary": "Get support",
         "parameters": [
@@ -3792,7 +3946,9 @@
     },
     "/api/v1/platform/support/{id}": {
       "get": {
-        "tags": ["Support (platform)"],
+        "tags": [
+          "Support (platform)"
+        ],
         "operationId": "get_platform_support_id",
         "summary": "Get support",
         "parameters": [
@@ -3836,7 +3992,9 @@
         "x-router": "platformSupportRouter"
       },
       "patch": {
-        "tags": ["Support (platform)"],
+        "tags": [
+          "Support (platform)"
+        ],
         "operationId": "patch_platform_support_id",
         "summary": "Changes the status, priority or assignee without a reply.",
         "description": "Changes the status, priority or assignee without a reply.",
@@ -3893,7 +4051,9 @@
     },
     "/api/v1/platform/support/{id}/replies": {
       "post": {
-        "tags": ["Support (platform)"],
+        "tags": [
+          "Support (platform)"
+        ],
         "operationId": "post_platform_support_id_replies",
         "summary": "Add reply to support",
         "parameters": [
@@ -3949,7 +4109,9 @@
     },
     "/api/v1/platform/audit-logs": {
       "get": {
-        "tags": ["Audit log"],
+        "tags": [
+          "Audit log"
+        ],
         "operationId": "get_platform_audit_logs",
         "summary": "List audit logs",
         "parameters": [
@@ -4007,7 +4169,9 @@
     },
     "/api/v1/platform/audit-logs/export.csv": {
       "get": {
-        "tags": ["Audit log"],
+        "tags": [
+          "Audit log"
+        ],
         "operationId": "get_platform_audit_logs_export_csv",
         "summary": "Download export (CSV)",
         "responses": {
@@ -4042,7 +4206,9 @@
     },
     "/api/v1/platform/analytics": {
       "get": {
-        "tags": ["Analytics"],
+        "tags": [
+          "Analytics"
+        ],
         "operationId": "get_platform_analytics",
         "summary": "Get analytics",
         "parameters": [
@@ -4100,7 +4266,9 @@
     },
     "/api/v1/platform/dashboard": {
       "get": {
-        "tags": ["Platform"],
+        "tags": [
+          "Platform"
+        ],
         "operationId": "get_platform_dashboard",
         "summary": "Get dashboard",
         "parameters": [
@@ -4158,7 +4326,9 @@
     },
     "/api/v1/platform/plans": {
       "get": {
-        "tags": ["Platform"],
+        "tags": [
+          "Platform"
+        ],
         "operationId": "get_platform_plans",
         "summary": "List plans",
         "parameters": [
@@ -4214,7 +4384,9 @@
         "x-router": "platformRouter"
       },
       "post": {
-        "tags": ["Platform"],
+        "tags": [
+          "Platform"
+        ],
         "operationId": "post_platform_plans",
         "summary": "Create plan",
         "requestBody": {
@@ -4259,7 +4431,9 @@
     },
     "/api/v1/platform/plans/{id}": {
       "patch": {
-        "tags": ["Platform"],
+        "tags": [
+          "Platform"
+        ],
         "operationId": "patch_platform_plans_id",
         "summary": "Update plan",
         "parameters": [
@@ -4315,7 +4489,9 @@
     },
     "/api/v1/platform/institutions": {
       "get": {
-        "tags": ["Platform"],
+        "tags": [
+          "Platform"
+        ],
         "operationId": "get_platform_institutions",
         "summary": "List institutions",
         "parameters": [
@@ -4371,7 +4547,9 @@
         "x-router": "platformRouter"
       },
       "post": {
-        "tags": ["Platform"],
+        "tags": [
+          "Platform"
+        ],
         "operationId": "post_platform_institutions",
         "summary": "INST-1: the super admin can also create an institution directly.",
         "description": "INST-1: the super admin can also create an institution directly.",
@@ -4417,7 +4595,9 @@
     },
     "/api/v1/platform/institutions/{id}": {
       "get": {
-        "tags": ["Platform"],
+        "tags": [
+          "Platform"
+        ],
         "operationId": "get_platform_institutions_id",
         "summary": "Get institution",
         "parameters": [
@@ -4463,7 +4643,9 @@
     },
     "/api/v1/platform/institutions/{id}/approve": {
       "post": {
-        "tags": ["Platform"],
+        "tags": [
+          "Platform"
+        ],
         "operationId": "post_platform_institutions_id_approve",
         "summary": "Approve institution",
         "parameters": [
@@ -4519,7 +4701,9 @@
     },
     "/api/v1/platform/institutions/{id}/reject": {
       "post": {
-        "tags": ["Platform"],
+        "tags": [
+          "Platform"
+        ],
         "operationId": "post_platform_institutions_id_reject",
         "summary": "Reject institution",
         "parameters": [
@@ -4575,7 +4759,9 @@
     },
     "/api/v1/platform/institutions/{id}/suspend": {
       "post": {
-        "tags": ["Platform"],
+        "tags": [
+          "Platform"
+        ],
         "operationId": "post_platform_institutions_id_suspend",
         "summary": "Suspend institution",
         "parameters": [
@@ -4631,7 +4817,9 @@
     },
     "/api/v1/platform/institutions/{id}/reactivate": {
       "post": {
-        "tags": ["Platform"],
+        "tags": [
+          "Platform"
+        ],
         "operationId": "post_platform_institutions_id_reactivate",
         "summary": "Reactivate institution",
         "parameters": [
@@ -4687,7 +4875,9 @@
     },
     "/api/v1/platform/institutions/{id}/renew": {
       "post": {
-        "tags": ["Platform"],
+        "tags": [
+          "Platform"
+        ],
         "operationId": "post_platform_institutions_id_renew",
         "summary": "Renew institution",
         "parameters": [
@@ -4743,7 +4933,9 @@
     },
     "/api/v1/platform/institutions/{id}/resend-admin-invite": {
       "post": {
-        "tags": ["Platform"],
+        "tags": [
+          "Platform"
+        ],
         "operationId": "post_platform_institutions_id_resend_admin_invite",
         "summary": "Resend admin invite institution",
         "parameters": [
@@ -4799,7 +4991,9 @@
     },
     "/api/v1/notifications": {
       "get": {
-        "tags": ["Notifications and files"],
+        "tags": [
+          "Notifications and files"
+        ],
         "operationId": "get_notifications",
         "summary": "List notifications",
         "parameters": [
@@ -4857,7 +5051,9 @@
     },
     "/api/v1/notifications/unread-count": {
       "get": {
-        "tags": ["Notifications and files"],
+        "tags": [
+          "Notifications and files"
+        ],
         "operationId": "get_notifications_unread_count",
         "summary": "Get unread count",
         "parameters": [
@@ -4915,7 +5111,9 @@
     },
     "/api/v1/notifications/read-all": {
       "post": {
-        "tags": ["Notifications and files"],
+        "tags": [
+          "Notifications and files"
+        ],
         "operationId": "post_notifications_read_all",
         "summary": "Read all",
         "requestBody": {
@@ -4960,7 +5158,9 @@
     },
     "/api/v1/notifications/{id}/read": {
       "post": {
-        "tags": ["Notifications and files"],
+        "tags": [
+          "Notifications and files"
+        ],
         "operationId": "post_notifications_id_read",
         "summary": "Read notification",
         "parameters": [
@@ -5016,7 +5216,9 @@
     },
     "/api/v1/files/{id}": {
       "get": {
-        "tags": ["Notifications and files"],
+        "tags": [
+          "Notifications and files"
+        ],
         "operationId": "get_files_id",
         "summary": "Get file",
         "parameters": [
@@ -5062,7 +5264,9 @@
     },
     "/api/v1/me/profile": {
       "get": {
-        "tags": ["Applicant portal"],
+        "tags": [
+          "Applicant portal"
+        ],
         "operationId": "get_me_profile",
         "summary": "Get profile",
         "parameters": [
@@ -5118,7 +5322,9 @@
         "x-router": "profileRouter"
       },
       "put": {
-        "tags": ["Applicant portal"],
+        "tags": [
+          "Applicant portal"
+        ],
         "operationId": "put_me_profile",
         "summary": "PROF-1: create or update the profile.",
         "description": "PROF-1: create or update the profile. Locked once an application is submitted (APP-5).",
@@ -5164,7 +5370,9 @@
     },
     "/api/v1/me/profile/export": {
       "get": {
-        "tags": ["Applicant portal"],
+        "tags": [
+          "Applicant portal"
+        ],
         "operationId": "get_me_profile_export",
         "summary": "PROF-5: the applicant can download all personal data.",
         "description": "PROF-5: the applicant can download all personal data.",
@@ -5223,7 +5431,9 @@
     },
     "/api/v1/me/profile/account": {
       "delete": {
-        "tags": ["Applicant portal"],
+        "tags": [
+          "Applicant portal"
+        ],
         "operationId": "delete_me_profile_account",
         "summary": "PROF-5: delete the account while nothing is submitted.",
         "description": "PROF-5: delete the account while nothing is submitted.",
@@ -5259,7 +5469,9 @@
     },
     "/api/v1/me/records/options": {
       "get": {
-        "tags": ["Applicant portal"],
+        "tags": [
+          "Applicant portal"
+        ],
         "operationId": "get_me_records_options",
         "summary": "List options",
         "parameters": [
@@ -5317,7 +5529,9 @@
     },
     "/api/v1/me/records": {
       "get": {
-        "tags": ["Applicant portal"],
+        "tags": [
+          "Applicant portal"
+        ],
         "operationId": "get_me_records",
         "summary": "List records",
         "parameters": [
@@ -5373,7 +5587,9 @@
         "x-router": "recordRouter"
       },
       "post": {
-        "tags": ["Applicant portal"],
+        "tags": [
+          "Applicant portal"
+        ],
         "operationId": "post_me_records",
         "summary": "Create record",
         "requestBody": {
@@ -5418,7 +5634,9 @@
     },
     "/api/v1/me/records/{id}": {
       "put": {
-        "tags": ["Applicant portal"],
+        "tags": [
+          "Applicant portal"
+        ],
         "operationId": "put_me_records_id",
         "summary": "Update record",
         "parameters": [
@@ -5472,7 +5690,9 @@
         "x-router": "recordRouter"
       },
       "delete": {
-        "tags": ["Applicant portal"],
+        "tags": [
+          "Applicant portal"
+        ],
         "operationId": "delete_me_records_id",
         "summary": "Delete record",
         "parameters": [
@@ -5518,7 +5738,9 @@
     },
     "/api/v1/me/records/{id}/result-card": {
       "post": {
-        "tags": ["Applicant portal"],
+        "tags": [
+          "Applicant portal"
+        ],
         "operationId": "post_me_records_id_result_card",
         "summary": "MARK-6: result card (DMC) upload.",
         "description": "MARK-6: result card (DMC) upload.",
@@ -5575,7 +5797,9 @@
     },
     "/api/v1/me/records/{id}/history": {
       "get": {
-        "tags": ["Applicant portal"],
+        "tags": [
+          "Applicant portal"
+        ],
         "operationId": "get_me_records_id_history",
         "summary": "MARK-8: all versions of a record with their verification history.",
         "description": "MARK-8: all versions of a record with their verification history.",
@@ -5622,7 +5846,9 @@
     },
     "/api/v1/me/applications": {
       "get": {
-        "tags": ["Applicant portal"],
+        "tags": [
+          "Applicant portal"
+        ],
         "operationId": "get_me_applications",
         "summary": "List applications",
         "parameters": [
@@ -5678,7 +5904,9 @@
         "x-router": "applicantAppRouter"
       },
       "post": {
-        "tags": ["Applicant portal"],
+        "tags": [
+          "Applicant portal"
+        ],
         "operationId": "post_me_applications",
         "summary": "Starts (or reopens) a draft for an open campaign; APP-2 one active application per campaign.",
         "description": "Starts (or reopens) a draft for an open campaign; APP-2 one active application per campaign.",
@@ -5724,7 +5952,9 @@
     },
     "/api/v1/me/applications/{id}": {
       "get": {
-        "tags": ["Applicant portal"],
+        "tags": [
+          "Applicant portal"
+        ],
         "operationId": "get_me_applications_id",
         "summary": "Everything the wizard and the details page need.",
         "description": "Everything the wizard and the details page need.",
@@ -5769,7 +5999,9 @@
         "x-router": "applicantAppRouter"
       },
       "delete": {
-        "tags": ["Applicant portal"],
+        "tags": [
+          "Applicant portal"
+        ],
         "operationId": "delete_me_applications_id",
         "summary": "Delete application",
         "parameters": [
@@ -5815,7 +6047,9 @@
     },
     "/api/v1/me/applications/{id}/preferences": {
       "put": {
-        "tags": ["Applicant portal"],
+        "tags": [
+          "Applicant portal"
+        ],
         "operationId": "put_me_applications_id_preferences",
         "summary": "Update preference",
         "parameters": [
@@ -5871,7 +6105,9 @@
     },
     "/api/v1/me/applications/{id}/documents": {
       "post": {
-        "tags": ["Applicant portal"],
+        "tags": [
+          "Applicant portal"
+        ],
         "operationId": "post_me_applications_id_documents",
         "summary": "DOC-2: upload a document for a requirement (drafts, or rejected documents of deficient applications).",
         "description": "DOC-2: upload a document for a requirement (drafts, or rejected documents of deficient applications).",
@@ -5928,7 +6164,9 @@
     },
     "/api/v1/me/applications/{id}/submit": {
       "post": {
-        "tags": ["Applicant portal"],
+        "tags": [
+          "Applicant portal"
+        ],
         "operationId": "post_me_applications_id_submit",
         "summary": "Submit application",
         "parameters": [
@@ -5984,7 +6222,9 @@
     },
     "/api/v1/me/applications/{id}/resubmit": {
       "post": {
-        "tags": ["Applicant portal"],
+        "tags": [
+          "Applicant portal"
+        ],
         "operationId": "post_me_applications_id_resubmit",
         "summary": "FLOW: the applicant resubmits after correcting a deficiency.",
         "description": "FLOW: the applicant resubmits after correcting a deficiency.",
@@ -6041,7 +6281,9 @@
     },
     "/api/v1/me/applications/{id}/withdraw": {
       "post": {
-        "tags": ["Applicant portal"],
+        "tags": [
+          "Applicant portal"
+        ],
         "operationId": "post_me_applications_id_withdraw",
         "summary": "Withdraw application",
         "parameters": [
@@ -6097,7 +6339,9 @@
     },
     "/api/v1/me/applications/{id}/challan.pdf": {
       "get": {
-        "tags": ["Applicant portal"],
+        "tags": [
+          "Applicant portal"
+        ],
         "operationId": "get_me_applications_id_challan_pdf",
         "summary": "Download challan (PDF)",
         "parameters": [
@@ -6144,7 +6388,9 @@
     },
     "/api/v1/me/applications/{id}/form.pdf": {
       "get": {
-        "tags": ["Applicant portal"],
+        "tags": [
+          "Applicant portal"
+        ],
         "operationId": "get_me_applications_id_form_pdf",
         "summary": "Download form (PDF)",
         "parameters": [
@@ -6191,7 +6437,9 @@
     },
     "/api/v1/me/applications/{id}/payments/{paymentId}/receipt.pdf": {
       "get": {
-        "tags": ["Applicant portal"],
+        "tags": [
+          "Applicant portal"
+        ],
         "operationId": "get_me_applications_id_payments_paymentId_receipt_pdf",
         "summary": "Download receipt (PDF)",
         "parameters": [
@@ -6247,7 +6495,9 @@
     },
     "/api/v1/me/applications/{id}/payments": {
       "post": {
-        "tags": ["Applicant portal"],
+        "tags": [
+          "Applicant portal"
+        ],
         "operationId": "post_me_applications_id_payments",
         "summary": "FEE-2/FEE-3: proof of payment.",
         "description": "FEE-2/FEE-3: proof of payment.",
@@ -6304,7 +6554,9 @@
     },
     "/api/v1/me/dashboard": {
       "get": {
-        "tags": ["Applicant portal"],
+        "tags": [
+          "Applicant portal"
+        ],
         "operationId": "get_me_dashboard",
         "summary": "Get dashboard",
         "parameters": [
@@ -6362,7 +6614,9 @@
     },
     "/api/v1/me/results": {
       "get": {
-        "tags": ["Applicant portal"],
+        "tags": [
+          "Applicant portal"
+        ],
         "operationId": "get_me_results",
         "summary": "List results",
         "parameters": [
@@ -6420,7 +6674,9 @@
     },
     "/api/v1/me/offers/{id}/accept": {
       "post": {
-        "tags": ["Applicant portal"],
+        "tags": [
+          "Applicant portal"
+        ],
         "operationId": "post_me_offers_id_accept",
         "summary": "Accept offer",
         "parameters": [
@@ -6476,7 +6732,9 @@
     },
     "/api/v1/me/offers/{id}/decline": {
       "post": {
-        "tags": ["Applicant portal"],
+        "tags": [
+          "Applicant portal"
+        ],
         "operationId": "post_me_offers_id_decline",
         "summary": "Decline offer",
         "parameters": [
@@ -6532,7 +6790,9 @@
     },
     "/api/v1/me/enrollments/{id}/letter.pdf": {
       "get": {
-        "tags": ["Applicant portal"],
+        "tags": [
+          "Applicant portal"
+        ],
         "operationId": "get_me_enrollments_id_letter_pdf",
         "summary": "Download letter (PDF)",
         "parameters": [
@@ -6579,7 +6839,9 @@
     },
     "/api/v1/me/shortlist": {
       "get": {
-        "tags": ["Applicant portal"],
+        "tags": [
+          "Applicant portal"
+        ],
         "operationId": "get_me_shortlist",
         "summary": "Get shortlist",
         "parameters": [
@@ -6635,7 +6897,9 @@
         "x-router": "shortlistRouter"
       },
       "post": {
-        "tags": ["Applicant portal"],
+        "tags": [
+          "Applicant portal"
+        ],
         "operationId": "post_me_shortlist",
         "summary": "Shortlist",
         "requestBody": {
@@ -6680,7 +6944,9 @@
     },
     "/api/v1/me/shortlist/{id}": {
       "delete": {
-        "tags": ["Applicant portal"],
+        "tags": [
+          "Applicant portal"
+        ],
         "operationId": "delete_me_shortlist_id",
         "summary": "Delete shortlist",
         "parameters": [
@@ -6726,7 +6992,9 @@
     },
     "/api/v1/me/shortlist/pdf": {
       "get": {
-        "tags": ["Applicant portal"],
+        "tags": [
+          "Applicant portal"
+        ],
         "operationId": "get_me_shortlist_pdf",
         "summary": "Download shortlist (PDF)",
         "responses": {
@@ -6762,7 +7030,9 @@
     },
     "/api/v1/institution/profile": {
       "get": {
-        "tags": ["Institution workspace"],
+        "tags": [
+          "Institution workspace"
+        ],
         "operationId": "get_institution_profile",
         "summary": "Get profile",
         "parameters": [
@@ -6827,7 +7097,9 @@
         "x-router": "institutionRouter"
       },
       "patch": {
-        "tags": ["Institution workspace"],
+        "tags": [
+          "Institution workspace"
+        ],
         "operationId": "patch_institution_profile",
         "summary": "Update profile",
         "parameters": [
@@ -6883,7 +7155,9 @@
     },
     "/api/v1/institution/subscription": {
       "get": {
-        "tags": ["Institution workspace"],
+        "tags": [
+          "Institution workspace"
+        ],
         "operationId": "get_institution_subscription",
         "summary": "Get subscription",
         "parameters": [
@@ -6950,7 +7224,9 @@
     },
     "/api/v1/institution/dashboard": {
       "get": {
-        "tags": ["Institution workspace"],
+        "tags": [
+          "Institution workspace"
+        ],
         "operationId": "get_institution_dashboard",
         "summary": "Base dashboard of the institution workspace (Phase 1 figures).",
         "description": "Base dashboard of the institution workspace (Phase 1 figures).",
@@ -7018,7 +7294,9 @@
     },
     "/api/v1/staff": {
       "get": {
-        "tags": ["Institution workspace"],
+        "tags": [
+          "Institution workspace"
+        ],
         "operationId": "get_staff",
         "summary": "Get staff",
         "parameters": [
@@ -7085,7 +7363,9 @@
     },
     "/api/v1/staff/invite": {
       "post": {
-        "tags": ["Institution workspace"],
+        "tags": [
+          "Institution workspace"
+        ],
         "operationId": "post_staff_invite",
         "summary": "Invite",
         "parameters": [
@@ -7141,7 +7421,9 @@
     },
     "/api/v1/staff/{id}": {
       "patch": {
-        "tags": ["Institution workspace"],
+        "tags": [
+          "Institution workspace"
+        ],
         "operationId": "patch_staff_id",
         "summary": "Update staff",
         "parameters": [
@@ -7204,7 +7486,9 @@
         "x-router": "staffRouter"
       },
       "delete": {
-        "tags": ["Institution workspace"],
+        "tags": [
+          "Institution workspace"
+        ],
         "operationId": "delete_staff_id",
         "summary": "Delete staff",
         "parameters": [
@@ -7259,7 +7543,9 @@
     },
     "/api/v1/staff/{id}/status": {
       "post": {
-        "tags": ["Institution workspace"],
+        "tags": [
+          "Institution workspace"
+        ],
         "operationId": "post_staff_id_status",
         "summary": "Add statu to staff",
         "parameters": [
@@ -7324,7 +7610,9 @@
     },
     "/api/v1/staff/{id}/resend-invite": {
       "post": {
-        "tags": ["Institution workspace"],
+        "tags": [
+          "Institution workspace"
+        ],
         "operationId": "post_staff_id_resend_invite",
         "summary": "Resend invite staff",
         "parameters": [
@@ -7389,7 +7677,9 @@
     },
     "/api/v1/structure": {
       "get": {
-        "tags": ["Institution workspace"],
+        "tags": [
+          "Institution workspace"
+        ],
         "operationId": "get_structure",
         "summary": "Overview used by forms (selects) and the academic structure screen.",
         "description": "Overview used by forms (selects) and the academic structure screen.",
@@ -7457,7 +7747,9 @@
     },
     "/api/v1/structure/campuses": {
       "post": {
-        "tags": ["Institution workspace"],
+        "tags": [
+          "Institution workspace"
+        ],
         "operationId": "post_structure_campuses",
         "summary": "Create campus",
         "parameters": [
@@ -7513,7 +7805,9 @@
     },
     "/api/v1/structure/campuses/{id}": {
       "patch": {
-        "tags": ["Institution workspace"],
+        "tags": [
+          "Institution workspace"
+        ],
         "operationId": "patch_structure_campuses_id",
         "summary": "Update campus",
         "parameters": [
@@ -7576,7 +7870,9 @@
         "x-router": "structureRouter"
       },
       "delete": {
-        "tags": ["Institution workspace"],
+        "tags": [
+          "Institution workspace"
+        ],
         "operationId": "delete_structure_campuses_id",
         "summary": "Delete campus",
         "parameters": [
@@ -7631,7 +7927,9 @@
     },
     "/api/v1/structure/faculties": {
       "post": {
-        "tags": ["Institution workspace"],
+        "tags": [
+          "Institution workspace"
+        ],
         "operationId": "post_structure_faculties",
         "summary": "Create faculty",
         "parameters": [
@@ -7687,7 +7985,9 @@
     },
     "/api/v1/structure/faculties/{id}": {
       "patch": {
-        "tags": ["Institution workspace"],
+        "tags": [
+          "Institution workspace"
+        ],
         "operationId": "patch_structure_faculties_id",
         "summary": "Update faculty",
         "parameters": [
@@ -7750,7 +8050,9 @@
         "x-router": "structureRouter"
       },
       "delete": {
-        "tags": ["Institution workspace"],
+        "tags": [
+          "Institution workspace"
+        ],
         "operationId": "delete_structure_faculties_id",
         "summary": "Delete faculty",
         "parameters": [
@@ -7805,7 +8107,9 @@
     },
     "/api/v1/structure/departments": {
       "post": {
-        "tags": ["Institution workspace"],
+        "tags": [
+          "Institution workspace"
+        ],
         "operationId": "post_structure_departments",
         "summary": "Create department",
         "parameters": [
@@ -7861,7 +8165,9 @@
     },
     "/api/v1/structure/departments/{id}": {
       "patch": {
-        "tags": ["Institution workspace"],
+        "tags": [
+          "Institution workspace"
+        ],
         "operationId": "patch_structure_departments_id",
         "summary": "Update department",
         "parameters": [
@@ -7924,7 +8230,9 @@
         "x-router": "structureRouter"
       },
       "delete": {
-        "tags": ["Institution workspace"],
+        "tags": [
+          "Institution workspace"
+        ],
         "operationId": "delete_structure_departments_id",
         "summary": "Delete department",
         "parameters": [
@@ -7979,7 +8287,9 @@
     },
     "/api/v1/structure/sessions": {
       "post": {
-        "tags": ["Institution workspace"],
+        "tags": [
+          "Institution workspace"
+        ],
         "operationId": "post_structure_sessions",
         "summary": "Create session",
         "parameters": [
@@ -8035,7 +8345,9 @@
     },
     "/api/v1/structure/sessions/{id}": {
       "patch": {
-        "tags": ["Institution workspace"],
+        "tags": [
+          "Institution workspace"
+        ],
         "operationId": "patch_structure_sessions_id",
         "summary": "Update session",
         "parameters": [
@@ -8098,7 +8410,9 @@
         "x-router": "structureRouter"
       },
       "delete": {
-        "tags": ["Institution workspace"],
+        "tags": [
+          "Institution workspace"
+        ],
         "operationId": "delete_structure_sessions_id",
         "summary": "Delete session",
         "parameters": [
@@ -8153,7 +8467,9 @@
     },
     "/api/v1/programs": {
       "get": {
-        "tags": ["Institution workspace"],
+        "tags": [
+          "Institution workspace"
+        ],
         "operationId": "get_programs",
         "summary": "List programs",
         "parameters": [
@@ -8218,7 +8534,9 @@
         "x-router": "programRouter"
       },
       "post": {
-        "tags": ["Institution workspace"],
+        "tags": [
+          "Institution workspace"
+        ],
         "operationId": "post_programs",
         "summary": "Create program",
         "parameters": [
@@ -8274,7 +8592,9 @@
     },
     "/api/v1/programs/{id}": {
       "get": {
-        "tags": ["Institution workspace"],
+        "tags": [
+          "Institution workspace"
+        ],
         "operationId": "get_programs_id",
         "summary": "Get program",
         "parameters": [
@@ -8327,7 +8647,9 @@
         "x-router": "programRouter"
       },
       "patch": {
-        "tags": ["Institution workspace"],
+        "tags": [
+          "Institution workspace"
+        ],
         "operationId": "patch_programs_id",
         "summary": "Update program",
         "parameters": [
@@ -8390,7 +8712,9 @@
         "x-router": "programRouter"
       },
       "delete": {
-        "tags": ["Institution workspace"],
+        "tags": [
+          "Institution workspace"
+        ],
         "operationId": "delete_programs_id",
         "summary": "Delete program",
         "parameters": [
@@ -8445,7 +8769,9 @@
     },
     "/api/v1/programs/{id}/status": {
       "post": {
-        "tags": ["Institution workspace"],
+        "tags": [
+          "Institution workspace"
+        ],
         "operationId": "post_programs_id_status",
         "summary": "PROG-4: programs used by other records are archived, not deleted.",
         "description": "PROG-4: programs used by other records are archived, not deleted.",
@@ -8511,7 +8837,9 @@
     },
     "/api/v1/campaigns": {
       "get": {
-        "tags": ["Institution workspace"],
+        "tags": [
+          "Institution workspace"
+        ],
         "operationId": "get_campaigns",
         "summary": "List campaigns",
         "parameters": [
@@ -8576,7 +8904,9 @@
         "x-router": "campaignRouter"
       },
       "post": {
-        "tags": ["Institution workspace"],
+        "tags": [
+          "Institution workspace"
+        ],
         "operationId": "post_campaigns",
         "summary": "Create campaign",
         "parameters": [
@@ -8632,7 +8962,9 @@
     },
     "/api/v1/campaigns/{id}": {
       "get": {
-        "tags": ["Institution workspace"],
+        "tags": [
+          "Institution workspace"
+        ],
         "operationId": "get_campaigns_id",
         "summary": "Get campaign",
         "parameters": [
@@ -8685,7 +9017,9 @@
         "x-router": "campaignRouter"
       },
       "patch": {
-        "tags": ["Institution workspace"],
+        "tags": [
+          "Institution workspace"
+        ],
         "operationId": "patch_campaigns_id",
         "summary": "Update campaign",
         "parameters": [
@@ -8748,7 +9082,9 @@
         "x-router": "campaignRouter"
       },
       "delete": {
-        "tags": ["Institution workspace"],
+        "tags": [
+          "Institution workspace"
+        ],
         "operationId": "delete_campaigns_id",
         "summary": "Delete campaign",
         "parameters": [
@@ -8803,7 +9139,9 @@
     },
     "/api/v1/campaigns/{id}/status": {
       "post": {
-        "tags": ["Institution workspace"],
+        "tags": [
+          "Institution workspace"
+        ],
         "operationId": "post_campaigns_id_status",
         "summary": "CAMP-1: DRAFT -> OPEN -> CLOSED -> (OPEN | ARCHIVED).",
         "description": "CAMP-1: DRAFT -> OPEN -> CLOSED -> (OPEN | ARCHIVED).",
@@ -8869,7 +9207,9 @@
     },
     "/api/v1/applications": {
       "get": {
-        "tags": ["Admissions office"],
+        "tags": [
+          "Admissions office"
+        ],
         "operationId": "get_applications",
         "summary": "List applications",
         "parameters": [
@@ -8936,7 +9276,9 @@
     },
     "/api/v1/applications/{id}": {
       "get": {
-        "tags": ["Admissions office"],
+        "tags": [
+          "Admissions office"
+        ],
         "operationId": "get_applications_id",
         "summary": "Get application",
         "parameters": [
@@ -8991,7 +9333,9 @@
     },
     "/api/v1/applications/{id}/transition": {
       "post": {
-        "tags": ["Admissions office"],
+        "tags": [
+          "Admissions office"
+        ],
         "operationId": "post_applications_id_transition",
         "summary": "Transition application",
         "parameters": [
@@ -9056,7 +9400,9 @@
     },
     "/api/v1/applications/{id}/documents/{docId}/review": {
       "post": {
-        "tags": ["Admissions office"],
+        "tags": [
+          "Admissions office"
+        ],
         "operationId": "post_applications_id_documents_docId_review",
         "summary": "DOC-4: approve or reject one document with a reason.",
         "description": "DOC-4: approve or reject one document with a reason.",
@@ -9131,7 +9477,9 @@
     },
     "/api/v1/applications/{id}/notes": {
       "post": {
-        "tags": ["Admissions office"],
+        "tags": [
+          "Admissions office"
+        ],
         "operationId": "post_applications_id_notes",
         "summary": "Add note to application",
         "parameters": [
@@ -9196,7 +9544,9 @@
     },
     "/api/v1/applications/{id}/challan.pdf": {
       "get": {
-        "tags": ["Admissions office"],
+        "tags": [
+          "Admissions office"
+        ],
         "operationId": "get_applications_id_challan_pdf",
         "summary": "Download challan (PDF)",
         "parameters": [
@@ -9252,7 +9602,9 @@
     },
     "/api/v1/applications/{id}/form.pdf": {
       "get": {
-        "tags": ["Admissions office"],
+        "tags": [
+          "Admissions office"
+        ],
         "operationId": "get_applications_id_form_pdf",
         "summary": "Download form (PDF)",
         "parameters": [
@@ -9308,7 +9660,9 @@
     },
     "/api/v1/verifications": {
       "get": {
-        "tags": ["Admissions office"],
+        "tags": [
+          "Admissions office"
+        ],
         "operationId": "get_verifications",
         "summary": "List verifications",
         "parameters": [
@@ -9375,7 +9729,9 @@
     },
     "/api/v1/verifications/{id}": {
       "get": {
-        "tags": ["Admissions office"],
+        "tags": [
+          "Admissions office"
+        ],
         "operationId": "get_verifications_id",
         "summary": "Entered marks, the registry row and the result card side by side, with integrity checks.",
         "description": "Entered marks, the registry row and the result card side by side, with integrity checks.",
@@ -9431,7 +9787,9 @@
     },
     "/api/v1/verifications/{id}/decision": {
       "post": {
-        "tags": ["Admissions office"],
+        "tags": [
+          "Admissions office"
+        ],
         "operationId": "post_verifications_id_decision",
         "summary": "Decision verification",
         "parameters": [
@@ -9496,7 +9854,9 @@
     },
     "/api/v1/verifications/flags/{id}/resolve": {
       "post": {
-        "tags": ["Admissions office"],
+        "tags": [
+          "Admissions office"
+        ],
         "operationId": "post_verifications_flags_id_resolve",
         "summary": "Resolve flag",
         "parameters": [
@@ -9561,7 +9921,9 @@
     },
     "/api/v1/payments": {
       "get": {
-        "tags": ["Admissions office"],
+        "tags": [
+          "Admissions office"
+        ],
         "operationId": "get_payments",
         "summary": "List payments",
         "parameters": [
@@ -9628,7 +9990,9 @@
     },
     "/api/v1/payments/export.csv": {
       "get": {
-        "tags": ["Admissions office"],
+        "tags": [
+          "Admissions office"
+        ],
         "operationId": "get_payments_export_csv",
         "summary": "FEE-5: payments CSV for reconciliation with the bank statement.",
         "description": "FEE-5: payments CSV for reconciliation with the bank statement.",
@@ -9675,7 +10039,9 @@
     },
     "/api/v1/payments/{id}/receipt.pdf": {
       "get": {
-        "tags": ["Admissions office"],
+        "tags": [
+          "Admissions office"
+        ],
         "operationId": "get_payments_id_receipt_pdf",
         "summary": "Download receipt (PDF)",
         "parameters": [
@@ -9731,7 +10097,9 @@
     },
     "/api/v1/payments/{id}/decision": {
       "post": {
-        "tags": ["Admissions office"],
+        "tags": [
+          "Admissions office"
+        ],
         "operationId": "post_payments_id_decision",
         "summary": "FEE-4: a payment is counted only after verification and can be decided only once.",
         "description": "FEE-4: a payment is counted only after verification and can be decided only once.",
@@ -9797,7 +10165,9 @@
     },
     "/api/v1/document-types": {
       "get": {
-        "tags": ["Admissions office"],
+        "tags": [
+          "Admissions office"
+        ],
         "operationId": "get_document_types",
         "summary": "List document types",
         "parameters": [
@@ -9862,7 +10232,9 @@
         "x-router": "documentTypeRouter"
       },
       "post": {
-        "tags": ["Admissions office"],
+        "tags": [
+          "Admissions office"
+        ],
         "operationId": "post_document_types",
         "summary": "Create document type",
         "parameters": [
@@ -9918,7 +10290,9 @@
     },
     "/api/v1/document-types/{id}": {
       "patch": {
-        "tags": ["Admissions office"],
+        "tags": [
+          "Admissions office"
+        ],
         "operationId": "patch_document_types_id",
         "summary": "Update document type",
         "parameters": [
@@ -9981,7 +10355,9 @@
         "x-router": "documentTypeRouter"
       },
       "delete": {
-        "tags": ["Admissions office"],
+        "tags": [
+          "Admissions office"
+        ],
         "operationId": "delete_document_types_id",
         "summary": "Delete document type",
         "parameters": [
@@ -10036,7 +10412,9 @@
     },
     "/api/v1/email-templates": {
       "get": {
-        "tags": ["Admissions office"],
+        "tags": [
+          "Admissions office"
+        ],
         "operationId": "get_email_templates",
         "summary": "List email templates",
         "parameters": [
@@ -10103,7 +10481,9 @@
     },
     "/api/v1/email-templates/{key}": {
       "put": {
-        "tags": ["Admissions office"],
+        "tags": [
+          "Admissions office"
+        ],
         "operationId": "put_email_templates_key",
         "summary": "Update email template",
         "parameters": [
@@ -10165,7 +10545,9 @@
         "x-router": "emailTemplateRouter"
       },
       "delete": {
-        "tags": ["Admissions office"],
+        "tags": [
+          "Admissions office"
+        ],
         "operationId": "delete_email_templates_key",
         "summary": "Delete email template",
         "parameters": [
@@ -10219,7 +10601,9 @@
     },
     "/api/v1/email-templates/preview": {
       "post": {
-        "tags": ["Admissions office"],
+        "tags": [
+          "Admissions office"
+        ],
         "operationId": "post_email_templates_preview",
         "summary": "Preview",
         "parameters": [
@@ -10275,7 +10659,9 @@
     },
     "/api/v1/registry/preview": {
       "post": {
-        "tags": ["Admissions office"],
+        "tags": [
+          "Admissions office"
+        ],
         "operationId": "post_registry_preview",
         "summary": "Preview",
         "parameters": [
@@ -10331,7 +10717,9 @@
     },
     "/api/v1/registry/import": {
       "post": {
-        "tags": ["Admissions office"],
+        "tags": [
+          "Admissions office"
+        ],
         "operationId": "post_registry_import",
         "summary": "Import",
         "parameters": [
@@ -10387,7 +10775,9 @@
     },
     "/api/v1/registry/batches": {
       "get": {
-        "tags": ["Admissions office"],
+        "tags": [
+          "Admissions office"
+        ],
         "operationId": "get_registry_batches",
         "summary": "List batches",
         "parameters": [
@@ -10454,7 +10844,9 @@
     },
     "/api/v1/registry/batches/{id}/rollback": {
       "post": {
-        "tags": ["Admissions office"],
+        "tags": [
+          "Admissions office"
+        ],
         "operationId": "post_registry_batches_id_rollback",
         "summary": "Rollback batche",
         "parameters": [
@@ -10519,7 +10911,9 @@
     },
     "/api/v1/merit-formulas": {
       "get": {
-        "tags": ["Applicant portal"],
+        "tags": [
+          "Applicant portal"
+        ],
         "operationId": "get_merit_formulas",
         "summary": "Formulas of a campaign, grouped by program, with the latest version first.",
         "description": "Formulas of a campaign, grouped by program, with the latest version first.",
@@ -10585,7 +10979,9 @@
         "x-router": "formulaRouter"
       },
       "post": {
-        "tags": ["Applicant portal"],
+        "tags": [
+          "Applicant portal"
+        ],
         "operationId": "post_merit_formulas",
         "summary": "Create merit formula",
         "parameters": [
@@ -10641,7 +11037,9 @@
     },
     "/api/v1/merit-formulas/{id}": {
       "patch": {
-        "tags": ["Applicant portal"],
+        "tags": [
+          "Applicant portal"
+        ],
         "operationId": "patch_merit_formulas_id",
         "summary": "MERIT-2: only drafts can be edited; active versions are locked.",
         "description": "MERIT-2: only drafts can be edited; active versions are locked.",
@@ -10705,7 +11103,9 @@
         "x-router": "formulaRouter"
       },
       "delete": {
-        "tags": ["Applicant portal"],
+        "tags": [
+          "Applicant portal"
+        ],
         "operationId": "delete_merit_formulas_id",
         "summary": "Delete merit formula",
         "parameters": [
@@ -10760,7 +11160,9 @@
     },
     "/api/v1/merit-formulas/{id}/activate": {
       "post": {
-        "tags": ["Applicant portal"],
+        "tags": [
+          "Applicant portal"
+        ],
         "operationId": "post_merit_formulas_id_activate",
         "summary": "Activate merit formula",
         "parameters": [
@@ -10825,7 +11227,9 @@
     },
     "/api/v1/merit-formulas/{id}/new-version": {
       "post": {
-        "tags": ["Applicant portal"],
+        "tags": [
+          "Applicant portal"
+        ],
         "operationId": "post_merit_formulas_id_new_version",
         "summary": "MERIT-2: editing a locked version starts a new draft version.",
         "description": "MERIT-2: editing a locked version starts a new draft version.",
@@ -10891,7 +11295,9 @@
     },
     "/api/v1/merit-formulas/test": {
       "post": {
-        "tags": ["Applicant portal"],
+        "tags": [
+          "Applicant portal"
+        ],
         "operationId": "post_merit_formulas_test",
         "summary": "Test mode: the aggregate and the breakdown for sample marks (Table 3.13, step 2).",
         "description": "Test mode: the aggregate and the breakdown for sample marks (Table 3.13, step 2).",
@@ -10948,7 +11354,9 @@
     },
     "/api/v1/merit-lists": {
       "get": {
-        "tags": ["Applicant portal"],
+        "tags": [
+          "Applicant portal"
+        ],
         "operationId": "get_merit_lists",
         "summary": "Lists of a campaign and what is needed before the next one can be generated.",
         "description": "Lists of a campaign and what is needed before the next one can be generated.",
@@ -11014,7 +11422,9 @@
         "x-router": "meritListRouter"
       },
       "post": {
-        "tags": ["Applicant portal"],
+        "tags": [
+          "Applicant portal"
+        ],
         "operationId": "post_merit_lists",
         "summary": "Create merit list",
         "parameters": [
@@ -11070,7 +11480,9 @@
     },
     "/api/v1/merit-lists/{id}": {
       "get": {
-        "tags": ["Applicant portal"],
+        "tags": [
+          "Applicant portal"
+        ],
         "operationId": "get_merit_lists_id",
         "summary": "Get merit list",
         "parameters": [
@@ -11125,7 +11537,9 @@
     },
     "/api/v1/merit-lists/{id}/approve": {
       "post": {
-        "tags": ["Applicant portal"],
+        "tags": [
+          "Applicant portal"
+        ],
         "operationId": "post_merit_lists_id_approve",
         "summary": "Approve merit list",
         "parameters": [
@@ -11190,7 +11604,9 @@
     },
     "/api/v1/merit-lists/{id}/publish": {
       "post": {
-        "tags": ["Applicant portal"],
+        "tags": [
+          "Applicant portal"
+        ],
         "operationId": "post_merit_lists_id_publish",
         "summary": "Publish merit list",
         "parameters": [
@@ -11255,7 +11671,9 @@
     },
     "/api/v1/merit-lists/{id}/discard": {
       "post": {
-        "tags": ["Applicant portal"],
+        "tags": [
+          "Applicant portal"
+        ],
         "operationId": "post_merit_lists_id_discard",
         "summary": "Discard merit list",
         "parameters": [
@@ -11320,7 +11738,9 @@
     },
     "/api/v1/merit-lists/{id}/revise": {
       "post": {
-        "tags": ["Applicant portal"],
+        "tags": [
+          "Applicant portal"
+        ],
         "operationId": "post_merit_lists_id_revise",
         "summary": "Revise merit list",
         "parameters": [
@@ -11385,7 +11805,9 @@
     },
     "/api/v1/merit-lists/{id}/pdf": {
       "get": {
-        "tags": ["Applicant portal"],
+        "tags": [
+          "Applicant portal"
+        ],
         "operationId": "get_merit_lists_id_pdf",
         "summary": "Download merit lists (PDF)",
         "parameters": [
@@ -11441,7 +11863,9 @@
     },
     "/api/v1/offers": {
       "get": {
-        "tags": ["Merit and offers"],
+        "tags": [
+          "Merit and offers"
+        ],
         "operationId": "get_offers",
         "summary": "List offers",
         "parameters": [
@@ -11508,7 +11932,9 @@
     },
     "/api/v1/offers/summary": {
       "get": {
-        "tags": ["Merit and offers"],
+        "tags": [
+          "Merit and offers"
+        ],
         "operationId": "get_offers_summary",
         "summary": "Seats, offers, acceptances and enrollments per program and shift.",
         "description": "Seats, offers, acceptances and enrollments per program and shift.",
@@ -11576,7 +12002,9 @@
     },
     "/api/v1/offers/{id}/revoke": {
       "post": {
-        "tags": ["Merit and offers"],
+        "tags": [
+          "Merit and offers"
+        ],
         "operationId": "post_offers_id_revoke",
         "summary": "MARK-11: revocation with a written reason and an optional CNIC block.",
         "description": "MARK-11: revocation with a written reason and an optional CNIC block.",
@@ -11642,7 +12070,9 @@
     },
     "/api/v1/offers/enrollments/{id}/originals": {
       "post": {
-        "tags": ["Merit and offers"],
+        "tags": [
+          "Merit and offers"
+        ],
         "operationId": "post_offers_enrollments_id_originals",
         "summary": "MARK-12: originals checked on the reporting day.",
         "description": "MARK-12: originals checked on the reporting day.",
@@ -11708,7 +12138,9 @@
     },
     "/api/v1/offers/enrollments/{id}/letter.pdf": {
       "get": {
-        "tags": ["Merit and offers"],
+        "tags": [
+          "Merit and offers"
+        ],
         "operationId": "get_offers_enrollments_id_letter_pdf",
         "summary": "Download letter (PDF)",
         "parameters": [
@@ -11764,7 +12196,9 @@
     },
     "/api/v1/directory": {
       "get": {
-        "tags": ["Institution workspace"],
+        "tags": [
+          "Institution workspace"
+        ],
         "operationId": "get_directory",
         "summary": "Get directory",
         "parameters": [
@@ -11831,7 +12265,9 @@
     },
     "/api/v1/directory/profile": {
       "patch": {
-        "tags": ["Institution workspace"],
+        "tags": [
+          "Institution workspace"
+        ],
         "operationId": "patch_directory_profile",
         "summary": "DIR-7: the institution corrects its public profile.",
         "description": "DIR-7: the institution corrects its public profile.",
@@ -11888,7 +12324,9 @@
     },
     "/api/v1/directory/programs/{id}": {
       "patch": {
-        "tags": ["Institution workspace"],
+        "tags": [
+          "Institution workspace"
+        ],
         "operationId": "patch_directory_programs_id",
         "summary": "Update program",
         "parameters": [
@@ -11953,7 +12391,9 @@
     },
     "/api/v1/directory/history": {
       "post": {
-        "tags": ["Institution workspace"],
+        "tags": [
+          "Institution workspace"
+        ],
         "operationId": "post_directory_history",
         "summary": "Past merit history of the institution's own programs (stays DRAFT until the super admin verifies it).",
         "description": "Past merit history of the institution's own programs (stays DRAFT until the super admin verifies it).",
@@ -12010,7 +12450,9 @@
     },
     "/api/v1/directory/import/preview": {
       "post": {
-        "tags": ["Institution workspace"],
+        "tags": [
+          "Institution workspace"
+        ],
         "operationId": "post_directory_import_preview",
         "summary": "Preview",
         "parameters": [
@@ -12066,7 +12508,9 @@
     },
     "/api/v1/directory/import": {
       "post": {
-        "tags": ["Institution workspace"],
+        "tags": [
+          "Institution workspace"
+        ],
         "operationId": "post_directory_import",
         "summary": "Import",
         "parameters": [
@@ -12122,7 +12566,9 @@
     },
     "/api/v1/directory/claimable": {
       "get": {
-        "tags": ["Institution workspace"],
+        "tags": [
+          "Institution workspace"
+        ],
         "operationId": "get_directory_claimable",
         "summary": "DIR-7: directory entries entered before the institution joined, which it can claim.",
         "description": "DIR-7: directory entries entered before the institution joined, which it can claim.",
@@ -12190,7 +12636,9 @@
     },
     "/api/v1/directory/claim": {
       "post": {
-        "tags": ["Institution workspace"],
+        "tags": [
+          "Institution workspace"
+        ],
         "operationId": "post_directory_claim",
         "summary": "Claim",
         "parameters": [
@@ -12246,7 +12694,9 @@
     },
     "/api/v1/analytics": {
       "get": {
-        "tags": ["Analytics"],
+        "tags": [
+          "Analytics"
+        ],
         "operationId": "get_analytics",
         "summary": "Get analytics",
         "parameters": [
@@ -12313,7 +12763,9 @@
     },
     "/api/v1/reports/applications.csv": {
       "get": {
-        "tags": ["Analytics"],
+        "tags": [
+          "Analytics"
+        ],
         "operationId": "get_reports_applications_csv",
         "summary": "Download applications (CSV)",
         "parameters": [
@@ -12359,7 +12811,9 @@
     },
     "/api/v1/reports/applications.pdf": {
       "get": {
-        "tags": ["Analytics"],
+        "tags": [
+          "Analytics"
+        ],
         "operationId": "get_reports_applications_pdf",
         "summary": "Download applications (PDF)",
         "parameters": [
@@ -12406,7 +12860,9 @@
     },
     "/api/v1/reports/payments.csv": {
       "get": {
-        "tags": ["Analytics"],
+        "tags": [
+          "Analytics"
+        ],
         "operationId": "get_reports_payments_csv",
         "summary": "Download payments (CSV)",
         "parameters": [
@@ -12452,7 +12908,9 @@
     },
     "/api/v1/reports/payments.pdf": {
       "get": {
-        "tags": ["Analytics"],
+        "tags": [
+          "Analytics"
+        ],
         "operationId": "get_reports_payments_pdf",
         "summary": "Download payments (PDF)",
         "parameters": [
@@ -12499,7 +12957,9 @@
     },
     "/api/v1/reports/merit-lists/{id}.csv": {
       "get": {
-        "tags": ["Analytics"],
+        "tags": [
+          "Analytics"
+        ],
         "operationId": "get_reports_merit_lists_id_csv",
         "summary": "Download merit lists (CSV)",
         "parameters": [
@@ -12554,7 +13014,9 @@
     },
     "/api/v1/reports/merit-lists/{id}.pdf": {
       "get": {
-        "tags": ["Analytics"],
+        "tags": [
+          "Analytics"
+        ],
         "operationId": "get_reports_merit_lists_id_pdf",
         "summary": "Internal PDF with full names (the public PDF shortens names, OFFER-5).",
         "description": "Internal PDF with full names (the public PDF shortens names, OFFER-5).",
@@ -12611,7 +13073,9 @@
     },
     "/api/v1/support/tickets/meta": {
       "get": {
-        "tags": ["Support (institution)"],
+        "tags": [
+          "Support (institution)"
+        ],
         "operationId": "get_support_tickets_meta",
         "summary": "Get meta",
         "parameters": [
@@ -12678,7 +13142,9 @@
     },
     "/api/v1/support/tickets": {
       "get": {
-        "tags": ["Support (institution)"],
+        "tags": [
+          "Support (institution)"
+        ],
         "operationId": "get_support_tickets",
         "summary": "List tickets",
         "parameters": [
@@ -12743,7 +13209,9 @@
         "x-router": "institutionSupportRouter"
       },
       "post": {
-        "tags": ["Support (institution)"],
+        "tags": [
+          "Support (institution)"
+        ],
         "operationId": "post_support_tickets",
         "summary": "Create ticket",
         "parameters": [
@@ -12799,7 +13267,9 @@
     },
     "/api/v1/support/tickets/{id}": {
       "get": {
-        "tags": ["Support (institution)"],
+        "tags": [
+          "Support (institution)"
+        ],
         "operationId": "get_support_tickets_id",
         "summary": "Get ticket",
         "parameters": [
@@ -12854,7 +13324,9 @@
     },
     "/api/v1/support/tickets/{id}/replies": {
       "post": {
-        "tags": ["Support (institution)"],
+        "tags": [
+          "Support (institution)"
+        ],
         "operationId": "post_support_tickets_id_replies",
         "summary": "Add reply to ticket",
         "parameters": [
@@ -12919,7 +13391,9 @@
     },
     "/api/v1/support/tickets/{id}/close": {
       "post": {
-        "tags": ["Support (institution)"],
+        "tags": [
+          "Support (institution)"
+        ],
         "operationId": "post_support_tickets_id_close",
         "summary": "The institution confirms a resolved ticket and closes it, without writing a reply.",
         "description": "The institution confirms a resolved ticket and closes it, without writing a reply.",
@@ -12985,7 +13459,9 @@
     },
     "/api/v1/audit-logs": {
       "get": {
-        "tags": ["Audit log"],
+        "tags": [
+          "Audit log"
+        ],
         "operationId": "get_audit_logs",
         "summary": "List audit logs",
         "parameters": [
@@ -13052,7 +13528,9 @@
     },
     "/api/v1/audit-logs/export.csv": {
       "get": {
-        "tags": ["Audit log"],
+        "tags": [
+          "Audit log"
+        ],
         "operationId": "get_audit_logs_export_csv",
         "summary": "Download export (CSV)",
         "parameters": [
@@ -13098,7 +13576,9 @@
     },
     "/api/v1/institution/branding": {
       "get": {
-        "tags": ["Institution workspace"],
+        "tags": [
+          "Institution workspace"
+        ],
         "operationId": "get_institution_branding",
         "summary": "Get branding",
         "parameters": [
@@ -13165,7 +13645,9 @@
     },
     "/api/v1/institution/branding/logo": {
       "post": {
-        "tags": ["Institution workspace"],
+        "tags": [
+          "Institution workspace"
+        ],
         "operationId": "post_institution_branding_logo",
         "summary": "Logo",
         "parameters": [
@@ -13219,7 +13701,9 @@
         "x-router": "institutionBrandingRouter"
       },
       "delete": {
-        "tags": ["Institution workspace"],
+        "tags": [
+          "Institution workspace"
+        ],
         "operationId": "delete_institution_branding_logo",
         "summary": "Delete logo",
         "parameters": [
@@ -13265,7 +13749,9 @@
     },
     "/api/v1/agent/status": {
       "get": {
-        "tags": ["Institution workspace"],
+        "tags": [
+          "Institution workspace"
+        ],
         "operationId": "get_agent_status",
         "summary": "List status",
         "parameters": [
@@ -13323,7 +13809,9 @@
     },
     "/api/v1/agent/conversations": {
       "get": {
-        "tags": ["Institution workspace"],
+        "tags": [
+          "Institution workspace"
+        ],
         "operationId": "get_agent_conversations",
         "summary": "List conversations",
         "parameters": [
@@ -13379,7 +13867,9 @@
         "x-router": "institutionAgentRouter"
       },
       "post": {
-        "tags": ["Institution workspace"],
+        "tags": [
+          "Institution workspace"
+        ],
         "operationId": "post_agent_conversations",
         "summary": "Create conversation",
         "requestBody": {
@@ -13424,7 +13914,9 @@
     },
     "/api/v1/agent/conversations/{id}": {
       "get": {
-        "tags": ["Institution workspace"],
+        "tags": [
+          "Institution workspace"
+        ],
         "operationId": "get_agent_conversations_id",
         "summary": "Get conversation",
         "parameters": [
@@ -13468,7 +13960,9 @@
         "x-router": "institutionAgentRouter"
       },
       "delete": {
-        "tags": ["Institution workspace"],
+        "tags": [
+          "Institution workspace"
+        ],
         "operationId": "delete_agent_conversations_id",
         "summary": "Delete conversation",
         "parameters": [
@@ -13514,7 +14008,9 @@
     },
     "/api/v1/agent/conversations/{id}/messages": {
       "post": {
-        "tags": ["Institution workspace"],
+        "tags": [
+          "Institution workspace"
+        ],
         "operationId": "post_agent_conversations_id_messages",
         "summary": "Add message to conversation",
         "parameters": [
@@ -13570,7 +14066,9 @@
     },
     "/api/v1/agent/actions/{id}/{decision}": {
       "post": {
-        "tags": ["Institution workspace"],
+        "tags": [
+          "Institution workspace"
+        ],
         "operationId": "post_agent_actions_id_decision",
         "summary": "Add action to agent",
         "parameters": [
@@ -13634,7 +14132,9 @@
     },
     "/api/v1/agent/alerts": {
       "get": {
-        "tags": ["Institution workspace"],
+        "tags": [
+          "Institution workspace"
+        ],
         "operationId": "get_agent_alerts",
         "summary": "List alerts",
         "parameters": [
@@ -13692,7 +14192,9 @@
     },
     "/api/v1/agent/alerts/{id}/review": {
       "post": {
-        "tags": ["Institution workspace"],
+        "tags": [
+          "Institution workspace"
+        ],
         "operationId": "post_agent_alerts_id_review",
         "summary": "Review alert",
         "parameters": [
@@ -13748,7 +14250,9 @@
     },
     "/api/v1/agent/briefings": {
       "get": {
-        "tags": ["Institution workspace"],
+        "tags": [
+          "Institution workspace"
+        ],
         "operationId": "get_agent_briefings",
         "summary": "List briefings",
         "parameters": [
@@ -13806,7 +14310,9 @@
     },
     "/api/v1/agent/briefings/generate": {
       "post": {
-        "tags": ["Institution workspace"],
+        "tags": [
+          "Institution workspace"
+        ],
         "operationId": "post_agent_briefings_generate",
         "summary": "Generate",
         "requestBody": {
@@ -13861,7 +14367,10 @@
     "schemas": {
       "Envelope": {
         "type": "object",
-        "required": ["success", "data"],
+        "required": [
+          "success",
+          "data"
+        ],
         "properties": {
           "success": {
             "type": "boolean",
@@ -13889,7 +14398,10 @@
       },
       "Error": {
         "type": "object",
-        "required": ["success", "error"],
+        "required": [
+          "success",
+          "error"
+        ],
         "properties": {
           "success": {
             "type": "boolean",

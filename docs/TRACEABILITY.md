@@ -1,10 +1,10 @@
 # ADMITRA – Requirements traceability
 
-Every requirement of the proposal (Sections 3 and 5) with the code that implements it and the automated test that checks it.
+Every requirement of the proposal (Sections 3 and 5) and of the Phase 5 addendum (`docs/proposal/Phase5_Addendum.md`) with the code that implements it and the automated test that checks it.
 Paths are relative to `ADMITRA/` (`backend/` = `backend/src/`, `frontend/` = `frontend/src/`). Backend tests run with `npm test` (Vitest + Supertest on a real MongoDB replica set),
 performance checks with `npm run test:perf`, browser tests with `npm run test:e2e` (Playwright on a phone and a desktop, with axe-core WCAG 2.2 AA checks on every screen).
 
-Test results on 20 November 2026: backend 90 tests passed, performance 4 tests (8 checks) passed, browser 46 tests passed on phone and desktop, PERF-1 7 pages passed on the production build.
+Test results on 20 November 2026 (after Phase 5): backend 103 tests passed, performance 4 tests (8 checks) passed, browser 56 tests passed on phone and desktop, PERF-1 7 pages passed on the production build.
 
 ## Authentication and account security (AUTH)
 
@@ -239,6 +239,29 @@ Test results on 20 November 2026: backend 90 tests passed, performance 4 tests (
 | SAFE-6 | Registry imports shall be reversible so that a wrong file can be removed without damaging other data. | `backend/modules/registry/registry.service.ts`<br>`frontend/features/registry/registry-import.tsx` | backend/tests/registry.test.ts › import re-checks waiting records; rollback resets auto-verified records |
 | SAFE-7 | Confirmation dialogs shall be shown before destructive or irreversible actions (publish, reject, revoke, delete). | `frontend/components/ui/confirm-dialog.tsx`<br>`frontend/features/merit/merit-list-detail.tsx`<br>`frontend/features/merit/offers.tsx` | frontend/e2e/results.spec.ts › declining an offer asks for confirmation (cancel changes nothing) |
 
+## Branding (BRAND, Phase 5)
+
+| ID | Requirement | Implementation | Verified by |
+|---|---|---|---|
+| BRAND-1 | Super Admin changes platform name, tagline, assistant name, logo, favicon and colours; applied to every page, e-mail and PDF. | `backend/modules/branding/branding.routes.ts`<br>`backend/lib/brand.ts`<br>`frontend/features/branding/platform-branding.tsx`<br>`frontend/app/layout.tsx` | backend/tests/branding.test.ts › lets the Super Admin rename the platform and the assistant and change the colours<br>frontend/e2e/phase5.spec.ts › the Super Admin previews colours before saving them |
+| BRAND-2 | Institutions with custom branding use their own logo and colours. | `backend/modules/branding/branding.routes.ts`<br>`backend/modules/auth/auth.service.ts`<br>`frontend/features/institution/settings.tsx`<br>`frontend/features/institution/institution-shell.tsx` | backend/tests/branding.test.ts › needs a plan with custom branding and then colours the workspace<br>frontend/e2e/phase5.spec.ts › the institution workspace uses its own colours and logo |
+| BRAND-3 | Images validated by content, never SVG, size-limited, served by an unguessable key, old image removed. | `backend/modules/branding/assets.ts`<br>`backend/modules/branding/branding.models.ts` | backend/tests/branding.test.ts › (SVG refused, long cache, replaced logo removed) |
+| BRAND-4 | Profile pictures; initials on the chosen colour. | `backend/modules/branding/branding.routes.ts`<br>`frontend/components/layout/user-menu.tsx`<br>`frontend/features/auth/account-settings.tsx` | backend/tests/branding.test.ts › lets every user add and remove a profile picture |
+| BRAND-5 | Colours adjusted to keep 4.5:1 contrast in both themes; preview before saving. | `frontend/lib/brand.ts`<br>`frontend/features/branding/brand-fields.tsx` | frontend/e2e/workspaces.spec.ts › every admin screen (axe WCAG 2.2 AA with the RIT colours)<br>frontend/e2e/phase5.spec.ts |
+
+## Mitra admission copilot (AGENT, Phase 5)
+
+| ID | Requirement | Implementation | Verified by |
+|---|---|---|---|
+| AGENT-1 | Provider chosen by environment values (Gemini, OpenAI, Claude, OpenAI-compatible); works without a key. | `backend/modules/agent/providers/index.ts`<br>`backend/modules/agent/providers/openai.ts`<br>`backend/modules/agent/providers/anthropic.ts`<br>`backend/modules/agent/providers/mock.ts` | backend/tests/agent.test.ts › speaks the OpenAI tool-calling format…; speaks the Anthropic Messages format…; works without a key…; runs the real tools … without an API key |
+| AGENT-2 | Chat in English, Urdu or Roman Urdu with visible steps and saved conversations. | `backend/modules/agent/agent.service.ts`<br>`backend/modules/agent/agent.routes.ts`<br>`frontend/features/mitra/chat.tsx`<br>`frontend/features/mitra/launcher.tsx` | backend/tests/agent.test.ts › answers a platform question with tools…<br>frontend/e2e/phase5.spec.ts › a question is answered with the platform data… |
+| AGENT-3 | Answers only from live data through tools limited by workspace, permission and plan; CNIC masked. | `backend/modules/agent/tools/read.ts`<br>`backend/modules/agent/tools/index.ts`<br>`backend/modules/agent/agent.service.ts` | backend/tests/agent.test.ts › gives an institution only its own tools and data, and only on a plan with the copilot<br>frontend/e2e/phase5.spec.ts › an institution on a plan without the copilot sees why |
+| AGENT-4 | Actions prepared, run only after Confirm, audited. | `backend/modules/agent/tools/actions.ts`<br>`backend/modules/agent/agent.service.ts`<br>`frontend/features/mitra/chat.tsx` | backend/tests/agent.test.ts › prepares an action, does nothing until it is confirmed, then runs it |
+| AGENT-5 | Platform fee recorded on renewal. | `backend/modules/platform/billing.model.ts`<br>`backend/modules/platform/platform.service.ts`<br>`frontend/features/platform/institution-detail.tsx` | backend/tests/agent.test.ts › records platform fees on renewal and sends the daily briefings |
+| AGENT-6 | Integrity rules with evidence; review or dismiss with a note. | `backend/modules/agent/integrity.rules.ts`<br>`frontend/features/mitra/mitra-page.tsx` | backend/tests/agent.test.ts › flags payments below the challan and marks confirmed despite registry differences, once each<br>frontend/e2e/phase5.spec.ts › the briefing and the integrity alerts are shown |
+| AGENT-7 | Daily briefing from database figures, AI summary when connected, notification and e-mail. | `backend/modules/agent/briefing.service.ts`<br>`frontend/features/mitra/mitra-page.tsx` | backend/tests/agent.test.ts › records platform fees on renewal and sends the daily briefings |
+| AGENT-8 | Daily message limit and token usage. | `backend/modules/agent/agent.service.ts`<br>`backend/modules/agent/agent.models.ts` | backend/tests/agent.test.ts › stops at the daily message limit |
+
 ## Performance (PERF)
 
 | ID | Requirement | Implementation | Verified by (measured on the development machine) |
@@ -254,4 +277,4 @@ Test results on 20 November 2026: backend 90 tests passed, performance 4 tests (
 | PERF-9 | Dashboard figures cached for at most 30 s | `backend/src/lib/cache.ts, backend/src/modules/analytics/` | backend/tests/phase4.test.ts › caches for at most 30 seconds; perf test PERF-9 |
 | PERF-10 | At least 2,000 applications per cycle per institution on the entry plan | `backend/src/seed/data.ts (Starter: 2,000), backend/src/modules/institutions/limits.ts` | backend/tests/platform.test.ts › INST-3 limits; perf test with 1,500 applications in one campaign |
 
-138 requirements, each with an implementation and an automated check. Manual checks that complement them are listed in the user manuals (`docs/manuals`).
+151 requirements (138 of the proposal and 13 of the Phase 5 addendum), each with an implementation and an automated check. Manual checks that complement them are listed in the user manuals (`docs/manuals`).

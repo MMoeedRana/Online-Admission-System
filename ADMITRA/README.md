@@ -106,23 +106,48 @@ npm run dev
 
 Open <http://localhost:3000>. Requests to `/api/v1` are forwarded to the backend.
 
-## 5. Sample accounts (after `npm run seed:demo`)
+## 5. Mitra, the AI copilot (Phase 5)
+
+Mitra uses the AI provider set in `ADMITRA/backend/.env`. Only these values change when you move to
+another provider:
+
+```
+AI_PROVIDER=gemini
+AI_API_KEY=your-key
+AI_MODEL=gemini-2.5-flash
+```
+
+| AI_PROVIDER | Key from | Notes |
+| ----------- | -------- | ----- |
+| `gemini` (default) | Google AI Studio (free tier available) | default model `gemini-2.5-flash` |
+| `openai` | platform.openai.com | set `AI_MODEL` to the model you bought |
+| `anthropic` | console.anthropic.com (Claude) | set `AI_MODEL`, e.g. `claude-sonnet-5-5` |
+| `openai-compatible` | Groq, OpenRouter, a local Ollama… | also set `AI_BASE_URL` |
+| `mock` | no key | offline demonstration for development and tests (refused in production) |
+
+Restart the API after changing `.env`. Without a key everything else keeps working; the daily briefings
+and integrity alerts are built from the database, and Mitra explains how to connect a provider.
+`AI_DAILY_LIMIT` (messages per person and day, default 200) and `AI_BRIEFING_HOUR` (Pakistan time,
+default 8) are optional. The free Gemini tier may use requests to improve Google's products, so use a
+paid key for real student data.
+
+## 6. Sample accounts (after `npm run seed:demo`)
 
 All sample accounts use the password `Admitra@123` (the Super Admin uses the one in `.env`).
 
 | Role | E-mail | What to look at |
 | ---- | ------ | --------------- |
-| Super Admin | admin@admitra.local | Institutions, plans, registry import, Reference Directory, Analytics (advisor usage, registry match rates), Support Tickets (one urgent ticket waiting), Audit Log |
-| Institution Admin (Crescent Valley University) | admin@cvu.example.edu.pk | Open Fall 2026 campaign, applications, directory data |
+| Super Admin | admin@admitra.local | Mitra (chat, briefing, integrity alerts), Branding, institutions, plans, registry import, Reference Directory, Analytics, Support Tickets, Audit Log |
+| Institution Admin (Crescent Valley University) | admin@cvu.example.edu.pk | Standard plan: daily Mitra briefing (no chat), own logo; open Fall 2026 campaign, applications, directory data |
 | Admission Officer (CVU) | officer@cvu.example.edu.pk | Application review, marks verification |
 | HOD Officer, Computer Science (CVU) | hod.cs@cvu.example.edu.pk | Applications of the CS department only |
 | Finance Officer (CVU) | finance@cvu.example.edu.pk | Payment verification |
 | Merit Committee (CVU) | merit1@cvu.example.edu.pk | Active formulas and a proposed version 2 for BSCS |
-| Institution Admin (Riverside Institute of Technology) | admin@rit.example.edu.pk | Publishes merit lists, revocation, offers and enrollment; Analytics & Reports with the complete funnel; Support; Audit Log |
+| Institution Admin (Riverside Institute of Technology) | admin@rit.example.edu.pk | Enterprise plan: Mitra chat and actions, own teal colours and logo; merit lists, offers and enrollment; Analytics & Reports; Support; Audit Log |
 | Admissions and Accounts (RIT) | officer@rit.example.edu.pk | Admission-fee proofs, originals check on the reporting day |
 | Merit Committee (RIT) | merit1@rit.example.edu.pk | Generated merit list 3, waiting for the second member |
 | Merit Committee (RIT) | merit2@rit.example.edu.pk | Can approve list 3 (four-eyes rule) |
-| Applicant | ayesha.noor@example.com | CVU application under review; selected in RIT merit list 2 with an open offer |
+| Applicant | ayesha.noor@example.com | Profile picture; CVU application under review; selected in RIT merit list 2 with an open offer |
 | Applicant | zainab.tariq@example.com | Enrolled at RIT: registration number and admission letter |
 | Applicant | mahnoor.fatima@example.com | On the RIT waiting list |
 | Applicant | danish.iqbal@example.com | Not selected at RIT, with programs suggested by the Admission Advisor |
@@ -136,7 +161,7 @@ declined offers and one revocation) and a reference directory of 18 institutions
 years of closing merit. Every institution, person and figure in it is fictional and exists only
 for development and demonstration. The seed command is refused in production.
 
-## 6. Scripts
+## 7. Scripts
 
 | Folder   | Command             | Purpose                                   |
 | -------- | ------------------- | ----------------------------------------- |
@@ -153,7 +178,7 @@ for development and demonstration. The seed command is refused in production.
 | frontend | `npm run build` / `npm start` | Production build and start      |
 | frontend | `npm run lint` / `npm run typecheck` | Code checks                |
 
-## 7. Development status
+## 8. Development status
 
 | Phase | Scope | Status |
 | ----- | ----- | ------ |
@@ -161,6 +186,7 @@ for development and demonstration. The seed command is refused in production.
 | 2 | Applicant portal, verified marks and admission operations | Complete |
 | 3 | Merit, enrollment, Admission Advisor and Result Finder | Complete |
 | 4 | Analytics, support, quality and delivery | Complete |
+| 5 | Branding and the Mitra admission copilot | Complete |
 
 ### Phase 1 requirements
 
@@ -225,3 +251,15 @@ the pointer cursor and every form field has a placeholder.
 Documentation: the final report in [`docs/report`](../docs/report) (Word and PDF), user manuals in [`docs/manuals`](../docs/manuals), the requirement traceability matrix
 in [`docs/TRACEABILITY.md`](../docs/TRACEABILITY.md) and real screenshots of every screen (desktop,
 mobile and dark theme) in [`docs/screenshots`](../docs/screenshots).
+
+### Phase 5 requirements
+
+BRAND-1 to BRAND-5 and AGENT-1 to AGENT-8 (see `docs/proposal/Phase5_Addendum.md`): platform branding
+by the Super Admin (name, tagline, assistant name, logo, favicon, primary, sidebar and initials colours,
+used in every page, e-mail and PDF), institution branding on plans with custom branding, profile pictures,
+and colours that are adjusted automatically to keep WCAG AA contrast; and **Mitra**, the admission copilot:
+switchable AI providers (Gemini by default, OpenAI, Claude or any OpenAI-compatible service), a chat for the
+Super Admin and for institution admins that answers from live data through permission-checked tools,
+actions that run only after Confirm (fee, offer and application reminders, renewal reminders, ticket
+replies, alerts), platform fee records on renewal, integrity rules with evidence, daily briefings by
+notification and e-mail, and a daily message limit.

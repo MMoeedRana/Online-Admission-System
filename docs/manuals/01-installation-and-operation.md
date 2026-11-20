@@ -70,7 +70,24 @@ The document is generated from the routers that are actually mounted, so it alwa
 endpoint. After adding or changing a route run `npm run docs:api` in `ADMITRA/backend`; a test fails if
 the document is out of date.
 
-## 5. Backups and restore (SAFE-4)
+## 5. Mitra AI copilot (Phase 5)
+
+Set the provider in `ADMITRA/backend/.env` and restart the API:
+
+```
+AI_PROVIDER=gemini
+AI_API_KEY=your-key
+AI_MODEL=gemini-2.5-flash
+```
+
+`AI_PROVIDER` can be `gemini` (default), `openai`, `anthropic`, `openai-compatible` (with `AI_BASE_URL`) or
+`mock` (offline demonstration for development and tests; refused in production). Leaving `AI_MODEL` empty
+uses the provider's default model. `AI_DAILY_LIMIT` limits messages per person per day (default 200) and
+`AI_BRIEFING_HOUR` sets the hour of the daily briefing in Pakistan time (default 8). Without a key the
+briefings and integrity alerts still work; the chat explains how to connect a provider. The Super Admin
+sees the provider and model at the top of the Mitra chat.
+
+## 6. Backups and restore (SAFE-4)
 
 A backup contains every MongoDB collection (one compressed Extended JSON file per collection, so ids and
 dates keep their types), a copy of the uploaded files (`backend/storage`) and a `manifest.json` with
@@ -99,11 +116,11 @@ The restore checks every collection against the counts of the manifest and stops
 The restore was practised on the demonstration data: 41 collections, 3,926 documents and 9,804 files
 were backed up and restored, and the application worked normally afterwards.
 
-## 6. Tests
+## 7. Tests
 
 | Command (folder) | What it checks |
 | --- | --- |
-| `npm test` (backend) | 90 API and unit tests with Vitest and Supertest on a real MongoDB replica set (downloaded the first time) |
+| `npm test` (backend) | 103 API and unit tests with Vitest and Supertest on a real MongoDB replica set (downloaded the first time) |
 | `npm run test:perf` (backend) | Performance targets PERF-2 to PERF-10 with 1,500 applicants, 500 programs, 50,000 registry rows and 2,000 My Results requests |
 | `npm run test:e2e` (frontend) | Playwright on a phone (Pixel 7) and a desktop: every screen, the main flows, no horizontal scrolling and no serious or critical WCAG 2.2 AA problem (axe-core) |
 | `E2E_PROD=1 E2E_BASE_URL=http://localhost:3000 npx playwright test e2e/perf.spec.ts` (frontend) | PERF-1 on the production build with a 4G connection profile |
@@ -112,7 +129,7 @@ The browser tests need the backend and frontend running with the demonstration d
 On a new computer install the browser once with `npx playwright install chromium`. The HTML report is
 written to `frontend/e2e-report` (`npm run test:e2e:report`).
 
-## 7. Day-to-day checks
+## 8. Day-to-day checks
 
 - Health check: <http://localhost:5000/api/v1/health> shows the database state.
 - E-mails: without `SMTP_HOST` they are printed in the backend terminal with their links.

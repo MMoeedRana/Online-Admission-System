@@ -1,6 +1,6 @@
 # ADMITRA – Screenshots
 
-Real screenshots of every screen, taken from the running application with the demonstration data (`npm run seed:demo`) on 20 November 2026.
+Real screenshots of every screen, taken from the running application with the demonstration data (`npm run seed:demo`) on 20 November 2026 (updated after Phase 5: Mitra, branding and RIT's own colours).
 
 - `desktop/` – 1440 px wide laptop screen, full page
 - `mobile/` – iPhone 13 (390 px wide), full page
@@ -82,6 +82,10 @@ Accounts used: public pages without login; applicant Ayesha Noor (Hamza Ali for 
 | Verification panel | [desktop](desktop/63-verification-panel.jpg) | [mobile](mobile/63-verification-panel.jpg) |
 | Support (institution) | [desktop](desktop/64-support.jpg) | [mobile](mobile/64-support.jpg) |
 | Support ticket (institution) | [desktop](desktop/65-support-ticket.jpg) | [mobile](mobile/65-support-ticket.jpg) |
+| Mitra daily briefing (Standard plan) | [desktop](desktop/69-mitra-briefing-cvu.jpg) | [mobile](mobile/69-mitra-briefing-cvu.jpg) |
+| Institution branding | [desktop](desktop/68-settings-branding.jpg) | [mobile](mobile/68-settings-branding.jpg) |
+| Mitra integrity alerts (institution) | [desktop](desktop/67-mitra-alerts.jpg) | [mobile](mobile/67-mitra-alerts.jpg) |
+| Mitra chat with a prepared action (institution) | [desktop](desktop/66-mitra-chat.jpg) | [mobile](mobile/66-mitra-chat.jpg) |
 
 ## Super Admin
 
@@ -97,6 +101,11 @@ Accounts used: public pages without login; applicant Ayesha Noor (Hamza Ali for 
 | Support tickets (platform) | [desktop](desktop/77-support-tickets.jpg) | [mobile](mobile/77-support-tickets.jpg) |
 | Support ticket (platform) | [desktop](desktop/78-support-ticket.jpg) | [mobile](mobile/78-support-ticket.jpg) |
 | Audit log (platform) | [desktop](desktop/79-platform-audit-log.jpg) | [mobile](mobile/79-platform-audit-log.jpg) |
+| Ask Mitra drawer | [desktop](desktop/84-mitra-drawer.jpg) | [mobile](mobile/84-mitra-drawer.jpg) |
+| Platform branding | [desktop](desktop/83-branding.jpg) | [mobile](mobile/83-branding.jpg) |
+| Mitra integrity alerts (platform) | [desktop](desktop/82-mitra-alerts.jpg) | [mobile](mobile/82-mitra-alerts.jpg) |
+| Mitra daily briefing (platform) | [desktop](desktop/81-mitra-briefing.jpg) | [mobile](mobile/81-mitra-briefing.jpg) |
+| Mitra chat (platform) | [desktop](desktop/80-mitra-chat.jpg) | [mobile](mobile/80-mitra-chat.jpg) |
 
 ## Dark theme
 
@@ -108,8 +117,15 @@ Accounts used: public pages without login; applicant Ayesha Noor (Hamza Ali for 
 - [47-merit-list-detail.jpg](dark/47-merit-list-detail.jpg)
 - [65-support-ticket.jpg](dark/65-support-ticket.jpg)
 - [76-platform-analytics.jpg](dark/76-platform-analytics.jpg)
+- [80-mitra-chat.jpg](dark/80-mitra-chat.jpg)
+- [83-branding.jpg](dark/83-branding.jpg)
+- [mobile-01-home.jpg](dark/mobile-01-home.jpg)
+- [mobile-09-advisor.jpg](dark/mobile-09-advisor.jpg)
+- [mobile-20-applicant-dashboard.jpg](dark/mobile-20-applicant-dashboard.jpg)
 - [mobile-26-applicant-results.jpg](dark/mobile-26-applicant-results.jpg)
 - [mobile-41-institution-analytics.jpg](dark/mobile-41-institution-analytics.jpg)
 - [mobile-47-merit-list-detail.jpg](dark/mobile-47-merit-list-detail.jpg)
 - [mobile-65-support-ticket.jpg](dark/mobile-65-support-ticket.jpg)
 - [mobile-76-platform-analytics.jpg](dark/mobile-76-platform-analytics.jpg)
+- [mobile-80-mitra-chat.jpg](dark/mobile-80-mitra-chat.jpg)
+- [mobile-83-branding.jpg](dark/mobile-83-branding.jpg)

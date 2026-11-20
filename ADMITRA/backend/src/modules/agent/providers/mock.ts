@@ -92,10 +92,9 @@ export class MockProvider implements ChatProvider {
         toolCalls: [],
         usage,
       };
-    return {
-      content: '',
-      toolCalls: [{ id: `mock_${Date.now()}`, name: tool, args: hit?.[2] ?? {} }],
-      usage,
-    };
+    const args: Record<string, unknown> = { ...(hit?.[2] ?? {}) };
+    const days = q.match(/(\d+)\s*(day|din)/i);
+    if (days && 'withinDays' in args) args.withinDays = Math.min(14, Number(days[1]));
+    return { content: '', toolCalls: [{ id: `mock_${Date.now()}`, name: tool, args }], usage };
   }
 }

@@ -59,7 +59,36 @@ moves to *In progress* with the first reply. The institution admins are notified
 Every recorded action on the platform with the person, institution, record, time and IP address. Search,
 filter by action, record type and dates, open an entry for the recorded details or **Export CSV**.
 
-## 8. API documentation and backups
+## 8. Branding
+
+**Branding** changes the platform name, tagline, the name of the AI assistant, the logo, the favicon and
+the primary, sidebar and initials colours. Any colour can be chosen; it is adjusted only as much as
+needed to keep text readable (WCAG AA) and the preview shows the result. **Save branding** applies it to
+every page, e-mail and PDF within 30 seconds; **Default colours** restores the original colours.
+Institutions on plans with custom branding can use their own logo and colours in their workspace.
+
+## 9. Mitra, the admission copilot
+
+**Mitra** (also the **Ask Mitra** button on every page) answers questions about the whole platform from
+live data: today's applicants and applications, payments, enrollments, institutions, subscriptions and
+platform fees, support tickets, staff activity, the audit log, advisor usage and registry match rates.
+It can prepare renewal reminders for institutions, replies to support tickets and closing of reviewed
+alerts; nothing happens until you press **Confirm**.
+
+- **Briefing** – every morning: new applicants and applications, payments, enrollments, platform fees,
+  subscriptions ending within 30 days or in the grace period, waiting payment proofs, open tickets and
+  integrity alerts; delivered as a notification and an e-mail.
+- **Integrity alerts** – rule-based findings with evidence across all institutions (bulk or overridden
+  marks verifications, payments below the challan, stale payment proofs and fraud flags, repeated list
+  revisions, revocation spikes, sensitive actions at night, offers above capacity, late applications).
+- **Platform fees** – when renewing a subscription (Institutions → institution → Renew) enter the fee
+  received, the method and the reference; empty means plan price × months. Mitra reports these payments.
+- The AI provider is set in the backend `.env` (see the Installation and Operation Manual). The chat header
+  shows the provider and model in use.
+
+Plans decide what institutions get: Standard has the daily briefing, Enterprise also the chat and actions.
+
+## 10. API documentation and backups
 
 See the Installation and Operation Manual: Swagger UI at `/api/v1/docs`, daily backups with
 `npm run backup` (kept 14 days) and `npm run restore`.

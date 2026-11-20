@@ -107,5 +107,6 @@ compare programs and download the shortlist as a PDF.
 
 ## 9. Account settings
 
-The menu under your name opens **Account settings**: change your name and password and choose the
-light or dark theme.
+The menu under your name opens **Account settings**: add or remove a **profile picture** (PNG, JPG or
+WebP up to 2 MB), change your name and password and choose the light or dark theme. Without a picture
+your initials are shown.
