@@ -193,10 +193,10 @@ function CreateInstitutionModal({ open, onClose }: { open: boolean; onClose: () 
     >
       <form className="grid gap-4 sm:grid-cols-2" onSubmit={submit} noValidate>
         <Field label="Name" htmlFor="ci-name" required error={e.name?.message} className="sm:col-span-2">
-          <Input id="ci-name" {...register('name')} />
+          <Input placeholder="e.g. Riphah Institute of Technology" id="ci-name" {...register('name')} />
         </Field>
         <Field label="Short name" htmlFor="ci-short" required error={e.shortName?.message}>
-          <Input id="ci-short" {...register('shortName')} />
+          <Input placeholder="e.g. RIT" id="ci-short" {...register('shortName')} />
         </Field>
         <Field label="Website" htmlFor="ci-web" error={e.website?.message}>
           <Input id="ci-web" placeholder="https://" {...register('website')} />
@@ -220,7 +220,7 @@ function CreateInstitutionModal({ open, onClose }: { open: boolean; onClose: () 
           </Select>
         </Field>
         <Field label="City" htmlFor="ci-city" required error={e.city?.message}>
-          <Input id="ci-city" {...register('city')} />
+          <Input placeholder="e.g. Lahore" id="ci-city" {...register('city')} />
         </Field>
         <Field label="Province" htmlFor="ci-prov">
           <Select id="ci-prov" {...register('province')}>
@@ -230,16 +230,16 @@ function CreateInstitutionModal({ open, onClose }: { open: boolean; onClose: () 
           </Select>
         </Field>
         <Field label="Contact person" htmlFor="ci-cn" required error={e.contact?.name?.message}>
-          <Input id="ci-cn" {...register('contact.name')} />
+          <Input placeholder="Full name of the contact" id="ci-cn" {...register('contact.name')} />
         </Field>
         <Field label="Designation" htmlFor="ci-cd">
-          <Input id="ci-cd" {...register('contact.designation')} />
+          <Input placeholder="e.g. Registrar" id="ci-cd" {...register('contact.designation')} />
         </Field>
         <Field label="Contact e-mail" htmlFor="ci-ce" required error={e.contact?.email?.message}>
-          <Input id="ci-ce" type="email" {...register('contact.email')} />
+          <Input placeholder="name@institution.edu.pk" id="ci-ce" type="email" {...register('contact.email')} />
         </Field>
         <Field label="Contact phone" htmlFor="ci-cp" error={e.contact?.phone?.message}>
-          <Input id="ci-cp" {...register('contact.phone')} />
+          <Input placeholder="03XX-XXXXXXX" id="ci-cp" {...register('contact.phone')} />
         </Field>
         <Field label="Plan" htmlFor="ci-plan" required error={e.planId?.message}>
           <Select id="ci-plan" {...register('planId')} defaultValue="">
@@ -256,7 +256,7 @@ function CreateInstitutionModal({ open, onClose }: { open: boolean; onClose: () 
           </Select>
         </Field>
         <Field label="Trial days" htmlFor="ci-trial" error={e.trialDays?.message}>
-          <Input id="ci-trial" type="number" min={0} {...register('trialDays')} />
+          <Input placeholder="e.g. 30" id="ci-trial" type="number" min={0} {...register('trialDays')} />
         </Field>
       </form>
     </Modal>

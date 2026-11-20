@@ -103,7 +103,15 @@ export default async function ProgramsPage({ searchParams }: { searchParams: Pro
             </label>
             <label className="text-ink flex items-center gap-2 text-[13px] font-medium">
               Maximum admission fee (Rs.)
-              <Input name="maxFee" type="number" min={0} step={1000} defaultValue={sp.maxFee} className="h-9 w-32" />
+              <Input
+                placeholder="Max fee"
+                name="maxFee"
+                type="number"
+                min={0}
+                step={1000}
+                defaultValue={sp.maxFee}
+                className="h-9 w-32"
+              />
             </label>
             {Object.values(sp).some(Boolean) && (
               <Link href="/programs" className="text-primary text-[13px] font-semibold">

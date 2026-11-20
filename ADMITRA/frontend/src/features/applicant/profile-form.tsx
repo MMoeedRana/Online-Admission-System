@@ -135,10 +135,10 @@ function ProfileForm({ profile }: { profile: Profile | null }) {
         error={e[prefix]?.line?.message}
         className="sm:col-span-2"
       >
-        <Input id={`${prefix}-line`} {...register(`${prefix}.line`)} />
+        <Input placeholder="House no., street, area" id={`${prefix}-line`} {...register(`${prefix}.line`)} />
       </Field>
       <Field label="City" htmlFor={`${prefix}-city`} required error={e[prefix]?.city?.message}>
-        <Input id={`${prefix}-city`} {...register(`${prefix}.city`)} />
+        <Input placeholder="e.g. Faisalabad" id={`${prefix}-city`} {...register(`${prefix}.city`)} />
       </Field>
       <Field label="Province" htmlFor={`${prefix}-prov`} required error={e[prefix]?.province?.message}>
         <Select id={`${prefix}-prov`} {...register(`${prefix}.province`)}>
@@ -165,10 +165,10 @@ function ProfileForm({ profile }: { profile: Profile | null }) {
           />
           <CardBody className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             <Field label="Full name" htmlFor="fullName" required error={e.fullName?.message}>
-              <Input id="fullName" {...register('fullName')} />
+              <Input placeholder="As written on your CNIC" id="fullName" {...register('fullName')} />
             </Field>
             <Field label="Father's name" htmlFor="fatherName" required error={e.fatherName?.message}>
-              <Input id="fatherName" {...register('fatherName')} />
+              <Input placeholder="Your father's full name" id="fatherName" {...register('fatherName')} />
             </Field>
             <Field
               label="CNIC / B-Form number"
@@ -178,13 +178,14 @@ function ProfileForm({ profile }: { profile: Profile | null }) {
               hint="13 digits, e.g. 35202-1234567-1"
             >
               <Input
+                placeholder="35202-1234567-1"
                 id="cnic"
                 inputMode="numeric"
                 {...register('cnic', { onChange: (ev) => setValue('cnic', formatCnic(ev.target.value)) })}
               />
             </Field>
             <Field label="Date of birth" htmlFor="dob" required error={e.dateOfBirth?.message}>
-              <Input id="dob" type="date" {...register('dateOfBirth')} />
+              <Input placeholder="DD/MM/YYYY" id="dob" type="date" {...register('dateOfBirth')} />
             </Field>
             <Field label="Gender" htmlFor="gender" required>
               <Select id="gender" {...register('gender')}>
@@ -197,13 +198,13 @@ function ProfileForm({ profile }: { profile: Profile | null }) {
               <Input id="phone" inputMode="tel" placeholder="0300-1234567" {...register('phone')} />
             </Field>
             <Field label="Nationality" htmlFor="nationality" required>
-              <Input id="nationality" {...register('nationality')} />
+              <Input placeholder="e.g. Pakistani" id="nationality" {...register('nationality')} />
             </Field>
             <Field label="Domicile (district)" htmlFor="domicile" required error={e.domicile?.message}>
-              <Input id="domicile" {...register('domicile')} />
+              <Input placeholder="e.g. Faisalabad" id="domicile" {...register('domicile')} />
             </Field>
             <Field label="Religion" htmlFor="religion">
-              <Input id="religion" {...register('religion')} />
+              <Input placeholder="e.g. Islam" id="religion" {...register('religion')} />
             </Field>
           </CardBody>
         </Card>
@@ -211,16 +212,16 @@ function ProfileForm({ profile }: { profile: Profile | null }) {
           <CardHeader title="Guardian" />
           <CardBody className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             <Field label="Name" htmlFor="g-name" required error={e.guardian?.name?.message}>
-              <Input id="g-name" {...register('guardian.name')} />
+              <Input placeholder="Guardian's full name" id="g-name" {...register('guardian.name')} />
             </Field>
             <Field label="Relation" htmlFor="g-rel" required error={e.guardian?.relation?.message}>
-              <Input id="g-rel" {...register('guardian.relation')} />
+              <Input placeholder="e.g. Father" id="g-rel" {...register('guardian.relation')} />
             </Field>
             <Field label="Mobile number" htmlFor="g-phone" required error={e.guardian?.phone?.message}>
-              <Input id="g-phone" inputMode="tel" {...register('guardian.phone')} />
+              <Input placeholder="03XX-XXXXXXX" id="g-phone" inputMode="tel" {...register('guardian.phone')} />
             </Field>
             <Field label="Occupation" htmlFor="g-occ">
-              <Input id="g-occ" {...register('guardian.occupation')} />
+              <Input placeholder="e.g. Businessman" id="g-occ" {...register('guardian.occupation')} />
             </Field>
           </CardBody>
         </Card>

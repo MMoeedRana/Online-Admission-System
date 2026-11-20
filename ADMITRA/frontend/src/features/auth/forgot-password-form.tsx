@@ -52,7 +52,7 @@ export function ForgotPasswordForm() {
         })}
       >
         <Field label="E-mail" htmlFor="email" error={formState.errors.email?.message}>
-          <Input id="email" type="email" autoComplete="email" {...register('email')} />
+          <Input placeholder="you@example.com" id="email" type="email" autoComplete="email" {...register('email')} />
         </Field>
         <Button type="submit" size="lg" className="w-full" loading={formState.isSubmitting}>
           Send reset link

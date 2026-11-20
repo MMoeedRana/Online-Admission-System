@@ -211,7 +211,13 @@ export function PaymentPage({ id }: { id: string }) {
                       />
                     </Field>
                     <Field label="Paid on" htmlFor="paidOn" error={errors.paidOn?.message} required>
-                      <Input id="paidOn" type="date" max={toDateInput(new Date())} {...form.register('paidOn')} />
+                      <Input
+                        placeholder="DD/MM/YYYY"
+                        id="paidOn"
+                        type="date"
+                        max={toDateInput(new Date())}
+                        {...form.register('paidOn')}
+                      />
                     </Field>
                   </div>
                   <FileDrop

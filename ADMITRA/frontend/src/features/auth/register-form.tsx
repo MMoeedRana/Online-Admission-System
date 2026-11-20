@@ -53,13 +53,27 @@ export function RegisterForm() {
         })}
       >
         <Field label="Full name" htmlFor="fullName" error={e.fullName?.message} hint="As written on your CNIC / B-Form">
-          <Input id="fullName" autoComplete="name" aria-invalid={!!e.fullName} {...register('fullName')} />
+          <Input
+            placeholder="As written on your CNIC"
+            id="fullName"
+            autoComplete="name"
+            aria-invalid={!!e.fullName}
+            {...register('fullName')}
+          />
         </Field>
         <Field label="E-mail" htmlFor="email" error={e.email?.message}>
-          <Input id="email" type="email" autoComplete="email" aria-invalid={!!e.email} {...register('email')} />
+          <Input
+            placeholder="you@example.com"
+            id="email"
+            type="email"
+            autoComplete="email"
+            aria-invalid={!!e.email}
+            {...register('email')}
+          />
         </Field>
         <Field label="Password" htmlFor="password" error={e.password?.message}>
           <PasswordInput
+            placeholder="At least 8 characters"
             id="password"
             autoComplete="new-password"
             aria-invalid={!!e.password}
@@ -68,7 +82,13 @@ export function RegisterForm() {
         </Field>
         <PasswordChecklist value={pwValue ?? ''} />
         <Field label="Confirm password" htmlFor="confirm" error={e.confirm?.message}>
-          <PasswordInput id="confirm" autoComplete="new-password" aria-invalid={!!e.confirm} {...register('confirm')} />
+          <PasswordInput
+            placeholder="Type the password again"
+            id="confirm"
+            autoComplete="new-password"
+            aria-invalid={!!e.confirm}
+            {...register('confirm')}
+          />
         </Field>
         <Button type="submit" size="lg" className="w-full" loading={formState.isSubmitting}>
           Create account

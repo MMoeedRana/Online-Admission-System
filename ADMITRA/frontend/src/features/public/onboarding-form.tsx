@@ -75,10 +75,15 @@ export function OnboardingForm() {
         <h2 className="text-[15px] font-bold">Institution</h2>
         <div className="mt-4 grid gap-4 sm:grid-cols-2">
           <Field label="Institution name" htmlFor="name" required error={e.name?.message} className="sm:col-span-2">
-            <Input id="name" aria-invalid={!!e.name} {...register('name')} />
+            <Input
+              placeholder="e.g. Government College University"
+              id="name"
+              aria-invalid={!!e.name}
+              {...register('name')}
+            />
           </Field>
           <Field label="Short name" htmlFor="shortName" required error={e.shortName?.message} hint="For example GCUF">
-            <Input id="shortName" aria-invalid={!!e.shortName} {...register('shortName')} />
+            <Input placeholder="e.g. GCUF" id="shortName" aria-invalid={!!e.shortName} {...register('shortName')} />
           </Field>
           <Field label="Type" htmlFor="type" required>
             <Select id="type" {...register('type')}>
@@ -102,7 +107,7 @@ export function OnboardingForm() {
             <Input id="website" placeholder="https://" aria-invalid={!!e.website} {...register('website')} />
           </Field>
           <Field label="City" htmlFor="city" required error={e.city?.message}>
-            <Input id="city" aria-invalid={!!e.city} {...register('city')} />
+            <Input placeholder="e.g. Faisalabad" id="city" aria-invalid={!!e.city} {...register('city')} />
           </Field>
           <Field label="Province" htmlFor="province" required>
             <Select id="province" {...register('province')}>
@@ -120,7 +125,12 @@ export function OnboardingForm() {
         </p>
         <div className="mt-4 grid gap-4 sm:grid-cols-2">
           <Field label="Full name" htmlFor="cname" required error={e.contact?.name?.message}>
-            <Input id="cname" aria-invalid={!!e.contact?.name} {...register('contact.name')} />
+            <Input
+              placeholder="Full name of the contact"
+              id="cname"
+              aria-invalid={!!e.contact?.name}
+              {...register('contact.name')}
+            />
           </Field>
           <Field label="Designation" htmlFor="cdes" required error={e.contact?.designation?.message}>
             <Input
@@ -131,7 +141,13 @@ export function OnboardingForm() {
             />
           </Field>
           <Field label="Official e-mail" htmlFor="cemail" required error={e.contact?.email?.message}>
-            <Input id="cemail" type="email" aria-invalid={!!e.contact?.email} {...register('contact.email')} />
+            <Input
+              placeholder="name@institution.edu.pk"
+              id="cemail"
+              type="email"
+              aria-invalid={!!e.contact?.email}
+              {...register('contact.email')}
+            />
           </Field>
           <Field
             label="Phone"
@@ -140,10 +156,16 @@ export function OnboardingForm() {
             error={e.contact?.phone?.message}
             hint="For example 0300-1234567"
           >
-            <Input id="cphone" inputMode="tel" aria-invalid={!!e.contact?.phone} {...register('contact.phone')} />
+            <Input
+              placeholder="03XX-XXXXXXX"
+              id="cphone"
+              inputMode="tel"
+              aria-invalid={!!e.contact?.phone}
+              {...register('contact.phone')}
+            />
           </Field>
           <Field label="Message (optional)" htmlFor="message" className="sm:col-span-2">
-            <Textarea id="message" {...register('message')} />
+            <Textarea placeholder="Tell us about your admissions (optional)" id="message" {...register('message')} />
           </Field>
         </div>
       </Card>

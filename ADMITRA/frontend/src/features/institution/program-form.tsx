@@ -235,7 +235,7 @@ function ProgramForm({ program }: { program?: Program }) {
                 <Input id="title" placeholder="BS Computer Science" {...register('title')} />
               </Field>
               <Field label="Code" htmlFor="code" required error={e.code?.message} hint="Unique in your institution">
-                <Input id="code" className="uppercase" {...register('code')} />
+                <Input placeholder="e.g. BSCS" id="code" className="uppercase" {...register('code')} />
               </Field>
               <Field label="Degree level" htmlFor="degreeLevel" required>
                 <Select id="degreeLevel" {...register('degreeLevel')}>
@@ -285,7 +285,14 @@ function ProgramForm({ program }: { program?: Program }) {
                 />
               </Field>
               <Field label="Duration (years)" htmlFor="durationYears" error={e.durationYears?.message}>
-                <Input id="durationYears" type="number" min={1} max={8} {...register('durationYears')} />
+                <Input
+                  placeholder="e.g. 4"
+                  id="durationYears"
+                  type="number"
+                  min={1}
+                  max={8}
+                  {...register('durationYears')}
+                />
               </Field>
               <Field
                 label="Field group"
@@ -293,10 +300,14 @@ function ProgramForm({ program }: { program?: Program }) {
                 hint="For example Computing, Engineering"
                 className="sm:col-span-2"
               >
-                <Input id="fieldGroup" {...register('fieldGroup')} />
+                <Input placeholder="e.g. Computing" id="fieldGroup" {...register('fieldGroup')} />
               </Field>
               <Field label="Description" htmlFor="description" className="sm:col-span-2 lg:col-span-4">
-                <Textarea id="description" {...register('description')} />
+                <Textarea
+                  placeholder="A short description of the program"
+                  id="description"
+                  {...register('description')}
+                />
               </Field>
             </CardBody>
           </Card>
@@ -329,7 +340,13 @@ function ProgramForm({ program }: { program?: Program }) {
                     </Select>
                   </Field>
                   <Field label="Seats" htmlFor={`se-${i}`} error={e.shifts?.[i]?.seats?.message}>
-                    <Input id={`se-${i}`} type="number" min={1} {...register(`shifts.${i}.seats`)} />
+                    <Input
+                      placeholder="e.g. 60"
+                      id={`se-${i}`}
+                      type="number"
+                      min={1}
+                      {...register(`shifts.${i}.seats`)}
+                    />
                   </Field>
                   <Button
                     variant="ghost"
@@ -383,6 +400,7 @@ function ProgramForm({ program }: { program?: Program }) {
                   </Field>
                   <Field label="Minimum %" htmlFor={`em-${i}`} error={e.eligibility?.[i]?.minPercentage?.message}>
                     <Input
+                      placeholder="e.g. 50"
                       id={`em-${i}`}
                       type="number"
                       min={0}
@@ -425,10 +443,16 @@ function ProgramForm({ program }: { program?: Program }) {
             <CardHeader title="Fees" />
             <CardBody className="grid gap-4 sm:grid-cols-2">
               <Field label="Application fee (Rs.)" htmlFor="applicationFee" required error={e.applicationFee?.message}>
-                <Input id="applicationFee" type="number" min={0} {...register('applicationFee')} />
+                <Input
+                  placeholder="e.g. 2000"
+                  id="applicationFee"
+                  type="number"
+                  min={0}
+                  {...register('applicationFee')}
+                />
               </Field>
               <Field label="Admission fee (Rs.)" htmlFor="admissionFee" required error={e.admissionFee?.message}>
-                <Input id="admissionFee" type="number" min={0} {...register('admissionFee')} />
+                <Input placeholder="e.g. 45000" id="admissionFee" type="number" min={0} {...register('admissionFee')} />
               </Field>
             </CardBody>
           </Card>

@@ -76,10 +76,16 @@ const campusCfg: EntityConfig<Campus> = {
   fields: (v, set, e) => (
     <>
       <Field label="Name" htmlFor="f-name" required error={e.name}>
-        <Input id="f-name" value={v.name as string} onChange={(x) => set('name', x.target.value)} />
+        <Input
+          placeholder="e.g. Main Campus"
+          id="f-name"
+          value={v.name as string}
+          onChange={(x) => set('name', x.target.value)}
+        />
       </Field>
       <Field label="Code" htmlFor="f-code" required error={e.code}>
         <Input
+          placeholder="e.g. MAIN"
           id="f-code"
           className="uppercase"
           value={v.code as string}
@@ -87,10 +93,20 @@ const campusCfg: EntityConfig<Campus> = {
         />
       </Field>
       <Field label="City" htmlFor="f-city" required error={e.city}>
-        <Input id="f-city" value={v.city as string} onChange={(x) => set('city', x.target.value)} />
+        <Input
+          placeholder="e.g. Faisalabad"
+          id="f-city"
+          value={v.city as string}
+          onChange={(x) => set('city', x.target.value)}
+        />
       </Field>
       <Field label="Address" htmlFor="f-addr" error={e.address}>
-        <Input id="f-addr" value={v.address as string} onChange={(x) => set('address', x.target.value)} />
+        <Input
+          placeholder="Street and area"
+          id="f-addr"
+          value={v.address as string}
+          onChange={(x) => set('address', x.target.value)}
+        />
       </Field>
       <Checkbox
         className="sm:col-span-2"
@@ -123,10 +139,16 @@ const facultyCfg: EntityConfig<Faculty> = {
   fields: (v, set, e) => (
     <>
       <Field label="Name" htmlFor="f-name" required error={e.name}>
-        <Input id="f-name" value={v.name as string} onChange={(x) => set('name', x.target.value)} />
+        <Input
+          placeholder="e.g. Faculty of Computing"
+          id="f-name"
+          value={v.name as string}
+          onChange={(x) => set('name', x.target.value)}
+        />
       </Field>
       <Field label="Code" htmlFor="f-code" required error={e.code}>
         <Input
+          placeholder="e.g. FOC"
           id="f-code"
           className="uppercase"
           value={v.code as string}
@@ -167,10 +189,16 @@ const departmentCfg: EntityConfig<Department> = {
   fields: (v, set, e, s) => (
     <>
       <Field label="Name" htmlFor="f-name" required error={e.name}>
-        <Input id="f-name" value={v.name as string} onChange={(x) => set('name', x.target.value)} />
+        <Input
+          placeholder="e.g. Department of Computer Science"
+          id="f-name"
+          value={v.name as string}
+          onChange={(x) => set('name', x.target.value)}
+        />
       </Field>
       <Field label="Code" htmlFor="f-code" required error={e.code}>
         <Input
+          placeholder="e.g. CS"
           id="f-code"
           className="uppercase"
           value={v.code as string}
@@ -246,10 +274,16 @@ const sessionCfg: EntityConfig<AcademicSession> = {
         className="sm:col-span-2"
         hint="For example 2026-2027"
       >
-        <Input id="f-name" value={v.name as string} onChange={(x) => set('name', x.target.value)} />
+        <Input
+          placeholder="e.g. 2026-2027"
+          id="f-name"
+          value={v.name as string}
+          onChange={(x) => set('name', x.target.value)}
+        />
       </Field>
       <Field label="Start date" htmlFor="f-start" required error={e.startDate}>
         <Input
+          placeholder="Start date"
           id="f-start"
           type="date"
           value={v.startDate as string}
@@ -257,7 +291,13 @@ const sessionCfg: EntityConfig<AcademicSession> = {
         />
       </Field>
       <Field label="End date" htmlFor="f-end" required error={e.endDate}>
-        <Input id="f-end" type="date" value={v.endDate as string} onChange={(x) => set('endDate', x.target.value)} />
+        <Input
+          placeholder="End date"
+          id="f-end"
+          type="date"
+          value={v.endDate as string}
+          onChange={(x) => set('endDate', x.target.value)}
+        />
       </Field>
       <Checkbox
         className="sm:col-span-2"

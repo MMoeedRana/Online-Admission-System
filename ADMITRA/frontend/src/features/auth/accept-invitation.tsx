@@ -113,15 +113,26 @@ export function AcceptInvitation() {
             error={errors.password}
             hint="You already have an ADMITRA account with this e-mail."
           >
-            <PasswordInput id="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+            <PasswordInput
+              placeholder="Your ADMITRA password"
+              id="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
           </Field>
         ) : (
           <>
             <Field label="Full name" htmlFor="fullName" error={errors.fullName}>
-              <Input id="fullName" value={fullName} onChange={(e) => setFullName(e.target.value)} />
+              <Input
+                placeholder="Your full name"
+                id="fullName"
+                value={fullName}
+                onChange={(e) => setFullName(e.target.value)}
+              />
             </Field>
             <Field label="Choose a password" htmlFor="password" error={errors.password}>
               <PasswordInput
+                placeholder="At least 8 characters"
                 id="password"
                 autoComplete="new-password"
                 value={password}
@@ -131,6 +142,7 @@ export function AcceptInvitation() {
             <PasswordChecklist value={password} />
             <Field label="Confirm password" htmlFor="confirm" error={errors.confirm}>
               <PasswordInput
+                placeholder="Type the password again"
                 id="confirm"
                 autoComplete="new-password"
                 value={confirm}

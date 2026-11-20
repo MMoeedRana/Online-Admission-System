@@ -394,7 +394,13 @@ function RevokeDialog({ offer, onClose, onDone }: { offer: OfferRow; onClose: ()
         error={err}
         hint="At least 10 characters. Shown to the applicant and kept in the audit trail."
       >
-        <Textarea id="rv-reason" rows={4} value={reason} onChange={(e) => setReason(e.target.value)} />
+        <Textarea
+          placeholder="At least 10 characters"
+          id="rv-reason"
+          rows={4}
+          value={reason}
+          onChange={(e) => setReason(e.target.value)}
+        />
       </Field>
       <Checkbox
         className="mt-4"

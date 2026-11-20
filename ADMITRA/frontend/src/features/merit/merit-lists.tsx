@@ -233,7 +233,13 @@ export function MeritListsPage() {
           error={err}
           hint="Selected applicants must accept and pay the admission fee by this time."
         >
-          <Input id="deadline" type="datetime-local" value={deadline} onChange={(e) => setDeadline(e.target.value)} />
+          <Input
+            placeholder="Acceptance deadline"
+            id="deadline"
+            type="datetime-local"
+            value={deadline}
+            onChange={(e) => setDeadline(e.target.value)}
+          />
         </Field>
       </Modal>
     </>

@@ -168,28 +168,28 @@ function PlanModal({ plan, onClose }: { plan: Plan | null; onClose: () => void }
     >
       <form className="grid gap-4 sm:grid-cols-2" onSubmit={submit} noValidate>
         <Field label="Code" htmlFor="pl-code" required error={e.code?.message}>
-          <Input id="pl-code" disabled={Boolean(plan)} {...register('code')} />
+          <Input placeholder="e.g. STANDARD" id="pl-code" disabled={Boolean(plan)} {...register('code')} />
         </Field>
         <Field label="Name" htmlFor="pl-name" required error={e.name?.message}>
-          <Input id="pl-name" {...register('name')} />
+          <Input placeholder="e.g. Standard" id="pl-name" {...register('name')} />
         </Field>
         <Field label="Price per month (Rs.)" htmlFor="pl-price" error={e.priceMonthly?.message}>
-          <Input id="pl-price" type="number" min={0} {...register('priceMonthly')} />
+          <Input placeholder="e.g. 25000" id="pl-price" type="number" min={0} {...register('priceMonthly')} />
         </Field>
         <Field label="Trial days" htmlFor="pl-trial" error={e.trialDays?.message}>
-          <Input id="pl-trial" type="number" min={0} {...register('trialDays')} />
+          <Input placeholder="e.g. 30" id="pl-trial" type="number" min={0} {...register('trialDays')} />
         </Field>
         <Field label="Campuses" htmlFor="pl-c" error={e.limits?.campuses?.message}>
-          <Input id="pl-c" type="number" min={1} {...register('limits.campuses')} />
+          <Input placeholder="e.g. 3" id="pl-c" type="number" min={1} {...register('limits.campuses')} />
         </Field>
         <Field label="Programs" htmlFor="pl-p" error={e.limits?.programs?.message}>
-          <Input id="pl-p" type="number" min={1} {...register('limits.programs')} />
+          <Input placeholder="e.g. 50" id="pl-p" type="number" min={1} {...register('limits.programs')} />
         </Field>
         <Field label="Staff" htmlFor="pl-s" error={e.limits?.staff?.message}>
-          <Input id="pl-s" type="number" min={1} {...register('limits.staff')} />
+          <Input placeholder="e.g. 25" id="pl-s" type="number" min={1} {...register('limits.staff')} />
         </Field>
         <Field label="Applications per cycle" htmlFor="pl-a" error={e.limits?.applicationsPerCycle?.message}>
-          <Input id="pl-a" type="number" min={1} {...register('limits.applicationsPerCycle')} />
+          <Input placeholder="e.g. 5000" id="pl-a" type="number" min={1} {...register('limits.applicationsPerCycle')} />
         </Field>
         <div className="grid gap-3 sm:col-span-2 sm:grid-cols-2">
           {FEATURES.map(([k, l]) => (
@@ -197,7 +197,7 @@ function PlanModal({ plan, onClose }: { plan: Plan | null; onClose: () => void }
           ))}
         </div>
         <Field label="Description" htmlFor="pl-desc" className="sm:col-span-2">
-          <Textarea id="pl-desc" {...register('description')} />
+          <Textarea placeholder="What this plan offers" id="pl-desc" {...register('description')} />
         </Field>
         <Field label="Status" htmlFor="pl-status">
           <Select id="pl-status" {...register('status')}>

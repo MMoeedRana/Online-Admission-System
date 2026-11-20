@@ -104,6 +104,7 @@ export function EmailTemplates() {
               <CardBody className="space-y-4">
                 <Field label="Subject" htmlFor="t-subject" required>
                   <Input
+                    placeholder="E-mail subject"
                     id="t-subject"
                     value={value.subject}
                     onChange={(e) => setDraft({ ...value, subject: e.target.value })}
@@ -111,6 +112,7 @@ export function EmailTemplates() {
                 </Field>
                 <Field label="Message" htmlFor="t-body" required>
                   <Textarea
+                    placeholder={'Write the message. Use {{variables}} where needed.'}
                     id="t-body"
                     rows={10}
                     className="font-mono text-[13px]"

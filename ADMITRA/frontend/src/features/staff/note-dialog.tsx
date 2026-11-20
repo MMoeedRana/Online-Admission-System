@@ -63,7 +63,13 @@ export function NoteDialog({
         required={required}
         hint={required ? 'At least 5 characters. The applicant can see it.' : 'Optional.'}
       >
-        <Textarea id="note" rows={4} value={note} onChange={(e) => setNote(e.target.value)} />
+        <Textarea
+          placeholder="Write a note for the team…"
+          id="note"
+          rows={4}
+          value={note}
+          onChange={(e) => setNote(e.target.value)}
+        />
       </Field>
     </Modal>
   );

@@ -171,10 +171,20 @@ export function DocumentRequirements() {
         {f && (
           <div className="grid gap-4 sm:grid-cols-2">
             <Field label="Name" htmlFor="d-name" required error={errors.name}>
-              <Input id="d-name" value={f.name} onChange={(e) => set('name', e.target.value)} />
+              <Input
+                placeholder="e.g. Matric certificate"
+                id="d-name"
+                value={f.name}
+                onChange={(e) => set('name', e.target.value)}
+              />
             </Field>
             <Field label="Code" htmlFor="d-code" required error={errors.code}>
-              <Input id="d-code" value={f.code} onChange={(e) => set('code', e.target.value.toUpperCase())} />
+              <Input
+                placeholder="e.g. MATRIC_CERT"
+                id="d-code"
+                value={f.code}
+                onChange={(e) => set('code', e.target.value.toUpperCase())}
+              />
             </Field>
             <Field
               label="Instructions for applicants"
@@ -183,6 +193,7 @@ export function DocumentRequirements() {
               error={errors.description}
             >
               <Textarea
+                placeholder="How to scan and upload this document"
                 id="d-desc"
                 rows={2}
                 value={f.description}
@@ -204,6 +215,7 @@ export function DocumentRequirements() {
             </Field>
             <Field label="Maximum size (MB)" htmlFor="d-size" required error={errors.maxSizeMB}>
               <Input
+                placeholder="e.g. 2"
                 id="d-size"
                 type="number"
                 step="0.5"

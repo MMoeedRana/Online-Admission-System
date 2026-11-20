@@ -104,6 +104,7 @@ export function StatusLookup() {
                 <RefreshCw className="size-4" />
               </button>
               <Input
+                placeholder="Your answer"
                 id="captcha"
                 inputMode="numeric"
                 className="w-24"

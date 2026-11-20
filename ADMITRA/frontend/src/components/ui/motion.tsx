@@ -57,13 +57,31 @@ export const itemVariants = {
   show: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.45, ease: EASE } },
 };
 
-/** Child of Stagger; lifts slightly on hover when `hover` is set. */
-export function StaggerItem({ children, className, hover, ...rest }: HTMLMotionProps<'div'> & { hover?: boolean }) {
+/**
+ * Child of Stagger; lifts slightly on hover when `hover` is set. A hover card that holds a link
+ * opens it when any empty part of the card is clicked, so the whole card is clickable.
+ */
+export function StaggerItem({
+  children,
+  className,
+  hover,
+  onClick,
+  ...rest
+}: HTMLMotionProps<'div'> & { hover?: boolean }) {
   return (
     <motion.div
       className={className}
       variants={itemVariants}
+      data-card-link={hover ? '' : undefined}
       whileHover={hover ? { y: -4, transition: { duration: 0.2 } } : undefined}
+      onClick={(e) => {
+        onClick?.(e);
+        if (!hover || e.defaultPrevented) return;
+        const target = e.target as HTMLElement;
+        if (target.closest('a,button,input,select,textarea,label,[role=button]')) return;
+        if (window.getSelection()?.toString()) return;
+        e.currentTarget.querySelector<HTMLAnchorElement>('a[href]')?.click();
+      }}
       {...rest}
     >
       {children}

@@ -41,10 +41,18 @@ export function LoginForm() {
         })}
       >
         <Field label="E-mail" htmlFor="email" error={e.email?.message}>
-          <Input id="email" type="email" autoComplete="email" aria-invalid={!!e.email} {...register('email')} />
+          <Input
+            placeholder="you@example.com"
+            id="email"
+            type="email"
+            autoComplete="email"
+            aria-invalid={!!e.email}
+            {...register('email')}
+          />
         </Field>
         <Field label="Password" htmlFor="password" error={e.password?.message}>
           <PasswordInput
+            placeholder="Enter your password"
             id="password"
             autoComplete="current-password"
             aria-invalid={!!e.password}

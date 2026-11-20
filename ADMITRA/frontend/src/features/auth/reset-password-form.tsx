@@ -44,11 +44,21 @@ export function ResetPasswordForm() {
         })}
       >
         <Field label="New password" htmlFor="password" error={e.password?.message}>
-          <PasswordInput id="password" autoComplete="new-password" {...register('password')} />
+          <PasswordInput
+            placeholder="At least 8 characters"
+            id="password"
+            autoComplete="new-password"
+            {...register('password')}
+          />
         </Field>
         <PasswordChecklist value={pwValue ?? ''} />
         <Field label="Confirm password" htmlFor="confirm" error={e.confirm?.message}>
-          <PasswordInput id="confirm" autoComplete="new-password" {...register('confirm')} />
+          <PasswordInput
+            placeholder="Type the new password again"
+            id="confirm"
+            autoComplete="new-password"
+            {...register('confirm')}
+          />
         </Field>
         <Button type="submit" size="lg" className="w-full" loading={formState.isSubmitting}>
           Save new password

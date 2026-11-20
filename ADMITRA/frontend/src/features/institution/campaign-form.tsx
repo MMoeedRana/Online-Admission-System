@@ -244,7 +244,7 @@ function CampaignForm({
                 error={e.code?.message}
                 hint="Used in application numbers, e.g. F26"
               >
-                <Input id="code" className="uppercase" {...register('code')} />
+                <Input placeholder="e.g. FALL-2026" id="code" className="uppercase" {...register('code')} />
               </Field>
               <Field label="Academic session" htmlFor="sessionId" required error={e.sessionId?.message}>
                 <Select id="sessionId" {...register('sessionId')}>
@@ -258,10 +258,20 @@ function CampaignForm({
                 </Select>
               </Field>
               <Field label="Opens at" htmlFor="opensAt" required error={e.opensAt?.message}>
-                <Input id="opensAt" type="datetime-local" {...register('opensAt')} />
+                <Input
+                  placeholder="Opening date and time"
+                  id="opensAt"
+                  type="datetime-local"
+                  {...register('opensAt')}
+                />
               </Field>
               <Field label="Closes at" htmlFor="closesAt" required error={e.closesAt?.message}>
-                <Input id="closesAt" type="datetime-local" {...register('closesAt')} />
+                <Input
+                  placeholder="Closing date and time"
+                  id="closesAt"
+                  type="datetime-local"
+                  {...register('closesAt')}
+                />
               </Field>
             </CardBody>
           </Card>
@@ -326,7 +336,14 @@ function CampaignForm({
             />
             <CardBody className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
               <Field label="Maximum program preferences" htmlFor="maxPref" error={e.settings?.maxPreferences?.message}>
-                <Input id="maxPref" type="number" min={1} max={10} {...register('settings.maxPreferences')} />
+                <Input
+                  placeholder="e.g. 3"
+                  id="maxPref"
+                  type="number"
+                  min={1}
+                  max={10}
+                  {...register('settings.maxPreferences')}
+                />
               </Field>
               <Field label="Duplicate applications" htmlFor="dup">
                 <Select id="dup" {...register('settings.duplicatePolicy')}>

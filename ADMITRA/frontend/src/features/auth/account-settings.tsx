@@ -63,11 +63,11 @@ export function AccountSettings() {
               })}
             >
               <Field label="Full name" htmlFor="fullName" error={profile.formState.errors.fullName?.message}>
-                <Input id="fullName" {...profile.register('fullName')} />
+                <Input placeholder="Your full name" id="fullName" {...profile.register('fullName')} />
               </Field>
               <Field label="E-mail" htmlFor="email" hint="The e-mail address cannot be changed.">
                 <div className="flex items-center gap-2">
-                  <Input id="email" value={user.email} disabled />
+                  <Input placeholder="you@example.com" id="email" value={user.email} disabled />
                   {user.emailVerified ? <Badge tone="green">Verified</Badge> : <Badge tone="amber">Not verified</Badge>}
                 </div>
               </Field>
@@ -127,16 +127,27 @@ export function AccountSettings() {
                 className="sm:col-span-2"
               >
                 <PasswordInput
+                  placeholder="Your current password"
                   id="currentPassword"
                   autoComplete="current-password"
                   {...pw.register('currentPassword')}
                 />
               </Field>
               <Field label="New password" htmlFor="newPassword" error={pw.formState.errors.newPassword?.message}>
-                <PasswordInput id="newPassword" autoComplete="new-password" {...pw.register('newPassword')} />
+                <PasswordInput
+                  placeholder="At least 8 characters"
+                  id="newPassword"
+                  autoComplete="new-password"
+                  {...pw.register('newPassword')}
+                />
               </Field>
               <Field label="Confirm new password" htmlFor="confirm" error={pw.formState.errors.confirm?.message}>
-                <PasswordInput id="confirm" autoComplete="new-password" {...pw.register('confirm')} />
+                <PasswordInput
+                  placeholder="Type the new password again"
+                  id="confirm"
+                  autoComplete="new-password"
+                  {...pw.register('confirm')}
+                />
               </Field>
               <div className="sm:col-span-2">
                 <PasswordChecklist value={newPw ?? ''} />

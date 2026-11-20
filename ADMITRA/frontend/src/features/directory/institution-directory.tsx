@@ -218,7 +218,13 @@ function ProfileForm({ institution, onSaved }: { institution: DirInstitution; on
           />
         </Field>
         <Field label="About" htmlFor="d-about" error={errors.about}>
-          <Textarea id="d-about" rows={4} value={v.about} onChange={(e) => setV({ ...v, about: e.target.value })} />
+          <Textarea
+            placeholder="A short introduction to your institution"
+            id="d-about"
+            rows={4}
+            value={v.about}
+            onChange={(e) => setV({ ...v, about: e.target.value })}
+          />
         </Field>
         <Button icon={<Save className="size-4" />} loading={save.isPending} onClick={() => save.mutate()}>
           Save profile
@@ -265,10 +271,22 @@ function ProgramEdit({ program, onClose, onSaved }: { program: Program; onClose:
     >
       <div className="grid gap-4 sm:grid-cols-2">
         <Field label="Fee per semester (Rs.)" htmlFor="p-fee">
-          <Input id="p-fee" inputMode="numeric" value={fee} onChange={(e) => setFee(e.target.value)} />
+          <Input
+            placeholder="e.g. 65000"
+            id="p-fee"
+            inputMode="numeric"
+            value={fee}
+            onChange={(e) => setFee(e.target.value)}
+          />
         </Field>
         <Field label="Seats" htmlFor="p-seats">
-          <Input id="p-seats" inputMode="numeric" value={seats} onChange={(e) => setSeats(e.target.value)} />
+          <Input
+            placeholder="e.g. 60"
+            id="p-seats"
+            inputMode="numeric"
+            value={seats}
+            onChange={(e) => setSeats(e.target.value)}
+          />
         </Field>
         <Field
           label="Usual admission months"
@@ -276,7 +294,7 @@ function ProgramEdit({ program, onClose, onSaved }: { program: Program; onClose:
           hint="Numbers 1-12 separated by commas, e.g. 7, 8, 9"
           className="sm:col-span-2"
         >
-          <Input id="p-months" value={months} onChange={(e) => setMonths(e.target.value)} />
+          <Input placeholder="e.g. 7, 8, 9" id="p-months" value={months} onChange={(e) => setMonths(e.target.value)} />
         </Field>
         <Field label="Admission page link" htmlFor="p-url" className="sm:col-span-2">
           <Input id="p-url" placeholder="https://" value={applyUrl} onChange={(e) => setApplyUrl(e.target.value)} />
@@ -339,7 +357,13 @@ function ClaimPanel({ pending, onDone }: { pending: { name: string } | null; onD
         {pick && (
           <>
             <Field label="Why is this listing yours?" htmlFor="claim-note" required>
-              <Textarea id="claim-note" rows={3} value={note} onChange={(e) => setNote(e.target.value)} />
+              <Textarea
+                placeholder="Your role and how we can verify it"
+                id="claim-note"
+                rows={3}
+                value={note}
+                onChange={(e) => setNote(e.target.value)}
+              />
             </Field>
             <Button disabled={note.trim().length < 10} loading={claim.isPending} onClick={() => claim.mutate()}>
               Send claim

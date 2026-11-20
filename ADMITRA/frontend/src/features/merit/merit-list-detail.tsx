@@ -435,6 +435,7 @@ export function MeritListDetail({ id }: { id: string }) {
       >
         <Field label="New offer deadline" htmlFor="rev-deadline" required>
           <Input
+            placeholder="New deadline"
             id="rev-deadline"
             type="datetime-local"
             value={deadline}

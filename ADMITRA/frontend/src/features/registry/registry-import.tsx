@@ -223,7 +223,12 @@ export function RegistryImport({
                 error={sourceError}
                 hint="For example: BISE Faisalabad gazette, Intermediate Annual 2025 (official website)."
               >
-                <Input id="source" value={source} onChange={(e) => (setSource(e.target.value), setSourceError(''))} />
+                <Input
+                  placeholder="e.g. BISE Faisalabad result gazette 2025"
+                  id="source"
+                  value={source}
+                  onChange={(e) => (setSource(e.target.value), setSourceError(''))}
+                />
               </Field>
               <Button
                 icon={<Upload className="size-4" />}

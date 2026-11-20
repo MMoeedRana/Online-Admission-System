@@ -95,16 +95,38 @@ function SettingsForm({ initial }: { initial: Institution }) {
               />
             </Field>
             <Field label="Public e-mail" htmlFor="s-email" error={errors.email}>
-              <Input id="s-email" type="email" value={i.email} onChange={(e) => set('email', e.target.value)} />
+              <Input
+                placeholder="admissions@institution.edu.pk"
+                id="s-email"
+                type="email"
+                value={i.email}
+                onChange={(e) => set('email', e.target.value)}
+              />
             </Field>
             <Field label="Phone" htmlFor="s-phone" error={errors.phone}>
-              <Input id="s-phone" value={i.phone} onChange={(e) => set('phone', e.target.value)} />
+              <Input
+                placeholder="041-1234567"
+                id="s-phone"
+                value={i.phone}
+                onChange={(e) => set('phone', e.target.value)}
+              />
             </Field>
             <Field label="Address" htmlFor="s-addr" error={errors.address}>
-              <Input id="s-addr" value={i.address} onChange={(e) => set('address', e.target.value)} />
+              <Input
+                placeholder="Street, area and city"
+                id="s-addr"
+                value={i.address}
+                onChange={(e) => set('address', e.target.value)}
+              />
             </Field>
             <Field label="About" htmlFor="s-about" className="sm:col-span-2">
-              <Textarea id="s-about" rows={5} value={i.about} onChange={(e) => set('about', e.target.value)} />
+              <Textarea
+                placeholder="A short introduction for applicants"
+                id="s-about"
+                rows={5}
+                value={i.about}
+                onChange={(e) => set('about', e.target.value)}
+              />
             </Field>
             <div className="sm:col-span-2">
               <Button
@@ -143,6 +165,7 @@ function SettingsForm({ initial }: { initial: Institution }) {
             ).map(([k, l]) => (
               <Field key={k} label={l} htmlFor={`b-${k}`} error={errors[`bankAccount.${k}`]}>
                 <Input
+                  placeholder={`Enter ${l.toLowerCase()}`}
                   id={`b-${k}`}
                   value={i.bankAccount[k]}
                   onChange={(e) => set('bankAccount', { ...i.bankAccount, [k]: e.target.value })}
@@ -187,6 +210,7 @@ function SettingsForm({ initial }: { initial: Institution }) {
                   className="border-line bg-card h-11 w-14 cursor-pointer rounded-xl border p-1"
                 />
                 <Input
+                  placeholder="#1d4ed8"
                   id="br-color"
                   disabled={!canBrand}
                   value={i.branding.primaryColor}

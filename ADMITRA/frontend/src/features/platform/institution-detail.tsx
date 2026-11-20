@@ -248,6 +248,7 @@ export function InstitutionDetail({ id }: { id: string }) {
           </Field>
           <Field label="Trial days" htmlFor="ap-days">
             <Input
+              placeholder="e.g. 30"
               id="ap-days"
               type="number"
               min={0}

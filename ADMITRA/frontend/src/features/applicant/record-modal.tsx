@@ -166,7 +166,13 @@ export function RecordModal({
           )}
         </Field>
         <Field label="Year" htmlFor="r-year" required error={errors.year}>
-          <Input id="r-year" type="number" value={v.year} onChange={(e) => set('year', e.target.value)} />
+          <Input
+            placeholder="e.g. 2025"
+            id="r-year"
+            type="number"
+            value={v.year}
+            onChange={(e) => set('year', e.target.value)}
+          />
         </Field>
         {isTest && (
           <Field label="Test name" htmlFor="r-test" required error={errors.testName} className="sm:col-span-2">
@@ -188,14 +194,29 @@ export function RecordModal({
         </Field>
         {!isTest && (
           <Field label="Group" htmlFor="r-group" hint="e.g. Science, ICS, Pre-Engineering">
-            <Input id="r-group" value={v.group} onChange={(e) => set('group', e.target.value)} />
+            <Input
+              placeholder="e.g. Pre-Medical"
+              id="r-group"
+              value={v.group}
+              onChange={(e) => set('group', e.target.value)}
+            />
           </Field>
         )}
         <Field label="Roll number" htmlFor="r-roll" required error={errors.rollNo}>
-          <Input id="r-roll" value={v.rollNo} onChange={(e) => set('rollNo', e.target.value)} />
+          <Input
+            placeholder="e.g. 456789"
+            id="r-roll"
+            value={v.rollNo}
+            onChange={(e) => set('rollNo', e.target.value)}
+          />
         </Field>
         <Field label="Registration no. (optional)" htmlFor="r-reg">
-          <Input id="r-reg" value={v.registrationNo} onChange={(e) => set('registrationNo', e.target.value)} />
+          <Input
+            placeholder="Board registration no."
+            id="r-reg"
+            value={v.registrationNo}
+            onChange={(e) => set('registrationNo', e.target.value)}
+          />
         </Field>
         <Field
           label="Name on result card"
@@ -204,7 +225,12 @@ export function RecordModal({
           error={errors.studentName}
           className="sm:col-span-2"
         >
-          <Input id="r-name" value={v.studentName} onChange={(e) => set('studentName', e.target.value)} />
+          <Input
+            placeholder="Name on the certificate"
+            id="r-name"
+            value={v.studentName}
+            onChange={(e) => set('studentName', e.target.value)}
+          />
         </Field>
         <Field
           label="Father's name on result card"
@@ -213,17 +239,34 @@ export function RecordModal({
           error={errors.fatherName}
           className="sm:col-span-2"
         >
-          <Input id="r-father" value={v.fatherName} onChange={(e) => set('fatherName', e.target.value)} />
+          <Input
+            placeholder="Father's name on the certificate"
+            id="r-father"
+            value={v.fatherName}
+            onChange={(e) => set('fatherName', e.target.value)}
+          />
         </Field>
       </div>
 
       {isTest ? (
         <div className="mt-5 grid gap-4 sm:grid-cols-2">
           <Field label="Marks obtained" htmlFor="r-ob" required error={errors.obtained}>
-            <Input id="r-ob" type="number" value={v.obtained} onChange={(e) => set('obtained', e.target.value)} />
+            <Input
+              placeholder="e.g. 945"
+              id="r-ob"
+              type="number"
+              value={v.obtained}
+              onChange={(e) => set('obtained', e.target.value)}
+            />
           </Field>
           <Field label="Total marks" htmlFor="r-tot" required error={errors.total}>
-            <Input id="r-tot" type="number" value={v.total} onChange={(e) => set('total', e.target.value)} />
+            <Input
+              placeholder="e.g. 1100"
+              id="r-tot"
+              type="number"
+              value={v.total}
+              onChange={(e) => set('total', e.target.value)}
+            />
           </Field>
         </div>
       ) : (
@@ -255,6 +298,7 @@ export function RecordModal({
                   }
                 />
                 <Input
+                  placeholder="Obtained"
                   aria-label="Obtained"
                   type="number"
                   min={0}
@@ -268,6 +312,7 @@ export function RecordModal({
                   }
                 />
                 <Input
+                  placeholder="Total"
                   aria-label="Total"
                   type="number"
                   min={1}

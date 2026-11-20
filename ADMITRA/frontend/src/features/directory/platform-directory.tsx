@@ -355,10 +355,20 @@ function InstitutionForm({ onClose, onSaved }: { onClose: () => void; onSaved: (
     >
       <div className="grid gap-4 sm:grid-cols-2">
         <Field label="Name" htmlFor="di-name" required error={errors.name} className="sm:col-span-2">
-          <Input id="di-name" value={v.name} onChange={(e) => set('name', e.target.value)} />
+          <Input
+            placeholder="e.g. University of Agriculture"
+            id="di-name"
+            value={v.name}
+            onChange={(e) => set('name', e.target.value)}
+          />
         </Field>
         <Field label="Short name" htmlFor="di-short" error={errors.shortName}>
-          <Input id="di-short" value={v.shortName} onChange={(e) => set('shortName', e.target.value)} />
+          <Input
+            placeholder="e.g. UAF"
+            id="di-short"
+            value={v.shortName}
+            onChange={(e) => set('shortName', e.target.value)}
+          />
         </Field>
         <Field label="Type" htmlFor="di-type">
           <Select id="di-type" value={v.type} onChange={(e) => set('type', e.target.value)}>
@@ -383,7 +393,12 @@ function InstitutionForm({ onClose, onSaved }: { onClose: () => void; onSaved: (
           </Select>
         </Field>
         <Field label="City" htmlFor="di-city" required error={errors.city}>
-          <Input id="di-city" value={v.city} onChange={(e) => set('city', e.target.value)} />
+          <Input
+            placeholder="e.g. Faisalabad"
+            id="di-city"
+            value={v.city}
+            onChange={(e) => set('city', e.target.value)}
+          />
         </Field>
         <Field label="Website" htmlFor="di-web" error={errors.website}>
           <Input
@@ -394,7 +409,13 @@ function InstitutionForm({ onClose, onSaved }: { onClose: () => void; onSaved: (
           />
         </Field>
         <Field label="About" htmlFor="di-about" className="sm:col-span-2">
-          <Textarea id="di-about" rows={3} value={v.about} onChange={(e) => set('about', e.target.value)} />
+          <Textarea
+            placeholder="A short introduction"
+            id="di-about"
+            rows={3}
+            value={v.about}
+            onChange={(e) => set('about', e.target.value)}
+          />
         </Field>
       </div>
     </Modal>
@@ -549,7 +570,12 @@ function ProgramForm({
     >
       <div className="grid gap-4 sm:grid-cols-3">
         <Field label="Title" htmlFor="dp-title" required error={errors.title} className="sm:col-span-2">
-          <Input id="dp-title" value={v.title} onChange={(e) => set('title', e.target.value)} />
+          <Input
+            placeholder="e.g. BS Computer Science"
+            id="dp-title"
+            value={v.title}
+            onChange={(e) => set('title', e.target.value)}
+          />
         </Field>
         <Field label="Degree" htmlFor="dp-deg">
           <Select id="dp-deg" value={v.degreeLevel} onChange={(e) => set('degreeLevel', e.target.value)}>
@@ -570,6 +596,7 @@ function ProgramForm({
         </Field>
         <Field label="Fee / semester" htmlFor="dp-fee">
           <Input
+            placeholder="e.g. 65000"
             id="dp-fee"
             inputMode="numeric"
             value={v.feePerSemester}
@@ -577,13 +604,29 @@ function ProgramForm({
           />
         </Field>
         <Field label="Seats" htmlFor="dp-seats">
-          <Input id="dp-seats" inputMode="numeric" value={v.seats} onChange={(e) => set('seats', e.target.value)} />
+          <Input
+            placeholder="e.g. 60"
+            id="dp-seats"
+            inputMode="numeric"
+            value={v.seats}
+            onChange={(e) => set('seats', e.target.value)}
+          />
         </Field>
         <Field label="Min Matric %" htmlFor="dp-mm">
-          <Input id="dp-mm" value={v.minMatric} onChange={(e) => set('minMatric', e.target.value)} />
+          <Input
+            placeholder="e.g. 60"
+            id="dp-mm"
+            value={v.minMatric}
+            onChange={(e) => set('minMatric', e.target.value)}
+          />
         </Field>
         <Field label="Min Intermediate %" htmlFor="dp-mi">
-          <Input id="dp-mi" value={v.minInter} onChange={(e) => set('minInter', e.target.value)} />
+          <Input
+            placeholder="e.g. 50"
+            id="dp-mi"
+            value={v.minInter}
+            onChange={(e) => set('minInter', e.target.value)}
+          />
         </Field>
         <Field label="Required groups" htmlFor="dp-g" hint="Comma separated">
           <Input
@@ -594,13 +637,13 @@ function ProgramForm({
           />
         </Field>
         <Field label="Matric weight" htmlFor="dp-wm">
-          <Input id="dp-wm" value={v.matric} onChange={(e) => set('matric', e.target.value)} />
+          <Input placeholder="e.g. 25" id="dp-wm" value={v.matric} onChange={(e) => set('matric', e.target.value)} />
         </Field>
         <Field label="Intermediate weight" htmlFor="dp-wi">
-          <Input id="dp-wi" value={v.inter} onChange={(e) => set('inter', e.target.value)} />
+          <Input placeholder="e.g. 50" id="dp-wi" value={v.inter} onChange={(e) => set('inter', e.target.value)} />
         </Field>
         <Field label="Entry test weight" htmlFor="dp-wt" error={errors.formula}>
-          <Input id="dp-wt" value={v.test} onChange={(e) => set('test', e.target.value)} />
+          <Input placeholder="e.g. 25" id="dp-wt" value={v.test} onChange={(e) => set('test', e.target.value)} />
         </Field>
       </div>
     </Modal>

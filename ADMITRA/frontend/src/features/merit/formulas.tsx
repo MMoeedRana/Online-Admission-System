@@ -381,6 +381,7 @@ function FormulaEditor({
               hint={c.type === 'ENTRY_TEST' ? 'Empty: any entry test' : undefined}
             >
               <Input
+                placeholder="e.g. ECAT"
                 id={`c-test-${i}`}
                 disabled={c.type !== 'ENTRY_TEST'}
                 value={c.testName}
@@ -389,6 +390,7 @@ function FormulaEditor({
             </Field>
             <Field label="Weight %" htmlFor={`c-w-${i}`}>
               <Input
+                placeholder="e.g. 50"
                 id={`c-w-${i}`}
                 inputMode="decimal"
                 value={String(c.weight)}
@@ -397,6 +399,7 @@ function FormulaEditor({
             </Field>
             <Field label="Min %" htmlFor={`c-min-${i}`}>
               <Input
+                placeholder="e.g. 45"
                 id={`c-min-${i}`}
                 inputMode="decimal"
                 value={c.minPercentage ?? ''}
@@ -498,7 +501,13 @@ function FormulaEditor({
           </p>
         </div>
         <Field label="Note for the committee" htmlFor="f-note">
-          <Textarea id="f-note" rows={2} value={note} onChange={(e) => setNote(e.target.value)} />
+          <Textarea
+            placeholder="What changed in this formula"
+            id="f-note"
+            rows={2}
+            value={note}
+            onChange={(e) => setNote(e.target.value)}
+          />
         </Field>
       </div>
     </Modal>
@@ -538,6 +547,7 @@ function TestPanel({ title, components, onClose }: { title: string; components: 
         {components.map((c) => (
           <Field key={c.type} label={`${COMPONENTS[c.type]} %`} htmlFor={`t-${c.type}`}>
             <Input
+              placeholder="e.g. 80"
               id={`t-${c.type}`}
               inputMode="decimal"
               value={marks[c.type]}

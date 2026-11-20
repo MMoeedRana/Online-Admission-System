@@ -51,7 +51,12 @@ export function ConfirmDialog({
       <p className="text-[14px] leading-relaxed">{message}</p>
       {reasonLabel && (
         <Field label={reasonLabel} htmlFor="reason" required hint="At least 5 characters." className="mt-4">
-          <Textarea id="reason" value={reason} onChange={(e) => setReason(e.target.value)} />
+          <Textarea
+            placeholder="Write the reason here…"
+            id="reason"
+            value={reason}
+            onChange={(e) => setReason(e.target.value)}
+          />
         </Field>
       )}
     </Modal>

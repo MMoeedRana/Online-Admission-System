@@ -87,10 +87,22 @@ export function HistoryForm({
           </Select>
         </Field>
         <Field label="Year" htmlFor="h-year" required error={errors.year}>
-          <Input id="h-year" inputMode="numeric" value={v.year} onChange={(e) => set('year', e.target.value)} />
+          <Input
+            placeholder="e.g. 2025"
+            id="h-year"
+            inputMode="numeric"
+            value={v.year}
+            onChange={(e) => set('year', e.target.value)}
+          />
         </Field>
         <Field label="Merit list (round)" htmlFor="h-round" required error={errors.round}>
-          <Input id="h-round" inputMode="numeric" value={v.round} onChange={(e) => set('round', e.target.value)} />
+          <Input
+            placeholder="e.g. 1"
+            id="h-round"
+            inputMode="numeric"
+            value={v.round}
+            onChange={(e) => set('round', e.target.value)}
+          />
         </Field>
         <Field label="Shift" htmlFor="h-shift">
           <Select id="h-shift" value={v.shift} onChange={(e) => set('shift', e.target.value)}>
@@ -102,10 +114,16 @@ export function HistoryForm({
           </Select>
         </Field>
         <Field label="Quota" htmlFor="h-quota" error={errors.quota}>
-          <Input id="h-quota" value={v.quota} onChange={(e) => set('quota', e.target.value.toUpperCase())} />
+          <Input
+            placeholder="e.g. Open merit"
+            id="h-quota"
+            value={v.quota}
+            onChange={(e) => set('quota', e.target.value.toUpperCase())}
+          />
         </Field>
         <Field label="Opening merit" htmlFor="h-open" error={errors.openingMerit}>
           <Input
+            placeholder="e.g. 92.10"
             id="h-open"
             inputMode="decimal"
             value={v.openingMerit}
@@ -114,6 +132,7 @@ export function HistoryForm({
         </Field>
         <Field label="Closing merit" htmlFor="h-close" required error={errors.closingMerit}>
           <Input
+            placeholder="e.g. 84.35"
             id="h-close"
             inputMode="decimal"
             value={v.closingMerit}
@@ -121,7 +140,13 @@ export function HistoryForm({
           />
         </Field>
         <Field label="Seats" htmlFor="h-seats" error={errors.seats}>
-          <Input id="h-seats" inputMode="numeric" value={v.seats} onChange={(e) => set('seats', e.target.value)} />
+          <Input
+            placeholder="e.g. 60"
+            id="h-seats"
+            inputMode="numeric"
+            value={v.seats}
+            onChange={(e) => set('seats', e.target.value)}
+          />
         </Field>
         <Field label="Source" htmlFor="h-src" className="sm:col-span-2" required error={errors.source}>
           <Input

@@ -119,7 +119,12 @@ export function HistoryImport({ base, onDone }: { base: string; onDone: () => vo
                 error={err}
                 hint="For example: merit lists 2025 published on the university website."
               >
-                <Input id="h-source" value={source} onChange={(e) => (setSource(e.target.value), setErr(''))} />
+                <Input
+                  placeholder="e.g. Official merit list PDF 2025"
+                  id="h-source"
+                  value={source}
+                  onChange={(e) => (setSource(e.target.value), setErr(''))}
+                />
               </Field>
               <Button
                 icon={<Upload className="size-4" />}
