@@ -384,4 +384,36 @@ describe('offline provider for development (AGENT-1)', () => {
     expect(r.body.data.events[0]).toMatchObject({ type: 'tool', name: 'integrity_alerts' });
     expect(r.body.data.message.content).toContain('Here is what I found');
   });
+
+  it('answers greetings and small talk warmly without tools, in English or Roman Urdu', async () => {
+    const { MockProvider } = await import('../src/modules/agent/providers/mock.js');
+    setProvider(new MockProvider());
+    const root = await superAdminToken();
+    const c = await api().post('/api/v1/platform/agent/conversations').set('Authorization', `Bearer ${root}`);
+    const ask = (message: string) =>
+      api()
+        .post(`/api/v1/platform/agent/conversations/${c.body.data._id}/messages`)
+        .set('Authorization', `Bearer ${root}`)
+        .send({ message });
+    const hello = await ask('Hello!');
+    expect(hello.body.data.events.filter((e: { type: string }) => e.type === 'tool')).toHaveLength(0);
+    expect(hello.body.data.message.content).toMatch(/^Hello .*I am Mitra/);
+    const howAreYou = await ask('How are you?');
+    expect(howAreYou.body.data.message.content).toContain('I am doing great');
+    const salam = await ask('Assalam o Alaikum, aap kaise hain?');
+    expect(salam.body.data.message.content).toContain('Main bilkul theek hoon');
+    const thanks = await ask('shukriya');
+    expect(thanks.body.data.message.content).toContain('Koi baat nahi');
+    const roman = await ask('aaj koi suspicious alert hai kya?');
+    expect(roman.body.data.events[0]).toMatchObject({ type: 'tool', name: 'integrity_alerts' });
+    expect(roman.body.data.message.content).toContain('Yeh raha jo mujhe mila');
+  });
+
+  it('detects Roman Urdu and leaves English alone', async () => {
+    const { isRomanUrdu } = await import('../src/modules/agent/providers/mock.js');
+    expect(isRomanUrdu('aaj kitni applications aayi hain?')).toBe(true);
+    expect(isRomanUrdu('kaise ho')).toBe(true);
+    expect(isRomanUrdu('How many applications arrived today?')).toBe(false);
+    expect(isRomanUrdu('Show pending payments')).toBe(false);
+  });
 });

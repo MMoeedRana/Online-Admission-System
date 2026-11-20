@@ -4,6 +4,9 @@ This addendum extends the proposal (`ADMITRA_FYP_Proposal.docx`) with a fifth ph
 Phase 4. It follows the same conventions: every requirement has a tag, is implemented in the code and is
 checked by an automated test (see `docs/TRACEABILITY.md`).
 
+This addendum is now part of the proposal itself: version 1.1 of `ADMITRA_FYP_Proposal.docx` / `.pdf`
+contains it as Sections 3.20 (Branding), 3.21 (Mitra), 4.1.8 (screens), 6.2.5 (Phase 5) and the new glossary terms.
+
 ## 1. Purpose
 
 Phase 4 completed the admission platform. Phase 5 makes it ready to be offered to many institutions as

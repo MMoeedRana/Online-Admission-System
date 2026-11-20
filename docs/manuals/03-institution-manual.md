@@ -139,6 +139,10 @@ open the assistant. Ask in English, Urdu or Roman Urdu, for example "How many ap
 today?", "Which payments wait for verification?" or "How many seats are still free?". Mitra answers from
 your institution's live data only and shows each step it takes ("Reviewing payments…").
 
+Mitra is friendly: you can greet it ("Hi", "Assalam o Alaikum", "kaise ho?") and it answers warmly.
+If you write in Roman Urdu (for example "aaj kitni payments pending hain?") it answers in Roman Urdu;
+otherwise it answers in English.
+
 Mitra can prepare work for you: reminders for unpaid challans, offers that expire soon and unfinished
 applications, opening a support ticket or closing a reviewed alert. A card shows exactly what will happen;
 nothing is sent until you press **Confirm** (or **Cancel**). Confirmed actions are recorded in the audit log.

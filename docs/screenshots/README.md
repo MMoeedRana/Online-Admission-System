@@ -86,6 +86,7 @@ Accounts used: public pages without login; applicant Ayesha Noor (Hamza Ali for 
 | Institution branding | [desktop](desktop/68-settings-branding.jpg) | [mobile](mobile/68-settings-branding.jpg) |
 | Mitra integrity alerts (institution) | [desktop](desktop/67-mitra-alerts.jpg) | [mobile](mobile/67-mitra-alerts.jpg) |
 | Mitra chat with a prepared action (institution) | [desktop](desktop/66-mitra-chat.jpg) | [mobile](mobile/66-mitra-chat.jpg) |
+| Mitra answering in Roman Urdu (institution) | [desktop](desktop/86-mitra-roman-urdu.jpg) | – |
 
 ## Super Admin
 
@@ -106,6 +107,7 @@ Accounts used: public pages without login; applicant Ayesha Noor (Hamza Ali for 
 | Mitra integrity alerts (platform) | [desktop](desktop/82-mitra-alerts.jpg) | [mobile](mobile/82-mitra-alerts.jpg) |
 | Mitra daily briefing (platform) | [desktop](desktop/81-mitra-briefing.jpg) | [mobile](mobile/81-mitra-briefing.jpg) |
 | Mitra chat (platform) | [desktop](desktop/80-mitra-chat.jpg) | [mobile](mobile/80-mitra-chat.jpg) |
+| Mitra greeting and small talk in English and Roman Urdu (platform) | [desktop](desktop/85-mitra-greeting.jpg) | – |
 
 ## Dark theme
 

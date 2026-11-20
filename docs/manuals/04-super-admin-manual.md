@@ -74,6 +74,8 @@ live data: today's applicants and applications, payments, enrollments, instituti
 platform fees, support tickets, staff activity, the audit log, advisor usage and registry match rates.
 It can prepare renewal reminders for institutions, replies to support tickets and closing of reviewed
 alerts; nothing happens until you press **Confirm**.
+Mitra answers greetings and small talk in a friendly way and replies in Roman Urdu when you write
+Roman Urdu (for example "Assalam o Alaikum, aaj kitni applications aayi hain?"), otherwise in English.
 
 - **Briefing** – every morning: new applicants and applications, payments, enrollments, platform fees,
   subscriptions ending within 30 days or in the grace period, waiting payment proofs, open tickets and
