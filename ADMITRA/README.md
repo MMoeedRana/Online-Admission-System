@@ -20,7 +20,8 @@ ADMITRA/
 | Frontend | Next.js 16 (App Router), React 19, TypeScript, Tailwind CSS 4, TanStack React Query 5, Axios, React Hook Form + Zod, Recharts, Framer Motion, Lucide icons |
 | Backend  | Node.js, Express.js 5, TypeScript, Mongoose 9, Zod, JWT + Argon2id, Helmet, Pino, Nodemailer, Socket.IO, PDFKit, Multer, Papa Parse, ExcelJS |
 | Database | MongoDB 8 Community Server (single-node replica set), MongoDB Compass       |
-| Testing  | Vitest + Supertest on a real MongoDB replica set                            |
+| Testing  | Vitest + Supertest on a real MongoDB replica set; Playwright (phone and desktop) with axe-core for WCAG 2.2 AA |
+| API docs | OpenAPI 3.1 generated from the routers, Swagger UI at `/api/v1/docs`           |
 
 ## 1. Prerequisites
 
@@ -111,13 +112,13 @@ All sample accounts use the password `Admitra@123` (the Super Admin uses the one
 
 | Role | E-mail | What to look at |
 | ---- | ------ | --------------- |
-| Super Admin | admin@admitra.local | Institutions, plans, registry import, Reference Directory (verification queue, data gaps, claims, advisor usage) |
+| Super Admin | admin@admitra.local | Institutions, plans, registry import, Reference Directory, Analytics (advisor usage, registry match rates), Support Tickets (one urgent ticket waiting), Audit Log |
 | Institution Admin (Crescent Valley University) | admin@cvu.example.edu.pk | Open Fall 2026 campaign, applications, directory data |
 | Admission Officer (CVU) | officer@cvu.example.edu.pk | Application review, marks verification |
 | HOD Officer, Computer Science (CVU) | hod.cs@cvu.example.edu.pk | Applications of the CS department only |
 | Finance Officer (CVU) | finance@cvu.example.edu.pk | Payment verification |
 | Merit Committee (CVU) | merit1@cvu.example.edu.pk | Active formulas and a proposed version 2 for BSCS |
-| Institution Admin (Riverside Institute of Technology) | admin@rit.example.edu.pk | Publishes merit lists, revocation, offers and enrollment |
+| Institution Admin (Riverside Institute of Technology) | admin@rit.example.edu.pk | Publishes merit lists, revocation, offers and enrollment; Analytics & Reports with the complete funnel; Support; Audit Log |
 | Admissions and Accounts (RIT) | officer@rit.example.edu.pk | Admission-fee proofs, originals check on the reporting day |
 | Merit Committee (RIT) | merit1@rit.example.edu.pk | Generated merit list 3, waiting for the second member |
 | Merit Committee (RIT) | merit2@rit.example.edu.pk | Can approve list 3 (four-eyes rule) |
@@ -144,7 +145,11 @@ for development and demonstration. The seed command is refused in production.
 | backend  | `npm run seed:demo` | Clear the database and load the complete sample data |
 | backend  | `npm run build` / `npm start` | Production build and start      |
 | backend  | `npm run lint` / `npm run typecheck` | Code checks                |
+| backend  | `npm run test:perf` | Performance checks PERF-2 to PERF-10      |
+| backend  | `npm run docs:api`  | Regenerate the OpenAPI document           |
+| backend  | `npm run backup` / `npm run restore -- <folder> --yes` | Backup (kept 14 days) and restore of the database and uploads |
 | frontend | `npm run dev`       | Web application in development mode       |
+| frontend | `npm run test:e2e`  | Playwright + axe tests on a phone and a desktop (app running with `seed:demo` data) |
 | frontend | `npm run build` / `npm start` | Production build and start      |
 | frontend | `npm run lint` / `npm run typecheck` | Code checks                |
 
@@ -155,7 +160,7 @@ for development and demonstration. The seed command is refused in production.
 | 1 | Foundation, SaaS core and design system | Complete |
 | 2 | Applicant portal, verified marks and admission operations | Complete |
 | 3 | Merit, enrollment, Admission Advisor and Result Finder | Complete |
-| 4 | Analytics, support, quality and delivery | Planned |
+| 4 | Analytics, support, quality and delivery | Complete |
 
 ### Phase 1 requirements
 
@@ -200,3 +205,23 @@ with a CAPTCHA.
 All pages use the full width of the screen with responsive padding and are checked on phones,
 tablets, laptops and large monitors; cards, figures and pages are animated with Framer Motion
 (the animations follow the system's "reduce motion" setting).
+
+### Phase 4 requirements
+
+RPT-1 to RPT-3, SUP-1 to SUP-3 and Section 5 (performance, safety, security and quality): the
+analytics screen of an institution (admission funnel, daily submissions for 14 and 30 days,
+applications and applicants per seat, fee totals, document rejection rate, share of verified marks,
+cached for at most 30 seconds); CSV and PDF reports of applications, payments and merit lists; platform
+analytics with Admission Advisor usage by program and registry match rates; support tickets with
+categories, priorities and first-response targets of 2, 8, 24 and 72 hours, the five statuses, threaded
+replies that notify the other side, and tickets that only their institution can see; the audit log for
+institutions and the platform with filters and CSV export; the OpenAPI 3.1 document with Swagger UI;
+backup and restore of the database and uploads with 14-day retention; and the quality work: 90 API
+tests, performance checks for PERF-1 to PERF-10, Playwright tests on a phone and a desktop with axe-core
+(no serious or critical WCAG 2.2 AA problem on any screen), security review (escaping of user text in
+e-mails, CSV formula injection, dependency audit) and a production build. Every clickable element shows
+the pointer cursor and every form field has a placeholder.
+
+Documentation: user manuals in [`docs/manuals`](../docs/manuals), the requirement traceability matrix
+in [`docs/TRACEABILITY.md`](../docs/TRACEABILITY.md) and real screenshots of every screen (desktop,
+mobile and dark theme) in [`docs/screenshots`](../docs/screenshots).

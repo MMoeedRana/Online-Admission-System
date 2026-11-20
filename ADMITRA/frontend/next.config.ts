@@ -4,6 +4,7 @@ const API_URL = process.env.API_URL ?? 'http://localhost:5000';
 
 const nextConfig: NextConfig = {
   poweredByHeader: false,
+  devIndicators: false,
   turbopack: {
     rules: {
       '*.css': { loaders: ['@tailwindcss/turbopack'], as: '*.css' },

@@ -86,9 +86,9 @@ export function Funnel({ steps }: { steps: { key: string; label: string; value: 
                 {formatNumber(s.value)}
               </span>
             </div>
-            <span className="text-muted col-start-2 -mt-2 text-[12px] tabular-nums sm:col-start-auto sm:mt-0 sm:text-right">
-              {share}% of submitted
-              {conv !== null && <span className="block sm:inline">{` · ${conv}% of previous`}</span>}
+            <span className="text-muted col-start-2 text-[12px] leading-tight tabular-nums sm:col-start-auto sm:text-right">
+              <span className="text-ink font-semibold">{share}%</span> of submitted
+              {conv !== null && <span className="block">{conv}% of previous step</span>}
             </span>
           </li>
         );
