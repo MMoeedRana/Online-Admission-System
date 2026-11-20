@@ -22,6 +22,10 @@ import {
 
 type Ticket = HydratedDocument<SupportTicket>;
 
+/** User text is escaped before it goes into an HTML e-mail (SEC-4). */
+const escapeHtml = (v: string) =>
+  v.replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]!);
+
 /** Statuses each side may set. The platform team drives the work; the institution confirms or reopens. */
 export const PLATFORM_STATUSES: TicketStatus[] = [
   'IN_PROGRESS',
@@ -78,8 +82,8 @@ async function tellOtherSide(t: Ticket, fromSide: 'INSTITUTION' | 'PLATFORM', ti
       await sendMail({
         to: u.email,
         subject: `[${t.ticketNumber}] ${t.subject}`,
-        heading: title,
-        paragraphs: [`${inst?.name ?? 'Institution'}: ${body}`],
+        heading: escapeHtml(title),
+        paragraphs: [escapeHtml(`${inst?.name ?? 'Institution'}: ${body}`)],
         action: { label: 'Open the ticket', url: `${env.WEB_URL}${link}` },
       });
     }),

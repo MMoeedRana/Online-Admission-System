@@ -44,8 +44,13 @@ async function seedSetupAudit(superAdmin: { _id: Types.ObjectId; fullName: strin
   for (const inst of await InstitutionModel.find({ status: 'ACTIVE' }).lean()) {
     const plan = await PlanModel.findById(inst.planId).select('code').lean();
     // Set-up happened before the first campaign opened (the seed itself runs today).
-    const firstCampaign = await CampaignModel.findOne({ institutionId: inst._id }).sort({ opensAt: 1 }).lean();
-    const start = Math.min(inst.createdAt.getTime(), (firstCampaign?.opensAt.getTime() ?? Date.now()) - 12 * DAY);
+    const firstCampaign = await CampaignModel.findOne({ institutionId: inst._id })
+      .sort({ opensAt: 1 })
+      .lean();
+    const start = Math.min(
+      inst.createdAt.getTime(),
+      (firstCampaign?.opensAt.getTime() ?? Date.now()) - 12 * DAY,
+    );
     add({
       actorId: superAdmin._id,
       actorName: superAdmin.fullName,

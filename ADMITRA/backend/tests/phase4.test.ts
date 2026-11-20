@@ -245,6 +245,12 @@ describe('support tickets (SUP-1, SUP-2, SUP-3)', () => {
     expect(sentMails.some((m) => m.to === 'root@admitra.test' && m.subject.includes(t.ticketNumber))).toBe(
       true,
     );
+    // SEC-4: text written by users is escaped in the HTML e-mail
+    await inst.as
+      .post(`/support/tickets/${t._id}/replies`)
+      .send({ message: '<img src=x onerror=alert(1)> please check' });
+    expect(sentMails.at(-1)!.html).toContain('&lt;img src=x');
+    expect(sentMails.at(-1)!.html).not.toContain('<img src=x');
 
     // SUP-2: another institution neither lists nor opens it
     expect((await other.as.get(`/support/tickets/${t._id}`)).status).toBe(404);
@@ -272,7 +278,7 @@ describe('support tickets (SUP-1, SUP-2, SUP-3)', () => {
       .post(`/support/tickets/${t._id}/replies`)
       .send({ message: 'Challan CH-2026-000123 is affected.' });
     expect(back.body.data.status).toBe('OPEN');
-    expect(back.body.data.messages).toHaveLength(3);
+    expect(back.body.data.messages).toHaveLength(4);
     expect(
       (await asRoot(`/platform/support/${t._id}`, 'patch').send({ status: 'RESOLVED' })).body.data.status,
     ).toBe('RESOLVED');

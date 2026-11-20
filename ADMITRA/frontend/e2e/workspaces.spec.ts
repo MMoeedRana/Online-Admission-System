@@ -127,7 +127,12 @@ test.describe('platform (Super Admin)', () => {
     await page.goto('/platform/audit-log');
     await settle(page);
     await page.getByLabel('Filter by action').selectOption('PLAN_CREATED');
-    await expect(page.locator('main span', { hasText: /^Plan created$/ }).filter({ visible: true }).first()).toBeVisible();
+    await expect(
+      page
+        .locator('main span', { hasText: /^Plan created$/ })
+        .filter({ visible: true })
+        .first(),
+    ).toBeVisible();
     const download = page.waitForEvent('download');
     await page.getByRole('button', { name: 'Export CSV' }).click();
     expect((await download).suggestedFilename()).toBe('audit-log.csv');

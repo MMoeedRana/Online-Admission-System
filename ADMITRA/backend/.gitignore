@@ -4,3 +4,4 @@ dist
 storage/*
 !storage/.gitkeep
 coverage
+backups
