@@ -1,10 +1,11 @@
 import { z } from 'zod';
 import type { ToolSpec } from '../providers/types';
 import { actionTools } from './actions';
+import { exportTools } from './export';
 import type { AgentContext, AgentTool } from './common';
 import { readTools } from './read';
 
-export const ALL_TOOLS: AgentTool[] = [...readTools, ...actionTools];
+export const ALL_TOOLS: AgentTool[] = [...readTools, ...exportTools, ...actionTools];
 
 export function toolsFor(ctx: AgentContext) {
   return ALL_TOOLS.filter((t) => {

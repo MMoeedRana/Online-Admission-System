@@ -87,6 +87,7 @@ Accounts used: public pages without login; applicant Ayesha Noor (Hamza Ali for 
 | Mitra integrity alerts (institution) | [desktop](desktop/67-mitra-alerts.jpg) | [mobile](mobile/67-mitra-alerts.jpg) |
 | Mitra chat with a prepared action (institution) | [desktop](desktop/66-mitra-chat.jpg) | [mobile](mobile/66-mitra-chat.jpg) |
 | Mitra answering from the institution's data | [desktop](desktop/86-mitra-payments.jpg) | [mobile](mobile/86-mitra-payments.jpg) |
+| Mitra exporting a list to Excel (institution) | [desktop](desktop/87-mitra-export.jpg) | – |
 
 ## Super Admin
 

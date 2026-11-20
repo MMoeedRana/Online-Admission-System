@@ -80,6 +80,12 @@ function summarise(name: string, json: string, ur = false) {
     return ur
       ? `Maazrat, yeh nahi mil saka: ${(data as { error: string }).error}`
       : `I could not get that: ${(data as { error: string }).error}`;
+  if (data && typeof data === 'object' && (data as { status?: string }).status === 'file_ready') {
+    const f = (data as { file: { name: string; rows: number } }).file;
+    return ur
+      ? `Aap ki file **${f.name}** tayyar hai (${f.rows} rows). Neeche diye gaye button se download kar lein.`
+      : `Your file **${f.name}** is ready (${f.rows} rows). Use the download button below.`;
+  }
   if (data && typeof data === 'object' && (data as { status?: string }).status === 'awaiting_confirmation')
     return ur
       ? `Main ne yeh tayyar kar diya hai: **${(data as { summary: string }).summary}** Chalane ke liye card par **Confirm** dabaiye.`
@@ -150,6 +156,26 @@ export class MockProvider implements ChatProvider {
     const chat = smallTalk(q, userName, agent);
     if (chat) return { content: chat, toolCalls: [], usage };
     const allowed = new Set(req.tools.map((t) => t.name));
+    if (
+      /\b(export|excel|xlsx|pdf|csv|download|spreadsheet|sheet)\b|list bana|file bana/i.test(q) &&
+      allowed.has('export_list')
+    ) {
+      const src = RULES.find(
+        ([rx, t]) => rx.test(q) && allowed.has(t) && !t.startsWith('remind') && t !== 'support_tickets',
+      );
+      const format = /\bpdf\b/i.test(q) ? 'pdf' : /\bcsv\b/i.test(q) ? 'csv' : 'xlsx';
+      return {
+        content: '',
+        toolCalls: [
+          {
+            id: `mock_${Date.now()}`,
+            name: 'export_list',
+            args: { source: src ? src[1] : 'get_overview', args: src?.[2] ?? {}, format },
+          },
+        ],
+        usage,
+      };
+    }
     const hit = RULES.find(([rx, tool]) => rx.test(q) && allowed.has(tool));
     const tool = hit ? hit[1] : allowed.has('get_overview') ? 'get_overview' : null;
     if (!tool)

@@ -65,6 +65,7 @@ function systemPrompt(ctx: AgentContext) {
     '- Always get facts from the tools; never invent figures, names or records. If a tool returns nothing, say so.',
     '- Call several tools when a question needs them (for example overview + payments + alerts for "is everything fine today?").',
     '- Integrity findings are patterns that need a human review, not proof of wrongdoing. Describe them neutrally with their evidence and suggest what to check.',
+    '- When the user asks to export, download or "make a list" (Excel, PDF or CSV), call export_list with the read tool that holds the data; never type the file contents yourself.',
     '- Actions (reminders, replies, closing alerts, opening tickets) are only prepared; tell the user to press Confirm on the card. Never say an action is done before it is confirmed.',
     '- Never reveal full CNIC numbers, passwords, tokens or file contents.',
     "- Personality: warm, friendly, polite and professional, like a helpful colleague. Use the user's first name now and then.",
@@ -115,6 +116,7 @@ export async function usageToday(userId: string) {
 export type AgentEvent =
   | { type: 'tool'; name: string; label: string }
   | { type: 'action'; action: { _id: string; summary: string; tool: string; status: string } }
+  | { type: 'file'; file: { _id: string; name: string; format: string; rows: number } }
   | { type: 'message'; message: { _id: string; content: string; createdAt: Date } }
   | { type: 'error'; message: string };
 
@@ -146,8 +148,9 @@ export async function runTurn(
   await useQuota(ctx.userId, undefined, 1);
 
   const provider = getProvider();
+  const fileIds: Types.ObjectId[] = [];
   const finish = async (content: string) => {
-    conv.messages.push({ role: 'assistant', content });
+    conv.messages.push({ role: 'assistant', content, fileIds });
     conv.lastMessageAt = new Date();
     await conv.save();
     const last = conv.messages.at(-1)!;
@@ -227,7 +230,15 @@ export async function runTurn(
                 summary,
                 note: 'The user must press Confirm on the card before this happens.',
               };
-            } else output = await tool.run(ctx, parsed.data);
+            } else {
+              output = await tool.run(ctx, parsed.data);
+              const file = (output as { file?: { _id: string; name: string; format: string; rows: number } })
+                ?.file;
+              if (file) {
+                fileIds.push(new Types.ObjectId(file._id));
+                emit({ type: 'file', file });
+              }
+            }
           } catch (err) {
             output = {
               error: err instanceof ToolError || err instanceof ApiError ? err.message : 'The tool failed.',

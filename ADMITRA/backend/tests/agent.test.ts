@@ -414,3 +414,108 @@ describe('offline provider for development (AGENT-1)', () => {
     expect(isLocalLanguage('Show pending payments')).toBe(false);
   });
 });
+
+const binary = (res: import('superagent').Response, cb: (err: Error | null, body: Buffer) => void) => {
+  const parts: Buffer[] = [];
+  res.on('data', (c: Buffer) => parts.push(c));
+  res.on('end', () => cb(null, Buffer.concat(parts)));
+};
+
+describe('file exports by the assistant (AGENT-3)', () => {
+  it('turns live data into an Excel file for the asking user only, within the institution', async () => {
+    const ExcelJS = (await import('exceljs')).default;
+    const inst = await createInstitution(`ex${Math.random().toString(36).slice(2, 6)}`, {
+      plan: await copilotPlan(),
+    });
+    const other = await createInstitution(`eo${Math.random().toString(36).slice(2, 6)}`);
+    const app = (institutionId: unknown, applicationNumber: string) =>
+      ApplicationModel.create({
+        institutionId,
+        campaignId: oid(),
+        applicantId: oid(),
+        applicationNumber,
+        status: 'SUBMITTED',
+        preferences: [],
+        submittedAt: new Date(),
+        snapshot: { profile: { fullName: `Person ${applicationNumber}` } },
+      } as never);
+    await app(inst.inst._id, 'EXP-0001');
+    await app(inst.inst._id, 'EXP-0002');
+    await app(other.inst._id, 'EXP-0003');
+    setProvider(
+      new FakeProvider([
+        {
+          toolCalls: [
+            {
+              id: '1',
+              name: 'export_list',
+              args: {
+                source: 'find_application',
+                args: { query: 'EXP' },
+                format: 'xlsx',
+                title: 'Applications',
+              },
+            },
+            { id: '2', name: 'export_list', args: { source: 'list_institutions', format: 'pdf' } },
+          ],
+        },
+        { content: 'Your file is ready.' },
+      ]),
+    );
+    const c = await inst.as.post('/agent/conversations');
+    const r = await inst.as
+      .post(`/agent/conversations/${c.body.data._id}/messages`)
+      .send({ message: 'Export applications to Excel' });
+    const files = r.body.data.events.filter((e: { type: string }) => e.type === 'file');
+    expect(files).toHaveLength(1);
+    expect(files[0].file).toMatchObject({ format: 'xlsx', rows: 2 });
+    const tool = (await ConversationModel.findById(c.body.data._id).lean())!.messages.filter(
+      (m) => m.role === 'tool',
+    );
+    expect(JSON.parse(tool[1]!.content).error).toMatch(/cannot export/);
+
+    const dl = await inst.as.get(`/agent/exports/${files[0].file._id}`).buffer(true).parse(binary);
+    expect(dl.status).toBe(200);
+    expect(dl.headers['content-type']).toContain('spreadsheetml');
+    expect(dl.headers['content-disposition']).toMatch(/attachment; filename="Applications-.*\.xlsx"/);
+    const wb = new ExcelJS.Workbook();
+    await wb.xlsx.load(dl.body as never);
+    const text = JSON.stringify(wb.worksheets[0]!.getSheetValues());
+    expect(text).toContain('EXP-0001');
+    expect(text).toContain('EXP-0002');
+    expect(text).not.toContain('EXP-0003');
+
+    const conv = await inst.as.get(`/agent/conversations/${c.body.data._id}`);
+    expect(conv.body.data.messages.at(-1).files[0]).toMatchObject({ format: 'xlsx', rows: 2 });
+    const root = await superAdminToken();
+    expect(
+      (
+        await api()
+          .get(`/api/v1/platform/agent/exports/${files[0].file._id}`)
+          .set('Authorization', `Bearer ${root}`)
+      ).status,
+    ).toBe(404);
+  });
+
+  it('exports platform lists as PDF and CSV when asked in plain words', async () => {
+    const { MockProvider } = await import('../src/modules/agent/providers/mock.js');
+    setProvider(new MockProvider());
+    await createInstitution(`ep${Math.random().toString(36).slice(2, 6)}`);
+    const root = await superAdminToken();
+    const as = (m: 'get' | 'post', url: string) =>
+      api()[m](`/api/v1/platform/agent${url}`).set('Authorization', `Bearer ${root}`);
+    const c = await as('post', '/conversations');
+    for (const [message, format, magic] of [
+      ['Make a list of all institutions as PDF', 'pdf', '%PDF'],
+      ['Download the institutions as CSV', 'csv', '\uFEFF'],
+    ] as const) {
+      const r = await as('post', `/conversations/${c.body.data._id}/messages`).send({ message });
+      const file = r.body.data.events.find((e: { type: string }) => e.type === 'file').file;
+      expect(file.format).toBe(format);
+      expect(r.body.data.message.content).toContain('is ready');
+      const dl = await as('get', `/exports/${file._id}`).buffer(true).parse(binary);
+      expect(dl.status).toBe(200);
+      expect((dl.body as Buffer).toString('utf8').startsWith(magic)).toBe(true);
+    }
+  });
+});

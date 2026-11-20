@@ -126,6 +126,8 @@ AI_MODEL=gemini-2.5-flash
 
 Restart the API after changing `.env`. Without a key everything else keeps working; the daily briefings
 and integrity alerts are built from the database, and Mitra explains how to connect a provider.
+Ask Mitra to "export" or "make a list" and it creates an Excel, PDF or CSV file from the live data,
+shown in the chat with a Download button (only the data the person may see).
 `AI_DAILY_LIMIT` (messages per person and day, default 200) and `AI_BRIEFING_HOUR` (Pakistan time,
 default 8) are optional. The free Gemini tier may use requests to improve Google's products, so use a
 paid key for real student data.
@@ -296,8 +298,8 @@ used in every page, e-mail and PDF), institution branding on plans with custom b
 and colors that are adjusted automatically to keep WCAG AA contrast; and **Mitra**, the admission copilot:
 switchable AI providers (Gemini by default, OpenAI, Claude or any OpenAI-compatible service), a chat for the
 Super Admin and for institution admins that answers from live data through permission-checked tools,
-actions that run only after Confirm (fee, offer and application reminders, renewal reminders, ticket
-replies, alerts), platform fee records on renewal, integrity rules with evidence, daily briefings by
+Excel, PDF and CSV exports of any list it can read, actions that run only after Confirm (fee, offer and
+application reminders, renewal reminders, ticket replies, alerts), platform fee records on renewal, integrity rules with evidence, daily briefings by
 notification and e-mail, and a daily message limit.
 
 Uploaded files can be kept in the local storage folder (default), an Amazon S3 bucket or a Cloudflare R2

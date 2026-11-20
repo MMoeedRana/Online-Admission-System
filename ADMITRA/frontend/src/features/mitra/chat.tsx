@@ -2,7 +2,18 @@
 
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { AnimatePresence, motion } from 'framer-motion';
-import { Check, Loader2, MessageSquarePlus, Send, Sparkles, Trash2, X } from 'lucide-react';
+import {
+  Check,
+  Download,
+  FileSpreadsheet,
+  FileText,
+  Loader2,
+  MessageSquarePlus,
+  Send,
+  Sparkles,
+  Trash2,
+  X,
+} from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import { Alert } from '@/components/ui/alert';
 import { Badge } from '@/components/ui/badge';
@@ -12,17 +23,51 @@ import { Avatar } from '@/components/layout/user-menu';
 import { useAuth } from '@/features/auth/auth-context';
 import { useBrand } from '@/features/branding/brand-context';
 import { del, errorMessage, get, post } from '@/lib/api';
+import { downloadFile } from '@/lib/files';
 import { cn } from '@/lib/utils';
 import { Markdown } from './markdown';
 import { streamMessage } from './stream';
 import {
   base,
   type AgentAction,
+  type AgentFile,
   type AgentStatus,
   type Conversation,
   type ConversationSummary,
   type Scope,
 } from './types';
+
+const FORMAT_LABEL: Record<AgentFile['format'], string> = { xlsx: 'Excel', pdf: 'PDF', csv: 'CSV' };
+
+function FileCard({ file, scope }: { file: AgentFile; scope: Scope }) {
+  const [busy, setBusy] = useState(false);
+  const Icon = file.format === 'pdf' ? FileText : FileSpreadsheet;
+  return (
+    <div className="border-line bg-card mt-2 flex items-center gap-3 rounded-xl border px-3.5 py-3">
+      <span className="bg-primary-soft text-primary flex size-10 shrink-0 items-center justify-center rounded-lg">
+        <Icon className="size-5" />
+      </span>
+      <div className="min-w-0 flex-1">
+        <p className="text-ink truncate text-[13.5px] font-semibold">{file.name}</p>
+        <p className="text-muted text-[12px]">
+          {FORMAT_LABEL[file.format]} · {file.rows} row{file.rows === 1 ? '' : 's'}
+        </p>
+      </div>
+      <Button
+        size="sm"
+        variant="secondary"
+        loading={busy}
+        onClick={async () => {
+          setBusy(true);
+          await downloadFile(`${base(scope)}/exports/${file._id}`, file.name);
+          setBusy(false);
+        }}
+      >
+        <Download className="size-4" /> Download
+      </Button>
+    </div>
+  );
+}
 
 export function MitraAvatar({ className = 'size-9' }: { className?: string }) {
   return (
@@ -291,6 +336,9 @@ export function ChatPanel({ scope, compact = false }: { scope: Scope; compact?: 
                         <Markdown text={m.content} />
                       </div>
                     )}
+                    {m.files?.map((f) => (
+                      <FileCard key={f._id} file={f} scope={scope} />
+                    ))}
                   </div>
                 </div>
               ),

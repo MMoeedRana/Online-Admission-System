@@ -24,11 +24,18 @@ export interface AgentAction {
   status: 'PENDING' | 'DONE' | 'CANCELLED' | 'FAILED';
   result?: string;
 }
+export interface AgentFile {
+  _id: string;
+  name: string;
+  format: 'xlsx' | 'pdf' | 'csv';
+  rows: number;
+}
 export interface ChatMessage {
   _id: string;
   role: 'user' | 'assistant';
   content: string;
   actionId?: string | null;
+  files?: AgentFile[];
   createdAt?: string;
 }
 export interface Conversation {
@@ -63,6 +70,7 @@ export interface Briefing {
 export type StreamEvent =
   | { type: 'tool'; name: string; label: string }
   | { type: 'action'; action: AgentAction }
+  | { type: 'file'; file: AgentFile }
   | { type: 'message'; message: ChatMessage }
   | { type: 'error'; message: string }
   | { type: 'done' };

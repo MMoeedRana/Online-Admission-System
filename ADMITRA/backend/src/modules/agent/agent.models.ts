@@ -11,6 +11,7 @@ const messageSchema = new Schema(
     toolCallId: { type: String, default: '' },
     name: { type: String, default: '' },
     actionId: { type: Types.ObjectId, default: null },
+    fileIds: [{ type: Types.ObjectId }],
   },
   { _id: true, timestamps: { createdAt: true, updatedAt: false } },
 );
@@ -95,3 +96,21 @@ const usageSchema = new Schema({
 });
 usageSchema.index({ userId: 1, date: 1 }, { unique: true });
 export const AgentUsageModel = model('AgentUsage', usageSchema);
+
+const exportSchema = new Schema(
+  {
+    userId: { type: Types.ObjectId, ref: 'User', required: true, index: true },
+    scope: { type: String, enum: AGENT_SCOPES, required: true },
+    institutionId: { type: Types.ObjectId, ref: 'Institution', default: null },
+    name: { type: String, required: true },
+    format: { type: String, enum: ['xlsx', 'pdf', 'csv'], required: true },
+    mimeType: { type: String, required: true },
+    storageKey: { type: String, required: true },
+    rows: { type: Number, default: 0 },
+    size: { type: Number, default: 0 },
+    source: { type: String, default: '' },
+  },
+  { timestamps: true },
+);
+
+export const AgentExportModel = model('AgentExport', exportSchema);

@@ -6,12 +6,14 @@ import { audit } from '../../lib/audit';
 import { brand } from '../../lib/brand';
 import { ApiError, created, ok } from '../../lib/http';
 import { pageMeta, paginationQuery } from '../../lib/pagination';
+import { fileStore } from '../../lib/file-store';
 import { idParams, parse } from '../../lib/validate';
 import { authenticate, requireSuperAdmin } from '../../middleware/auth';
 import { requirePermission } from '../../middleware/tenant';
 import { planOf } from '../institutions/limits';
 import {
   AgentActionModel,
+  AgentExportModel,
   BriefingModel,
   ConversationModel,
   IntegrityAlertModel,
@@ -31,6 +33,7 @@ const SUGGESTIONS: Record<AgentScope, string[]> = {
     'Show the support tickets whose first response is overdue.',
     'Compare the institutions by applications and enrollments.',
     'How is the Admission Advisor being used and what is the registry match rate?',
+    'Make a list of all institutions with their plans as an Excel file.',
   ],
   INSTITUTION: [
     'How many applications did we receive today and how many are waiting for review?',
@@ -39,6 +42,7 @@ const SUGGESTIONS: Record<AgentScope, string[]> = {
     'How many seats are still free per program?',
     'Are there any integrity alerts we should look at?',
     'Remind applicants whose offer expires in the next two days.',
+    'Export the payments waiting for verification to Excel.',
   ],
 };
 
@@ -90,6 +94,14 @@ function agentRouter(scope: AgentScope) {
     const actions = await AgentActionModel.find({ conversationId: c._id })
       .select('tool summary status result decidedAt')
       .lean();
+    const fileIds = c.messages.flatMap((m) => (m as { fileIds?: Types.ObjectId[] }).fileIds ?? []);
+    const files = new Map(
+      (
+        await AgentExportModel.find({ _id: { $in: fileIds }, userId: req.auth!.userId })
+          .select('name format rows')
+          .lean()
+      ).map((f) => [String(f._id), { _id: String(f._id), name: f.name, format: f.format, rows: f.rows }]),
+    );
     ok(res, {
       _id: c._id,
       title: c.title,
@@ -100,6 +112,9 @@ function agentRouter(scope: AgentScope) {
           role: m.role,
           content: m.content,
           actionId: m.actionId,
+          files: ((m as { fileIds?: Types.ObjectId[] }).fileIds ?? [])
+            .map((id) => files.get(String(id)))
+            .filter(Boolean),
           createdAt: (m as unknown as { createdAt: Date }).createdAt,
         })),
       steps: c.messages.filter((m) => m.role === 'tool').map((m) => ({ name: m.name, actionId: m.actionId })),
@@ -143,6 +158,19 @@ function agentRouter(scope: AgentScope) {
     }
     send({ type: 'done' });
     res.end();
+  });
+
+  r.get('/exports/:id', async (req, res) => {
+    const { id } = parse(idParams, req.params);
+    const f = await AgentExportModel.findOne({ _id: id, ...own(req) }).lean();
+    if (!f) throw ApiError.notFound('File');
+    const body = await fileStore().get(f.storageKey);
+    if (!body) throw ApiError.notFound('File');
+    res.setHeader('Content-Type', f.mimeType);
+    res.setHeader('Content-Disposition', `attachment; filename="${f.name}"`);
+    res.setHeader('Cache-Control', 'private, no-store');
+    res.setHeader('X-Content-Type-Options', 'nosniff');
+    body.pipe(res);
   });
 
   r.post('/actions/:id/:decision', async (req, res) => {
