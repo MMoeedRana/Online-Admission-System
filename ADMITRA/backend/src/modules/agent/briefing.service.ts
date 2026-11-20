@@ -38,7 +38,8 @@ const n = (v: unknown) => Number(v ?? 0);
 
 async function summarise(kind: string, highlights: string[]) {
   const provider = getProvider();
-  if (!provider || !highlights.length)
+  // The offline mock writes no prose; the template is used instead.
+  if (!provider || provider.name === 'mock' || !highlights.length)
     return { summary: highlights.join(' '), generatedBy: 'TEMPLATE' as const };
   try {
     const r = await provider.chat({
