@@ -1,4 +1,14 @@
-import { BarChart3, BookOpen, Building2, CreditCard, Database, History, LayoutGrid, LifeBuoy } from 'lucide-react';
+import {
+  BarChart3,
+  BookOpen,
+  Building2,
+  CreditCard,
+  Database,
+  History,
+  LayoutGrid,
+  LifeBuoy,
+  Palette,
+} from 'lucide-react';
 import type { NavSection } from '@/components/layout/staff-shell';
 
 export const platformNav: NavSection[] = [
@@ -18,6 +28,7 @@ export const platformNav: NavSection[] = [
       { href: '/platform/analytics', label: 'Analytics', icon: BarChart3 },
       { href: '/platform/support', label: 'Support Tickets', icon: LifeBuoy },
       { href: '/platform/audit-log', label: 'Audit Log', icon: History },
+      { href: '/platform/branding', label: 'Branding', icon: Palette },
     ],
   },
 ];

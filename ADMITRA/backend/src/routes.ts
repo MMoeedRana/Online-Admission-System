@@ -35,6 +35,13 @@ import { analyticsRouter, reportRouter } from './modules/analytics/analytics.rou
 import { institutionSupportRouter, platformSupportRouter } from './modules/support/support.routes';
 import { institutionAuditRouter, platformAuditRouter } from './modules/audit/audit.routes';
 import { platformAnalyticsRouter } from './modules/analytics/platform-analytics';
+import {
+  assetRouter,
+  avatarRouter,
+  institutionBrandingRouter,
+  platformBrandingRouter,
+  publicBrandingRouter,
+} from './modules/branding/branding.routes';
 import { shortlistRouter } from './modules/directory/shortlist.routes';
 
 export const apiRouter = Router();
@@ -47,11 +54,14 @@ apiRouter.get('/health', (_req, res) => {
   });
 });
 
+apiRouter.use('/auth/me/avatar', avatarRouter);
 apiRouter.use('/auth', authRouter);
-apiRouter.use('/public', publicDirectoryRouter, publicResultsRouter);
+apiRouter.use('/assets', assetRouter);
+apiRouter.use('/public', publicBrandingRouter, publicDirectoryRouter, publicResultsRouter);
 apiRouter.use('/public', publicRouter);
 apiRouter.use('/platform/registry', platformRegistryRouter);
 apiRouter.use('/platform/directory', platformDirectoryRouter);
+apiRouter.use('/platform/branding', platformBrandingRouter);
 apiRouter.use('/platform/support', platformSupportRouter);
 apiRouter.use('/platform/audit-logs', platformAuditRouter);
 apiRouter.use('/platform/analytics', platformAnalyticsRouter);
@@ -92,4 +102,5 @@ tenant.use('/analytics', analyticsRouter);
 tenant.use('/reports', reportRouter);
 tenant.use('/support/tickets', institutionSupportRouter);
 tenant.use('/audit-logs', institutionAuditRouter);
+tenant.use('/institution/branding', institutionBrandingRouter);
 apiRouter.use(tenant);

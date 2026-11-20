@@ -18,6 +18,10 @@ import { INSTITUTION_TYPES, SECTORS } from '@/lib/constants';
 import { formatDate, formatMoney } from '@/lib/format';
 import type { Institution, Plan } from '@/lib/types';
 import { useInstKey } from './hooks';
+import { useAuth } from '@/features/auth/auth-context';
+import { useBrand } from '@/features/branding/brand-context';
+import { BrandPreview, ColorField, ImageField } from '@/features/branding/brand-fields';
+import { isHex } from '@/lib/brand';
 
 type Tab = 'profile' | 'bank' | 'branding' | 'workflow' | 'entry-test' | 'subscription';
 interface Sub {
@@ -35,6 +39,7 @@ export function SettingsPage() {
 }
 
 function SettingsForm({ initial }: { initial: Institution }) {
+  const brand = useBrand();
   const key = useInstKey();
   const qc = useQueryClient();
   const sub = useQuery({ queryKey: key('subscription'), queryFn: () => get<Sub>('/institution/subscription') });
@@ -83,7 +88,7 @@ function SettingsForm({ initial }: { initial: Institution }) {
         <Card>
           <CardHeader
             title="Public profile"
-            subtitle="Shown on your institution page. The name is managed by ADMITRA support."
+            subtitle={`Shown on your institution page. The name is managed by ${brand.platformName} support.`}
           />
           <CardBody className="grid gap-4 sm:grid-cols-2">
             <Field label="Website" htmlFor="s-web" error={errors.website}>
@@ -182,53 +187,14 @@ function SettingsForm({ initial }: { initial: Institution }) {
       )}
 
       {tab === 'branding' && (
-        <Card>
-          <CardHeader title="Branding" subtitle="Logo and accent color of your institution." />
-          <CardBody className="grid gap-4 sm:grid-cols-2">
-            {!canBrand && (
-              <Alert tone="info" className="sm:col-span-2">
-                Custom branding is not included in your current plan.
-              </Alert>
-            )}
-            <Field label="Logo URL" htmlFor="br-logo" error={errors['branding.logoUrl']}>
-              <Input
-                id="br-logo"
-                disabled={!canBrand}
-                value={i.branding.logoUrl}
-                onChange={(e) => set('branding', { ...i.branding, logoUrl: e.target.value })}
-                placeholder="https://"
-              />
-            </Field>
-            <Field label="Accent color" htmlFor="br-color" error={errors['branding.primaryColor']}>
-              <div className="flex gap-2">
-                <input
-                  type="color"
-                  aria-label="Pick color"
-                  disabled={!canBrand}
-                  value={i.branding.primaryColor}
-                  onChange={(e) => set('branding', { ...i.branding, primaryColor: e.target.value.toUpperCase() })}
-                  className="border-line bg-card h-11 w-14 cursor-pointer rounded-xl border p-1"
-                />
-                <Input
-                  placeholder="#1d4ed8"
-                  id="br-color"
-                  disabled={!canBrand}
-                  value={i.branding.primaryColor}
-                  onChange={(e) => set('branding', { ...i.branding, primaryColor: e.target.value })}
-                />
-              </div>
-            </Field>
-            <div className="sm:col-span-2">
-              <Button
-                disabled={!canBrand}
-                loading={save.isPending}
-                onClick={() => save.mutate({ branding: i.branding })}
-              >
-                Save branding
-              </Button>
-            </div>
-          </CardBody>
-        </Card>
+        <BrandingTab
+          enabled={Boolean(canBrand)}
+          planName={sub.data?.plan.name ?? ''}
+          initial={{ primaryColor: i.branding.primaryColor ?? '', sidebarColor: i.branding.sidebarColor ?? '' }}
+          logoUrl={i.branding.logoUrl}
+          institutionName={i.shortName || i.name}
+          onLogo={(logoUrl) => set('branding', { ...i.branding, logoUrl })}
+        />
       )}
 
       {tab === 'workflow' && (
@@ -270,7 +236,7 @@ function SettingsForm({ initial }: { initial: Institution }) {
         <Card>
           <CardHeader
             title={`${sub.data.plan.name} plan`}
-            subtitle={`${formatMoney(sub.data.plan.priceMonthly)} per month · renewals are handled by ADMITRA support`}
+            subtitle={`${formatMoney(sub.data.plan.priceMonthly)} per month · renewals are handled by ${brand.platformName} support`}
             action={<StatusBadge status={sub.data.state} />}
           />
           <CardBody className="space-y-5">
@@ -339,5 +305,99 @@ function SettingsForm({ initial }: { initial: Institution }) {
         </Card>
       )}
     </>
+  );
+}
+
+/** BRAND-2: own logo and colours of the workspace (plans with custom branding). */
+function BrandingTab({
+  enabled,
+  planName,
+  initial,
+  logoUrl,
+  institutionName,
+  onLogo,
+}: {
+  enabled: boolean;
+  planName: string;
+  initial: { primaryColor: string; sidebarColor: string };
+  logoUrl: string;
+  institutionName: string;
+  onLogo: (url: string) => void;
+}) {
+  const brand = useBrand();
+  const key = useInstKey();
+  const qc = useQueryClient();
+  const { reloadMe } = useAuth();
+  const [v, setV] = useState(initial);
+  const save = useMutation({
+    mutationFn: (branding: typeof v) => patch('/institution/profile', { branding }),
+    onSuccess: async () => {
+      toast.success('Branding saved. Your workspace now uses these colours.');
+      await Promise.all([qc.invalidateQueries({ queryKey: key() }), reloadMe()]);
+    },
+    onError: (e) => toast.error(errorMessage(e)),
+  });
+  const valid = (!v.primaryColor || isHex(v.primaryColor)) && (!v.sidebarColor || isHex(v.sidebarColor));
+  return (
+    <div className="grid gap-6 xl:grid-cols-[1.15fr_1fr]">
+      <Card className="min-w-0">
+        <CardHeader
+          title="Branding"
+          subtitle="Your logo appears in the sidebar and on your public pages; your colours are used in your workspace."
+        />
+        <CardBody className="space-y-6">
+          {!enabled && (
+            <Alert tone="info">
+              Custom branding is not included in the {planName} plan. Ask {brand.platformName} support to move to a plan
+              with custom branding.
+            </Alert>
+          )}
+          <ImageField
+            label="Institution logo"
+            hint="PNG, JPG or WebP up to 2 MB; a square image of at least 128 × 128 px looks best."
+            url={logoUrl}
+            uploadUrl="/institution/branding/logo"
+            disabled={!enabled}
+            onDone={async (d) => {
+              onLogo((d as { logoUrl: string }).logoUrl);
+              await reloadMe();
+            }}
+          />
+          <div className="grid gap-6 md:grid-cols-2">
+            <ColorField
+              id="ib-primary"
+              label="Primary colour"
+              value={v.primaryColor}
+              allowEmpty
+              emptyLabel="Platform colour"
+              onChange={(c) => setV({ ...v, primaryColor: c })}
+            />
+            <ColorField
+              id="ib-sidebar"
+              label="Sidebar colour"
+              kind="sidebar"
+              value={v.sidebarColor}
+              allowEmpty
+              emptyLabel="Platform colour"
+              onChange={(c) => setV({ ...v, sidebarColor: c })}
+            />
+          </div>
+          <Button disabled={!enabled || !valid} loading={save.isPending} onClick={() => save.mutate(v)}>
+            Save branding
+          </Button>
+        </CardBody>
+      </Card>
+      <Card className="min-w-0">
+        <CardHeader title="Preview" />
+        <CardBody>
+          <BrandPreview
+            primaryColor={isHex(v.primaryColor) ? v.primaryColor : brand.primaryColor}
+            sidebarColor={isHex(v.sidebarColor) ? v.sidebarColor : brand.sidebarColor}
+            name={institutionName}
+            logoUrl={logoUrl}
+          />
+        </CardBody>
+      </Card>
+    </div>
   );
 }

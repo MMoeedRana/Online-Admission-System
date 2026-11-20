@@ -30,6 +30,7 @@ import { formatDate, formatMoney } from '@/lib/format';
 import { cn } from '@/lib/utils';
 import { BANDS, BandBadge, ChanceRing } from './band';
 import { INTER_GROUPS, type AdvisorInputs, type AdvisorMeta, type AdvisorResult, type Band } from './types';
+import { useBrand } from '@/features/branding/brand-context';
 
 const ORDER: Band[] = ['SAFE', 'TARGET', 'REACH', 'UNLIKELY', 'INSUFFICIENT_DATA', 'NOT_ELIGIBLE'];
 const SORTS = {
@@ -505,6 +506,7 @@ function ResultCard({
   saved: boolean;
   onSave: () => void;
 }) {
+  const brand = useBrand();
   return (
     <Card className="group flex h-full flex-col p-5 transition-shadow hover:shadow-lg">
       <div className="flex items-start gap-4">
@@ -554,7 +556,7 @@ function ResultCard({
       <div className="text-muted mt-3 flex flex-wrap gap-x-4 gap-y-1 text-[12.5px]">
         <span>{formatMoney(r.feePerSemester)} / semester</span>
         <span>{r.history.length ? `Data ${r.history.map((h) => h.year).join(', ')}` : 'No verified data'}</span>
-        {r.institution.onAdmitra && <span className="text-primary font-semibold">On ADMITRA</span>}
+        {r.institution.onAdmitra && <span className="text-primary font-semibold">On {brand.platformName}</span>}
       </div>
       {!r.eligible && <p className="mt-2 text-[12.5px] font-medium text-red-700 dark:text-red-400">{r.reasons[0]}</p>}
       {r.openCampaign && (

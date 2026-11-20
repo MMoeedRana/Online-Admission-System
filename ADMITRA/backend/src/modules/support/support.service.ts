@@ -19,6 +19,7 @@ import {
   type TicketPriority,
   type TicketStatus,
 } from './support.model';
+import { brand } from '../../lib/brand';
 
 type Ticket = HydratedDocument<SupportTicket>;
 
@@ -172,7 +173,7 @@ export async function reply(
   await tellOtherSide(
     t,
     side,
-    `${side === 'PLATFORM' ? 'ADMITRA support' : req.auth!.name} replied to ${t.ticketNumber}`,
+    `${side === 'PLATFORM' ? `${brand().platformName} support` : req.auth!.name} replied to ${t.ticketNumber}`,
     b.message.length > 160 ? `${b.message.slice(0, 157)}...` : b.message,
   );
   return t;

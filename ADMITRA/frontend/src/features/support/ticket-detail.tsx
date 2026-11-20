@@ -17,9 +17,11 @@ import { formatDateTime } from '@/lib/format';
 import { cn } from '@/lib/utils';
 import { PriorityBadge, ResponseBadge, TicketStatusBadge } from './badges';
 import { base, CATEGORIES, pageBase, PRIORITIES, TICKET_STATUS, type Side, type Ticket } from './types';
+import { useBrand } from '@/features/branding/brand-context';
 
 /** SUP-3: threaded conversation; each reply notifies the other party. */
 export function TicketDetail({ id, side }: { id: string; side: Side }) {
+  const brand = useBrand();
   const qc = useQueryClient();
   const q = useQuery({ queryKey: ['support', side, 'ticket', id], queryFn: () => get<Ticket>(`${base(side)}/${id}`) });
   const [message, setMessage] = useState('');
@@ -29,7 +31,9 @@ export function TicketDetail({ id, side }: { id: string; side: Side }) {
     mutationFn: () => post<Ticket>(`${base(side)}/${id}/replies`, { message, status: status || undefined }),
     onSuccess: async () => {
       toast.success(
-        side === 'platform' ? 'Reply sent. The institution is notified.' : 'Reply sent. The ADMITRA team is notified.',
+        side === 'platform'
+          ? 'Reply sent. The institution is notified.'
+          : `Reply sent. The ${brand.platformName} team is notified.`,
       );
       setMessage('');
       setStatus('');
@@ -93,11 +97,12 @@ export function TicketDetail({ id, side }: { id: string; side: Side }) {
                     transition={{ delay: Math.min(i, 8) * 0.05 }}
                     className={cn('flex gap-3', own && 'flex-row-reverse')}
                   >
-                    <Avatar name={m.side === 'PLATFORM' ? 'ADMITRA Support' : m.authorName} />
+                    <Avatar name={m.side === 'PLATFORM' ? `${brand.platformName} Support` : m.authorName} />
                     <div className={cn('max-w-[min(640px,85%)] min-w-0', own && 'items-end text-right')}>
                       <p className="text-muted text-[12px]">
                         <span className="text-ink font-semibold">{m.authorName}</span>
-                        {m.side === 'PLATFORM' ? ' · ADMITRA team' : ' · Institution'} · {formatDateTime(m.createdAt)}
+                        {m.side === 'PLATFORM' ? ` · ${brand.platformName} team` : ' · Institution'} ·{' '}
+                        {formatDateTime(m.createdAt)}
                       </p>
                       <div
                         className={cn(
@@ -128,7 +133,7 @@ export function TicketDetail({ id, side }: { id: string; side: Side }) {
               subtitle={
                 side === 'platform'
                   ? 'The institution admins get an in-app notification and an e-mail.'
-                  : 'The ADMITRA team gets an in-app notification and an e-mail. Replying reopens a resolved ticket.'
+                  : `The ${brand.platformName} team gets an in-app notification and an e-mail. Replying reopens a resolved ticket.`
               }
             />
             <div className="space-y-4 p-5 sm:p-6">
@@ -145,7 +150,7 @@ export function TicketDetail({ id, side }: { id: string; side: Side }) {
                       placeholder={
                         side === 'platform'
                           ? 'Write your answer to the institution…'
-                          : 'Write your reply to the ADMITRA team…'
+                          : `Write your reply to the ${brand.platformName} team…`
                       }
                       maxLength={5000}
                     />
@@ -255,7 +260,7 @@ export function TicketDetail({ id, side }: { id: string; side: Side }) {
               <div className="space-y-3">
                 <p className="text-body text-[13px]">
                   {t.status === 'RESOLVED'
-                    ? 'The ADMITRA team marked this ticket as resolved. Close it if everything works, or reply to reopen it.'
+                    ? `The ${brand.platformName} team marked this ticket as resolved. Close it if everything works, or reply to reopen it.`
                     : closed
                       ? 'This ticket is closed. Reply to reopen it if the problem comes back.'
                       : 'Close the ticket yourself when you no longer need help.'}

@@ -26,6 +26,7 @@ import { errorMessage, get } from '@/lib/api';
 import { DEGREE_LEVELS } from '@/lib/constants';
 import { formatDate, formatMoney } from '@/lib/format';
 import { cn } from '@/lib/utils';
+import { useBrand } from '@/features/branding/brand-context';
 
 const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 const COMPONENT: Record<string, string> = {
@@ -35,7 +36,7 @@ const COMPONENT: Record<string, string> = {
   BACHELOR_16: "Bachelor's (16 years)",
 };
 const ORIGIN: Record<string, string> = {
-  ADMITRA: 'Official (ADMITRA)',
+  ADMITRA: 'Official',
   IMPORT: 'Published merit list',
   MANUAL: 'Entered from source',
 };
@@ -49,6 +50,7 @@ interface Detail {
 
 /** DIR-2 / DIR-7: a program with its merit history, sources and data status. */
 export function DirectoryProgramDetail({ id }: { id: string }) {
+  const brand = useBrand();
   const router = useRouter();
   const compare = useCompare();
   const shortlist = useShortlist();
@@ -83,7 +85,7 @@ export function DirectoryProgramDetail({ id }: { id: string }) {
                 <Badge tone={verified.length ? 'green' : 'amber'}>
                   {verified.length ? `Verified data ${latestYear}` : 'Data waiting for verification'}
                 </Badge>
-                {i.onAdmitra || i.institutionId ? <Badge tone="blue">On ADMITRA</Badge> : null}
+                {i.onAdmitra || i.institutionId ? <Badge tone="blue">On {brand.platformName}</Badge> : null}
               </div>
               <h1 className="mt-3 text-[24px] font-bold tracking-tight">{p.title}</h1>
               <Link

@@ -8,6 +8,7 @@ import { usePathname, useRouter } from 'next/navigation';
 import { useState, type ReactNode } from 'react';
 import { useAuth } from '@/features/auth/auth-context';
 import { cn } from '@/lib/utils';
+import { useBrand } from '@/features/branding/brand-context';
 import { LogoMark } from './logo';
 import { NotificationBell } from './notification-bell';
 import { ThemeToggle } from './theme-toggle';
@@ -32,6 +33,8 @@ interface Props {
   search?: { placeholder: string; href: (q: string) => string };
   headerExtra?: ReactNode;
   banner?: ReactNode;
+  /** BRAND-2: an institution's own logo and short name in the sidebar instead of the platform's. */
+  brandMark?: { logoUrl: string; name: string };
   children: ReactNode;
 }
 
@@ -40,14 +43,18 @@ function Sidebar({
   roleLabel,
   orgName,
   onNavigate,
-}: Pick<Props, 'sections' | 'roleLabel' | 'orgName'> & { onNavigate?: () => void }) {
+  brandMark,
+}: Pick<Props, 'sections' | 'roleLabel' | 'orgName' | 'brandMark'> & { onNavigate?: () => void }) {
   const pathname = usePathname();
   const { user, can } = useAuth();
+  const brand = useBrand();
   return (
     <div className="bg-navy flex h-full flex-col text-slate-300">
-      <div className="flex h-[76px] items-center gap-3 px-6">
-        <LogoMark />
-        <span className="text-[20px] font-extrabold tracking-tight text-white">ADMITRA</span>
+      <div className="flex h-[76px] min-w-0 items-center gap-3 px-6">
+        <LogoMark src={brandMark?.logoUrl || undefined} name={brandMark?.name} />
+        <span className="truncate text-[20px] font-extrabold tracking-tight text-white">
+          {brandMark?.name ?? brand.platformName}
+        </span>
       </div>
       <nav className="flex-1 overflow-y-auto px-4 pb-4" aria-label="Workspace">
         {sections.map((s, i) => (
@@ -72,7 +79,7 @@ function Sidebar({
                         className={cn(
                           'flex items-center gap-3 rounded-xl px-3.5 py-2.5 text-[14.5px] font-medium transition',
                           active
-                            ? 'bg-primary text-white shadow-[0_6px_18px_rgba(31,111,235,0.35)]'
+                            ? 'bg-primary text-white shadow-[0_6px_18px_var(--ring)]'
                             : 'hover:bg-white/5 hover:text-white',
                         )}
                       >
@@ -88,7 +95,7 @@ function Sidebar({
       </nav>
       {user && (
         <div className="bg-navy-line/70 m-4 flex items-center gap-3 rounded-2xl p-3.5">
-          <Avatar name={user.fullName} />
+          <Avatar name={user.fullName} src={user.avatarUrl} />
           <div className="min-w-0">
             <p className="truncate text-[14px] font-semibold text-white">{user.fullName}</p>
             <p className="truncate text-[12.5px] text-slate-400">{orgName}</p>
@@ -100,7 +107,7 @@ function Sidebar({
 }
 
 /** Staff and super admin layout: navy sidebar, header with search, theme, notifications and account (Section 4.1.7). */
-export function StaffShell({ sections, roleLabel, orgName, search, headerExtra, banner, children }: Props) {
+export function StaffShell({ sections, roleLabel, orgName, search, headerExtra, banner, brandMark, children }: Props) {
   const [open, setOpen] = useState(false);
   const [q, setQ] = useState('');
   const router = useRouter();
@@ -108,7 +115,7 @@ export function StaffShell({ sections, roleLabel, orgName, search, headerExtra, 
   return (
     <div className="bg-page min-h-dvh">
       <aside className="fixed inset-y-0 left-0 z-40 hidden w-[240px] lg:block xl:w-[260px]">
-        <Sidebar sections={sections} roleLabel={roleLabel} orgName={orgName} />
+        <Sidebar sections={sections} roleLabel={roleLabel} orgName={orgName} brandMark={brandMark} />
       </aside>
 
       {open && (
@@ -122,7 +129,13 @@ export function StaffShell({ sections, roleLabel, orgName, search, headerExtra, 
             >
               <X className="size-5" />
             </button>
-            <Sidebar sections={sections} roleLabel={roleLabel} orgName={orgName} onNavigate={() => setOpen(false)} />
+            <Sidebar
+              sections={sections}
+              roleLabel={roleLabel}
+              orgName={orgName}
+              brandMark={brandMark}
+              onNavigate={() => setOpen(false)}
+            />
           </aside>
         </div>
       )}

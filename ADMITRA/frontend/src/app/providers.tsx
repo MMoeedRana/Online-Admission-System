@@ -7,6 +7,9 @@ import type { ReactNode } from 'react';
 import { Toaster } from '@/components/ui/toast';
 import { AuthProvider } from '@/features/auth/auth-context';
 import { NotificationSocket } from '@/features/notifications/notifications';
+import { BrandProvider } from '@/features/branding/brand-context';
+import { PlatformBrandStyle } from '@/features/branding/brand-style';
+import type { Brand } from '@/lib/brand';
 
 let browserClient: QueryClient | undefined;
 
@@ -24,15 +27,18 @@ function getQueryClient() {
   return browserClient;
 }
 
-export function Providers({ children }: { children: ReactNode }) {
+export function Providers({ children, brand }: { children: ReactNode; brand: Brand }) {
   return (
     <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false} disableTransitionOnChange>
       <QueryClientProvider client={getQueryClient()}>
-        <AuthProvider>
-          <MotionConfig reducedMotion="user">{children}</MotionConfig>
-          <NotificationSocket />
-          <Toaster />
-        </AuthProvider>
+        <BrandProvider initial={brand}>
+          <PlatformBrandStyle />
+          <AuthProvider>
+            <MotionConfig reducedMotion="user">{children}</MotionConfig>
+            <NotificationSocket />
+            <Toaster />
+          </AuthProvider>
+        </BrandProvider>
       </QueryClientProvider>
     </ThemeProvider>
   );

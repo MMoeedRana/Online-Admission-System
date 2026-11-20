@@ -32,7 +32,7 @@ import type { AdvisorMeta, AdvisorResult, DirProgram, HistoryRow } from './types
 type Explained = AdvisorResult & { program: DirProgram; allHistory: HistoryRow[] };
 
 const ORIGIN: Record<string, string> = {
-  ADMITRA: 'Official (ADMITRA)',
+  ADMITRA: 'Official',
   IMPORT: 'Published merit list',
   MANUAL: 'Entered from source',
 };
@@ -302,7 +302,7 @@ export function ExplainPage({ id, base = '' }: { id: string; base?: string }) {
                       type="monotone"
                       dataKey="closing"
                       name="Closing merit"
-                      stroke="#1F6FEB"
+                      stroke="var(--primary)"
                       strokeWidth={2.5}
                       dot={{ r: 4 }}
                     />

@@ -21,6 +21,8 @@ import { cn } from '@/lib/utils';
 import { useAuth } from './auth-context';
 import { PasswordChecklist, PasswordInput } from './password-input';
 import { fullName, password } from './schemas';
+import { useBrand } from '@/features/branding/brand-context';
+import { ImageField } from '@/features/branding/brand-fields';
 
 const passwordSchema = z
   .object({
@@ -32,6 +34,7 @@ const passwordSchema = z
 type PasswordValues = z.infer<typeof passwordSchema>;
 
 export function AccountSettings() {
+  const brand = useBrand();
   const { user, updateUser } = useAuth();
   const { theme, setTheme } = useTheme();
   const profile = useForm<{ fullName: string }>({
@@ -46,6 +49,22 @@ export function AccountSettings() {
     <div className="mx-auto max-w-3xl">
       <PageHeader title="Account settings" subtitle="Your name, password and display preferences." />
       <div className="space-y-6">
+        <Card>
+          <CardHeader
+            title="Profile picture"
+            subtitle="Shown next to your name; without a picture your initials are shown."
+          />
+          <CardBody>
+            <ImageField
+              label="Profile picture"
+              hint="PNG, JPG or WebP up to 2 MB. A square photo works best."
+              url={user.avatarUrl ?? ''}
+              uploadUrl="/auth/me/avatar"
+              rounded="rounded-full"
+              onDone={(d) => updateUser((d as { user: User }).user)}
+            />
+          </CardBody>
+        </Card>
         <Card>
           <CardHeader title="Profile" />
           <CardBody>
@@ -81,7 +100,7 @@ export function AccountSettings() {
         </Card>
 
         <Card>
-          <CardHeader title="Theme" subtitle="Choose how ADMITRA looks on this device." />
+          <CardHeader title="Theme" subtitle={`Choose how ${brand.platformName} looks on this device.`} />
           <CardBody className="flex gap-3">
             {(['light', 'dark'] as const).map((t) => (
               <button
@@ -168,11 +187,15 @@ export function AccountSettings() {
 
 /** PROF-5: download all personal data or delete the account. */
 function YourData() {
+  const brand = useBrand();
   const { logout } = useAuth();
   const [confirm, setConfirm] = useState(false);
   return (
     <Card>
-      <CardHeader title="Your data" subtitle="Download everything ADMITRA keeps about you, or delete your account." />
+      <CardHeader
+        title="Your data"
+        subtitle={`Download everything ${brand.platformName} keeps about you, or delete your account.`}
+      />
       <CardBody className="flex flex-wrap gap-3">
         <Button
           variant="secondary"

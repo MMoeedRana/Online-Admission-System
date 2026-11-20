@@ -1,6 +1,7 @@
 import nodemailer from 'nodemailer';
 import { env, isTest } from '../config/env';
 import { logger } from './logger';
+import { brand } from './brand';
 
 const transport = env.SMTP_HOST
   ? nodemailer.createTransport({
@@ -32,7 +33,7 @@ function render(m: MailMessage): string {
     : '';
   return `<div style="background:#F5F7FB;padding:32px;font-family:Inter,Segoe UI,Arial,sans-serif">
   <div style="max-width:560px;margin:auto;background:#fff;border:1px solid #E6EAF2;border-radius:16px;overflow:hidden">
-    <div style="background:#0B1B3A;color:#fff;padding:18px 24px;font-weight:700;font-size:18px">ADMITRA</div>
+    <div style="background:#0B1B3A;color:#fff;padding:18px 24px;font-weight:700;font-size:18px">${brand().platformName.replace(/[<>&"]/g, '')}</div>
     <div style="padding:24px"><h2 style="margin:0 0 16px;color:#0F172A;font-size:20px">${m.heading}</h2>${body}${button}</div>
   </div></div>`;
 }

@@ -11,11 +11,13 @@ import { handleFormError } from '@/lib/forms';
 import { homeFor, useAuth } from './auth-context';
 import { PasswordInput } from './password-input';
 import { email } from './schemas';
+import { useBrand } from '@/features/branding/brand-context';
 
 const schema = z.object({ email, password: z.string().min(1, 'Enter your password.') });
 type Values = z.infer<typeof schema>;
 
 export function LoginForm() {
+  const brand = useBrand();
   const { login } = useAuth();
   const router = useRouter();
   const next = useSearchParams().get('next');
@@ -25,7 +27,7 @@ export function LoginForm() {
   return (
     <>
       <h1 className="text-[26px] font-bold tracking-tight">Welcome back</h1>
-      <p className="text-muted mt-1 text-[14px]">Log in to continue to ADMITRA.</p>
+      <p className="text-muted mt-1 text-[14px]">Log in to continue to {brand.platformName}.</p>
       <form
         noValidate
         className="mt-8 space-y-5"
@@ -69,7 +71,7 @@ export function LoginForm() {
         </Button>
       </form>
       <p className="text-muted mt-6 text-center text-[13.5px]">
-        New to ADMITRA?{' '}
+        New to {brand.platformName}?{' '}
         <Link href="/register" className="text-primary font-semibold hover:underline">
           Create an applicant account
         </Link>

@@ -5,6 +5,7 @@ import type { StaffRole } from '../constants/roles';
 import { ApiError } from '../lib/http';
 import { InstitutionModel, subscriptionState } from '../modules/institutions/institution.model';
 import { MemberModel } from '../modules/staff/member.model';
+import { brand } from '../lib/brand';
 
 /**
  * Resolves the institution (tenant) of a staff request from the X-Institution-Id header and
@@ -29,7 +30,7 @@ export async function resolveTenant(req: Request, _res: Response, next: NextFunc
     throw new ApiError(
       403,
       'INSTITUTION_SUSPENDED',
-      'This institution workspace is not active. Please contact ADMITRA support.',
+      `This institution workspace is not active. Please contact ${brand().platformName} support.`,
     );
   }
 

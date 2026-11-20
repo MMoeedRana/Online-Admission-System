@@ -69,7 +69,8 @@ export function PublicFooter() {
         </div>
       </div>
       <p className="border-line text-muted border-t py-4 text-center text-[12px]">
-        ADMITRA - Final Year Project, Department of Computer Science, Government College University Faisalabad
+        Powered by ADMITRA - Final Year Project, Department of Computer Science, Government College University
+        Faisalabad
       </p>
     </footer>
   );

@@ -11,12 +11,14 @@ import { ServiceUnavailable } from '@/features/public/service-unavailable';
 import { DEGREE_LEVELS, PROVINCES, SECTORS } from '@/lib/constants';
 import { serverGet } from '@/lib/server-api';
 import type { PublicProgram } from '@/lib/types';
+import { serverBrand } from '@/lib/server-brand';
 
 export const metadata: Metadata = { title: 'Programs' };
 
 type Search = Record<string, string | undefined>;
 
 export default async function ProgramsPage({ searchParams }: { searchParams: Promise<Search> }) {
+  const brand = await serverBrand();
   const sp = await searchParams;
   const params = {
     q: sp.q,
@@ -53,7 +55,7 @@ export default async function ProgramsPage({ searchParams }: { searchParams: Pro
     <div className="page-container py-8">
       <h1 className="text-[24px] font-bold tracking-tight sm:text-[28px]">Find a program</h1>
       <p className="text-muted mt-1 text-[14px]">
-        Search programs of colleges and universities on ADMITRA and see which ones are open for admission.
+        Search programs of colleges and universities on {brand.platformName} and see which ones are open for admission.
       </p>
 
       <Card className="mt-6 p-4 sm:p-5">

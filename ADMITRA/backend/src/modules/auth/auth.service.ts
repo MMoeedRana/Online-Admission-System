@@ -1,3 +1,4 @@
+import { PlanModel } from '../plans/plan.model';
 import type { Request, Response } from 'express';
 import { env } from '../../config/env';
 import { permissionsFor } from '../../constants/permissions';
@@ -11,6 +12,7 @@ import { MemberModel } from '../staff/member.model';
 import { UserModel, publicUser, type UserDoc } from '../users/user.model';
 import type { Id } from '../../lib/types';
 import { ActionTokenModel, RefreshTokenModel, type ActionTokenType } from './token.models';
+import { brand } from '../../lib/brand';
 
 export const REFRESH_COOKIE = 'admitra_rt';
 const MAX_FAILED_LOGINS = 5;
@@ -57,7 +59,7 @@ export async function sendVerificationEmail(user: { _id: Id; email: string; full
   await sendMail({
     to: user.email,
     subject: 'Verify your e-mail address',
-    heading: `Welcome to ADMITRA, ${user.fullName}`,
+    heading: `Welcome to ${brand().platformName}, ${user.fullName}`,
     paragraphs: [
       'Please confirm your e-mail address to secure your account. This link can be used once and is valid for 24 hours.',
     ],
@@ -69,7 +71,10 @@ export async function membershipsOf(userId: Id) {
   const members = await MemberModel.find({ userId, status: 'ACTIVE' }).lean();
   if (!members.length) return [];
   const insts = await InstitutionModel.find({ _id: { $in: members.map((m) => m.institutionId) } })
-    .select('name shortName slug status branding city')
+    .select('name shortName slug status branding city planId')
+    .lean();
+  const plans = await PlanModel.find({ _id: { $in: insts.map((i) => i.planId).filter(Boolean) } })
+    .select('features')
     .lean();
   return members
     .map((m) => {
@@ -84,6 +89,13 @@ export async function membershipsOf(userId: Id) {
         city: i.city,
         status: i.status,
         logoUrl: i.branding?.logoUrl ?? '',
+        // BRAND-2: the workspace uses the institution's colours only while its plan includes branding.
+        branding: {
+          active: Boolean(plans.find((p) => String(p._id) === String(i.planId))?.features?.customBranding),
+          logoUrl: i.branding?.logoUrl ?? '',
+          primaryColor: i.branding?.primaryColor ?? '',
+          sidebarColor: i.branding?.sidebarColor ?? '',
+        },
         roles,
         permissions: permissionsFor(roles),
       };
@@ -249,7 +261,7 @@ export async function forgotPassword(email: string) {
   const raw = await createActionToken('RESET_PASSWORD', { userId: user._id, email: user.email });
   await sendMail({
     to: user.email,
-    subject: 'Reset your ADMITRA password',
+    subject: `Reset your ${brand().platformName} password`,
     heading: 'Password reset request',
     paragraphs: [
       `Hello ${user.fullName}, we received a request to reset your password.`,
@@ -304,9 +316,12 @@ export async function acceptInvitation(
       );
     }
     if (!input.password || !(await verifyPassword(user.passwordHash, input.password))) {
-      throw ApiError.validation('Please enter the password of your existing ADMITRA account.', {
-        fields: { password: 'Incorrect password.' },
-      });
+      throw ApiError.validation(
+        `Please enter the password of your existing ${brand().platformName} account.`,
+        {
+          fields: { password: 'Incorrect password.' },
+        },
+      );
     }
   } else {
     if (!input.fullName || !input.password) {

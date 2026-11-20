@@ -21,12 +21,14 @@ import type { PageMeta } from '@/lib/types';
 import { AlertTriangle, CheckCircle2, Hourglass, Inbox } from 'lucide-react';
 import { PriorityBadge, ResponseBadge, TicketStatusBadge } from './badges';
 import { base, CATEGORIES, pageBase, PRIORITIES, relative, type Side, type Ticket } from './types';
+import { useBrand } from '@/features/branding/brand-context';
 
 type TabKey = 'ACTIVE' | 'OPEN' | 'IN_PROGRESS' | 'WAITING_ON_INSTITUTION' | 'RESOLVED' | 'CLOSED' | 'ALL';
 type Meta = PageMeta & { counts: Record<string, number> };
 
 /** SUP-1 / SUP-2: ticket list of an institution (only its own) or of the platform team. */
 export function TicketList({ side }: { side: Side }) {
+  const brand = useBrand();
   const router = useRouter();
   const [tab, setTab] = useState<TabKey>(side === 'platform' ? 'ACTIVE' : 'ALL');
   const [q, setQ] = useState('');
@@ -57,7 +59,7 @@ export function TicketList({ side }: { side: Side }) {
         subtitle={
           side === 'platform'
             ? 'Tickets from every institution, with first-response targets of 2, 8, 24 and 72 hours'
-            : 'Ask the ADMITRA team for help. Only your institution can see its tickets.'
+            : `Ask the ${brand.platformName} team for help. Only your institution can see its tickets.`
         }
         actions={
           side === 'institution' ? (
@@ -154,7 +156,7 @@ export function TicketList({ side }: { side: Side }) {
               title="No tickets here"
               text={
                 side === 'institution'
-                  ? 'Open a ticket when you need help from the ADMITRA team.'
+                  ? `Open a ticket when you need help from the ${brand.platformName} team.`
                   : 'Nothing matches these filters.'
               }
             />
@@ -196,6 +198,7 @@ export function TicketList({ side }: { side: Side }) {
 }
 
 function NewTicket({ open, onClose }: { open: boolean; onClose: () => void }) {
+  const brand = useBrand();
   const qc = useQueryClient();
   const router = useRouter();
   const empty = { subject: '', category: '', priority: 'NORMAL', message: '' };
@@ -204,7 +207,7 @@ function NewTicket({ open, onClose }: { open: boolean; onClose: () => void }) {
   const create = useMutation({
     mutationFn: () => post<Ticket>('/support/tickets', v),
     onSuccess: async (t) => {
-      toast.success(`Ticket ${t.ticketNumber} opened. The ADMITRA team has been notified.`);
+      toast.success(`Ticket ${t.ticketNumber} opened. The ${brand.platformName} team has been notified.`);
       setV(empty);
       onClose();
       await qc.invalidateQueries({ queryKey: ['support'] });

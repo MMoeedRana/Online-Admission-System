@@ -14,6 +14,7 @@ import { uniqueSlug } from '../platform/platform.service';
 import { ProgramModel, totalSeats } from '../programs/program.model';
 import { CampusModel, DepartmentModel } from '../structure/structure.models';
 import { UserModel } from '../users/user.model';
+import { brand } from '../../lib/brand';
 
 export const publicRouter = Router();
 publicRouter.use(publicLimiter);
@@ -391,14 +392,14 @@ publicRouter.post('/onboarding-requests', async (req, res) => {
         subject: `New onboarding request: ${inst.name}`,
         heading: 'New institution onboarding request',
         paragraphs: [
-          `<b>${inst.name}</b> (${inst.city}) has requested an ADMITRA workspace. Contact: ${body.contact.name}, ${body.contact.email}.`,
+          `<b>${inst.name}</b> (${inst.city}) has requested a ${brand().platformName} workspace. Contact: ${body.contact.name}, ${body.contact.email}.`,
         ],
       }),
     ),
   );
   await sendMail({
     to: body.contact.email,
-    subject: 'We received your ADMITRA onboarding request',
+    subject: `We received your ${brand().platformName} onboarding request`,
     heading: 'Thank you for your request',
     paragraphs: [
       `Dear ${body.contact.name}, we received the request for <b>${inst.name}</b>. Our team will review it and contact you soon.`,

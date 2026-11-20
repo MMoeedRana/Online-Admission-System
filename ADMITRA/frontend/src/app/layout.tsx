@@ -1,15 +1,21 @@
 import type { Metadata, Viewport } from 'next';
 import { Inter } from 'next/font/google';
+import { brandCss } from '@/lib/brand';
+import { serverBrand } from '@/lib/server-brand';
 import './globals.css';
 import { Providers } from './providers';
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter', display: 'swap' });
 
-export const metadata: Metadata = {
-  title: { default: 'ADMITRA - Online Admission System', template: '%s | ADMITRA' },
-  description:
-    'One profile for every college and university: find programs, apply online with verified marks and follow your admission in one place.',
-};
+/** BRAND-1: name, description and favicon follow the platform branding. */
+export async function generateMetadata(): Promise<Metadata> {
+  const b = await serverBrand();
+  return {
+    title: { default: `${b.platformName} - Online Admission System`, template: `%s | ${b.platformName}` },
+    description: `${b.tagline} Find programs, apply online with verified marks and follow your admission in one place.`,
+    icons: b.faviconUrl ? { icon: b.faviconUrl } : undefined,
+  };
+}
 
 export const viewport: Viewport = {
   width: 'device-width',
@@ -20,11 +26,15 @@ export const viewport: Viewport = {
   ],
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
+  const brand = await serverBrand();
   return (
     <html lang="en" className={inter.variable} suppressHydrationWarning>
+      <head>
+        <style id="platform-brand-ssr">{brandCss(brand.primaryColor, brand.sidebarColor)}</style>
+      </head>
       <body className="min-h-dvh font-sans">
-        <Providers>{children}</Providers>
+        <Providers brand={brand}>{children}</Providers>
       </body>
     </html>
   );

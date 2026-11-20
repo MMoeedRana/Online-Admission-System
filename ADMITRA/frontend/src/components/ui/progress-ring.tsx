@@ -15,7 +15,7 @@ export function ProgressRing({
   const stroke = 5;
   const r = (size - stroke) / 2;
   const c = 2 * Math.PI * r;
-  const colors = { blue: '#1F6FEB', amber: '#D97706', red: '#DC2626', green: '#16A34A', gray: '#94A3B8' };
+  const colors = { blue: 'var(--primary)', amber: '#D97706', red: '#DC2626', green: '#16A34A', gray: '#94A3B8' };
   return (
     <div className={cn('relative shrink-0', className)} style={{ width: size, height: size }}>
       <svg width={size} height={size} className="-rotate-90">

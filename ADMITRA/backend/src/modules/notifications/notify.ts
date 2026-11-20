@@ -5,6 +5,7 @@ import { emitToUser } from '../../lib/socket';
 import type { Id } from '../../lib/types';
 import { EmailTemplateModel, NotificationModel } from './notification.models';
 import { DEFAULT_TEMPLATES, renderTemplate, type TemplateKey } from './templates';
+import { brand } from '../../lib/brand';
 
 const escape = (s: string) =>
   s.replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]!);
@@ -40,7 +41,9 @@ export async function notify(
         paragraphs: renderTemplate(t.body, mail.vars)
           .split(/\n{2,}/)
           .map((p) => escape(p).replace(/\n/g, '<br>')),
-        action: n.link ? { label: 'Open ADMITRA', url: `${env.WEB_URL}${n.link}` } : undefined,
+        action: n.link
+          ? { label: `Open ${brand().platformName}`, url: `${env.WEB_URL}${n.link}` }
+          : undefined,
       });
     }
   } catch (err) {

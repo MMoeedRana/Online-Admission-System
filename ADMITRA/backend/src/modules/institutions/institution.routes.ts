@@ -30,10 +30,13 @@ const profileBody = z.object({
   address: z.string().trim().max(300).optional(),
   branding: z
     .object({
-      logoUrl: z.string().trim().url().or(z.literal('')).optional(),
       primaryColor: z
         .string()
-        .regex(/^#[0-9A-Fa-f]{6}$/, 'Use a hex color like #1F6FEB')
+        .regex(/^(#[0-9A-Fa-f]{6})?$/, 'Use a hex colour like #1A62D6')
+        .optional(),
+      sidebarColor: z
+        .string()
+        .regex(/^(#[0-9A-Fa-f]{6})?$/, 'Use a hex colour like #0B1B3A')
         .optional(),
     })
     .optional(),

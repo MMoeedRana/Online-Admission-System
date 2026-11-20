@@ -163,7 +163,7 @@ export function InstitutionDashboard() {
                     cursor={{ fill: 'var(--card-soft)' }}
                     contentStyle={{ background: 'var(--card)', border: '1px solid var(--line)', borderRadius: 12 }}
                   />
-                  <Bar dataKey="seats" name="Seats" fill="#1F6FEB" radius={[8, 8, 0, 0]} maxBarSize={48} />
+                  <Bar dataKey="seats" name="Seats" fill="var(--primary)" radius={[8, 8, 0, 0]} maxBarSize={48} />
                 </BarChart>
               </ResponsiveContainer>
             ) : (

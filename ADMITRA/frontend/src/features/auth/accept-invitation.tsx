@@ -14,6 +14,7 @@ import { STAFF_ROLES } from '@/lib/constants';
 import type { Session } from '@/lib/types';
 import { useAuth } from './auth-context';
 import { PasswordChecklist, PasswordInput, passwordRules } from './password-input';
+import { useBrand } from '@/features/branding/brand-context';
 
 interface Preview {
   email: string;
@@ -24,6 +25,7 @@ interface Preview {
 }
 
 export function AcceptInvitation() {
+  const brand = useBrand();
   const token = useSearchParams().get('token') ?? '';
   const router = useRouter();
   const { applySession } = useAuth();
@@ -108,13 +110,13 @@ export function AcceptInvitation() {
       >
         {inv.existingAccount ? (
           <Field
-            label="Your ADMITRA password"
+            label={`Your ${brand.platformName} password`}
             htmlFor="password"
             error={errors.password}
-            hint="You already have an ADMITRA account with this e-mail."
+            hint={`You already have a ${brand.platformName} account with this e-mail.`}
           >
             <PasswordInput
-              placeholder="Your ADMITRA password"
+              placeholder={`Your ${brand.platformName} password`}
               id="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}

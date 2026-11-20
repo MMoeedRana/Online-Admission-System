@@ -14,6 +14,7 @@ import type { Session } from '@/lib/types';
 import { useAuth } from './auth-context';
 import { PasswordChecklist, PasswordInput } from './password-input';
 import { email, fullName, password } from './schemas';
+import { useBrand } from '@/features/branding/brand-context';
 
 const schema = z
   .object({ fullName, email, password, confirm: z.string() })
@@ -21,6 +22,7 @@ const schema = z
 type Values = z.infer<typeof schema>;
 
 export function RegisterForm() {
+  const brand = useBrand();
   const { applySession } = useAuth();
   const router = useRouter();
   const { register, handleSubmit, setError, control, formState } = useForm<Values>({
@@ -33,7 +35,9 @@ export function RegisterForm() {
   return (
     <>
       <h1 className="text-[26px] font-bold tracking-tight">Create your account</h1>
-      <p className="text-muted mt-1 text-[14px]">One account for every college and university on ADMITRA.</p>
+      <p className="text-muted mt-1 text-[14px]">
+        One account for every college and university on {brand.platformName}.
+      </p>
       <form
         noValidate
         className="mt-8 space-y-5"

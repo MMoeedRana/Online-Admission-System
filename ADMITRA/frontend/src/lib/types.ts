@@ -8,6 +8,8 @@ export interface User {
   platformRole: 'SUPER_ADMIN' | null;
   emailVerified: boolean;
   theme: 'light' | 'dark' | 'system';
+  /** BRAND-4: profile picture, empty when the person has none. */
+  avatarUrl?: string;
 }
 
 export interface Membership {
@@ -18,6 +20,8 @@ export interface Membership {
   city: string;
   status: string;
   logoUrl: string;
+  /** BRAND-2: own logo and colours, applied while the plan includes custom branding. */
+  branding?: { active: boolean; logoUrl: string; primaryColor: string; sidebarColor: string };
   roles: StaffRole[];
   permissions: string[];
 }
@@ -73,7 +77,7 @@ export interface Institution {
   planId: string | Plan | null;
   subscription: { startsAt: string | null; endsAt: string | null; isTrial: boolean };
   subscriptionState?: 'ACTIVE' | 'GRACE' | 'READ_ONLY' | 'NONE';
-  branding: { logoUrl: string; primaryColor: string };
+  branding: { logoUrl: string; primaryColor: string; sidebarColor?: string };
   bankAccount: { bankName: string; accountTitle: string; accountNumber: string; iban: string };
   settings: { eligibilityAsSeparateStep: boolean; requireOriginals?: boolean };
   createdAt: string;

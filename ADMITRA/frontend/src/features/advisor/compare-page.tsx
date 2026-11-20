@@ -15,6 +15,7 @@ import { DEGREE_LEVELS } from '@/lib/constants';
 import { formatDate, formatMoney } from '@/lib/format';
 import { useCompare } from './advisor-page';
 import type { DirInstitution, DirProgram, HistoryRow, ProgramSummary } from './types';
+import { useBrand } from '@/features/branding/brand-context';
 
 type Row = ProgramSummary & { program: DirProgram; institution: DirInstitution; history: HistoryRow[] };
 
@@ -27,6 +28,7 @@ const LABEL: Record<string, string> = {
 
 /** DIR-6 / PRED-10: up to four programs side by side. */
 export function ComparePage({ base = '' }: { base?: string }) {
+  const brand = useBrand();
   const sp = useSearchParams();
   const router = useRouter();
   const compare = useCompare();
@@ -147,7 +149,7 @@ export function ComparePage({ base = '' }: { base?: string }) {
             Official website <ExternalLink className="size-3.5" />
           </a>
         ) : (
-          <span className="text-muted">Not open on ADMITRA</span>
+          <span className="text-muted">Not open on {brand.platformName}</span>
         ),
     },
   ];

@@ -31,9 +31,13 @@ const institutionSchema = new Schema(
       endsAt: { type: Date, default: null },
       isTrial: { type: Boolean, default: false },
     },
+    /** BRAND-2: own logo and colours, used when the plan includes custom branding. */
     branding: {
       logoUrl: { type: String, default: '' },
-      primaryColor: { type: String, default: '#1F6FEB' },
+      logoKey: { type: String, default: '' },
+      /** Empty = the platform colours. */
+      primaryColor: { type: String, default: '' },
+      sidebarColor: { type: String, default: '' },
     },
     bankAccount: {
       bankName: { type: String, default: '' },

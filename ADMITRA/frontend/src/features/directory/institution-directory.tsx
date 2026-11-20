@@ -19,6 +19,7 @@ import { formatMoney } from '@/lib/format';
 import { cn } from '@/lib/utils';
 import { HistoryForm } from './history-form';
 import { HistoryImport } from './history-import';
+import { useBrand } from '@/features/branding/brand-context';
 
 type Program = DirProgram & {
   history: (HistoryRow & { _id: string; status: 'DRAFT' | 'VERIFIED' | 'REJECTED'; rejectReason?: string })[];
@@ -29,7 +30,7 @@ interface Data {
   pendingClaim: { name: string } | null;
 }
 
-const ORIGIN: Record<string, string> = { ADMITRA: 'Official (ADMITRA)', IMPORT: 'Import', MANUAL: 'Form' };
+const ORIGIN: Record<string, string> = { ADMITRA: 'Official', IMPORT: 'Import', MANUAL: 'Form' };
 
 /** DIR-5, DIR-7: the institution's own directory profile and merit history. */
 export function InstitutionDirectory() {
@@ -73,8 +74,8 @@ export function InstitutionDirectory() {
       {tab === 'programs' && (
         <Card className="overflow-hidden">
           <CardBody className="text-muted pt-5 text-[13px]">
-            Closing merit is added automatically when you publish a merit list (marked “Official (ADMITRA)”). Earlier
-            years can be entered below; they are used after the super admin verifies the source.
+            Closing merit is added automatically when you publish a merit list (marked “Official”). Earlier years can be
+            entered below; they are used after the super admin verifies the source.
           </CardBody>
           <div className="mt-2 overflow-x-auto" tabIndex={0} role="region" aria-label="Scrollable table">
             <table className="w-full min-w-[780px] text-left text-[13.5px]">

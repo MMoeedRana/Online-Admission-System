@@ -4,6 +4,7 @@ import { ProgramModel } from '../programs/program.model';
 import { MemberModel } from '../staff/member.model';
 import { CampusModel } from '../structure/structure.models';
 import type { Id } from '../../lib/types';
+import { brand } from '../../lib/brand';
 
 export type LimitKey = 'campuses' | 'programs' | 'staff';
 
@@ -38,7 +39,7 @@ export async function assertWithinLimit(institution: { _id: unknown; planId?: un
     throw new ApiError(
       403,
       'PLAN_LIMIT_REACHED',
-      `Your ${plan.name} plan allows ${limit} ${LABELS[key]}. Please contact ADMITRA to upgrade the plan.`,
+      `Your ${plan.name} plan allows ${limit} ${LABELS[key]}. Please contact ${brand().platformName} to upgrade the plan.`,
       { limit, used: usage[key], key },
     );
   }

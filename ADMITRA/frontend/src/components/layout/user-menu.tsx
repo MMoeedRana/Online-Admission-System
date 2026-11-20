@@ -4,12 +4,28 @@ import { ChevronDown, LogOut, Settings } from 'lucide-react';
 import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
 import { useAuth } from '@/features/auth/auth-context';
+import { useBrand } from '@/features/branding/brand-context';
+import { avatarBackground } from '@/lib/brand';
 import { initials } from '@/lib/utils';
 
-export function Avatar({ name, className = 'size-10 text-[13px]' }: { name: string; className?: string }) {
+/** BRAND-4: profile picture, or the initials on the colour chosen by the platform (one per name by default). */
+export function Avatar({
+  name,
+  src,
+  className = 'size-10 text-[13px]',
+}: {
+  name: string;
+  src?: string;
+  className?: string;
+}) {
+  const brand = useBrand();
+  if (src)
+    // eslint-disable-next-line @next/next/no-img-element
+    return <img src={src} alt="" className={`shrink-0 rounded-full object-cover ${className}`} />;
   return (
     <span
-      className={`flex shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-orange-400 to-rose-500 font-bold text-white ${className}`}
+      className={`flex shrink-0 items-center justify-center rounded-full font-bold text-white ${className}`}
+      style={{ background: avatarBackground(name, brand.avatarColor) }}
     >
       {initials(name) || 'U'}
     </span>
@@ -35,7 +51,7 @@ export function UserMenu() {
       >
         <span className="sr-only">Account menu</span>
         <span aria-hidden>
-          <Avatar name={user.fullName} className="size-9 text-[12px]" />
+          <Avatar name={user.fullName} src={user.avatarUrl} className="size-9 text-[12px]" />
         </span>
         <ChevronDown className="text-muted hidden size-4 sm:block" />
       </button>

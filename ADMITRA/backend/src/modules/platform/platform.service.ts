@@ -11,6 +11,7 @@ import { MemberModel } from '../staff/member.model';
 import { UserModel } from '../users/user.model';
 import { ensureDefaultDocumentTypes } from '../documents/document.models';
 import type { Id } from '../../lib/types';
+import { brand } from '../../lib/brand';
 
 const DAY = 24 * 60 * 60 * 1000;
 
@@ -63,10 +64,10 @@ export async function sendInvitation(
   const raw = await createActionToken('INVITATION', { memberId: member._id, email: member.email });
   await sendMail({
     to: member.email,
-    subject: `You are invited to ${institutionName} on ADMITRA`,
+    subject: `You are invited to ${institutionName} on ${brand().platformName}`,
     heading: 'Staff invitation',
     paragraphs: [
-      `Hello${member.fullName ? ' ' + member.fullName : ''}, you have been invited to join <b>${institutionName}</b> on ADMITRA.`,
+      `Hello${member.fullName ? ' ' + member.fullName : ''}, you have been invited to join <b>${institutionName}</b> on ${brand().platformName}.`,
       'Open the link to set your password and join the workspace. The invitation can be used once and is valid for 7 days.',
     ],
     action: { label: 'Accept invitation', url: `${env.WEB_URL}/accept-invitation?token=${raw}` },
@@ -118,7 +119,7 @@ export async function rejectInstitution(req: Request, id: string, reason: string
   await inst.save();
   await sendMail({
     to: inst.contact!.email,
-    subject: 'Your ADMITRA onboarding request',
+    subject: `Your ${brand().platformName} onboarding request`,
     heading: 'Onboarding request not approved',
     paragraphs: [
       `Dear ${inst.contact!.name}, the request for <b>${inst.name}</b> was not approved.`,

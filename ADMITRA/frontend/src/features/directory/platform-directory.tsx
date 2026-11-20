@@ -23,6 +23,7 @@ import { DEGREE_LEVELS, INSTITUTION_TYPES, PROVINCES } from '@/lib/constants';
 import { formatDateTime, formatMoney } from '@/lib/format';
 import { HistoryForm } from './history-form';
 import { HistoryImport } from './history-import';
+import { useBrand } from '@/features/branding/brand-context';
 
 type Tab = 'verify' | 'institutions' | 'import' | 'gaps' | 'claims' | 'usage';
 type DraftRow = HistoryRow & {
@@ -251,6 +252,7 @@ function VerifyQueue() {
 }
 
 function Institutions() {
+  const brand = useBrand();
   const qc = useQueryClient();
   const [q, setQ] = useState('');
   const [page, setPage] = useState(1);
@@ -302,7 +304,11 @@ function Institutions() {
             key: 'on',
             header: 'Source',
             cell: (r) =>
-              r.institutionId ? <Badge tone="blue">On ADMITRA</Badge> : <Badge tone="gray">Directory only</Badge>,
+              r.institutionId ? (
+                <Badge tone="blue">On {brand.platformName}</Badge>
+              ) : (
+                <Badge tone="gray">Directory only</Badge>
+              ),
           },
         ]}
       />
@@ -819,7 +825,7 @@ function AdvisorUsage() {
                 cursor={{ fill: 'var(--card-soft)' }}
                 contentStyle={{ background: 'var(--card)', border: '1px solid var(--line)', borderRadius: 12 }}
               />
-              <Bar dataKey="runs" name="Runs" fill="#1F6FEB" radius={[6, 6, 0, 0]} />
+              <Bar dataKey="runs" name="Runs" fill="var(--primary)" radius={[6, 6, 0, 0]} />
             </BarChart>
           </ResponsiveContainer>
         </div>

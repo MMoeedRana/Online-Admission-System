@@ -10,6 +10,7 @@ import { Input, Select } from '@/components/ui/input';
 import { ServiceUnavailable } from '@/features/public/service-unavailable';
 import { INSTITUTION_TYPES, PROVINCES, SECTORS } from '@/lib/constants';
 import { serverGet } from '@/lib/server-api';
+import { serverBrand } from '@/lib/server-brand';
 
 export const metadata: Metadata = { title: 'Institutions' };
 
@@ -31,6 +32,7 @@ export default async function InstitutionsPage({
 }: {
   searchParams: Promise<Record<string, string | undefined>>;
 }) {
+  const brand = await serverBrand();
   const sp = await searchParams;
   let result;
   try {
@@ -48,7 +50,7 @@ export default async function InstitutionsPage({
   return (
     <div className="page-container py-8">
       <h1 className="text-[24px] font-bold tracking-tight sm:text-[28px]">Colleges and universities</h1>
-      <p className="text-muted mt-1 text-[14px]">Institutions that run their admissions on ADMITRA.</p>
+      <p className="text-muted mt-1 text-[14px]">Institutions that run their admissions on {brand.platformName}.</p>
       <Card className="mt-6 p-4 sm:p-5">
         <form className="grid gap-3 sm:grid-cols-2 lg:grid-cols-[2fr_1fr_1fr_1fr_auto]">
           <Input name="q" defaultValue={sp.q} placeholder="Institution name" aria-label="Institution name" />

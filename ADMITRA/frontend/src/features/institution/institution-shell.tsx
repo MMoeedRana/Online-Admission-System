@@ -4,6 +4,7 @@ import { ChevronsUpDown } from 'lucide-react';
 import type { ReactNode } from 'react';
 import { StaffShell } from '@/components/layout/staff-shell';
 import { useAuth } from '@/features/auth/auth-context';
+import { InstitutionBrandStyle } from '@/features/branding/brand-style';
 import { STAFF_ROLES } from '@/lib/constants';
 import { institutionNav } from './nav';
 import { SubscriptionBanner } from './subscription-banner';
@@ -38,17 +39,23 @@ export function InstitutionShell({ children }: { children: ReactNode }) {
   const role = current?.roles.includes('INSTITUTION_ADMIN')
     ? STAFF_ROLES.INSTITUTION_ADMIN
     : current?.roles.map((r) => STAFF_ROLES[r]).join(' · ');
+  // BRAND-2: the institution's logo and colours while its plan includes custom branding.
+  const b = current?.branding?.active ? current.branding : null;
   return (
-    <StaffShell
-      key={current?.institutionId}
-      sections={institutionNav}
-      roleLabel={role ?? 'Staff'}
-      orgName={current?.name ?? ''}
-      headerExtra={<InstitutionSwitcher />}
-      search={{ placeholder: 'Search programs...', href: (q) => `/institution/programs?q=${encodeURIComponent(q)}` }}
-      banner={<SubscriptionBanner />}
-    >
-      {children}
-    </StaffShell>
+    <>
+      {b && <InstitutionBrandStyle primaryColor={b.primaryColor} sidebarColor={b.sidebarColor} />}
+      <StaffShell
+        key={current?.institutionId}
+        brandMark={b?.logoUrl ? { logoUrl: b.logoUrl, name: current!.shortName || current!.name } : undefined}
+        sections={institutionNav}
+        roleLabel={role ?? 'Staff'}
+        orgName={current?.name ?? ''}
+        headerExtra={<InstitutionSwitcher />}
+        search={{ placeholder: 'Search programs...', href: (q) => `/institution/programs?q=${encodeURIComponent(q)}` }}
+        banner={<SubscriptionBanner />}
+      >
+        {children}
+      </StaffShell>
+    </>
   );
 }

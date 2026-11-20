@@ -14,9 +14,11 @@ import { errorMessage, get } from '@/lib/api';
 import { DEGREE_LEVELS, INSTITUTION_TYPES } from '@/lib/constants';
 import { formatDate, formatMoney } from '@/lib/format';
 import { DATA_STATUS } from './directory-page';
+import { useBrand } from '@/features/branding/brand-context';
 
 /** DIR-1 / DIR-7: an institution of the directory with its programs. */
 export function DirectoryInstitutionDetail({ slug }: { slug: string }) {
+  const brand = useBrand();
   const q = useQuery({
     queryKey: ['directory', 'institution', slug],
     queryFn: () =>
@@ -46,7 +48,7 @@ export function DirectoryInstitutionDetail({ slug }: { slug: string }) {
               </div>
             </div>
             <div className="flex gap-2">
-              {i.onAdmitra && <Badge tone="blue">Admissions on ADMITRA</Badge>}
+              {i.onAdmitra && <Badge tone="blue">Admissions on {brand.platformName}</Badge>}
               {i.website && (
                 <a
                   href={i.website}

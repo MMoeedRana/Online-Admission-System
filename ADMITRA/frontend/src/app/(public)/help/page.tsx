@@ -2,6 +2,7 @@ import { ChevronDown, LifeBuoy } from 'lucide-react';
 import type { Metadata } from 'next';
 import { ButtonLink } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
+import { serverBrand } from '@/lib/server-brand';
 
 export const metadata: Metadata = { title: 'Help and FAQ' };
 
@@ -58,11 +59,14 @@ const groups = [
   },
 ];
 
-export default function HelpPage() {
+export default async function HelpPage() {
+  const brand = await serverBrand();
+  // The answers name the platform; it follows the platform branding (BRAND-1).
+  const t = (s: string) => s.replaceAll('ADMITRA', brand.platformName);
   return (
     <div className="mx-auto max-w-[900px] px-4 py-8 sm:px-6">
       <h1 className="text-[24px] font-bold tracking-tight sm:text-[28px]">Help and FAQ</h1>
-      <p className="text-muted mt-1 text-[14px]">Answers to common questions about ADMITRA.</p>
+      <p className="text-muted mt-1 text-[14px]">Answers to common questions about {brand.platformName}.</p>
       {groups.map((g) => (
         <section key={g.title} className="mt-8">
           <h2 className="text-[17px] font-bold">{g.title}</h2>
@@ -70,10 +74,10 @@ export default function HelpPage() {
             {g.items.map(([q, a]) => (
               <details key={q} className="group border-line bg-card rounded-2xl border p-5 shadow-[var(--shadow-card)]">
                 <summary className="text-ink flex cursor-pointer list-none items-center justify-between gap-4 text-[14.5px] font-semibold">
-                  {q}
+                  {t(q)}
                   <ChevronDown className="text-muted size-5 shrink-0 transition group-open:rotate-180" />
                 </summary>
-                <p className="mt-3 text-[14px] leading-relaxed">{a}</p>
+                <p className="mt-3 text-[14px] leading-relaxed">{t(a)}</p>
               </details>
             ))}
           </div>
@@ -84,7 +88,7 @@ export default function HelpPage() {
           <LifeBuoy className="size-6" />
         </span>
         <div className="flex-1">
-          <p className="text-ink text-[15px] font-bold">Is your institution not on ADMITRA yet?</p>
+          <p className="text-ink text-[15px] font-bold">Is your institution not on {brand.platformName} yet?</p>
           <p className="text-muted text-[13.5px]">Send an onboarding request and our team will contact you.</p>
         </div>
         <ButtonLink href="/register-institution">Register your institution</ButtonLink>
