@@ -2,8 +2,8 @@
 
 Real screenshots of every screen, taken from the running application with the demonstration data (`npm run seed:demo`) on 20 November 2026 (updated after Phase 5: Mitra, branding and RIT's own colours).
 
-- `desktop/` – 1440 px wide laptop screen, full page
-- `mobile/` – iPhone 13 (390 px wide), full page
+- `desktop/` – laptop screen of 1440 × 900 px, exactly what is visible on the screen
+- `mobile/` – iPhone 13 screen (390 px wide), exactly what is visible on the screen
 - `dark/` – a selection in the dark theme (`mobile-` files are phone screens)
 
 The pages opened from e-mail links (verify e-mail, reset password, accept invitation) use the same layout as Log in and need a fresh link, so they are not included.
@@ -86,7 +86,7 @@ Accounts used: public pages without login; applicant Ayesha Noor (Hamza Ali for 
 | Institution branding | [desktop](desktop/68-settings-branding.jpg) | [mobile](mobile/68-settings-branding.jpg) |
 | Mitra integrity alerts (institution) | [desktop](desktop/67-mitra-alerts.jpg) | [mobile](mobile/67-mitra-alerts.jpg) |
 | Mitra chat with a prepared action (institution) | [desktop](desktop/66-mitra-chat.jpg) | [mobile](mobile/66-mitra-chat.jpg) |
-| Mitra answering in Roman Urdu (institution) | [desktop](desktop/86-mitra-roman-urdu.jpg) | – |
+| Mitra answering in Roman Urdu (institution) | [desktop](desktop/86-mitra-roman-urdu.jpg) | [mobile](mobile/86-mitra-roman-urdu.jpg) |
 
 ## Super Admin
 
@@ -107,7 +107,7 @@ Accounts used: public pages without login; applicant Ayesha Noor (Hamza Ali for 
 | Mitra integrity alerts (platform) | [desktop](desktop/82-mitra-alerts.jpg) | [mobile](mobile/82-mitra-alerts.jpg) |
 | Mitra daily briefing (platform) | [desktop](desktop/81-mitra-briefing.jpg) | [mobile](mobile/81-mitra-briefing.jpg) |
 | Mitra chat (platform) | [desktop](desktop/80-mitra-chat.jpg) | [mobile](mobile/80-mitra-chat.jpg) |
-| Mitra greeting and small talk in English and Roman Urdu (platform) | [desktop](desktop/85-mitra-greeting.jpg) | – |
+| Mitra greeting and small talk in English and Roman Urdu (platform) | [desktop](desktop/85-mitra-greeting.jpg) | [mobile](mobile/85-mitra-greeting.jpg) |
 
 ## Dark theme
 
