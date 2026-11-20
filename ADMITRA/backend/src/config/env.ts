@@ -23,7 +23,9 @@ const schema = z.object({
   MAIL_FROM: z.string().default('ADMITRA <no-reply@admitra.local>'),
   STORAGE_DIR: z.string().default('./storage'),
   // AGENT-1: the AI provider of the assistant. Change these four values to switch provider.
-  AI_PROVIDER: z.enum(['gemini', 'openai', 'anthropic', 'openai-compatible', 'none']).default('gemini'),
+  AI_PROVIDER: z
+    .enum(['gemini', 'openai', 'anthropic', 'openai-compatible', 'mock', 'none'])
+    .default('gemini'),
   AI_API_KEY: z.string().optional().default(''),
   AI_MODEL: z.string().optional().default(''),
   AI_BASE_URL: z.string().optional().default(''),
@@ -52,6 +54,7 @@ export function assertProductionSafety(): void {
   }
   if (!env.COOKIE_SECURE) problems.push('COOKIE_SECURE must be true');
   if (!env.WEB_URL.startsWith('https://')) problems.push('WEB_URL must use https');
+  if (env.AI_PROVIDER === 'mock') problems.push('AI_PROVIDER=mock is only for development and tests');
   if (problems.length) {
     console.error('Refusing to start in production:\n - ' + problems.join('\n - '));
     process.exit(1);

@@ -1,5 +1,6 @@
 import { env } from '../../../config/env';
 import { AnthropicProvider } from './anthropic';
+import { MockProvider } from './mock';
 import { OpenAICompatibleProvider } from './openai';
 import type { ChatProvider } from './types';
 
@@ -9,6 +10,7 @@ export const DEFAULT_MODELS: Record<string, string> = {
   openai: 'gpt-4.1-mini',
   anthropic: 'claude-sonnet-5-5',
   'openai-compatible': '',
+  mock: 'offline-demo',
 };
 
 const BASE_URLS: Record<string, string> = {
@@ -24,7 +26,10 @@ export function setProvider(p: ChatProvider | null) {
 }
 
 export function aiStatus() {
-  const configured = Boolean(override) || (env.AI_PROVIDER !== 'none' && Boolean(env.AI_API_KEY));
+  const configured =
+    Boolean(override) ||
+    env.AI_PROVIDER === 'mock' ||
+    (env.AI_PROVIDER !== 'none' && Boolean(env.AI_API_KEY));
   return {
     configured,
     provider: override?.name ?? env.AI_PROVIDER,
@@ -35,6 +40,7 @@ export function aiStatus() {
 /** The provider chosen by AI_PROVIDER / AI_API_KEY / AI_MODEL / AI_BASE_URL, or null when none is set. */
 export function getProvider(): ChatProvider | null {
   if (override) return override;
+  if (env.AI_PROVIDER === 'mock') return new MockProvider();
   if (env.AI_PROVIDER === 'none' || !env.AI_API_KEY) return null;
   const model = env.AI_MODEL || DEFAULT_MODELS[env.AI_PROVIDER] || '';
   if (env.AI_PROVIDER === 'anthropic')

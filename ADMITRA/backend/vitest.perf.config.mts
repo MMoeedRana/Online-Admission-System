@@ -4,6 +4,8 @@ import { defineConfig } from 'vitest/config';
 export default defineConfig({
   test: {
     environment: 'node',
+    // Tests never use the assistant settings of a local .env file.
+    env: { AI_PROVIDER: 'gemini', AI_API_KEY: '', AI_MODEL: '' },
     include: ['tests/perf/**/*.test.ts'],
     globalSetup: ['./tests/global-setup.ts'],
     setupFiles: ['./tests/setup.ts'],

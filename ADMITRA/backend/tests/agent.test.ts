@@ -370,3 +370,18 @@ describe('integrity alerts and briefings (AGENT-5, AGENT-6, AGENT-7)', () => {
     expect(await runDailyBriefings('2026-11-20')).toBe(0); // once per day
   });
 });
+
+describe('offline provider for development (AGENT-1)', () => {
+  it('runs the real tools and summarises their result without an API key', async () => {
+    const { MockProvider } = await import('../src/modules/agent/providers/mock.js');
+    setProvider(new MockProvider());
+    const root = await superAdminToken();
+    const c = await api().post('/api/v1/platform/agent/conversations').set('Authorization', `Bearer ${root}`);
+    const r = await api()
+      .post(`/api/v1/platform/agent/conversations/${c.body.data._id}/messages`)
+      .set('Authorization', `Bearer ${root}`)
+      .send({ message: 'Any suspicious activity?' });
+    expect(r.body.data.events[0]).toMatchObject({ type: 'tool', name: 'integrity_alerts' });
+    expect(r.body.data.message.content).toContain('Here is what I found');
+  });
+});
