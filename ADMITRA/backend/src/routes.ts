@@ -31,6 +31,10 @@ import {
   institutionDirectoryRouter,
   platformDirectoryRouter,
 } from './modules/directory/directory-admin.routes';
+import { analyticsRouter, reportRouter } from './modules/analytics/analytics.routes';
+import { institutionSupportRouter, platformSupportRouter } from './modules/support/support.routes';
+import { institutionAuditRouter, platformAuditRouter } from './modules/audit/audit.routes';
+import { platformAnalyticsRouter } from './modules/analytics/platform-analytics';
 import { shortlistRouter } from './modules/directory/shortlist.routes';
 
 export const apiRouter = Router();
@@ -48,6 +52,9 @@ apiRouter.use('/public', publicDirectoryRouter, publicResultsRouter);
 apiRouter.use('/public', publicRouter);
 apiRouter.use('/platform/registry', platformRegistryRouter);
 apiRouter.use('/platform/directory', platformDirectoryRouter);
+apiRouter.use('/platform/support', platformSupportRouter);
+apiRouter.use('/platform/audit-logs', platformAuditRouter);
+apiRouter.use('/platform/analytics', platformAnalyticsRouter);
 apiRouter.use('/platform', platformRouter);
 apiRouter.use('/notifications', notificationRouter);
 apiRouter.use('/files', fileRouter);
@@ -81,4 +88,8 @@ tenant.use('/merit-formulas', formulaRouter);
 tenant.use('/merit-lists', meritListRouter);
 tenant.use('/offers', offerRouter);
 tenant.use('/directory', institutionDirectoryRouter);
+tenant.use('/analytics', analyticsRouter);
+tenant.use('/reports', reportRouter);
+tenant.use('/support/tickets', institutionSupportRouter);
+tenant.use('/audit-logs', institutionAuditRouter);
 apiRouter.use(tenant);

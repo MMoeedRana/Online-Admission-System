@@ -264,19 +264,4 @@ platformRouter.post('/institutions/:id/resend-admin-invite', async (req, res) =>
   ok(res, { sent: true });
 });
 
-// ---------------- Audit log ----------------
-platformRouter.get('/audit-logs', async (req, res) => {
-  const q = parse(paginationQuery.extend({ institutionId: objectId.optional() }), req.query);
-  const filter: Record<string, unknown> = {};
-  if (q.institutionId) filter.institutionId = q.institutionId;
-  if (q.q) filter.action = { $regex: escapeRegex(q.q), $options: 'i' };
-  const [items, total] = await Promise.all([
-    AuditLogModel.find(filter)
-      .sort({ createdAt: -1 })
-      .skip((q.page - 1) * q.limit)
-      .limit(q.limit)
-      .lean(),
-    AuditLogModel.countDocuments(filter),
-  ]);
-  ok(res, items, pageMeta(q.page, q.limit, total));
-});
+// The audit log lives in modules/audit/audit.routes.ts (mounted at /platform/audit-logs).

@@ -52,7 +52,7 @@ async function load(req: Request, id: string) {
 }
 
 /** Worst marks state of an applicant, shown in the queue's marks column. */
-function marksState(records: { verificationStatus: string; trustLevel: number }[]) {
+export function marksState(records: { verificationStatus: string; trustLevel: number }[]) {
   if (!records.length) return 'NONE';
   if (records.some((r) => r.verificationStatus === 'MISMATCH')) return 'MISMATCH';
   if (records.some((r) => r.verificationStatus === 'UNDER_VERIFICATION' || r.trustLevel < 2))

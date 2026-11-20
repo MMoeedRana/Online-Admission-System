@@ -23,7 +23,7 @@ paymentRouter.use(requirePermission(PERMISSIONS.PAYMENTS_VERIFY));
 
 const listQuery = paginationQuery.extend({ status: z.enum(['PENDING', 'VERIFIED', 'REJECTED']).optional() });
 
-async function rows(institutionId: string, q: z.infer<typeof listQuery>, all = false) {
+export async function rows(institutionId: string, q: z.infer<typeof listQuery>, all = false) {
   const filter: Record<string, unknown> = { institutionId };
   if (q.status) filter.status = q.status;
   if (q.q) filter.reference = { $regex: escapeRegex(q.q.toUpperCase()) };
