@@ -222,6 +222,6 @@ tests, performance checks for PERF-1 to PERF-10, Playwright tests on a phone and
 e-mails, CSV formula injection, dependency audit) and a production build. Every clickable element shows
 the pointer cursor and every form field has a placeholder.
 
-Documentation: user manuals in [`docs/manuals`](../docs/manuals), the requirement traceability matrix
+Documentation: the final report in [`docs/report`](../docs/report) (Word and PDF), user manuals in [`docs/manuals`](../docs/manuals), the requirement traceability matrix
 in [`docs/TRACEABILITY.md`](../docs/TRACEABILITY.md) and real screenshots of every screen (desktop,
 mobile and dark theme) in [`docs/screenshots`](../docs/screenshots).

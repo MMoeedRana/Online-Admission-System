@@ -13,4 +13,4 @@ Stack: Next.js 16 (App Router) + React 19 + TypeScript, Tailwind CSS 4, TanStack
 
 Folder structure: `ADMITRA/frontend` (Next.js) and `ADMITRA/backend` (Express). No Docker or deployment configuration files.
 
-Phase 4 deliverables: user manuals (`docs/manuals`), requirement traceability (`docs/TRACEABILITY.md`), screenshots of every screen (`docs/screenshots`), OpenAPI 3.1 (`/api/v1/docs`), and the test suites (`npm test`, `npm run test:perf`, `npm run test:e2e`).
+Phase 4 deliverables: final report (`docs/report`), user manuals (`docs/manuals`), requirement traceability (`docs/TRACEABILITY.md`), screenshots of every screen (`docs/screenshots`), OpenAPI 3.1 (`/api/v1/docs`), and the test suites (`npm test`, `npm run test:perf`, `npm run test:e2e`).
