@@ -1,9 +1,16 @@
 import { ProviderError, type ChatMessage, type ChatProvider, type ChatResult, type ToolSpec } from './types';
 
+interface OpenAIToolCall {
+  id: string;
+  type: 'function';
+  function: { name: string; arguments: string };
+  extra_content?: { google?: { thought_signature?: string } };
+}
+
 interface OpenAIMessage {
   role: string;
   content: string | null;
-  tool_calls?: { id: string; type: 'function'; function: { name: string; arguments: string } }[];
+  tool_calls?: OpenAIToolCall[];
   tool_call_id?: string;
   name?: string;
 }
@@ -25,11 +32,16 @@ export class OpenAICompatibleProvider implements ChatProvider {
         content: m.content || null,
         ...(m.toolCalls?.length
           ? {
-              tool_calls: m.toolCalls.map((t) => ({
-                id: t.id,
-                type: 'function' as const,
-                function: { name: t.name, arguments: JSON.stringify(t.args) },
-              })),
+              tool_calls: m.toolCalls.map((t, i): OpenAIToolCall => {
+                const signature =
+                  t.signature || (this.name === 'gemini' && i === 0 ? GEMINI_SKIP_SIGNATURE : '');
+                return {
+                  id: t.id,
+                  type: 'function',
+                  function: { name: t.name, arguments: JSON.stringify(t.args) },
+                  ...(signature ? { extra_content: { google: { thought_signature: signature } } } : {}),
+                };
+              }),
             }
           : {}),
       };
@@ -75,6 +87,9 @@ export class OpenAICompatibleProvider implements ChatProvider {
         id: t.id || `call_${i}`,
         name: t.function.name,
         args: safeJson(t.function.arguments),
+        ...(t.extra_content?.google?.thought_signature
+          ? { signature: t.extra_content.google.thought_signature }
+          : {}),
       })),
       usage: {
         inputTokens: data.usage?.prompt_tokens ?? 0,
@@ -83,6 +98,8 @@ export class OpenAICompatibleProvider implements ChatProvider {
     };
   }
 }
+
+export const GEMINI_SKIP_SIGNATURE = 'skip_thought_signature_validator';
 
 export function safeJson(s: string | undefined): Record<string, unknown> {
   try {

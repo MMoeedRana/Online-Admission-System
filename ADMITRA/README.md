@@ -113,12 +113,12 @@ another provider:
 ```
 AI_PROVIDER=gemini
 AI_API_KEY=your-key
-AI_MODEL=gemini-2.5-flash
+AI_MODEL=gemini-3-flash-preview
 ```
 
 | AI_PROVIDER | Key from | Notes |
 | ----------- | -------- | ----- |
-| `gemini` (default) | Google AI Studio (free tier available) | default model `gemini-2.5-flash` |
+| `gemini` (default) | Google AI Studio (free tier available) | default model `gemini-3-flash-preview` |
 | `openai` | platform.openai.com | set `AI_MODEL` to the model you bought |
 | `anthropic` | console.anthropic.com (Claude) | set `AI_MODEL`, e.g. `claude-sonnet-5-5` |
 | `openai-compatible` | Groq, OpenRouter, a local Ollama… | also set `AI_BASE_URL` |

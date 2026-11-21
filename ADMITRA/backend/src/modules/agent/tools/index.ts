@@ -23,7 +23,7 @@ export function toolSpec(t: AgentTool): ToolSpec {
     if (o && typeof o === 'object') {
       const r: Record<string, unknown> = {};
       for (const [k, v] of Object.entries(o))
-        if (k !== 'additionalProperties' && k !== '$schema') r[k] = clean(v);
+        if (k !== 'additionalProperties' && k !== '$schema' && k !== 'propertyNames') r[k] = clean(v);
       return r;
     }
     return o;

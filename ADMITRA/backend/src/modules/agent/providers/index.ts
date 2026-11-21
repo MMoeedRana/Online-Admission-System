@@ -5,7 +5,7 @@ import { OpenAICompatibleProvider } from './openai';
 import type { ChatProvider } from './types';
 
 export const DEFAULT_MODELS: Record<string, string> = {
-  gemini: 'gemini-2.5-flash',
+  gemini: 'gemini-3-flash-preview',
   openai: 'gpt-4.1-mini',
   anthropic: 'claude-sonnet-5-5',
   'openai-compatible': '',

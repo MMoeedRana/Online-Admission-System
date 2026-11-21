@@ -113,7 +113,7 @@ export const exportTools = [
       source: z
         .enum(readTools.map((t) => t.name) as [string, ...string[]])
         .describe('The read tool whose result becomes the file'),
-      args: z.record(z.string(), z.unknown()).optional().describe('Arguments for the source tool'),
+      args: z.object({}).catchall(z.unknown()).optional().describe('Arguments for the source tool'),
       format: z.enum(FORMATS).default('xlsx').describe('xlsx (Excel), pdf or csv'),
       title: z.string().max(80).optional().describe('Title of the file'),
     }),

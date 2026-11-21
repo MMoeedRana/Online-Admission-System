@@ -79,7 +79,7 @@ function systemPrompt(ctx: AgentContext) {
 function toWire(m: {
   role: string;
   content: string;
-  toolCalls?: { id: string; name: string; args: unknown }[];
+  toolCalls?: { id: string; name: string; args: unknown; signature?: string | null }[];
   toolCallId?: string;
   name?: string;
 }): ChatMessage {
@@ -93,6 +93,7 @@ function toWire(m: {
         id: t.id,
         name: t.name,
         args: (t.args ?? {}) as Record<string, unknown>,
+        ...(t.signature ? { signature: t.signature } : {}),
       })),
     };
   return { role: 'user', content: m.content };
@@ -187,10 +188,14 @@ export async function runTurn(
     } catch (err) {
       logger.warn({ err }, 'AI provider error');
       const busy = err instanceof ProviderError && err.status === 429;
+      const detail =
+        ctx.scope === 'PLATFORM' && err instanceof Error
+          ? ` (${err.message.replace(/\s+/g, ' ').slice(0, 220)})`
+          : '';
       return finish(
         busy
           ? 'The AI service is busy right now (its rate limit was reached). Please try again in a minute.'
-          : 'I could not reach the AI service. Please try again in a moment.',
+          : `I could not reach the AI service. Please try again in a moment.${detail}`,
       );
     }
     await useQuota(ctx.userId, { input: result.usage.inputTokens, output: result.usage.outputTokens });

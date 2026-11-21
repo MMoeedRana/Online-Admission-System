@@ -2,6 +2,7 @@ export interface ToolCall {
   id: string;
   name: string;
   args: Record<string, unknown>;
+  signature?: string;
 }
 
 export type ChatMessage =
